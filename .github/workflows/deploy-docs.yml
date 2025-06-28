@@ -39,77 +39,28 @@ jobs:
         with:
           node-version: '22'
           cache: 'npm'
+          cache-dependency-path: 'docs/package.json'
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
-      - name: Install dependencies
+      - name: Copy CONTRIBUTING.md to docs and fix paths
         run: |
-          npm install -g @vuepress/cli vuepress
-          # Alternative: you can use other static site generators like MkDocs, Docusaurus, etc.
+          cp CONTRIBUTING.md docs/
+          # Fix the image path when copied to docs directory
+          sed -i 's|docs/assets/|./assets/|g' docs/CONTRIBUTING.md
+          # Fix the integration tests link
+          sed -i 's|docs/integration-tests.md|./integration-tests.md|g' docs/CONTRIBUTING.md
 
-      - name: Create VuePress config
+      - name: Install documentation dependencies
         run: |
-          mkdir -p docs/.vuepress
-          cat > docs/.vuepress/config.js << 'EOF'
-          export default {
-            title: 'Gemini CLI Documentation',
-            description: 'Comprehensive guide to installing, using, and developing Gemini CLI',
-            base: '/gemini-cli/',
-            themeConfig: {
-              nav: [
-                { text: 'Home', link: '/' },
-                { text: 'CLI', link: '/cli/' },
-                { text: 'Core', link: '/core/' },
-                { text: 'Tools', link: '/tools/' },
-                { text: 'Contributing', link: '/CONTRIBUTING.html' }
-              ],
-              sidebar: {
-                '/': [
-                  '',
-                  'deployment',
-                  'architecture',
-                  'checkpointing',
-                  'extension',
-                  'telemetry',
-                  'troubleshooting',
-                  'tos-privacy'
-                ],
-                '/cli/': [
-                  'cli/',
-                  'cli/commands',
-                  'cli/configuration',
-                  'cli/authentication',
-                  'cli/themes',
-                  'cli/token-caching',
-                  'cli/tutorials'
-                ],
-                '/core/': [
-                  'core/',
-                  'core/tools-api'
-                ],
-                '/tools/': [
-                  'tools/',
-                  'tools/file-system',
-                  'tools/multi-file',
-                  'tools/shell',
-                  'tools/web-fetch',
-                  'tools/web-search',
-                  'tools/memory',
-                  'tools/mcp-server'
-                ]
-              }
-            }
-          }
-          EOF
-
-      - name: Copy CONTRIBUTING.md to docs
-        run: cp CONTRIBUTING.md docs/
+          cd docs
+          npm install
 
       - name: Build with VuePress
         run: |
           cd docs
-          vuepress build .
+          npm run docs:build
         env:
           NODE_OPTIONS: --max-old-space-size=8192
 
