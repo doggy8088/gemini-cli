@@ -1,0 +1,1 @@
+export const siteData = JSON.parse("{\"base\":\"/gemini-cli/\",\"lang\":\"en-US\",\"title\":\"Gemini CLI Documentation\",\"description\":\"Comprehensive guide to installing, using, and developing Gemini CLI\",\"head\":[],\"locales\":{}}")

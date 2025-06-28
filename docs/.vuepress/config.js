@@ -1,10 +1,12 @@
 import { defaultTheme } from '@vuepress/theme-default'
-import { defineUserConfig } from '@vuepress/cli'
+import { defineUserConfig } from 'vuepress'
+import { viteBundler } from '@vuepress/bundler-vite'
 
 export default defineUserConfig({
   title: 'Gemini CLI Documentation',
   description: 'Comprehensive guide to installing, using, and developing Gemini CLI',
   base: '/gemini-cli/',
+  bundler: viteBundler(),
   theme: defaultTheme({
     navbar: [
       { text: 'Home', link: '/' },

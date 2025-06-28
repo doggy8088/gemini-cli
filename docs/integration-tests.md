@@ -20,7 +20,7 @@ npm run test:e2e
 
 ## 執行特定的測試集
 
-若要執行一部分的測試檔案，您可以使用 `npm run <integration test command> <file_name1> ....`，其中 <integration test command> 是 `test:e2e` 或 `test:integration*`，而 `<file_name>` 是 `integration-tests/` 目錄中的任何 `.test.js` 檔案。例如，以下指令會執行 `list_directory.test.js` 和 `write_file.test.js`：
+若要執行一部分的測試檔案，您可以使用 `npm run &lt;integration test command&gt; &lt;file_name1&gt; ....`，其中 `&lt;integration test command&gt;` 是 `test:e2e` 或 `test:integration*`，而 `&lt;file_name&gt;` 是 `integration-tests/` 目錄中的任何 `.test.js` 檔案。例如，以下指令會執行 `list_directory.test.js` 和 `write_file.test.js`：
 
 ```bash
 npm run test:e2e list_directory write_file
@@ -92,9 +92,9 @@ npm run test:integration:sandbox:none -- --verbose
 詳細輸出的格式會清楚標示記錄的來源：
 
 ```
---- TEST: <file-name-without-js>:<test-name> ---
+--- TEST: &lt;file-name-without-js&gt;:&lt;test-name&gt; ---
 ... 來自 gemini 指令的輸出 ...
---- END TEST: <file-name-without-js>:<test-name> ---
+--- END TEST: &lt;file-name-without-js&gt;:&lt;test-name&gt; ---
 ```
 
 ## Linting 與格式化
@@ -123,10 +123,10 @@ npm run lint --fix
 
 ```
 .integration-tests/
-└── <run-id>/
-    └── <test-file-name>.test.js/
+└── &lt;run-id&gt;/
+    └── &lt;test-file-name&gt;.test.js/
 
-        └── <test-case-name>/
+        └── &lt;test-case-name&gt;/
             ├── output.log
             └── ...其他測試產物...
 ```
