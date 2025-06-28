@@ -160,7 +160,7 @@ To run the integration tests, use the following command:
 npm run test:e2e
 ```
 
-For more detailed information on the integration testing framework, please see the [Integration Tests documentation](./docs/integration-tests.md).
+For more detailed information on the integration testing framework, please see the [Integration Tests documentation](docs/integration-tests.md).
 
 ### Linting and Preflight Checks
 
@@ -266,7 +266,7 @@ To debug the CLI's React-based UI, you can use React DevTools. Ink, the library 
     ```
 
     Your running CLI application should then connect to React DevTools.
-    ![](/docs/assets/connected_devtools.png)
+    ![](docs/assets/connected_devtools.png)
 
 ## Sandboxing
 

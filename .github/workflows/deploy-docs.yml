@@ -44,8 +44,13 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
-      - name: Copy CONTRIBUTING.md to docs
-        run: cp CONTRIBUTING.md docs/
+      - name: Copy CONTRIBUTING.md to docs and fix paths
+        run: |
+          cp CONTRIBUTING.md docs/
+          # Fix the image path when copied to docs directory
+          sed -i 's|docs/assets/|./assets/|g' docs/CONTRIBUTING.md
+          # Fix the integration tests link
+          sed -i 's|docs/integration-tests.md|./integration-tests.md|g' docs/CONTRIBUTING.md
 
       - name: Install documentation dependencies
         run: |
