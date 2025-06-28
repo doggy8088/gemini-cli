@@ -51,7 +51,7 @@ jobs:
       - name: Create VuePress config
         run: |
           mkdir -p docs/.vuepress
-          cat > docs/.vuepress/config.js << 'EOF'
+          cat > docs/.vuepress/config.cjs << 'EOF'
           module.exports = {
             title: 'Gemini CLI Documentation',
             description: 'Comprehensive guide to installing, using, and developing Gemini CLI',
