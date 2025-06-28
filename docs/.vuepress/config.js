@@ -3,8 +3,8 @@ import { defineUserConfig } from 'vuepress'
 import { viteBundler } from '@vuepress/bundler-vite'
 
 export default defineUserConfig({
-  title: 'Gemini CLI Documentation',
-  description: 'Comprehensive guide to installing, using, and developing Gemini CLI',
+  title: 'Gemini CLI 官方文件',
+  description: '安裝、使用和開發 Gemini CLI 的綜合指南',
   base: '/',
   bundler: viteBundler(),
   theme: defaultTheme({
