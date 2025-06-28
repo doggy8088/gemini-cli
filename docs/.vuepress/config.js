@@ -27,27 +27,27 @@ export default defineUserConfig({
         'tos-privacy'
       ],
       '/cli/': [
-        'cli/',
-        'cli/commands',
-        'cli/configuration',
-        'cli/authentication',
-        'cli/themes',
-        'cli/token-caching',
-        'cli/tutorials'
+        '',
+        'commands',
+        'configuration',
+        'authentication',
+        'themes',
+        'token-caching',
+        'tutorials'
       ],
       '/core/': [
-        'core/',
-        'core/tools-api'
+        '',
+        'tools-api'
       ],
       '/tools/': [
-        'tools/',
-        'tools/file-system',
-        'tools/multi-file',
-        'tools/shell',
-        'tools/web-fetch',
-        'tools/web-search',
-        'tools/memory',
-        'tools/mcp-server'
+        '',
+        'file-system',
+        'multi-file',
+        'shell',
+        'web-fetch',
+        'web-search',
+        'memory',
+        'mcp-server'
       ]
     }
   })
