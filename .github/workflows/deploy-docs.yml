@@ -8,7 +8,7 @@ on:
       - 'docs/**'
   pull_request:
     branches:
-      - main
+      - docs-zh-tw
     paths:
       - 'docs/**'
   # Allow manual triggering of the workflow

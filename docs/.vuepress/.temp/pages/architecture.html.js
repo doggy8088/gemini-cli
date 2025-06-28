@@ -1,3 +1,0 @@
-import comp from "/home/runner/work/gemini-cli/gemini-cli/docs/.vuepress/.temp/pages/architecture.html.vue"
-const data = JSON.parse("{\"path\":\"/architecture.html\",\"title\":\"Gemini CLI 架構概覽\",\"lang\":\"en-US\",\"frontmatter\":{},\"git\":{\"updatedTime\":1751079598000,\"contributors\":[{\"name\":\"doggy8088\",\"username\":\"doggy8088\",\"email\":\"88981+doggy8088@users.noreply.github.com\",\"commits\":1,\"url\":\"https://github.com/doggy8088\"}],\"changelog\":[{\"hash\":\"b2acfb8627517966693f950433720aab4ac14ad8\",\"time\":1751079598000,\"email\":\"88981+doggy8088@users.noreply.github.com\",\"author\":\"Will 保哥\",\"message\":\"update deploy-docs.yml\"}]},\"filePathRelative\":\"architecture.md\"}")
-export { comp, data }
