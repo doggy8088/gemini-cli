@@ -44,10 +44,10 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
-      - name: Copy CONTRIBUTING.md to docs and fix paths
+      - name: Fix paths in docs CONTRIBUTING.md
         run: |
-          cp CONTRIBUTING.md docs/
-          # Fix the image path when copied to docs directory
+          # Only fix paths in the existing Chinese CONTRIBUTING.md, don't overwrite it
+          # Fix the image path 
           sed -i 's|docs/assets/|./assets/|g' docs/CONTRIBUTING.md
           # Fix the integration tests link
           sed -i 's|docs/integration-tests.md|./integration-tests.md|g' docs/CONTRIBUTING.md
