@@ -1,58 +1,58 @@
-# Gemini CLI: Terms of Service and Privacy Notice
+# Gemini CLI：服務條款與隱私權聲明
 
-Gemini CLI is an open-source tool that allows you to interact with Google's powerful language models directly from your command-line interface. The terms of service and privacy notices that apply to your usage of Gemini CLI depend on the type of account you use to authenticate with Google.
+Gemini CLI 是一款開源工具，可讓您直接從命令列介面與 Google 強大的語言模型互動。適用於您 Gemini CLI 使用情況的服務條款和隱私權聲明，取決於您用來向 Google 進行身分驗證的帳戶類型。
 
-This article outlines the specific terms and privacy policies applicable for different auth methods.
+本文概述了適用於不同驗證方式的具體條款和隱私權政策。
 
-## 1. Login with Google (Gemini Code Assist for [individuals](https://developers.google.com/gemini-code-assist/docs/overview#supported-features-gca))
+## 1. 使用 Google 登入（適用於[個人版](https://developers.google.com/gemini-code-assist/docs/overview#supported-features-gca)的 Gemini Code Assist）
 
-For users who authenticate using their Google account to access Gemini Code Assist for individuals:
+對於使用其 Google 帳戶進行身分驗證以存取個人版 Gemini Code Assist 的使用者：
 
-- Terms of Service: Your use of Gemini CLI is governed by the general [Google Terms of Service](https://policies.google.com/terms?hl=en-US).
-- Privacy Notice: The collection and use of your data are described in the [Gemini Code Assist Privacy Notice for Individuals](https://developers.google.com/gemini-code-assist/resources/privacy-notice-gemini-code-assist-individuals).
+- 服務條款：您對 Gemini CLI 的使用受一般 [Google 服務條款](https://policies.google.com/terms?hl=en-US) 的約束。 
+- 隱私權聲明：您的資料收集與使用方式，詳述於 [Gemini Code Assist 個人版隱私權聲明](https://developers.google.com/gemini-code-assist/resources/privacy-notice-gemini-code-assist-individuals)。
 
-## 2. Gemini API Key (Using Gemini Developer [API](https://ai.google.dev/gemini-api/docs) a: Unpaid Service, b: Paid Service)
+## 2. Gemini API 金鑰（使用 Gemini 開發者 [API](https://ai.google.dev/gemini-api/docs) a：免費服務，b：付費服務）
 
-If you are using a Gemini API key for authentication, the following terms apply:
+若您使用 Gemini API 金鑰進行驗證，則適用以下條款：
+ 
+- 服務條款：您的使用受 [Gemini API 服務條款](https://ai.google.dev/gemini-api/terms) 的約束。適用於 a. [免費服務](https://ai.google.dev/gemini-api/terms#unpaid-services) 或 b. [付費服務](https://ai.google.dev/gemini-api/terms#paid-services)
+- 隱私權聲明：有關資料處理和隱私的資訊，詳述於一般 [Google 隱私權政策](https://policies.google.com/privacy)。
 
-- Terms of Service: Your use is subject to the [Gemini API Terms of Service](https://ai.google.dev/gemini-api/terms). For a. [Unpaid Service](https://ai.google.dev/gemini-api/terms#unpaid-services) or b. [Paid Service](https://ai.google.dev/gemini-api/terms#paid-services)
-- Privacy Notice: Information regarding data handling and privacy is detailed in the general [Google Privacy Policy](https://policies.google.com/privacy).
+## 3. 使用 Google 登入（適用於 Workspace 或授權的 Code Assist 使用者）
 
-## 3. Login with Google (for Workspace or Licensed Code Assist users)
+對於 Gemini Code Assist 標準版或企業版[版本](https://cloud.google.com/gemini/docs/codeassist/overview#editions-overview)的使用者：
 
-For users of Standard or Enterprise [edition](https://cloud.google.com/gemini/docs/codeassist/overview#editions-overview) of Gemini Code Assist :
+- 服務條款：[Google Cloud Platform 服務條款](https://cloud.google.com/terms) 管轄您對服務的使用。
+- 隱私權聲明：您的資料處理方式概述於 [Gemini Code Assist 隱私權聲明](https://developers.google.com/gemini-code-assist/resources/privacy-notices)。
 
-- Terms of Service: The [Google Cloud Platform Terms of Service](https://cloud.google.com/terms) govern your use of the service.
-- Privacy Notice: The handling of your data is outlined in the [Gemini Code Assist Privacy Notices](https://developers.google.com/gemini-code-assist/resources/privacy-notices).
+## 4. Vertex AI（使用 Vertex AI Gen [API](https://cloud.google.com/vertex-ai/generative-ai/docs/reference/rest)）
 
-## 4. Vertex AI (Using Vertex AI Gen [API](https://cloud.google.com/vertex-ai/generative-ai/docs/reference/rest))
+若您使用具備 Vertex AI Gen API 後端的 API 金鑰：
 
-If you are using an API key with a Vertex AI Gen API backend:
+- 服務條款：您的使用受 [Google Cloud Platform 服務條款](https://cloud.google.com/terms/service-terms/) 的約束。
+- 隱私權聲明：[Google Cloud 隱私權聲明](https://cloud.google.com/terms/cloud-privacy-notice) 說明了您的資料如何被收集和管理。
 
-- Terms of Service: Your usage is governed by the [Google Cloud Platform Service Terms](https://cloud.google.com/terms/service-terms/).
-- Privacy Notice: The [Google Cloud Privacy Notice](https://cloud.google.com/terms/cloud-privacy-notice) describes how your data is collected and managed.
+### 選擇退出「使用情況統計資料」
 
-### Usage Statistics Opt-Out
+您可以依照此處提供的說明選擇退出向 Google 傳送「使用情況統計資料」：[使用情況統計資料設定](./cli/configuration.md#usage-statistics)。
 
-You may opt-out from sending Usage Statistics to Google data by following the instructions available here: [Usage Statistics Configuration](./cli/configuration.md#usage-statistics).
+## Gemini CLI 常見問題 (FAQ)
 
-## Frequently Asked Questions (FAQ) for Gemini CLI
+### 1. 我的程式碼（包含提示和答案）會被用來訓練 Google 的模型嗎？
 
-### 1. Is my code, including prompts and answers, used to train Google's models?
+這完全取決於您使用的驗證方式。
+ 
+- **驗證方式 1：** 是的。當您使用個人 Google 帳戶時，適用「Gemini Code Assist 個人版隱私權聲明」。根據此聲明，您的**提示、答案及相關程式碼將被收集**，並可能用於改善 Google 的產品，其中包括模型訓練。 
+- **驗證方式 2a：** 是的。當您使用 Gemini API 金鑰時，適用 Gemini API（免費服務）條款。根據此聲明，您的**提示、答案及相關程式碼將被收集**，並可能用於改善 Google 的產品，其中包括模型訓練。
+- **驗證方式 2b、3 和 4：** 否。對於這些帳戶，您的資料受 Google Cloud 或 Gemini API（付費服務）條款的管轄，這些條款會將您的輸入視為機密。您的程式碼、提示和其他輸入**不會**被用來訓練模型。
 
-This depends entirely on the type of auth method you use.
+### 2. 什麼是「使用情況統計資料」？選擇退出會控制什麼？
 
-- **Auth method 1:** Yes. When you use your personal Google account, the Gemini Code Assist Privacy Notice for Individuals applies. Under this notice, your **prompts, answers, and related code are collected** and may be used to improve Google's products, which includes model training.
-- **Auth method 2a:** Yes, When you use the Gemini API key Gemini API (Unpaid Service) terms apply. Under this notice , your **prompts, answers, and related code are collected** and may be used to improve Google's products, which includes model training.
-- **Auth method 2b, 3 & 4:** No. For these accounts, your data is governed by the Google Cloud or Gemini API (Paid Service) terms, which treat your inputs as confidential. Your code, prompts, and other inputs are **not** used to train models.
+「使用情況統計資料」設定是 Gemini CLI 中所有可選資料收集的單一控制項。其收集的資料取決於您的帳戶類型：
 
-### 2. What are "Usage Statistics" and what does the opt-out control?
+- **驗證方式 1：** 啟用此設定後，Google 可收集匿名遙測資料（如執行的命令和效能指標）以及**您的提示和答案**，以用於模型改善。 
+- **驗證方式 2a：** 啟用時，此設定允許 Google 收集匿名的遙測資料（例如執行的指令和效能指標）和**您的提示與回答**以改善模型。停用時，我們將根據 [Google 如何使用您的資料](https://ai.google.dev/gemini-api/terms#data-use-unpaid) 中的說明使用您的資料。
+- **驗證方式 2b：** 此設定僅控制匿名遙測資料的收集。Google 會在有限的時間內記錄提示和回應，目的僅在於偵測違反《禁止使用政策》的行為以及任何必要的法律或法規揭露
+- **驗證方式 3 & 4：** 此設定僅控制匿名遙測資料的收集。無論此設定為何，您的提示與回答絕對不會被收集。
 
-The "Usage Statistics" setting is the single control for all optional data collection in the Gemini CLI. The data it collects depends on your account type:
-
-- **Auth method 1:** When enabled, this setting allows Google to collect both anonymous telemetry (like commands run and performance metrics) and **your prompts and answers** for model improvement.
-- **Auth method 2a:** When enabled, this setting allows Google to collect both anonymous telemetry (like commands run and performance metrics) and **your prompts and answers** for model improvement. When disabled we will use your data as described in the [How Google Uses Your Data](https://ai.google.dev/gemini-api/terms#data-use-unpaid).
-- **Auth method 2b:** This setting only controls the collection of anonymous telemetry. Google logs prompts and responses for a limited period of time, solely for the purpose of detecting violations of the Prohibited Use Policy and any required legal or regulatory disclosures
-- **Auth methods 3 & 4:** This setting only controls the collection of anonymous telemetry. Your prompts and answers are never collected, regardless of this setting.
-
-You can disable Usage Statistics for any account type by following the instructions in the [Usage Statistics Configuration](./cli/configuration.md#usage-statistics) documentation.
+您可以依照 [使用情況統計資料設定](./cli/configuration.md#usage-statistics) 文件中的說明，為任何帳號類型停用「使用情況統計資料」。

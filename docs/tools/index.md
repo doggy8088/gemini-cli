@@ -1,56 +1,52 @@
-# Gemini CLI tools
+# Gemini CLI 工具
 
-The Gemini CLI includes built-in tools that the Gemini model uses to interact with your local environment, access information, and perform actions. These tools enhance the CLI's capabilities, enabling it to go beyond text generation and assist with a wide range of tasks.
+Gemini CLI 包含內建工具，Gemini 模型可利用這些工具與您的本機環境互動、存取資訊並執行動作。這些工具增強了 CLI 的功能，使其不僅能產生文字，還能協助處理各種任務。
 
-## Overview of Gemini CLI tools
+## Gemini CLI 工具總覽
+在 Gemini CLI 的情境中，工具是 Gemini 模型可以請求執行的特定函式或模組。例如，如果您要求 Gemini「總結 `my_document.txt` 的內容」，模型很可能會識別出讀取該檔案的需求，並請求執行 `read_file` 工具。
+核心元件 (`packages/core`) 管理這些工具，將其定義 (schema) 呈現給 Gemini 模型，在收到請求時執行它們，並將結果傳回模型，以進一步處理成使用者可見的回應。
 
-In the context of the Gemini CLI, tools are specific functions or modules that the Gemini model can request to be executed. For example, if you ask Gemini to "Summarize the contents of `my_document.txt`," the model will likely identify the need to read that file and will request the execution of the `read_file` tool.
+這些工具提供以下功能：
 
-The core component (`packages/core`) manages these tools, presents their definitions (schemas) to the Gemini model, executes them when requested, and returns the results to the model for further processing into a user-facing response.
+- **存取本機資訊：** 工具允許 Gemini 存取您的本機檔案系統、讀取檔案內容、列出目錄等。
+- **執行指令：** 藉由 `run_shell_command` 等工具，Gemini 可以執行 shell 指令（在有適當安全措施和使用者確認的情況下）。
+- **與網路互動：** 工具可以從 URL 擷取內容。
+- **執行動作：** 工具可以修改檔案、寫入新檔案，或在您的系統上執行其他動作（同樣地，通常會有安全防護措施）。
+- **讓回應有所依據：** 透過使用工具來擷取即時或特定的本機資料，Gemini 的回應可以更準確、更相關，並更貼近您的實際情境。
 
-These tools provide the following capabilities:
+## 如何使用 Gemini CLI 工具
 
-- **Access local information:** Tools allow Gemini to access your local file system, read file contents, list directories, etc.
-- **Execute commands:** With tools like `run_shell_command`, Gemini can run shell commands (with appropriate safety measures and user confirmation).
-- **Interact with the web:** Tools can fetch content from URLs.
-- **Take actions:** Tools can modify files, write new files, or perform other actions on your system (again, typically with safeguards).
-- **Ground responses:** By using tools to fetch real-time or specific local data, Gemini's responses can be more accurate, relevant, and grounded in your actual context.
+若要使用 Gemini CLI 工具，請向 Gemini CLI 提供提示。其流程如下：
 
-## How to use Gemini CLI tools
+1.  您向 Gemini CLI 提供提示。
+2.  CLI 將提示傳送至核心。
+3.  核心會連同您的提示和對話記錄，將可用工具的清單及其說明/schema 傳送至 Gemini API。
+4.  Gemini 模型會分析您的請求。如果它判斷需要使用工具，其回應將會包含一個請求，要求以特定參數執行特定工具。
+5.  核心接收此工具請求，進行驗證，並（通常在使用者確認敏感操作後）執行該工具。
+6.  工具的輸出會被傳回給 Gemini 模型。
+7.  Gemini 模型使用工具的輸出來形成最終答案，然後該答案會透過核心傳回給 CLI 並顯示給您。
 
-To use Gemini CLI tools, provide a prompt to the Gemini CLI. The process works as follows:
+您通常會在 CLI 中看到訊息，指示工具何時被呼叫，以及它是成功還是失敗。
 
-1.  You provide a prompt to the Gemini CLI.
-2.  The CLI sends the prompt to the core.
-3.  The core, along with your prompt and conversation history, sends a list of available tools and their descriptions/schemas to the Gemini API.
-4.  The Gemini model analyzes your request. If it determines that a tool is needed, its response will include a request to execute a specific tool with certain parameters.
-5.  The core receives this tool request, validates it, and (often after user confirmation for sensitive operations) executes the tool.
-6.  The output from the tool is sent back to the Gemini model.
-7.  The Gemini model uses the tool's output to formulate its final answer, which is then sent back through the core to the CLI and displayed to you.
+## 安全性與確認
+許多工具，特別是那些可以修改您的檔案系統或執行指令 (`write_file`、`edit`、`run_shell_command`) 的工具，在設計時都考量到了安全性。Gemini CLI 通常會：
 
-You will typically see messages in the CLI indicating when a tool is being called and whether it succeeded or failed.
+- **要求確認：** 在執行潛在的敏感操作前提示您，並顯示即將執行的動作。
+- **利用沙箱 (Sandboxing)：** 所有工具都受到沙箱強制執行的限制（請參閱 [README](../../README.md#sandboxing)）。這意味著在沙箱中操作時，您希望使用的任何工具（包括 MCP 伺服器）都必須在沙箱環境 _內部_ 可用。例如，要透過 `npx` 執行 MCP 伺服器，`npx` 執行檔必須安裝在沙箱的 Docker 映像檔中，或在 `sandbox-exec` 環境中可用。
+在允許工具繼續執行之前，務必仔細檢視確認提示。
 
-## Security and confirmation
+## 深入了解 Gemini CLI 的工具
 
-Many tools, especially those that can modify your file system or execute commands (`write_file`, `edit`, `run_shell_command`), are designed with safety in mind. The Gemini CLI will typically:
+Gemini CLI 的內建工具可大致分為以下幾類：
 
-- **Require confirmation:** Prompt you before executing potentially sensitive operations, showing you what action is about to be taken.
-- **Utilize sandboxing:** All tools are subject to restrictions enforced by sandboxing (see [README](../../README.md#sandboxing)). This means that when operating in a sandbox, any tools (including MCP servers) you wish to use must be available _inside_ the sandbox environment. For example, to run an MCP server through `npx`, the `npx` executable must be installed within the sandbox's Docker image or be available in the `sandbox-exec` environment.
+- **[檔案系統工具](./file-system.md)：** 用於與檔案和目錄互動（讀取、寫入、列出、搜尋等）。
+- **[Shell 工具](./shell.md) (`run_shell_command`)：** 用於執行 shell 指令。
+- **[網頁擷取工具](./web-fetch.md) (`web_fetch`):** 用於從網址擷取內容。
+- **[網頁搜尋工具](./web-search.md) (`web_search`):** 用於搜尋網頁。
+- **[多檔案讀取工具](./multi-file.md) (`read_many_files`):** 一種專門用於讀取多個檔案或目錄內容的工具，通常由 `@` 指令使用。
+- **[記憶工具](./memory.md) (`save_memory`):** 用於跨工作階段儲存和回憶資訊。
 
-It's important to always review confirmation prompts carefully before allowing a tool to proceed.
+此外，這些工具還包含：
 
-## Learn more about Gemini CLI's tools
-
-Gemini CLI's built-in tools can be broadly categorized as follows:
-
-- **[File System Tools](./file-system.md):** For interacting with files and directories (reading, writing, listing, searching, etc.).
-- **[Shell Tool](./shell.md) (`run_shell_command`):** For executing shell commands.
-- **[Web Fetch Tool](./web-fetch.md) (`web_fetch`):** For retrieving content from URLs.
-- **[Web Search Tool](./web-search.md) (`web_search`):** For searching the web.
-- **[Multi-File Read Tool](./multi-file.md) (`read_many_files`):** A specialized tool for reading content from multiple files or directories, often used by the `@` command.
-- **[Memory Tool](./memory.md) (`save_memory`):** For saving and recalling information across sessions.
-
-Additionally, these tools incorporate:
-
-- **[MCP servers](./mcp-server.md)**: MCP servers act as a bridge between the Gemini model and your local environment or other services like APIs.
-- **[Sandboxing](../sandbox.md)**: Sandboxing isolates the model and its changes from your environment to reduce potential risk.
+- **[MCP servers](./mcp-server.md)**: MCP servers 作為 Gemini 模型與您的本機環境或其他服務 (例如 API) 之間的橋樑。
+- **[沙箱](../sandbox.md)**: 沙箱機制可將模型及其變更與您的環境隔離開來，以降低潛在風險。

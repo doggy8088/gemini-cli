@@ -1,116 +1,113 @@
-# Gemini CLI Execution and Deployment
+# Gemini CLI 執行與部署
 
-This document describes how to run Gemini CLI and explains the deployment architecture that Gemini CLI uses.
+本文件說明 Gemini CLI 的執行方法與部署架構。
 
-## Running Gemini CLI
+## 執行 Gemini CLI
 
-There are several ways to run Gemini CLI. The option you choose depends on how you intend to use Gemini CLI.
+執行 Gemini CLI 有數種方法。您選擇的選項取決於您打算如何使用 Gemini CLI。
 
 ---
 
-### 1. Standard installation (Recommended for typical users)
+### 1. 標準安裝（建議一般使用者採用）
 
-This is the recommended way for end-users to install Gemini CLI. It involves downloading the Gemini CLI package from the NPM registry.
-
-- **Global install:**
+這是建議終端使用者安裝 Gemini CLI 的方法。此方法會從 NPM 註冊中心下載 Gemini CLI 套件。
+- **全域安裝：**
 
   ```bash
-  # Install the CLI globally
+  # 全域安裝 CLI
   npm install -g @google/gemini-cli
 
-  # Now you can run the CLI from anywhere
+  # 現在您可以從任何地方執行 CLI
   gemini
   ```
 
-- **NPX execution:**
+- **NPX 執行：**
   ```bash
-  # Execute the latest version from NPM without a global install
+  # 從 NPM 執行最新版本，無需全域安裝
   npx @google/gemini-cli
   ```
 
 ---
 
-### 2. Running in a sandbox (Docker/Podman)
+### 2. 在沙盒中執行 (Docker/Podman)
 
-For security and isolation, Gemini CLI can be run inside a container. This is the default way that the CLI executes tools that might have side effects.
-
-- **Directly from the Registry:**
-  You can run the published sandbox image directly. This is useful for environments where you only have Docker and want to run the CLI.
+為了安全與隔離，Gemini CLI 可以在容器內執行。這是 CLI 執行可能產生副作用的工具的預設方式。
+- **直接從註冊中心執行：**
+  您可以直接執行已發佈的沙盒映像檔。這對於您只有 Docker 並想執行 CLI 的環境很有用。
   ```bash
-  # Run the published sandbox image
+  # 執行已發佈的沙盒映像檔
   docker run --rm -it us-docker.pkg.dev/gemini-code-dev/gemini-cli/sandbox:0.1.1
   ```
-- **Using the `--sandbox` flag:**
-  If you have Gemini CLI installed locally (using the standard installation described above), you can instruct it to run inside the sandbox container.
+- **使用 `--sandbox` 旗標：**
+  如果您已在本地安裝 Gemini CLI（使用上述的標準安裝方式），您可以指示它在沙盒容器內執行。
   ```bash
-  gemini --sandbox "your prompt here"
+  gemini --sandbox "在此輸入您的提示"
   ```
 
 ---
 
-### 3. Running from source (Recommended for Gemini CLI contributors)
+### 3. 從原始碼執行（建議 Gemini CLI 貢獻者採用）
 
-Contributors to the project will want to run the CLI directly from the source code.
+專案貢獻者會需要直接從原始碼執行 CLI。
 
-- **Development Mode:**
-  This method provides hot-reloading and is useful for active development.
+- **開發模式：**
+  此方法提供熱重載功能，對積極開發很有用。
   ```bash
-  # From the root of the repository
+  # 從儲存庫的根目錄
   npm run start
   ```
-- **Production-like mode (Linked package):**
-  This method simulates a global installation by linking your local package. It's useful for testing a local build in a production workflow.
+- **類生產模式（連結套件）：**
+  此方法透過連結您的本地套件來模擬全域安裝。這對於在生產工作流程中測試本地建構很有用。
 
   ```bash
-  # Link the local cli package to your global node_modules
+  # 將本地 cli 套件連結到您的全域 node_modules
   npm link packages/cli
 
-  # Now you can run your local version using the `gemini` command
+  # 現在您可以使用 `gemini` 指令執行您的本地版本
   gemini
   ```
 
 ---
 
-### 4. Running the latest Gemini CLI commit from GitHub
+### 4. 從 GitHub 執行最新的 Gemini CLI commit
 
-You can run the most recently committed version of Gemini CLI directly from the GitHub repository. This is useful for testing features still in development.
+您可以直接從 GitHub 儲存庫執行最近提交的 Gemini CLI 版本。這對於測試仍在開發中的功能很有用。
 
 ```bash
-# Execute the CLI directly from the main branch on GitHub
+# 直接從 GitHub 上的 main 分支執行 CLI
 npx https://github.com/google-gemini/gemini-cli
 ```
 
-## Deployment architecture
+## 部署架構
 
-The execution methods described above are made possible by the following architectural components and processes:
+上述的執行方法是透過以下的架構元件與流程實現的：
 
-**NPM packages**
+**NPM 套件**
 
-Gemini CLI project is a monorepo that publishes two core packages to the NPM registry:
+Gemini CLI 專案是一個 monorepo，它會將兩個核心套件發佈到 NPM 註冊中心：
 
-- `@google/gemini-cli-core`: The backend, handling logic and tool execution.
-- `@google/gemini-cli`: The user-facing frontend.
+- `@google/gemini-cli-core`：後端，處理邏輯與工具執行。
+- `@google/gemini-cli`：面向使用者的前端。
 
-These packages are used when performing the standard installation and when running Gemini CLI from the source.
+在執行標準安裝以及從原始碼執行 Gemini CLI 時，都會使用這些套件。
 
-**Build and packaging processes**
+**建構與封裝流程**
 
-There are two distinct build processes used, depending on the distribution channel:
+根據不同的發佈管道，會使用兩種不同的建構流程：
 
-- **NPM publication:** For publishing to the NPM registry, the TypeScript source code in `@google/gemini-cli-core` and `@google/gemini-cli` is transpiled into standard JavaScript using the TypeScript Compiler (`tsc`). The resulting `dist/` directory is what gets published in the NPM package. This is a standard approach for TypeScript libraries.
+- **NPM 發佈：** 為了發佈到 NPM 註冊中心，`@google/gemini-cli-core` 與 `@google/gemini-cli` 中的 TypeScript 原始碼会使用 TypeScript 編譯器 (`tsc`) 轉譯為標準的 JavaScript。最終產生的 `dist/` 目錄就是發佈在 NPM 套件中的內容。這是 TypeScript 函式庫的標準作法。
+- **GitHub `npx` 執行：** 當直接從 GitHub 執行最新版的 Gemini CLI 時，`package.json` 中的 `prepare` 指令碼會觸發一個不同的流程。此指令碼使用 `esbuild` 將整個應用程式及其相依性套件打包成一個獨立的 JavaScript 檔案。這個打包檔案是在使用者的機器上即時建立的，並不會被簽入到儲存庫中。
 
-- **GitHub `npx` execution:** When running the latest version of Gemini CLI directly from GitHub, a different process is triggered by the `prepare` script in `package.json`. This script uses `esbuild` to bundle the entire application and its dependencies into a single, self-contained JavaScript file. This bundle is created on-the-fly on the user's machine and is not checked into the repository.
+**Docker 沙盒映像檔**
 
-**Docker sandbox image**
+基於 Docker 的執行方法是由 `gemini-cli-sandbox` 容器映像檔所支援。此映像檔發佈到一個容器註冊中心，並包含一個預先安裝的全域版本 Gemini CLI。在發佈前，`scripts/prepare-cli-packagejson.js` 指令碼會動態地將此映像檔的 URI 注入到 CLI 的 `package.json` 中，如此一來，當使用 `--sandbox` 旗標時，CLI 就會知道要拉取哪個映像檔。
 
-The Docker-based execution method is supported by the `gemini-cli-sandbox` container image. This image is published to a container registry and contains a pre-installed, global version of Gemini CLI. The `scripts/prepare-cli-packagejson.js` script dynamically injects the URI of this image into the CLI's `package.json` before publishing, so the CLI knows which image to pull when the `--sandbox` flag is used.
+## 發佈流程
 
-## Release process
+一個名為 `npm run publish:release` 的統一腳本會協調整個發布流程。該腳本會執行以下操作：
 
-A unified script, `npm run publish:release`, orchestrates the release process. The script performs the following actions:
-
-1.  Build the NPM packages using `tsc`.
-2.  Update the CLI's `package.json` with the Docker image URI.
-3.  Build and tag the `gemini-cli-sandbox` Docker image.
-4.  Push the Docker image to the container registry.
-5.  Publish the NPM packages to the artifact registry.
+1.  使用 `tsc` 建構 NPM 套件。
+2.  使用 Docker 映像檔的 URI 更新 CLI 的 `package.json`。
+3.  建構並標記 `gemini-cli-sandbox` Docker 映像檔。
+4.  將 Docker 映像檔推送至容器登錄檔。
+5.  將 NPM 套件發布至成品登錄檔。

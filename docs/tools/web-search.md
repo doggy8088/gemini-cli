@@ -1,36 +1,36 @@
-# Web Search Tool (`google_web_search`)
+# 網路搜尋工具 (`google_web_search`)
 
-This document describes the `google_web_search` tool.
+本文件說明 `google_web_search` 工具。
 
-## Description
+## 說明
 
-Use `google_web_search` to perform a web search using Google Search via the Gemini API. The `google_web_search` tool returns a summary of web results with sources.
+使用 `google_web_search` 透過 Gemini API 執行 Google 網路搜尋。`google_web_search` 工具會傳回網路搜尋結果的摘要及來源。
 
-### Arguments
+### 引數
 
-`google_web_search` takes one argument:
+`google_web_search` 接受一個引數：
 
-- `query` (string, required): The search query.
+- `query` (字串，必要)：搜尋查詢。
 
-## How to use `google_web_search` with the Gemini CLI
+## 如何搭配 Gemini CLI 使用 `google_web_search`
 
-The `google_web_search` tool sends a query to the Gemini API, which then performs a web search. `google_web_search` will return a generated response based on the search results, including citations and sources.
+`google_web_search` 工具會將查詢傳送至 Gemini API，接著執行網路搜尋。`google_web_search` 會根據搜尋結果傳回產生的回應，其中包含引用資料和來源。
 
-Usage:
+用法：
 
 ```
 google_web_search(query="Your query goes here.")
 ```
 
-## `google_web_search` examples
+## `google_web_search` 範例
 
-Get information on a topic:
+取得特定主題的資訊：
 
 ```
 google_web_search(query="latest advancements in AI-powered code generation")
 ```
 
-## Important notes
+## 重要注意事項
 
-- **Response returned:** The `google_web_search` tool returns a processed summary, not a raw list of search results.
-- **Citations:** The response includes citations to the sources used to generate the summary.
+- **傳回的回應：** `google_web_search` 工具會傳回經過處理的摘要，而非原始的搜尋結果清單。
+- **引用資料：** 回應中包含用來產生摘要的來源引用資料。

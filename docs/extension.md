@@ -1,23 +1,22 @@
-# Gemini CLI Extensions
+# Gemini CLI 擴充功能
 
-Gemini CLI supports extensions that can be used to configure and extend its functionality.
+Gemini CLI 支援可用於設定和擴充其功能的擴充功能。
 
-## How it works
+## 運作方式
 
-On startup, Gemini CLI looks for extensions in two locations:
+啟動時，Gemini CLI 會在兩個位置尋找擴充功能：
 
 1.  `<workspace>/.gemini/extensions`
 2.  `<home>/.gemini/extensions`
 
-Gemini CLI loads all extensions from both locations. If an extension with the same name exists in both locations, the extension in the workspace directory takes precedence.
-
-Within each location, individual extensions exist as a directory that contains a `gemini-extension.json` file. For example:
+Gemini CLI 會從這兩個位置載入所有擴充功能。如果兩個位置都存在同名的擴充功能，則工作區目錄中的擴充功能優先。
+在每個位置中，個別的擴充功能都以一個包含 `gemini-extension.json` 檔案的目錄形式存在。例如：
 
 `<workspace>/.gemini/extensions/my-extension/gemini-extension.json`
 
 ### `gemini-extension.json`
 
-The `gemini-extension.json` file contains the configuration for the extension. The file has the following structure:
+`gemini-extension.json` 檔案包含擴充功能的設定。該檔案的結構如下：
 
 ```json
 {
@@ -32,9 +31,9 @@ The `gemini-extension.json` file contains the configuration for the extension. T
 }
 ```
 
-- `name`: The name of the extension. This is used to uniquely identify the extension. This should match the name of your extension directory.
-- `version`: The version of the extension.
-- `mcpServers`: A map of MCP servers to configure. The key is the name of the server, and the value is the server configuration. These servers will be loaded on startup just like MCP servers configured in a [`settings.json` file](./cli/configuration.md). If both an extension and a `settings.json` file configure an MCP server with the same name, the server defined in the `settings.json` file takes precedence.
-- `contextFileName`: The name of the file that contains the context for the extension. This will be used to load the context from the workspace. If this property is not used but a `GEMINI.md` file is present in your extension directory, then that file will be loaded.
+- `name`：擴充功能的名稱。這可用來唯一識別擴充功能。這應該與您的擴充功能目錄名稱相符。
+- `version`：擴充功能的版本。
+ - `mcpServers`：要設定的 MCP 伺服器對應。鍵是伺服器的名稱，值是伺服器的設定。這些伺服器將在啟動時載入，就像在 [`settings.json` 檔案](./cli/configuration.md) 中設定的 MCP 伺服器一樣。如果擴充功能和 `settings.json` 檔案都設定了同名的 MCP 伺服器，則以 `settings.json` 檔案中定義的伺服器為優先。
+ - `contextFileName`：包含擴充功能內容的檔案名稱。這將用於從工作區載入內容。如果未使用此屬性，但您的擴充功能目錄中存在 `GEMINI.md` 檔案，則會載入該檔案。
 
-When Gemini CLI starts, it loads all the extensions and merges their configurations. If there are any conflicts, the workspace configuration takes precedence.
+當 Gemini CLI 啟動時，它會載入所有擴充功能並合併其設定。如果發生任何衝突，則以工作區設定為優先。

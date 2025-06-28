@@ -1,14 +1,14 @@
-# Token Caching and Cost Optimization
+# 權杖快取與成本優化
 
-Gemini CLI automatically optimizes API costs through token caching when using API key authentication (Gemini API key or Vertex AI). This feature reuses previous system instructions and context to reduce the number of tokens processed in subsequent requests.
+當使用 API 金鑰驗證 (Gemini API 金鑰或 Vertex AI) 時，Gemini CLI 會透過權杖快取自動優化 API 成本。此功能會重複使用先前的系統指令與上下文，以減少後續請求中處理的權杖數量。
 
-**Token caching is available for:**
+**權杖快取適用於：**
 
-- API key users (Gemini API key)
-- Vertex AI users (with project and location setup)
+- API 金鑰使用者 (Gemini API 金鑰)
+- Vertex AI 使用者 (已設定專案和地區)
 
-**Token caching is not available for:**
+**權杖快取不適用於：**
 
-- OAuth users (Google Personal/Enterprise accounts) - the Code Assist API does not support cached content creation at this time
+- OAuth 使用者 (Google 個人/企業帳戶) - Code Assist API 目前不支援建立快取內容
 
-You can view your token usage and cached token savings using the `/stats` command. When cached tokens are available, they will be displayed in the stats output.
+您可以使用 `/stats` 指令來檢視您的權杖用量和因快取而節省的權杖。當有可用的快取權杖時，它們將會顯示在統計資料輸出中。

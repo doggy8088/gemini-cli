@@ -1,82 +1,78 @@
-# Troubleshooting Guide
+# 故障排除指南
 
-This guide provides solutions to common issues and debugging tips.
+本指南提供常見問題的解決方案與除錯技巧。
 
-## Authentication
+## 認證
 
-- **Error: `Failed to login. Message: Request contains an invalid argument`**
+- **錯誤：`Failed to login. Message: Request contains an invalid argument`**
 
-  - Users with Google Workspace accounts, or users with Google Cloud accounts
-    associated with their Gmail accounts may not be able to activate the free
-    tier of the Google Code Assist plan.
-  - For Google Cloud accounts, you can work around this by setting
-    `GOOGLE_CLOUD_PROJECT` to your project ID.
-  - You can also grab an API key from [AI
-    Studio](http://aistudio.google.com/app/apikey), which also includes a
-    separate free tier.
+  - 擁有 Google Workspace 帳戶的使用者，或其 Gmail 帳戶已關聯 Google Cloud 帳戶的使用者，可能無法啟用 Google Code Assist 方案的免費層級。
+  - 對於 Google Cloud 帳戶，您可以透過設定
+    `GOOGLE_CLOUD_PROJECT` 為您的專案 ID 來解決此問題。
+  - 您也可以從 [AI Studio](http://aistudio.google.com/app/apikey) 取得 API 金鑰，該金鑰也包含一個獨立的免費層級。
 
-## Frequently asked questions (FAQs)
+## 常見問題 (FAQs)
 
-- **Q: How do I update Gemini CLI to the latest version?**
+- **問：如何將 Gemini CLI 更新至最新版本？**
 
-  - A: If installed globally via npm, update Gemini CLI using the command `npm install -g @google/gemini-cli@latest`. If run from source, pull the latest changes from the repository and rebuild using `npm run build`.
+  - 答：若透過 npm 全域安裝，請使用指令 `npm install -g @google/gemini-cli@latest` 更新 Gemini CLI。若從原始碼執行，請從儲存庫拉取最新變更，並使用 `npm run build` 重新建構。
 
-- **Q: Where are Gemini CLI configuration files stored?**
+- **問：Gemini CLI 的設定檔儲存在哪裡？**
 
-  - A: The CLI configuration is stored within two `settings.json` files: one in your home directory and one in your project's root directory. In both locations, `settings.json` is found in the `.gemini/` folder. Refer to [CLI Configuration](./cli/configuration.md) for more details.
+  - 答：CLI 設定儲存在兩個 `settings.json` 檔案中：一個位於您的家目錄，另一個位於您專案的根目錄。在這兩個位置，`settings.json` 都位於 `.gemini/` 資料夾內。更多詳細資訊請參考 [CLI 設定](./cli/configuration.md)。
 
-- **Q: Why don't I see cached token counts in my stats output?**
+- **問：為什麼我在統計資料輸出中看不到快取權杖的數量？**
 
-  - A: Cached token information is only displayed when cached tokens are being used. This feature is available for API key users (Gemini API key or Vertex AI) but not for OAuth users (Google Personal/Enterprise accounts) at this time, as the Code Assist API does not support cached content creation. You can still view your total token usage with the `/stats` command.
+  - 答：快取權杖的資訊只有在使用快取權杖時才會顯示。此功能目前適用於 API 金鑰使用者 (Gemini API 金鑰或 Vertex AI)，但不適用於 OAuth 使用者 (Google 個人/企業帳戶)，因為 Code Assist API 不支援快取內容的建立。您仍然可以使用 `/stats` 指令查看您的總權杖用量。
 
-## Common error messages and solutions
+## 常見錯誤訊息與解決方案
 
-- **Error: `EADDRINUSE` (Address already in use) when starting an MCP server.**
+- **錯誤：啟動 MCP 伺服器時出現 `EADDRINUSE` (Address already in use)。**
 
-  - **Cause:** Another process is already using the port the MCP server is trying to bind to.
-  - **Solution:**
-    Either stop the other process that is using the port or configure the MCP server to use a different port.
+  - **原因：** 有另一個程序已在使用 MCP 伺服器嘗試綁定的連接埠。
+  - **解決方案：**
+    停止正在使用該連接埠的其他程序，或將 MCP 伺服器設定為使用不同的連接埠。
 
-- **Error: Command not found (when attempting to run Gemini CLI).**
+- **錯誤：找不到指令 (嘗試執行 Gemini CLI 時)。**
 
-  - **Cause:** Gemini CLI is not correctly installed or not in your system's PATH.
-  - **Solution:**
-    1.  Ensure Gemini CLI installation was successful.
-    2.  If installed globally, check that your npm global binary directory is in your PATH.
-    3.  If running from source, ensure you are using the correct command to invoke it (e.g., `node packages/cli/dist/index.js ...`).
+  - **原因：** Gemini CLI 未正確安裝或未在您系統的 PATH 中。
+  - **解決方案：**
+    1.  確保 Gemini CLI 安裝成功。
+    2.  若為全域安裝，請檢查您的 npm 全域二進位檔目錄是否在您的 PATH 中。
+    3.  若從原始碼執行，請確保您使用正確的指令來呼叫它 (例如 `node packages/cli/dist/index.js ...`)。
 
-- **Error: `MODULE_NOT_FOUND` or import errors.**
+- **錯誤：`MODULE_NOT_FOUND` 或匯入錯誤。**
 
-  - **Cause:** Dependencies are not installed correctly, or the project hasn't been built.
-  - **Solution:**
-    1.  Run `npm install` to ensure all dependencies are present.
-    2.  Run `npm run build` to compile the project.
+  - **原因：** 相依套件未正確安裝，或專案尚未建構。
+  - **解決方案：**
+    1.  執行 `npm install` 以確保所有相依套件都已存在。
+    2.  執行 `npm run build` 來編譯專案。
 
-- **Error: "Operation not permitted", "Permission denied", or similar.**
+- **錯誤：「Operation not permitted」、「Permission denied」或類似錯誤。**
 
-  - **Cause:** If sandboxing is enabled, then the application is likely attempting an operation restricted by your sandbox, such as writing outside the project directory or system temp directory.
-  - **Solution:** See [Sandboxing](./cli/configuration.md#sandboxing) for more information, including how to customize your sandbox configuration.
+  - **原因：** 如果啟用了沙箱模式，應用程式很可能正在嘗試執行受沙箱限制的操作，例如寫入專案目錄或系統暫存目錄之外的位置。
+  - **解決方案：** 關於更多資訊，包括如何自訂您的沙箱設定，請參閱 [沙箱模式](./cli/configuration.md#sandboxing)。
 
-## Debugging Tips
+## 除錯技巧
 
-- **CLI debugging:**
+- **CLI 除錯：**
 
-  - Use the `--verbose` flag (if available) with CLI commands for more detailed output.
-  - Check the CLI logs, often found in a user-specific configuration or cache directory.
+  - 使用 CLI 指令的 `--verbose` 旗標 (如果可用) 以取得更詳細的輸出。
+  - 檢查 CLI 日誌，通常位於使用者特定的設定或快取目錄中。
 
-- **Core debugging:**
+- **核心除錯：**
 
-  - Check the server console output for error messages or stack traces.
-  - Increase log verbosity if configurable.
-  - Use Node.js debugging tools (e.g., `node --inspect`) if you need to step through server-side code.
+  - 檢查伺服器主控台輸出中的錯誤訊息或堆疊追蹤。
+  - 如果可設定，請提高日誌的詳細程度。
+  - 如果需要逐步執行伺服器端程式碼，請使用 Node.js 除錯工具 (例如 `node --inspect`)。
 
-- **Tool issues:**
+- **工具問題：**
 
-  - If a specific tool is failing, try to isolate the issue by running the simplest possible version of the command or operation the tool performs.
-  - For `run_shell_command`, check that the command works directly in your shell first.
-  - For file system tools, double-check paths and permissions.
+  - 如果某個特定工具失敗，請嘗試執行該工具最簡單版本的指令或操作，以隔離問題。
+  - 對於 `run_shell_command`，請先檢查該指令是否能直接在您的 shell 中運作。
+  - 對於檔案系統工具，請再次檢查路徑和權限。
 
-- **Pre-flight checks:**
-  - Always run `npm run preflight` before committing code. This can catch many common issues related to formatting, linting, and type errors.
+- **飛行前檢查：**
+  - 在提交程式碼之前，務必執行 `npm run preflight`。這可以捕捉到許多與格式化、程式碼風格檢查和類型錯誤相關的常見問題。
 
-If you encounter an issue not covered here, consider searching the project's issue tracker on GitHub or reporting a new issue with detailed information.
+如果您遇到此處未涵蓋的問題，請考慮在 GitHub 上搜尋專案的問題追蹤器，或回報一個包含詳細資訊的新問題。

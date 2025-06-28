@@ -1,54 +1,54 @@
-# Gemini CLI Core
+# Gemini CLI 核心
 
-Gemini CLI's core package (`packages/core`) is the backend portion of Gemini CLI, handling communication with the Gemini API, managing tools, and processing requests sent from `packages/cli`. For a general overview of Gemini CLI, see the [main documentation page](../index.md).
+Gemini CLI 的核心套件 (`packages/core`) 是 Gemini CLI 的後端部分，負責處理與 Gemini API 的通訊、管理工具，以及處理來自 `packages/cli` 的請求。有關 Gemini CLI 的總覽，請參閱 [主要文件頁面](../index.md)。
 
-## Navigating this section
+## 導覽本節
 
-- **[Core tools API](./tools-api.md):** Information on how tools are defined, registered, and used by the core.
+- **[核心工具 API](./tools-api.md):** 關於工具如何被核心定義、註冊和使用的資訊。
 
-## Role of the core
+## 核心的角色
 
-While the `packages/cli` portion of Gemini CLI provides the user interface, `packages/core` is responsible for:
+Gemini CLI 的 `packages/cli` 部分提供使用者介面，而 `packages/core` 則負責：
 
-- **Gemini API interaction:** Securely communicating with the Google Gemini API, sending user prompts, and receiving model responses.
-- **Prompt engineering:** Constructing effective prompts for the Gemini model, potentially incorporating conversation history, tool definitions, and instructional context from `GEMINI.md` files.
-- **Tool management & orchestration:**
-  - Registering available tools (e.g., file system tools, shell command execution).
-  - Interpreting tool use requests from the Gemini model.
-  - Executing the requested tools with the provided arguments.
-  - Returning tool execution results to the Gemini model for further processing.
-- **Session and state management:** Keeping track of the conversation state, including history and any relevant context required for coherent interactions.
-- **Configuration:** Managing core-specific configurations, such as API key access, model selection, and tool settings.
+- **Gemini API 互動：** 安全地與 Google Gemini API 通訊、傳送使用者提示，並接收模型回應。
+- **提示工程：** 為 Gemini 模型建構有效的提示，可能包含對話歷史記錄、工具定義，以及來自 `GEMINI.md` 檔案的指令性情境。
+- **工具管理與調度：**
+  - 註冊可用的工具 (例如：檔案系統工具、shell 指令執行)。
+  - 解譯來自 Gemini 模型的工具使用請求。
+  - 使用提供的參數執行請求的工具。
+  - 將工具執行結果回傳給 Gemini 模型以進行進一步處理。
+- **對話階段與狀態管理：** 追蹤對話狀態，包括歷史記錄以及連貫互動所需的任何相關情境。
+ - **設定：** 管理核心特定的設定，例如 API 金鑰存取、模型選擇和工具設定。
 
-## Security considerations
+## 安全性考量
 
-The core plays a vital role in security:
+核心在安全性方面扮演著至關重要的角色：
 
-- **API key management:** It handles the `GEMINI_API_KEY` and ensures it's used securely when communicating with the Gemini API.
-- **Tool execution:** When tools interact with the local system (e.g., `run_shell_command`), the core (and its underlying tool implementations) must do so with appropriate caution, often involving sandboxing mechanisms to prevent unintended modifications.
+- **API 金鑰管理：** 它處理 `GEMINI_API_KEY` 並確保在與 Gemini API 通訊時安全地使用它。
+ - **工具執行：** 當工具與本機系統互動時 (例如 `run_shell_command`)，核心 (及其底層的工具實作) 必須謹慎操作，通常會採用沙盒機制來防止意外的修改。
 
-## Chat history compression
+## 對話歷史壓縮
 
-To ensure that long conversations don't exceed the token limits of the Gemini model, the core includes a chat history compression feature.
+為確保長對話不會超過 Gemini 模型的 token 限制，核心包含一個對話歷史壓縮功能。
 
-When a conversation approaches the token limit for the configured model, the core automatically compresses the conversation history before sending it to the model. This compression is designed to be lossless in terms of the information conveyed, but it reduces the overall number of tokens used.
+當對話接近所設定模型的 token 限制時，核心會在將對話歷史傳送給模型之前自動進行壓縮。這種壓縮的設計旨在不損失傳達的資訊，但會減少使用的 token 總數。
 
-You can find the token limits for each model in the [Google AI documentation](https://ai.google.dev/gemini-api/docs/models).
+您可以在 [Google AI 文件](https://ai.google.dev/gemini-api/docs/models) 中找到每個模型的 token 限制。
 
-## Model fallback
+## 模型備援機制
 
-Gemini CLI includes a model fallback mechanism to ensure that you can continue to use the CLI even if the default "pro" model is rate-limited.
+Gemini CLI 包含一個模型備援機制，以確保即使預設的「pro」模型受到速率限制，您仍然可以繼續使用 CLI。
 
-If you are using the default "pro" model and the CLI detects that you are being rate-limited, it automatically switches to the "flash" model for the current session. This allows you to continue working without interruption.
+如果您正在使用預設的「pro」模型，且 CLI 偵測到您受到速率限制，它會在本機的對話階段中自動切換到「flash」模型。這讓您可以不間斷地繼續工作。
 
-## File discovery service
+## 檔案探索服務
 
-The file discovery service is responsible for finding files in the project that are relevant to the current context. It is used by the `@` command and other tools that need to access files.
+檔案探索服務負責在專案中尋找與當前情境相關的檔案。它被 `@` 指令以及其他需要存取檔案的工具所使用。
 
-## Memory discovery service
+## 記憶體探索服務
 
-The memory discovery service is responsible for finding and loading the `GEMINI.md` files that provide context to the model. It searches for these files in a hierarchical manner, starting from the current working directory and moving up to the project root and the user's home directory. It also searches in subdirectories.
+記憶體探索服務負責尋找並載入為模型提供情境的 `GEMINI.md` 檔案。它以階層式的方式搜尋這些檔案，從目前的工作目錄開始，向上移動到專案根目錄和使用者的家目錄。它也會搜尋子目錄。
 
-This allows you to have global, project-level, and component-level context files, which are all combined to provide the model with the most relevant information.
+這讓您可以擁有全域、專案層級和元件層級的情境檔案，這些檔案會被結合起來，為模型提供最相關的資訊。
 
-You can use the [`/memory` command](../cli/commands.md) to `show`, `add`, and `refresh` the content of loaded `GEMINI.md` files.
+您可以使用 [`/memory` 指令](../cli/commands.md) 來 `show`、`add` 和 `refresh` 已載入的 `GEMINI.md` 檔案內容。

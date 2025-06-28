@@ -1,56 +1,56 @@
-# Gemini CLI Architecture Overview
+# Gemini CLI 架構概覽
 
-This document provides a high-level overview of the Gemini CLI's architecture.
+本文件提供 Gemini CLI 架構的高階概覽。
 
-## Core components
+## 核心元件
 
-The Gemini CLI is primarily composed of two main packages, along with a suite of tools that can be used by the system in the course of handling command-line input:
+Gemini CLI 主要由兩個主要套件組成，以及一套可在處理指令行輸入過程中供系統使用的工具：
 
-1.  **CLI package (`packages/cli`):**
+1.  **CLI 套件 (`packages/cli`):**
 
-    - **Purpose:** This contains the user-facing portion of the Gemini CLI, such as handling the initial user input, presenting the final output, and managing the overall user experience.
-    - **Key functions contained in the package:**
-      - [Input processing](./cli/commands.md)
-      - History management
-      - Display rendering
-      - [Theme and UI customization](./cli/themes.md)
-      - [CLI configuration settings](./cli/configuration.md)
+    - **用途：** 此套件包含 Gemini CLI 面向使用者的部分，例如處理初始使用者輸入、呈現最終輸出以及管理整體使用者體驗。
+    - **套件中包含的主要函式：**
+      - [輸入處理](./cli/commands.md)
+      - 歷史記錄管理
+      - 顯示渲染
+      - [主題與 UI 自訂](./cli/themes.md)
+      - [CLI 組態設定](./cli/configuration.md)
 
-2.  **Core package (`packages/core`):**
+2.  **Core 套件 (`packages/core`):**
 
-    - **Purpose:** This acts as the backend for the Gemini CLI. It receives requests sent from `packages/cli`, orchestrates interactions with the Gemini API, and manages the execution of available tools.
-    - **Key functions contained in the package:**
-      - API client for communicating with the Google Gemini API
-      - Prompt construction and management
-      - Tool registration and execution logic
-      - State management for conversations or sessions
-      - Server-side configuration
+    - **用途：** 此套件作為 Gemini CLI 的後端。它接收來自 `packages/cli` 的請求，協調與 Gemini API 的互動，並管理可用工具的執行。
+    - **套件中包含的主要函式：**
+      - 用於與 Google Gemini API 通訊的 API 用戶端
+      - 提示建構與管理
+      - 工具註冊與執行邏輯
+      - 對話或工作階段的狀態管理
+      - 伺服器端組態
 
-3.  **Tools (`packages/core/src/tools/`):**
-    - **Purpose:** These are individual modules that extend the capabilities of the Gemini model, allowing it to interact with the local environment (e.g., file system, shell commands, web fetching).
-    - **Interaction:** `packages/core` invokes these tools based on requests from the Gemini model.
+3.  **工具 (`packages/core/src/tools/`):**
+    - **用途：** 這些是獨立的模組，可擴充 Gemini 模型的功能，使其能與本機環境（例如檔案系統、shell 指令、網頁擷取）互動。
+    - **互動：** `packages/core` 根據 Gemini 模型的請求呼叫這些工具。
 
-## Interaction Flow
+## 互動流程
 
-A typical interaction with the Gemini CLI follows this flow:
+與 Gemini CLI 的典型互動遵循以下流程：
 
-1.  **User input:** The user types a prompt or command into the terminal, which is managed by `packages/cli`.
-2.  **Request to core:** `packages/cli` sends the user's input to `packages/core`.
-3.  **Request processed:** The core package:
-    - Constructs an appropriate prompt for the Gemini API, possibly including conversation history and available tool definitions.
-    - Sends the prompt to the Gemini API.
-4.  **Gemini API response:** The Gemini API processes the prompt and returns a response. This response might be a direct answer or a request to use one of the available tools.
-5.  **Tool execution (if applicable):**
-    - When the Gemini API requests a tool, the core package prepares to execute it.
-    - If the requested tool can modify the file system or execute shell commands, the user is first given details of the tool and its arguments, and the user must approve the execution.
-    - Read-only operations, such as reading files, might not require explicit user confirmation to proceed.
-    - Once confirmed, or if confirmation is not required, the core package executes the relevant action within the relevant tool, and the result is sent back to the Gemini API by the core package.
-    - The Gemini API processes the tool result and generates a final response.
-6.  **Response to CLI:** The core package sends the final response back to the CLI package.
-7.  **Display to user:** The CLI package formats and displays the response to the user in the terminal.
+1.  **使用者輸入：** 使用者在終端機中輸入提示或指令，由 `packages/cli` 管理。
+2.  **向核心發出請求：** `packages/cli` 將使用者輸入傳送至 `packages/core`。
+3.  **處理請求：** Core 套件：
+    - 為 Gemini API 建構適當的提示，可能包含對話歷史記錄和可用的工具定義。
+    - 將提示傳送至 Gemini API。
+4.  **Gemini API 回應：** Gemini API 處理提示並傳回回應。此回應可能是直接的答案，或是使用其中一個可用工具的請求。
+5.  **工具執行（若適用）：**
+    - 當 Gemini API 請求使用工具時，Core 套件會準備執行該工具。
+    - 如果請求的工具會修改檔案系統或執行 shell 指令，系統會先向使用者提供該工具及其引數的詳細資訊，且使用者必須核准執行。
+    - 唯讀操作（例如讀取檔案）可能不需要使用者明確確認即可繼續。
+    - 一旦確認，或在不需要確認的情況下，Core 套件會在相關工具中執行相應的動作，並由 Core 套件將結果傳回 Gemini API。
+    - Gemini API 處理工具結果並產生最終回應。
+6.  **回應至 CLI：** Core 套件將最終回應傳回 CLI 套件。
+7.  **向使用者顯示：** CLI 套件將回應格式化並顯示在終端機中給使用者。
 
-## Key Design Principles
+## 主要設計原則
 
-- **Modularity:** Separating the CLI (frontend) from the Core (backend) allows for independent development and potential future extensions (e.g., different frontends for the same backend).
-- **Extensibility:** The tool system is designed to be extensible, allowing new capabilities to be added.
-- **User experience:** The CLI focuses on providing a rich and interactive terminal experience.
+- **模組化：** 將 CLI（前端）與 Core（後端）分離，可實現獨立開發和未來的潛在擴充（例如，為同一個後端提供不同的前端）。
+- **可擴充性：** 工具系統的設計使其具有可擴充性，能夠加入新功能。
+- **使用者體驗：** CLI 專注於提供豐富且具互動性的終端機體驗。

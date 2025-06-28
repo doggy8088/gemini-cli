@@ -1,61 +1,61 @@
-# Shell Tool (`run_shell_command`)
+# Shell 工具 (`run_shell_command`)
 
-This document describes the `run_shell_command` tool for the Gemini CLI.
+本文件說明 Gemini CLI 的 `run_shell_command` 工具。
 
-## Description
+## 說明
 
-Use `run_shell_command` to interact with the underlying system, run scripts, or perform command-line operations. `run_shell_command` executes a given shell command. On Windows, the command will be executed with `cmd.exe /c`. On other platforms, the command will be executed with `bash -c`.
+使用 `run_shell_command` 與底層系統互動、執行腳本或執行命令列操作。`run_shell_command` 會執行指定的 shell 指令。在 Windows 上，指令會以 `cmd.exe /c` 執行。在其他平台上，指令會以 `bash -c` 執行。
 
-### Arguments
+### 參數
 
-`run_shell_command` takes the following arguments:
+`run_shell_command` 接受以下參數：
 
-- `command` (string, required): The exact shell command to execute.
-- `description` (string, optional): A brief description of the command's purpose, which will be shown to the user.
-- `directory` (string, optional): The directory (relative to the project root) in which to execute the command. If not provided, the command runs in the project root.
+- `command` (字串，必要)：要執行的確切 shell 指令。
+- `description` (字串，可選)：指令用途的簡要說明，將會向使用者顯示。
+- `directory` (字串，可選)：執行指令的目錄 (相對於專案根目錄)。如果未提供，指令會在專案根目錄中執行。
 
-## How to use `run_shell_command` with the Gemini CLI
+## 如何搭配 Gemini CLI 使用 `run_shell_command`
 
-When using `run_shell_command`, the command is executed as a subprocess. `run_shell_command` can start background processes using `&`. The tool returns detailed information about the execution, including:
+使用 `run_shell_command` 時，指令會以子程序的形式執行。`run_shell_command` 可以使用 `&` 啟動背景程序。該工具会傳回有關執行的詳細資訊，包括：
 
-- `Command`: The command that was executed.
-- `Directory`: The directory where the command was run.
-- `Stdout`: Output from the standard output stream.
-- `Stderr`: Output from the standard error stream.
-- `Error`: Any error message reported by the subprocess.
-- `Exit Code`: The exit code of the command.
-- `Signal`: The signal number if the command was terminated by a signal.
-- `Background PIDs`: A list of PIDs for any background processes started.
+- `Command`：已執行的指令。
+- `Directory`：指令執行的目錄。
+- `Stdout`：標準輸出串流的輸出。
+- `Stderr`：標準錯誤串流的輸出。
+- `Error`：子程序回報的任何錯誤訊息。
+- `Exit Code`：指令的結束代碼。
+- `Signal`：如果指令被信號終止，則為信號編號。
+- `Background PIDs`：任何已啟動的背景程序的 PID 清單。
 
-Usage:
+用法：
 
 ```
-run_shell_command(command="Your commands.", description="Your description of the command.", directory="Your execution directory.")
+run_shell_command(command="您的指令。", description="您對指令的描述。", directory="您的執行目錄。")
 ```
 
-## `run_shell_command` examples
+## `run_shell_command` 範例
 
-List files in the current directory:
+列出目前目錄中的檔案：
 
 ```
 run_shell_command(command="ls -la")
 ```
 
-Run a script in a specific directory:
+在特定目錄中執行腳本：
 
 ```
-run_shell_command(command="./my_script.sh", directory="scripts", description="Run my custom script")
+run_shell_command(command="./my_script.sh", directory="scripts", description="執行我的自訂腳本")
 ```
 
-Start a background server:
+啟動背景伺服器：
 
 ```
-run_shell_command(command="npm run dev &", description="Start development server in background")
+run_shell_command(command="npm run dev &", description="在背景啟動開發伺服器")
 ```
 
-## Important notes
+## 重要注意事項
 
-- **Security:** Be cautious when executing commands, especially those constructed from user input, to prevent security vulnerabilities.
-- **Interactive commands:** Avoid commands that require interactive user input, as this can cause the tool to hang. Use non-interactive flags if available (e.g., `npm init -y`).
-- **Error handling:** Check the `Stderr`, `Error`, and `Exit Code` fields to determine if a command executed successfully.
-- **Background processes:** When a command is run in the background with `&`, the tool will return immediately and the process will continue to run in the background. The `Background PIDs` field will contain the process ID of the background process.
+- **安全性：** 執行指令時請務必小心，特別是由使用者輸入建構的指令，以防止安全漏洞。
+- **互動式指令：** 避免需要互動式使用者輸入的指令，因為這可能會導致工具掛起。如果可用，請使用非互動式旗標 (例如 `npm init -y`)。
+- **錯誤處理：** 檢查 `Stderr`、`Error` 和 `Exit Code` 欄位以判斷指令是否成功執行。
+- **背景程序：** 當指令使用 `&` 在背景執行時，工具會立即返回，而程序會繼續在背景執行。`Background PIDs` 欄位將包含背景程序的程序 ID。

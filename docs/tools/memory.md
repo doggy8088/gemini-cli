@@ -1,44 +1,41 @@
-# Memory Tool (`save_memory`)
+# 記憶體工具 (`save_memory`)
 
-This document describes the `save_memory` tool for the Gemini CLI.
+本文件說明 Gemini CLI 的 `save_memory` 工具。
 
-## Description
+## 說明
 
-Use `save_memory` to save and recall information across your Gemini CLI sessions. With `save_memory`, you can direct the CLI to remember key details across sessions, providing personalized and directed assistance.
+使用 `save_memory` 可在您的 Gemini CLI 工作階段之間儲存及取用資訊。透過 `save_memory`，您可以指示 CLI 跨工作階段記住關鍵細節，以提供個人化且具針對性的協助。
 
-### Arguments
+### 引數
 
-`save_memory` takes one argument:
+`save_memory` 有一個引數：
+- `fact` (字串，必要)：要記住的特定事實或資訊片段。這應是以自然語言撰寫的清晰、獨立陳述。
 
-- `fact` (string, required): The specific fact or piece of information to remember. This should be a clear, self-contained statement written in natural language.
+## 如何搭配 Gemini CLI 使用 `save_memory`
 
-## How to use `save_memory` with the Gemini CLI
+此工具會將提供的 `fact` 附加到位於使用者家目錄 (`~/.gemini/GEMINI.md`) 中的一個特殊 `GEMINI.md` 檔案。此檔案可設定為不同的名稱。
+新增後，這些事實會儲存在 `## Gemini Added Memories` 區段底下。此檔案會在後續的工作階段中載入為上下文，讓 CLI 能夠取用已儲存的資訊。
 
-The tool appends the provided `fact` to a special `GEMINI.md` file located in the user's home directory (`~/.gemini/GEMINI.md`). This file can be configured to have a different name.
-
-Once added, the facts are stored under a `## Gemini Added Memories` section. This file is loaded as context in subsequent sessions, allowing the CLI to recall the saved information.
-
-Usage:
+使用方式：
 
 ```
 save_memory(fact="Your fact here.")
 ```
 
-### `save_memory` examples
+### `save_memory` 範例
 
-Remember a user preference:
+記住使用者偏好：
 
 ```
 save_memory(fact="My preferred programming language is Python.")
 ```
 
-Store a project-specific detail:
+儲存專案特定細節：
 
 ```
 save_memory(fact="The project I'm currently working on is called 'gemini-cli'.")
 ```
+## 重要注意事項
 
-## Important notes
-
-- **General usage:** This tool should be used for concise, important facts. It is not intended for storing large amounts of data or conversational history.
-- **Memory file:** The memory file is a plain text Markdown file, so you can view and edit it manually if needed.
+- **一般用法：**此工具應用於簡潔、重要的事實。不適用於儲存大量資料或對話記錄。
+- **記憶檔案：**記憶檔案是一個純文字 Markdown 檔案，因此您可以在需要時手動檢視和編輯。
