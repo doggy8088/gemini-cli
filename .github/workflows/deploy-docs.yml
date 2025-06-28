@@ -52,7 +52,7 @@ jobs:
         run: |
           mkdir -p docs/.vuepress
           cat > docs/.vuepress/config.js << 'EOF'
-          module.exports = {
+          export default {
             title: 'Gemini CLI Documentation',
             description: 'Comprehensive guide to installing, using, and developing Gemini CLI',
             base: '/gemini-cli/',
