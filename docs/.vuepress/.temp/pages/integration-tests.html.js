@@ -1,3 +1,0 @@
-import comp from "/home/runner/work/gemini-cli/gemini-cli/docs/.vuepress/.temp/pages/integration-tests.html.vue"
-const data = JSON.parse("{\"path\":\"/integration-tests.html\",\"title\":\"整合測試\",\"lang\":\"en-US\",\"frontmatter\":{},\"git\":{\"updatedTime\":1751095199000,\"contributors\":[{\"name\":\"doggy8088\",\"username\":\"doggy8088\",\"email\":\"88981+doggy8088@users.noreply.github.com\",\"commits\":1,\"url\":\"https://github.com/doggy8088\"}],\"changelog\":[{\"hash\":\"3ba971a6db503e515593d3d977644ab865390143\",\"time\":1751095199000,\"email\":\"88981+doggy8088@users.noreply.github.com\",\"author\":\"Will 保哥\",\"message\":\"Merge pull request #6 from doggy8088/copilot/fix-5\"}]},\"filePathRelative\":\"integration-tests.md\"}")
-export { comp, data }
