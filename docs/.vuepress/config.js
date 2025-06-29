@@ -3,17 +3,17 @@ import { defineUserConfig } from 'vuepress'
 import { viteBundler } from '@vuepress/bundler-vite'
 
 export default defineUserConfig({
-  title: 'Gemini CLI 官方文件',
-  description: '安裝、使用和開發 Gemini CLI 的綜合指南',
+  title: 'Gemini CLI 使用手冊',
+  description: '安裝、使用和開發 Gemini CLI 的完整指南',
   base: '/',
   bundler: viteBundler(),
   theme: defaultTheme({
     navbar: [
-      { text: 'Home', link: '/' },
-      { text: 'CLI', link: '/cli/' },
-      { text: 'Core', link: '/core/' },
-      { text: 'Tools', link: '/tools/' },
-      { text: 'Contributing', link: '/CONTRIBUTING.html' }
+      { text: '首頁', link: '/' },
+      { text: '命令列介面', link: '/cli/' },
+      { text: '核心概念', link: '/core/' },
+      { text: '工具調用', link: '/tools/' },
+      { text: '開源貢獻', link: '/CONTRIBUTING.html' }
     ],
     sidebar: {
       '/': [
