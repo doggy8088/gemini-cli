@@ -84,12 +84,21 @@ export async function ensureCorrectEdit(
 
   if (occurrences === expectedReplacements) {
     if (newStringPotentiallyEscaped) {
-      finalNewString = await correctNewStringEscaping(
+      const correctedNewString = await correctNewStringEscaping(
         client,
         finalOldString,
         originalParams.new_string,
         abortSignal,
       );
+      
+      // Validate that LLM didn't corrupt Unicode characters in new_string
+      const hasUnicodeInNewString = containsUnicodeCharacters(originalParams.new_string);
+      if (hasUnicodeInNewString && !isValidUnicodeString(correctedNewString)) {
+        console.warn('LLM correction corrupted Unicode characters in new_string, falling back to unescaping');
+        finalNewString = unescapeStringForGeminiBug(originalParams.new_string);
+      } else {
+        finalNewString = correctedNewString;
+      }
     }
   } else if (occurrences > expectedReplacements) {
     const expectedReplacements = originalParams.expected_replacements ?? 1;
@@ -131,13 +140,22 @@ export async function ensureCorrectEdit(
     if (occurrences === expectedReplacements) {
       finalOldString = unescapedOldStringAttempt;
       if (newStringPotentiallyEscaped) {
-        finalNewString = await correctNewString(
+        const correctedNewString = await correctNewString(
           client,
           originalParams.old_string, // original old
           unescapedOldStringAttempt, // corrected old
           originalParams.new_string, // original new (which is potentially escaped)
           abortSignal,
         );
+        
+        // Validate that LLM didn't corrupt Unicode characters in new_string
+        const hasUnicodeInNewString = containsUnicodeCharacters(originalParams.new_string);
+        if (hasUnicodeInNewString && !isValidUnicodeString(correctedNewString)) {
+          console.warn('LLM correction corrupted Unicode characters in new_string, falling back to unescaping');
+          finalNewString = unescapeStringForGeminiBug(originalParams.new_string);
+        } else {
+          finalNewString = correctedNewString;
+        }
       }
     } else if (occurrences === 0) {
       const llmCorrectedOldString = await correctOldStringMismatch(
@@ -159,13 +177,22 @@ export async function ensureCorrectEdit(
           const baseNewStringForLLMCorrection = unescapeStringForGeminiBug(
             originalParams.new_string,
           );
-          finalNewString = await correctNewString(
+          const correctedNewString = await correctNewString(
             client,
             originalParams.old_string, // original old
             llmCorrectedOldString, // corrected old
             baseNewStringForLLMCorrection, // base new for correction
             abortSignal,
           );
+          
+          // Validate that LLM didn't corrupt Unicode characters in new_string
+          const hasUnicodeInNewString = containsUnicodeCharacters(originalParams.new_string);
+          if (hasUnicodeInNewString && !isValidUnicodeString(correctedNewString)) {
+            console.warn('LLM correction corrupted Unicode characters in new_string, falling back to unescaping');
+            finalNewString = unescapeStringForGeminiBug(originalParams.new_string);
+          } else {
+            finalNewString = correctedNewString;
+          }
         }
       } else {
         // LLM correction also failed for old_string
@@ -226,11 +253,30 @@ export async function ensureCorrectFileContent(
     return content;
   }
 
+  // For Unicode content, try simple unescaping first to avoid LLM corruption
+  const hasUnicode = containsUnicodeCharacters(content);
+  if (hasUnicode) {
+    const unescapedContent = unescapeStringForGeminiBug(content);
+    if (isValidUnicodeString(unescapedContent)) {
+      fileContentCorrectionCache.set(content, unescapedContent);
+      return unescapedContent;
+    }
+  }
+
   const correctedContent = await correctStringEscaping(
     content,
     client,
     abortSignal,
   );
+  
+  // Validate that LLM didn't corrupt Unicode characters
+  if (hasUnicode && !isValidUnicodeString(correctedContent)) {
+    console.warn('LLM correction corrupted Unicode characters, falling back to unescaping');
+    const fallbackContent = unescapeStringForGeminiBug(content);
+    fileContentCorrectionCache.set(content, fallbackContent);
+    return fallbackContent;
+  }
+  
   fileContentCorrectionCache.set(content, correctedContent);
   return correctedContent;
 }
@@ -603,6 +649,23 @@ export function unescapeStringForGeminiBug(inputString: string): string {
       }
     },
   );
+}
+
+/**
+ * Checks if a string contains Unicode characters (non-ASCII characters)
+ */
+function containsUnicodeCharacters(str: string): boolean {
+  // Use a simple regex to check for characters outside the ASCII range (0-127)
+  return /[^\x00-\x7F]/.test(str);
+}
+
+/**
+ * Checks if a string contains Unicode replacement characters (U+FFFD)
+ * which indicate corruption during UTF-8 processing
+ */
+function isValidUnicodeString(str: string): boolean {
+  // Check for Unicode replacement character (U+FFFD) which appears as "�"
+  return !str.includes('\uFFFD');
 }
 
 /**

@@ -675,5 +675,204 @@ describe('editCorrector', () => {
 
       expect(result).toBe(correctedContent);
     });
+
+    it('should handle Chinese Unicode characters without corruption', async () => {
+      const chineseContent = '檢查點功能的說明文件';
+      
+      // This should not call LLM since it doesn't need escaping correction
+      const result = await ensureCorrectFileContent(
+        chineseContent,
+        mockGeminiClientInstance,
+        abortSignal,
+      );
+
+      expect(result).toBe(chineseContent);
+      expect(mockGenerateJson).toHaveBeenCalledTimes(0);
+    });
+
+    it('should use simple unescaping for Unicode content to prevent LLM corruption', async () => {
+      const chineseContent = '檢查點功能的說\\n明文件'; // Use \n which is handled by unescaping
+      const expectedResult = '檢查點功能的說\n明文件'; // Expected unescaped result
+
+      // Unicode content should use simple unescaping instead of calling LLM to prevent corruption
+      const result = await ensureCorrectFileContent(
+        chineseContent,
+        mockGeminiClientInstance,
+        abortSignal,
+      );
+
+      expect(result).toBe(expectedResult);
+      expect(mockGenerateJson).toHaveBeenCalledTimes(0); // Should not call LLM for Unicode content
+    });
+
+    it('should handle non-Unicode content with LLM correction normally', async () => {
+      const content = 'console.log(\\"Hello World\\");';
+      const correctedContent = 'console.log("Hello World");';
+
+      mockResponses.push({
+        corrected_string_escaping: correctedContent,
+      });
+
+      const result = await ensureCorrectFileContent(
+        content,
+        mockGeminiClientInstance,
+        abortSignal,
+      );
+
+      expect(result).toBe(correctedContent);
+      expect(mockGenerateJson).toHaveBeenCalledTimes(1); // Should call LLM for non-Unicode content
+    });
+
+    it('should use simple unescaping for Unicode content that needs escaping correction', async () => {
+      const chineseContent = '測試\\n中文\\t內容'; // Chinese with escape sequences
+      const expectedResult = '測試\n中文\t內容'; // Expected unescaped result
+
+      // Should not call LLM for Unicode content, just use unescaping
+      const result = await ensureCorrectFileContent(
+        chineseContent,
+        mockGeminiClientInstance,
+        abortSignal,
+      );
+
+      expect(result).toBe(expectedResult);
+      expect(mockGenerateJson).toHaveBeenCalledTimes(0);
+    });
+  });
+
+  describe('ensureCorrectEdit with Unicode content', () => {
+    let mockGeminiClientInstance: Mocked<GeminiClient>;
+    let mockConfigInstance: Config;
+    let abortSignal: AbortSignal;
+
+    beforeEach(() => {
+      const configParams = {
+        targetDir: '',
+        approvalMode: 'DEFAULT',
+        alwaysSkipModificationConfirmation: false,
+      };
+
+      mockConfigInstance = {
+        getTargetDir: () => configParams.targetDir,
+        getApprovalMode: () => configParams.approvalMode,
+        setApprovalMode: vi.fn((mode: string) => {
+          configParams.approvalMode = mode;
+        }),
+        getGeminiClient: vi.fn(),
+        getApiKey: () => 'test-key',
+        getModel: () => 'test-model',
+        getSandbox: () => false,
+        getDebugMode: () => false,
+        getQuestion: () => undefined,
+        getFullContext: () => false,
+        getToolDiscoveryCommand: () => undefined,
+        getToolCallCommand: () => undefined,
+        getMcpServerCommand: () => undefined,
+        getMcpServers: () => undefined,
+        getUserAgent: () => 'test-agent',
+        getUserMemory: () => '',
+        setUserMemory: vi.fn(),
+        getGeminiMdFileCount: () => 0,
+        setGeminiMdFileCount: vi.fn(),
+        getToolRegistry: () =>
+          ({
+            registerTool: vi.fn(),
+            discoverTools: vi.fn(),
+          }) as unknown as ToolRegistry,
+        getAlwaysSkipModificationConfirmation: () =>
+          configParams.alwaysSkipModificationConfirmation,
+        setAlwaysSkipModificationConfirmation: vi.fn((skip: boolean) => {
+          configParams.alwaysSkipModificationConfirmation = skip;
+        }),
+      } as unknown as Config;
+
+      callCount = 0;
+      mockResponses.length = 0;
+      mockGenerateJson = vi
+        .fn()
+        .mockImplementation((_contents, _schema, signal) => {
+          if (signal && signal.aborted) {
+            return Promise.reject(new Error('Aborted'));
+          }
+          const response = mockResponses[callCount];
+          callCount++;
+          if (response === undefined) return Promise.resolve({});
+          return Promise.resolve(response);
+        });
+      mockStartChat = vi.fn();
+      mockSendMessageStream = vi.fn();
+
+      mockGeminiClientInstance = new GeminiClient(
+        mockConfigInstance,
+      ) as Mocked<GeminiClient>;
+      abortSignal = new AbortController().signal;
+      resetEditCorrectorCaches_TEST_ONLY();
+    });
+
+    it('should handle Chinese text replacement without corruption', async () => {
+      const currentContent = '檢查點功能的說明文件';
+      const originalParams = {
+        file_path: '/test/file.txt',
+        old_string: '說明',
+        new_string: '詳細說明',
+      };
+
+      const result = await ensureCorrectEdit(
+        currentContent,
+        originalParams,
+        mockGeminiClientInstance,
+        abortSignal,
+      );
+
+      expect(result.params.old_string).toBe('說明');
+      expect(result.params.new_string).toBe('詳細說明');
+      expect(result.occurrences).toBe(1);
+      expect(mockGenerateJson).toHaveBeenCalledTimes(0);
+    });
+
+    it('should fallback to unescaping when LLM corrupts Unicode in new_string', async () => {
+      const currentContent = 'test content';
+      const originalParams = {
+        file_path: '/test/file.txt',
+        old_string: 'test content',
+        new_string: '檢查點功能的說\\n明文件', // Use \n which is handled by unescaping
+      };
+
+      // Mock LLM response that corrupts the Chinese character
+      mockResponses.push({
+        corrected_new_string_escaping: '檢查點功能的說�文件', // Corrupted
+      });
+
+      const result = await ensureCorrectEdit(
+        currentContent,
+        originalParams,
+        mockGeminiClientInstance,
+        abortSignal,
+      );
+
+      expect(result.params.old_string).toBe('test content');
+      expect(result.params.new_string).toBe('檢查點功能的說\n明文件'); // Should fallback to unescaping
+      expect(result.occurrences).toBe(1);
+      expect(mockGenerateJson).toHaveBeenCalledTimes(1);
+    });
+
+    it('should handle the specific case from the bug report', async () => {
+      const currentContent = '# 歡迎使用 Gemini CLI 使用手冊\n\n本手冊提供安裝、使用與開發 Gemini CLI 的完整指南。\n\n## 導覽本手冊\n\n- **[檢查點](./checkpointing.md):** 檢查點功能的說明文件。';
+      const originalParams = {
+        file_path: '/test/index.md',
+        old_string: currentContent,
+        new_string: currentContent.replace('說明', '詳細說明'),
+      };
+
+      const result = await ensureCorrectEdit(
+        currentContent,
+        originalParams,
+        mockGeminiClientInstance,
+        abortSignal,
+      );
+
+      expect(result.params.new_string).toContain('詳細說明文件');
+      expect(result.params.new_string).not.toContain('��'); // No corruption
+      expect(result.occurrences).toBe(1);
+    });
   });
 });
