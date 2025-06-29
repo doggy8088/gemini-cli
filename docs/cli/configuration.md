@@ -218,7 +218,7 @@ CLI 會自動從 `.env` 檔案載入環境變數。載入順序如下：
 
 - **`GEMINI_API_KEY`** (必要):
   - 您的 Gemini API 金鑰。
-  - **對操作至關重要。**若無此金鑰，CLI 將無法運作。
+  - **對操作至關重要**。若無此金鑰，CLI 將無法運作。
   - 請在您的 shell 設定檔（例如 `~/.bashrc`、`~/.zshrc`）或 `.env` 檔案中設定此項。
 - **`GEMINI_MODEL`**:
   - 指定要使用的預設 Gemini 模型。
@@ -309,6 +309,37 @@ CLI 會自動從 `.env` 檔案載入環境變數。載入順序如下：
 以下是一個概念性範例，說明位於 TypeScript 專案根目錄的情境檔案可能包含的內容：
 
 ```markdown
+# Project: My Awesome TypeScript Library
+
+## General Instructions:
+
+- When generating new TypeScript code, please follow the existing coding style.
+- Ensure all new functions and classes have JSDoc comments.
+- Prefer functional programming paradigms where appropriate.
+- All code should be compatible with TypeScript 5.0 and Node.js 18+.
+
+## Coding Style:
+
+- Use 2 spaces for indentation.
+- Interface names should be prefixed with `I` (e.g., `IUserService`).
+- Private class members should be prefixed with an underscore (`_`).
+- Always use strict equality (`===` and `!==`).
+
+## Specific Component: `src/api/client.ts`
+
+- This file handles all outbound API requests.
+- When adding new API call functions, ensure they include robust error handling and logging.
+- Use the existing `fetchWithRetry` utility for all GET requests.
+
+## Regarding Dependencies:
+
+- Avoid introducing new external dependencies unless absolutely necessary.
+- If a new dependency is required, please state the reason.
+```
+
+中文翻譯
+
+```markdown
 # 專案：我的超棒 TypeScript 函式庫
 
 ## 一般指示：
@@ -335,8 +366,6 @@ CLI 會自動從 `.env` 檔案載入環境變數。載入順序如下：
 
 - 除非絕對必要，否則避免引入新的外部相依套件。
 - 如果需要新的相依套件，請說明原因。
-```
-
 ```
 
 此範例展示了如何提供一般專案情境、特定的程式設計慣例，甚至是有關特定檔案或元件的註解。您的情境檔案越相關、越精確，AI 就能更好地協助您。強烈建議使用專案特定的情境檔案來建立慣例和情境。
