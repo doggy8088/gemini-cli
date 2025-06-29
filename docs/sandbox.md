@@ -1,10 +1,10 @@
-# Gemini CLI 中的沙箱
+# 的沙盒功能
 
-本文件提供 Gemini CLI 中沙箱的指南，包含先決條件、快速入門和設定。
+本文件提供 Gemini CLI 沙盒功能的指南，包含先決條件、快速入門和設定。
 
 ## 先決條件
 
-使用沙箱前，您需要安裝並設定 Gemini CLI：
+在使用沙盒功能之前，您需要安裝並設定 Gemini CLI：
 
 ```bash
 # 使用 npm 安裝 gemini-cli
@@ -14,37 +14,37 @@ npm install -g @google/gemini-cli
 gemini --version
 ```
 
-## 沙箱總覽
+## 沙盒功能概觀
 
-沙箱會將潛在的危險操作（例如 shell 指令或檔案修改）與您的主機系統隔離，在 AI 操作和您的環境之間提供一道安全屏障。
+沙盒功能會將潛在的危險操作（例如 shell 指令或檔案修改）與您的主機系統隔離，在 AI 操作與您的環境之間提供一道安全屏障。
 
-沙箱的優點包括：
+沙盒功能的好處包括：
 
 - **安全性**：防止意外的系統損壞或資料遺失。
 - **隔離**：將檔案系統存取限制在專案目錄內。
 - **一致性**：確保在不同系統上有一致且可重現的環境。
 - **安全性**：降低使用不受信任的程式碼或實驗性指令時的風險。
 
-## 沙箱方法
+## 沙盒方法
 
-您理想的沙箱方法可能會因您的平台和偏好的容器解決方案而異。
+您理想的沙盒方法可能會因您的平台和偏好的容器解決方案而異。
 
 ### 1. macOS Seatbelt (僅限 macOS)
 
-使用 `sandbox-exec` 的輕量級內建沙箱。
+使用 `sandbox-exec` 的輕量級內建沙盒功能。
 
 **預設設定檔**：`permissive-open` - 限制在專案目錄外的寫入，但允許大多數其他操作。
 
-### 2. 容器式 (Docker/Podman)
+### 2. 基於容器 (Docker/Podman)
 
-具有完整程序隔離的跨平台沙箱。
+具有完整程序隔離的跨平台沙盒功能。
 
-**注意**：需要本機��置沙箱映像檔，或使用您組織註冊中心發布的映像檔。
+**注意**：需要您在本機建構沙盒映像檔，或使用您組織註冊庫中已發布的映像檔。
 
 ## 快速入門
 
 ```bash
-# 使用指令旗標啟用沙箱
+# 使用指令旗標啟用沙盒功能
 gemini -s -p "分析程式碼結構"
 
 # 使用環境變數
@@ -59,28 +59,28 @@ gemini -p "執行測試套件"
 
 ## 設定
 
-### 啟用沙箱 (依優先順序)
+### 啟用沙盒功能（依優先順序）
 
 1. **指令旗標**：`-s` 或 `--sandbox`
 2. **環境變數**：`GEMINI_SANDBOX=true|docker|podman|sandbox-exec`
-3. **設定檔**：在 `settings.json` 中設定 `"sandbox": true`
+3. **設定檔案**：在 `settings.json` 中設定 `"sandbox": true`
 
 ### macOS Seatbelt 設定檔
 
-內建設定檔 (透過 `SEATBELT_PROFILE` 環境變數設定)：
+內建設定檔（透過 `SEATBELT_PROFILE` 環境變數設定）：
 
-- `permissive-open` (預設)：寫入限制，允許網路
-- `permissive-closed`：寫入限制，無網路
-- `permissive-proxied`：寫入限制，透過代理伺服器連網
-- `restrictive-open`：嚴格限制，允許網路
-- `restrictive-closed`：最大限制
+- `permissive-open` (預設)：寫入限制，允許網路連線
+- `permissive-closed`：寫入限制，不允許網路連線
+- `permissive-proxied`：寫入限制，透過代理伺服器連線網路
+- `restrictive-open`：嚴格限制，允許網路連線
+- `restrictive-closed`：最高等級限制
 
 ## Linux UID/GID 處理
 
-沙箱會自動處理 Linux 上的使用者權限。使用以下指令覆寫這些權限：
+沙盒會自動處理 Linux 上的使用者權限。您可以使用以下方式覆寫這些權限：
 
 ```bash
-export SANDBOX_SET_UID_GID=true   # 強制使用主機 UID/GID
+export SANDBOX_SET_UID_GID=true   # 強制使用主機的 UID/GID
 export SANDBOX_SET_UID_GID=false  # 停用 UID/GID 對應
 ```
 
@@ -88,9 +88,9 @@ export SANDBOX_SET_UID_GID=false  # 停用 UID/GID 對應
 
 ### 常見問題
 
-**"Operation not permitted" (不允許操作)**
+**「操作不允許」(Operation not permitted)**
 
-- 操作需要沙箱外的存取權限。
+- 操作需要存取沙盒外的資源。
 - 嘗試使用較寬鬆的設定檔或新增掛載點。
 
 **缺少指令**
@@ -100,7 +100,7 @@ export SANDBOX_SET_UID_GID=false  # 停用 UID/GID 對應
 
 **網路問題**
 
-- 檢查沙箱設定檔是否允許網路。
+- 檢查沙盒設定檔是否允許網路連線。
 - 驗證代理伺服器設定。
 
 ### 偵錯模式
@@ -109,7 +109,7 @@ export SANDBOX_SET_UID_GID=false  # 停用 UID/GID 對應
 DEBUG=1 gemini -s -p "偵錯指令"
 ```
 
-### 檢查沙箱
+### 檢查沙盒
 
 ```bash
 # 檢查環境
@@ -119,12 +119,12 @@ gemini -s -p "執行 shell 指令：env | grep SANDBOX"
 gemini -s -p "執行 shell 指令：mount | grep workspace"
 ```
 
-## 安全注意事項
+## 安全性注意事項
 
-- 沙箱可降低但無法完全消除所有風險。
-- 使用能讓您完成工作的最嚴格設定檔。
-- 首次建置後，容器的額外負荷極小。
-- GUI 應用程式可能無法在沙箱中運作。
+- 沙盒功能可降低但無法完全消除所有風險。
+- 請使用能讓您工作順利進行的最嚴格設定檔。
+- 容器在首次建構後的額外負擔極小。
+- 圖形化使用者介面（GUI）應用程式可能無法在沙盒中運作。
 
 ## 相關文件
 

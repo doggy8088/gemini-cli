@@ -1,19 +1,19 @@
 # 佈景主題
 
-Gemini CLI 支援多種佈景主題，可自訂其配色和外觀。您可以透過 `/theme` 指令或 `"theme":` 設定來變更佈景主題。
+Gemini CLI 支援多種佈景主題，可自訂其色彩配置與外觀。您可以透過 `/theme` 指令或 `"theme":` 設定，變更佈景主題以符合您的偏好。
 
 ## 可用佈景主題
 
-Gemini CLI 提供多種預設佈景主題，您可以在 Gemini CLI 中使用 `/theme` 指令列出：
+Gemini CLI 內建多款預先定義的佈景主題，您可以在 Gemini CLI 中使用 `/theme` 指令列出它們：
 
-- **深色佈景主題：**
+- **深色主題：**
   - `ANSI`
   - `Atom One`
   - `Ayu`
   - `Default`
   - `Dracula`
   - `GitHub`
-- **淺色佈景主題：**
+- **淺色主題：**
   - `ANSI Light`
   - `Ayu Light`
   - `Default Light`
@@ -25,14 +25,14 @@ Gemini CLI 提供多種預設佈景主題，您可以在 Gemini CLI 中使用 `/
 
 1.  在 Gemini CLI 中輸入 `/theme`。
 2.  出現對話方塊或選取提示，列出可用的佈景主題。
-3.  使用方向鍵選取佈景主題。某些介面可能會在您選取時提供即時預覽或反白顯示。
+3.  使用方向鍵選取佈景主題。部分介面可能會在您選取時提供即時預覽或反白顯示。
 4.  確認您的選取以套用佈景主題。
 
 ### 佈景主題持續性
 
-選取的佈景主題會儲存在 Gemini CLI 的[設定](./configuration.md)中，因此您的偏好設定會在不同工作階段中保留。
+選定的佈景主題會儲存在 Gemini CLI 的[設定](./configuration.md)中，因此您的偏好設定會在不同工作階段中被記住。
 
-## 深色佈景主題
+## 深色主題
 
 ### ANSI
 
@@ -48,7 +48,7 @@ Gemini CLI 提供多種預設佈景主題，您可以在 Gemini CLI 中使用 `/
 
 ### Default
 
-<img src="../assets/theme-default.png" alt="Default 佈景主題" width="600">
+<img src="../assets/theme-default.png" alt="預設佈景主題" width="600">
 
 ### Dracula
 
@@ -58,7 +58,7 @@ Gemini CLI 提供多種預設佈景主題，您可以在 Gemini CLI 中使用 `/
 
 <img src="../assets/theme-github.png" alt="GitHub 佈景主題" width="600">
 
-## 淺色佈景主題
+## 淺色主題
 
 ### ANSI Light
 
