@@ -1,4 +1,4 @@
-# Gemini CLI 執行與部署
+# 執行與部署
 
 本文件說明如何執行 Gemini CLI，並解釋 Gemini CLI 使用的部署架Gemin構。
 

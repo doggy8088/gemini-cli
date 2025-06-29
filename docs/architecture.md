@@ -1,4 +1,4 @@
-# Gemini CLI 架構總覽
+# 架構總覽
 
 本文件旨在提供 Gemini CLI 架構的概括性總覽。
 
