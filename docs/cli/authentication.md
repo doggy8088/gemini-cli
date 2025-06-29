@@ -20,7 +20,7 @@ Gemini CLI 需要您向 Google 的 AI 服務進行驗證。首次啟動時，您
       ```
       - 如需重複使用，您可以將環境變數新增至您的 `.env` 檔案（位於專案目錄或使用者主目錄中）或您的 shell 設定檔（例如 `~/.bashrc`、`~/.zshrc` 或 `~/.profile`）。例如，以下指令會將環境變數新增至 `~/.bashrc` 檔案：
 
-```bash
+      ```bash
       echo 'export GOOGLE_CLOUD_PROJECT="YOUR_PROJECT_ID"' >> ~/.bashrc
       source ~/.bashrc
       ```
