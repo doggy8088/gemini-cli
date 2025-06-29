@@ -77,10 +77,12 @@ describe('Unicode Corruption Investigation', () => {
     );
     
     console.log('Content with backslash:', contentWithBackslash);
-    console.log('Result after LLM correction:', result);
+    console.log('Result after correction:', result);
     
-    // This would demonstrate how the LLM could corrupt the content
-    expect(mockGeminiClient.generateJson).toHaveBeenCalled();
+    // With the fix, it should use simple unescaping instead of calling LLM for Unicode content
+    expect(result).toBe(originalContent + '\n'); // Should be simply unescaped
+    expect(result).not.toContain('��'); // Should not have corruption
+    expect(mockGeminiClient.generateJson).not.toHaveBeenCalled(); // Should not call LLM due to Unicode safety
   });
 
   it('should check UTF-8 bytes of corrupted characters', () => {

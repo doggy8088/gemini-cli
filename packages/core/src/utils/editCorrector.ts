@@ -84,12 +84,32 @@ export async function ensureCorrectEdit(
 
   if (occurrences === expectedReplacements) {
     if (newStringPotentiallyEscaped) {
-      finalNewString = await correctNewStringEscaping(
-        client,
-        finalOldString,
-        originalParams.new_string,
-        abortSignal,
-      );
+      // Safety check: avoid LLM correction for Unicode content unless necessary
+      if (containsUnicodeCharacters(originalParams.new_string)) {
+        const simpleUnescaped = unescapeStringForGeminiBug(originalParams.new_string);
+        if (isValidUnicodeString(simpleUnescaped)) {
+          finalNewString = simpleUnescaped;
+        } else {
+          finalNewString = await correctNewStringEscaping(
+            client,
+            finalOldString,
+            originalParams.new_string,
+            abortSignal,
+          );
+          // Validate LLM response
+          if (!isValidUnicodeString(finalNewString)) {
+            console.warn('LLM new string correction introduced Unicode corruption, using original');
+            finalNewString = originalParams.new_string;
+          }
+        }
+      } else {
+        finalNewString = await correctNewStringEscaping(
+          client,
+          finalOldString,
+          originalParams.new_string,
+          abortSignal,
+        );
+      }
     }
   } else if (occurrences > expectedReplacements) {
     const expectedReplacements = originalParams.expected_replacements ?? 1;
@@ -131,13 +151,34 @@ export async function ensureCorrectEdit(
     if (occurrences === expectedReplacements) {
       finalOldString = unescapedOldStringAttempt;
       if (newStringPotentiallyEscaped) {
-        finalNewString = await correctNewString(
-          client,
-          originalParams.old_string, // original old
-          unescapedOldStringAttempt, // corrected old
-          originalParams.new_string, // original new (which is potentially escaped)
-          abortSignal,
-        );
+        // Safety check for Unicode content
+        if (containsUnicodeCharacters(originalParams.new_string)) {
+          const simpleUnescaped = unescapeStringForGeminiBug(originalParams.new_string);
+          if (isValidUnicodeString(simpleUnescaped)) {
+            finalNewString = simpleUnescaped;
+          } else {
+            finalNewString = await correctNewString(
+              client,
+              originalParams.old_string, // original old
+              unescapedOldStringAttempt, // corrected old
+              originalParams.new_string, // original new (which is potentially escaped)
+              abortSignal,
+            );
+            // Validate LLM response
+            if (!isValidUnicodeString(finalNewString)) {
+              console.warn('LLM new string correction introduced Unicode corruption, using unescaped');
+              finalNewString = simpleUnescaped;
+            }
+          }
+        } else {
+          finalNewString = await correctNewString(
+            client,
+            originalParams.old_string, // original old
+            unescapedOldStringAttempt, // corrected old
+            originalParams.new_string, // original new (which is potentially escaped)
+            abortSignal,
+          );
+        }
       }
     } else if (occurrences === 0) {
       const llmCorrectedOldString = await correctOldStringMismatch(
@@ -159,13 +200,33 @@ export async function ensureCorrectEdit(
           const baseNewStringForLLMCorrection = unescapeStringForGeminiBug(
             originalParams.new_string,
           );
-          finalNewString = await correctNewString(
-            client,
-            originalParams.old_string, // original old
-            llmCorrectedOldString, // corrected old
-            baseNewStringForLLMCorrection, // base new for correction
-            abortSignal,
-          );
+          // Safety check for Unicode content
+          if (containsUnicodeCharacters(originalParams.new_string)) {
+            if (isValidUnicodeString(baseNewStringForLLMCorrection)) {
+              finalNewString = baseNewStringForLLMCorrection;
+            } else {
+              finalNewString = await correctNewString(
+                client,
+                originalParams.old_string, // original old
+                llmCorrectedOldString, // corrected old
+                baseNewStringForLLMCorrection, // base new for correction
+                abortSignal,
+              );
+              // Validate LLM response
+              if (!isValidUnicodeString(finalNewString)) {
+                console.warn('LLM new string correction introduced Unicode corruption, using base');
+                finalNewString = baseNewStringForLLMCorrection;
+              }
+            }
+          } else {
+            finalNewString = await correctNewString(
+              client,
+              originalParams.old_string, // original old
+              llmCorrectedOldString, // corrected old
+              baseNewStringForLLMCorrection, // base new for correction
+              abortSignal,
+            );
+          }
         }
       } else {
         // LLM correction also failed for old_string
@@ -209,6 +270,30 @@ export async function ensureCorrectEdit(
   return result;
 }
 
+/**
+ * Checks if a string contains Unicode characters that could be corrupted by LLM processing
+ */
+function containsUnicodeCharacters(text: string): boolean {
+  // Check for characters outside the basic ASCII range (0-127)
+  // Unicode characters are more likely to be corrupted by LLM processing
+  for (let i = 0; i < text.length; i++) {
+    const charCode = text.charCodeAt(i);
+    if (charCode > 127) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
+ * Validates that a string doesn't contain Unicode replacement characters
+ * indicating corruption
+ */
+function isValidUnicodeString(text: string): boolean {
+  // Check for Unicode replacement characters (U+FFFD)
+  return !text.includes('\uFFFD');
+}
+
 export async function ensureCorrectFileContent(
   content: string,
   client: GeminiClient,
@@ -221,9 +306,23 @@ export async function ensureCorrectFileContent(
 
   const contentPotentiallyEscaped =
     unescapeStringForGeminiBug(content) !== content;
+  
+  // Safety check: If content contains Unicode characters but doesn't actually
+  // need unescaping, avoid calling LLM correction to prevent corruption
   if (!contentPotentiallyEscaped) {
     fileContentCorrectionCache.set(content, content);
     return content;
+  }
+
+  // Additional safety: If content contains Unicode characters,
+  // be more conservative about calling LLM correction
+  if (containsUnicodeCharacters(content)) {
+    // Try the simple unescape first
+    const simpleUnescaped = unescapeStringForGeminiBug(content);
+    if (isValidUnicodeString(simpleUnescaped)) {
+      fileContentCorrectionCache.set(content, simpleUnescaped);
+      return simpleUnescaped;
+    }
   }
 
   const correctedContent = await correctStringEscaping(
@@ -231,6 +330,14 @@ export async function ensureCorrectFileContent(
     client,
     abortSignal,
   );
+  
+  // Validate the LLM response for Unicode corruption
+  if (!isValidUnicodeString(correctedContent)) {
+    console.warn('LLM correction introduced Unicode corruption, falling back to original content');
+    fileContentCorrectionCache.set(content, content);
+    return content;
+  }
+  
   fileContentCorrectionCache.set(content, correctedContent);
   return correctedContent;
 }
