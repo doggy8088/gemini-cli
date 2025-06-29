@@ -20,7 +20,7 @@ npm run test:e2e
 
 ## 執行特定的測試集
 
-若要執行一部分的測試檔案，您可以使用 `npm run <integration test command> <file_name1> ....`，其中 <integration test command> 是 `test:e2e` 或 `test:integration*`，而 `<file_name>` 是 `integration-tests/` 目錄中的任何 `.test.js` 檔案。例如，以下指令會執行 `list_directory.test.js` 和 `write_file.test.js`：
+若要執行一部分的測試檔案，您可以使用 `npm run <integration test command> <file_name1> ....`，其中 `<integration test command>` 是 `test:e2e` 或 `test:integration*`，而 `<file_name>` 是 `integration-tests/` 目錄中的任何 `.test.js` 檔案。例如，以下指令會執行 `list_directory.test.js` 和 `write_file.test.js`：
 
 ```bash
 npm run test:e2e list_directory write_file
