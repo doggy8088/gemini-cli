@@ -30,7 +30,7 @@ Gemini CLI 透過互動式「讀取-求值-輸出」迴圈 (REPL) 環境，將 G
   - **[網路擷取工具](./tools/web-fetch.md):** `web_fetch` 工具的說明文件。
   - **[網路搜尋工具](./tools/web-search.md):** `google_web_search` 工具的說明文件。
   - **[記憶體工具](./tools/memory.md):** `save_memory` 工具的說明文件。
-- **[貢獻與開發指南](../CONTRIBUTING.md):** 提供給貢獻者與開發人員的資訊，包括設定、建構、測試與程式設計慣例。
+- **[貢獻與開發指南](./CONTRIBUTING.md):** 提供給貢獻者與開發人員的資訊，包括設定、建構、測試與程式設計慣例。
 - **[疑難排解指南](./troubleshooting.md):** 尋找常見問題的解決方案與常見問題。
 - **[服務條款與隱私權聲明](./tos-privacy.md):** 適用於您使用 Gemini CLI 的服務條款與隱私權聲明資訊。
 
