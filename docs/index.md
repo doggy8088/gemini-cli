@@ -1,4 +1,4 @@
-# 歡迎使用 Gemini CLI 文件
+# 歡迎使用 Gemini CLI 使用手冊
 
 本文件提供安裝、使用及開發 Gemini CLI 的完整指南。此工具讓您能透過命令列介面與 Gemini 模型互動。
 
