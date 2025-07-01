@@ -1,4 +1,4 @@
-# Web Fetch 工具
+# 網頁擷取工具
 
 此文件說明 Gemini CLI 的 `web_fetch` 工具。
 
