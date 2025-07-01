@@ -12,7 +12,7 @@ export default defineUserConfig({
       { text: '首頁', link: '/' },
       { text: '命令列介面', link: '/cli/' },
       { text: '核心概念', link: '/core/' },
-      { text: '工具調用', link: '/tools/' },
+      { text: '工具執行', link: '/tools/' },
       { text: '開源貢獻', link: '/CONTRIBUTING.html' }
     ],
     sidebar: {
