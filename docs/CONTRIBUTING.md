@@ -31,8 +31,8 @@
 
 所有 PR 都應該連結到我們追蹤器中的現有 issue。這確保每個變更都已經討論過，並在撰寫任何程式碼之前與專案目標一致。
 
-- **針對錯誤修復：** PR 應該連結到錯誤報告 issue。
-- **針對功能：** PR 應該連結到已被維護者批准的功能請求或提案 issue。
+- **針對錯誤修復**： PR 應該連結到錯誤報告 issue。
+- **針對功能**： PR 應該連結到已被維護者批准的功能請求或提案 issue。
 
 如果您的變更沒有對應的 issue，請**先開啟一個**並等待回饋後再開始編碼。
 
@@ -40,8 +40,8 @@
 
 我們偏好解決單一 issue 或添加單一、自包含功能的小型、原子性 PR。
 
-- **應該：** 建立修復一個特定錯誤或添加一個特定功能的 PR。
-- **不應該：** 將多個不相關的變更（例如錯誤修復、新功能和重構）捆綁到單一 PR 中。
+- **應該**： 建立修復一個特定錯誤或添加一個特定功能的 PR。
+- **不應該**： 將多個不相關的變更（例如錯誤修復、新功能和重構）捆綁到單一 PR 中。
 
 大型變更應該分解為一系列較小的、邏輯性的 PR，這些 PR 可以獨立審查和合併。
 
@@ -61,8 +61,8 @@
 
 您的 PR 應該有清晰、描述性的標題和詳細的變更說明。遵循 [Conventional Commits](https://www.conventionalcommits.org/) 標準來撰寫您的提交訊息。
 
-- **良好的 PR 標題：** `feat(cli): Add --json flag to 'config get' command`
-- **不良的 PR 標題：** `Made some changes`
+- **良好的 PR 標題**： `feat(cli): Add --json flag to 'config get' command`
+- **不良的 PR 標題**： `Made some changes`
 
 在 PR 描述中，解釋您變更背後的「為什麼」並連結到相關的 issue（例如 `Fixes #123`）。
 
@@ -78,7 +78,7 @@
 
 ### 設定開發環境
 
-**先決條件：**
+**先決條件**：
 
 1. 安裝 [Node 18+](https://nodejs.org/en/download)
 2. Git
@@ -200,7 +200,7 @@ npm run lint
 
 - 請遵循整個現有程式碼庫中使用的編碼樣式、模式和慣例。
 - 查閱 [GEMINI.md](https://github.com/google-gemini/gemini-cli/blob/main/GEMINI.md)（通常在專案根目錄中找到）以獲取與 AI 輔助開發相關的具體說明，包括 React、註釋和 Git 使用的慣例。
-- **匯入：** 特別注意匯入路徑。專案使用 `eslint-rules/no-relative-cross-package-imports.js` 來強制限制套件間的相對匯入。
+- **匯入**： 特別注意匯入路徑。專案使用 `eslint-rules/no-relative-cross-package-imports.js` 來強制限制套件間的相對匯入。
 
 ### 專案結構
 
@@ -236,13 +236,13 @@ DEBUG=1 gemini
 
 要除錯 CLI 的基於 React 的 UI，您可以使用 React DevTools。用於 CLI 介面的函式庫 Ink 與 React DevTools 4.x 版本相容。
 
-1.  **在開發模式下啟動 Gemini CLI：**
+1.  **在開發模式下啟動 Gemini CLI**：
 
     ```bash
     DEV=true npm start
     ```
 
-2.  **安裝並執行 React DevTools 4.28.5 版本（或最新的相容 4.x 版本）：**
+2.  **安裝並執行 React DevTools 4.28.5 版本（或最新的相容 4.x 版本）**：
 
     您可以全域安裝：
 

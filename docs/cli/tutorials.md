@@ -13,8 +13,8 @@
 
 開始之前，請確保您已安裝並設定好下列項目：
 
-- **Docker：** 安裝並執行 [Docker]。
-- **GitHub 個人存取權杖 (PAT)：** 建立一個具有必要範圍的新 [classic] 或 [fine-grained] PAT。
+- **Docker**： 安裝並執行 [Docker]。
+- **GitHub 個人存取權杖 (PAT)**： 建立一個具有必要範圍的新 [classic] 或 [fine-grained] PAT。
 
 [Docker]: https://www.docker.com/
 [classic]: https://github.com/settings/tokens/new

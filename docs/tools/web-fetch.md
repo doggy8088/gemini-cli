@@ -40,5 +40,5 @@ web_fetch(prompt="這兩篇論文的結論有何不同：https://arxiv.org/abs/2
 
 ## 重要注意事項
 
-- **URL 處理：**`web_fetch` 仰賴 Gemini API 存取及處理所提供 URL 的能力。
-- **輸出品質：**輸出的品質將取決於提示中指令的清晰度。
+- **URL 處理**：`web_fetch` 仰賴 Gemini API 存取及處理所提供 URL 的能力。
+- **輸出品質**：輸出的品質將取決於提示中指令的清晰度。

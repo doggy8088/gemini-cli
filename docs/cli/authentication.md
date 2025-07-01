@@ -2,7 +2,7 @@
 
 Gemini CLI 需要您向 Google 的 AI 服務進行驗證。首次啟動時，您需要設定**一種**下列驗證方法：
 
-1.  **使用 Google 登入 (Gemini Code Assist)：**
+1.  **使用 Google 登入 (Gemini Code Assist)**：
     - 使用此選項以您的 Google 帳戶登入。
     - 首次啟動時，Gemini CLI 會將您導向一個網頁進行驗證。驗證完成後，您的憑證將會在本機進行快取，因此後續執行時可以跳過網頁登入的步驟。
     - 請注意，網頁登入必須在能夠與執行 Gemini CLI 的機器通訊的瀏覽器中進行。（具體來說，瀏覽器將被重新導向至 Gemini CLI 正在監聽的 localhost URL）。
@@ -25,7 +25,7 @@ Gemini CLI 需要您向 Google 的 AI 服務進行驗證。首次啟動時，您
       source ~/.bashrc
       ```
 
-2.  **<a id="gemini-api-key"></a>Gemini API 金鑰：**
+2.  **<a id="gemini-api-key"></a>Gemini API 金鑰**：
     - 從 Google AI Studio 取得您的 API 金鑰：[https://aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey)
     - 設定 `GEMINI_API_KEY` 環境變數。在下列方法中，請將 `YOUR_GEMINI_API_KEY` 替換為您從 Google AI Studio 取得的 API 金鑰：
       - 您可以使用以下指令在目前的 shell 工作階段中暫時設定環境變數：
@@ -38,7 +38,7 @@ Gemini CLI 需要您向 Google 的 AI 服務進行驗證。首次啟動時，您
         source ~/.bashrc
         ```
 
-3.  **Vertex AI：**
+3.  **Vertex AI**：
     - 如果不使用快速模式：
       - 確保您擁有 Google Cloud 專案並已啟用 Vertex AI API。
       - 使用以下指令設定應用程式預設憑證 (Application Default Credentials, ADC)：

@@ -14,26 +14,26 @@ Gemini CLI 的遙測系統是建立在 **[OpenTelemetry] (OTEL)** 標準之上�
 
 以下列出套用遙測設定的優先順序，順序越高的項目優先權越大：
 
-1.  **CLI 旗標（用於 `gemini` 指令）：**
+1.  **CLI 旗標（用於 `gemini` 指令）**：
     - `--telemetry` / `--no-telemetry`: 覆寫 `telemetry.enabled`。
     - `--telemetry-target <local|gcp>`: 覆寫 `telemetry.target`。
     - `--telemetry-otlp-endpoint <URL>`: 覆寫 `telemetry.otlpEndpoint`。
     - `--telemetry-log-prompts` / `--no-telemetry-log-prompts`: 覆寫 `telemetry.logPrompts`。
 
-1.  **環境變數：**
+1.  **環境變數**：
     - `OTEL_EXPORTER_OTLP_ENDPOINT`: 覆寫 `telemetry.otlpEndpoint`。
 
-1.  **工作區設定檔 (`.gemini/settings.json`)：** 來自此專案特定檔案中 `telemetry` 物件的值。
+1.  **工作區設定檔 (`.gemini/settings.json`)**： 來自此專案特定檔案中 `telemetry` 物件的值。
 
-1.  **使用者設定檔 (`~/.gemini/settings.json`)：** 來自此全域使用者檔案中 `telemetry` 物件的值。
+1.  **使用者設定檔 (`~/.gemini/settings.json`)**： 來自此全域使用者檔案中 `telemetry` 物件的值。
 
-1.  **預設值：** 如果上述任何一項都未設定，則會套用預設值。
+1.  **預設值**： 如果上述任何一項都未設定，則會套用預設值。
     - `telemetry.enabled`: `false`
     - `telemetry.target`: `local`
     - `telemetry.otlpEndpoint`: `http://localhost:4317`
     - `telemetry.logPrompts`: `true`
 
-**對於 `npm run telemetry -- --target=<gcp|local>` 指令稿：**
+**對於 `npm run telemetry -- --target=<gcp|local>` 指令稿**：
 此指令稿的 `--target` 參數_僅_在該指令稿的執行期間和目的（即選擇要啟動的收集器）內覆寫 `telemetry.target`。它不會永久變更您的 `settings.json`。指令稿會先在 `settings.json` 中尋找 `telemetry.target` 作為其預設值。
 
 ### 範例設定
@@ -113,7 +113,7 @@ CLI 使用 OTLP/gRPC 協定傳送資料。
     - 提供直接連結以在您的 Google Cloud Console 中檢視追蹤、指標和日誌。
     - 退出時（Ctrl+C），它會嘗試還原您原始的遙測和沙箱設定。
 
-1.  **執行 Gemini CLI：**
+1.  **執行 Gemini CLI**：
     在另一個終端機中，執行您的 Gemini CLI 指令。這會產生遙測資料，並由收集器擷取。
 
 1.  **在 Google Cloud 中檢視遙測資料**：

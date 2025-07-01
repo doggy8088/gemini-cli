@@ -6,14 +6,14 @@ Gemini CLI 支援多種佈景主題，可自訂其色彩配置與外觀。您可
 
 Gemini CLI 內建多款預先定義的佈景主題，您可以在 Gemini CLI 中使用 `/theme` 指令列出它們：
 
-- **深色主題：**
+- **深色主題**：
   - `ANSI`
   - `Atom One`
   - `Ayu`
   - `Default`
   - `Dracula`
   - `GitHub`
-- **淺色主題：**
+- **淺色主題**：
   - `ANSI Light`
   - `Ayu Light`
   - `Default Light`
