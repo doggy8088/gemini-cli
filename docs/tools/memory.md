@@ -1,4 +1,4 @@
-# 記憶工具 (`save_memory`)
+# 記憶工具
 
 本文件說明 Gemini CLI 的 `save_memory` 工具。
 

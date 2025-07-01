@@ -1,4 +1,4 @@
-# 網路搜尋工具 (`google_web_search`)
+# 網路搜尋工具
 
 此文件說明 `google_web_search` 工具。
 

@@ -1,4 +1,4 @@
-# Shell 工具 (`run_shell_command`)
+# Shell 工具
 
 本文件說明 Gemini CLI 的 `run_shell_command` 工具。
 

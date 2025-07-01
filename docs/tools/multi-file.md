@@ -1,4 +1,4 @@
-# 多檔案讀取工具 (`read_many_files`)
+# 多檔案讀取工具
 
 此文件說明 Gemini CLI 的 `read_many_files` 工具。
 

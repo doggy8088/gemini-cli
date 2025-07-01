@@ -1,4 +1,4 @@
-# 搭配 Gemini CLI 使用 MCP 伺服器
+# 使用 MCP 伺服器
 
 本文件提供一份指南，說明如何為 Gemini CLI 設定與使用模型情境協定（MCP）伺服器。
 
