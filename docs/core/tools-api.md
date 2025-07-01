@@ -43,8 +43,8 @@ Gemini CLI 核心（`packages/core`）具備一個強大的系統，用於定義
 - **網頁工具：**
   - `WebFetchTool` (`web-fetch.ts`)：從 URL 擷取內容。
   - `WebSearchTool` (`web-search.ts`)：執行網頁搜尋。
-- **記憶體工具：**
-  - `MemoryTool` (`memoryTool.ts`)：與 AI 的記憶體互動。
+- **記憶工具：**
+  - `MemoryTool` (`memoryTool.ts`)：與 AI 的記憶互動。
 
 這些工具都繼承了 `BaseTool` 並為其特定功能實作了所需的方法。
 

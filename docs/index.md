@@ -29,7 +29,7 @@ Gemini CLI 將 Gemini 模型的功能帶到您的終端機，並提供一個互�
   - **[Shell 工具](./tools/shell.md):** `run_shell_command` 工具的文件。
   - **[網頁擷取工具](./tools/web-fetch.md):** `web_fetch` 工具的文件。
   - **[網路搜尋工具](./tools/web-search.md):** `google_web_search` 工具的文件。
-  - **[記憶體工具](./tools/memory.md):** `save_memory` 工具的文件。
+  - **[記憶工具](./tools/memory.md):** `save_memory` 工具的文件。
 - **[貢獻與開發指南](./CONTRIBUTING.md):** 提供給貢獻者與開發者的資訊，包含設定、建構、測試與程式設計慣例。
 - **[疑難排解指南](./troubleshooting.md):** 尋找常見問題與 FAQ 的解決方案。
 - **[服務條款與隱私權聲明](./tos-privacy.md):** 適用於您使用 Gemini CLI 的服務條款與隱私權聲明資訊。

@@ -47,7 +47,7 @@ Gemini CLI 的內建工具可大致分為以下幾類：
 - **[網頁擷取工具](./web-fetch.md) (`web_fetch`)：** 用於從 URL 擷取內容。
 - **[網頁搜尋工具](./web-search.md) (`web_search`)：** 用於搜尋網路。
 - **[多檔案讀取工具](./multi-file.md) (`read_many_files`)：** 一種用於從多個檔案或目錄讀取內容的專用工具，常由 `@` 指令使用。
-- **[記憶體工具](./memory.md) (`save_memory`)：** 用於跨會話儲存和回憶資訊。
+- **[記憶工具](./memory.md) (`save_memory`)：** 用於跨會話儲存和回憶資訊。
 
 此外，這些工具還包含：
 
