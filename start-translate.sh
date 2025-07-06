@@ -6,7 +6,7 @@ TARGET_PATH='/workspaces/main'
 cd $SOURCE_PATH
 
 if [ ! -d "$TARGET_PATH" ]; then
-    git worktree add -f $TARGET_PATH origin/main
+    git worktree add -f $TARGET_PATH main
 fi
 
 # Copy the GEMINI.md file from the main branch to the current directory
@@ -65,8 +65,8 @@ files=(
 
 for filename in "${files[@]}"; do
   mkdir -p logs/$(dirname "$filename")
-  echo "gemini-translator -m gemini-2.5-pro --debug -i $filename -o $filename 2>&1 > logs/$filename.log &"
-  gemini-translator -m gemini-2.5-pro --debug -i $filename -o $filename 2>&1 > logs/$filename.log  &
+  echo "gemini -y -p "Your task is translate this single file '$filename' to zh-tw. Do not try to translate another file. Just this one. You must to edit the same file accordingly." 2>&1 > logs/$filename.log &"
+  gemini -y -p "Your task is translate this single file '$filename' to zh-tw. Do not try to translate another file. Just this one. You must to edit the same file accordingly." 2>&1 > logs/$filename.log &
 done
 
 echo "Waiting for translations to complete..."
@@ -75,7 +75,7 @@ EOF
 
   # echo "Translate @$filename to zh-tw and edit the same file accordingly."
   # gemini -y -p "Translate input file to zh-tw and edit the same file accordingly. Input file: @$filename" > logs/$filename.log &
-  
+
 
 cat <<'EOF' | gemini -y -p
 Please follow these steps to translate the Gemini CLI documentation. Step by step instructions are provided below.
@@ -95,6 +95,8 @@ Please follow these steps to translate the Gemini CLI documentation. Step by ste
 3. List all files that need to be translated.
 
 4. Edit `temp_translate.sh` script that modify `files` variable to lists all files requiring translation. Only edit the `files` variable. Avoid altering any other part of the code. Make sure to replace the file paths with the actual paths of the files that need translation.
+
+The End. Do not run `temp_translate.sh` at this moment.
 EOF
 
 echo "Current Path: `pwd`"
