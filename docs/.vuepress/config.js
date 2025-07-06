@@ -19,7 +19,8 @@ export default defineUserConfig({
       { text: '命令列介面', link: '/cli/' },
       { text: '核心概念', link: '/core/' },
       { text: '工具執行', link: '/tools/' },
-      { text: '開源貢獻', link: '/CONTRIBUTING.html' }
+      { text: '開源貢獻', link: '/CONTRIBUTING.html' },
+      { text: '報名課程', link: 'https://learn.duotify.com/go/ai-coding-agent' }
     ],
     sidebar: {
       '/': [
