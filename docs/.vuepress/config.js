@@ -1,12 +1,16 @@
 import { defaultTheme } from '@vuepress/theme-default'
 import { defineUserConfig } from 'vuepress'
 import { viteBundler } from '@vuepress/bundler-vite'
+import { getDirname, path } from '@vuepress/utils'
+
+const __dirname = getDirname(import.meta.url)
 
 export default defineUserConfig({
   title: 'Gemini CLI 使用手冊',
   description: '安裝、使用和開發 Gemini CLI 的完整指南',
   base: '/',
   bundler: viteBundler(),
+  clientConfigFile: path.resolve(__dirname, 'client.js'),
   theme: defaultTheme({
     // Configure the prismjs plugin to support syntax highlighting for batch/cmd files
     themePlugins: {
