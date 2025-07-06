@@ -61,6 +61,10 @@ export default defineUserConfig({
         'memory',
         'mcp-server'
       ]
+    },
+    footer: {
+      message: '<a href="https://www.facebook.com/will.fans/" target="_blank" rel="noopener noreferrer">Will 保哥的技術交流中心</a>',
+      copyright: false
     }
   })
 })
