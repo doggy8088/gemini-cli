@@ -1,14 +1,12 @@
 <template>
   <div class="global-footer">
     <div class="footer-content">
-      <a 
-        href="https://www.facebook.com/will.fans/" 
-        target="_blank" 
-        rel="noopener noreferrer"
-        class="footer-link"
-      >
+      本網站由 <a href="https://blog.miniasp.com/">Will 保哥</a> 翻譯、建置與維護，歡迎追蹤
+      <a href="https://www.facebook.com/will.fans/" 
+        target="_blank" rel="noopener noreferrer" class="footer-link">
         Will 保哥的技術交流中心
       </a>
+      粉絲團。
     </div>
   </div>
 </template>
