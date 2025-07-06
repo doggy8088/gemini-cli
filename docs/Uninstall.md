@@ -19,7 +19,7 @@ rm -rf "$(npm config get cache)/_npx"
 
 _命令提示字元_
 
-```cmd
+```batch
 :: 路徑通常是 %LocalAppData%\npm-cache\_npx
 rmdir /s /q "%LocalAppData%\npm-cache\_npx"
 ```
