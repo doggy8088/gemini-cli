@@ -1,8 +1,8 @@
-## 解除安裝 CLI
+# 解除安裝 CLI
 
 您的解除安裝方法取決於您如何執行 CLI。請依照 npx 或全域 npm 安裝的指示進行。
 
-### 方法一：使用 npx
+## 方法一：使用 npx
 
 npx 會從暫存快取中執行套件，而不會永久安裝。若要「解除安裝」CLI，您必須清除此快取，這會移除 gemini-cli 和先前使用 npx 執行的任何其他套件。
 
@@ -31,7 +31,7 @@ _PowerShell_
 Remove-Item -Path (Join-Path $env:LocalAppData "npm-cache\_npx") -Recurse -Force
 ```
 
-### 方法二：使用 npm (全域安裝)
+## 方法二：使用 npm (全域安裝)
 
 如果您是全域安裝 CLI (例如 `npm install -g @google/gemini-cli`)，請使用 `npm uninstall` 指令搭配 `-g` 旗標來移除它。
 
