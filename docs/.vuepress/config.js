@@ -24,7 +24,12 @@ export default defineUserConfig({
         'extension',
         'telemetry',
         'troubleshooting',
-        'tos-privacy'
+        'tos-privacy',
+        'npm',
+        'integration-tests',
+        'quota-and-pricing',
+        'sandbox',
+        'Uninstall'
       ],
       '/cli/': [
         '',
@@ -37,7 +42,8 @@ export default defineUserConfig({
       ],
       '/core/': [
         '',
-        'tools-api'
+        'tools-api',
+        'memport'
       ],
       '/tools/': [
         '',
