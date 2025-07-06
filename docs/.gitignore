@@ -1,0 +1,5 @@
+# VuePress cache and build artifacts
+.vuepress/.cache/
+.vuepress/dist/
+node_modules/
+*.log

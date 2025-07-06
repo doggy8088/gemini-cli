@@ -8,6 +8,12 @@ export default defineUserConfig({
   base: '/',
   bundler: viteBundler(),
   theme: defaultTheme({
+    // Configure the prismjs plugin to support syntax highlighting for batch/cmd files
+    themePlugins: {
+      prismjs: {
+        preloadLanguages: ['markdown', 'jsdoc', 'yaml', 'batch'],
+      },
+    },
     navbar: [
       { text: '首頁', link: '/' },
       { text: '命令列介面', link: '/cli/' },
