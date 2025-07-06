@@ -5,9 +5,9 @@
       <a href="https://blog.miniasp.com/"
         target="_blank" rel="noopener noreferrer" 
         class="footer-link">Will 保哥</a>
-      翻譯、建置與維護
-      <br>
-      歡迎追蹤我的
+      翻譯、建置與維護<span class="desktop-separator">，歡迎追蹤我的</span>
+      <br class="mobile-break">
+      <span class="mobile-text">歡迎追蹤我的</span>
       <a href="https://www.facebook.com/will.fans/" 
         target="_blank" rel="noopener noreferrer" class="footer-link">
         Will 保哥的技術交流中心
@@ -89,6 +89,34 @@ html.dark .footer-link:hover {
 @media (max-width: 768px) {
   .footer-content {
     padding: 0 1rem;
+  }
+  
+  /* Mobile view: show break and mobile text, hide desktop separator */
+  .mobile-break {
+    display: block;
+  }
+  
+  .mobile-text {
+    display: inline;
+  }
+  
+  .desktop-separator {
+    display: none;
+  }
+}
+
+@media (min-width: 769px) {
+  /* Desktop view: hide break and mobile text, show desktop separator */
+  .mobile-break {
+    display: none;
+  }
+  
+  .mobile-text {
+    display: none;
+  }
+  
+  .desktop-separator {
+    display: inline;
   }
 }
 </style>
