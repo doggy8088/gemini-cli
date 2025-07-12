@@ -13,10 +13,7 @@ jobs:
       issues: write
       contents: write
     env:
-      AZURE_BASE_URL: ${{ vars.AZURE_BASE_URL }}
-      AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
-      CODEX_UNSAFE_ALLOW_NO_SANDBOX: ${{ vars.CODEX_UNSAFE_ALLOW_NO_SANDBOX }}
-      CODEX_SANDBOX_NETWORK_DISABLED: ${{ vars.CODEX_SANDBOX_NETWORK_DISABLED }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -24,45 +21,56 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '22.x'
-      - name: Install Codex CLI
-        run: npm install -g @willh/codex
+
+      - name: Install Codex CLI (Rust)
+        run: |
+          npm install -g @openai/codex
+          echo "Codex CLI installed successfully"
+          echo ""
+          echo "Codex CLI version: $(codex --version)"
+
+      - name: System information
+        run: uname -mprs
+
       - id: run-codex
         name: Run Codex
         run: |
           BODY="${{ github.event.comment.body }}"
           PROMPT="${BODY#'/codex '}"
+          echo "Running Codex with prompt: $PROMPT"
 
-          # 使用 tee 將輸出同時顯示在終端和保存到暫存檔
+          # 建立暫存檔
           TEMP_FILE=$(mktemp)
           echo "Created temporary file: $TEMP_FILE"
 
-          # 設定環境變數禁用 raw mode 以支援 CI 環境
-          export CI=true
-          export FORCE_COLOR=0
-          export NODE_ENV=production
-          export TERM=dumb
+          echo "Command to run:"
+          echo codex exec --output-last-message \"$TEMP_FILE\" \"$PROMPT\"
 
-          # Error: Raw mode is not supported on the current process.stdin, which Ink uses as input stream by default.
-          # 這個問題目前無解: 
-          codex --full-auto -q "$PROMPT" < /dev/null | tee "$TEMP_FILE"
+          # 執行 codex 命令並根據退出碼判斷狀態
+          if codex exec --color never --output-last-message "$TEMP_FILE" "$PROMPT"; then
+            # 命令成功執行，檢查暫存檔是否有內容
+            if [ -s "$TEMP_FILE" ]; then
+              # 使用隨機分隔符避免內容衝突
+              DELIMITER="EOF_$(date +%s)_$$"
+              {
+                echo "result<<$DELIMITER"
+                cat "$TEMP_FILE"
+                echo "" # 確保有換行
+                echo "$DELIMITER"
+              }
 
-          # 從暫存檔中取得最後一行 JSON
-          LAST_JSON="$(tail -n 1 "$TEMP_FILE")"
-
-          # 檢查 status 是否為 completed
-          STATUS="$(echo "$LAST_JSON" | jq -r '.status // empty')"
-
-          if [ "$STATUS" = "completed" ]; then
-            # 提取 content[0].text 的內容
-            CONTENT="$(echo "$LAST_JSON" | jq -r '.content[0].text // empty')"
-            echo "result<<EOF" >> $GITHUB_OUTPUT
-            printf "%s\n" "$CONTENT" >> $GITHUB_OUTPUT
-            echo "EOF" >> $GITHUB_OUTPUT
+              {
+                echo "result<<$DELIMITER"
+                cat "$TEMP_FILE"
+                echo "" # 確保有換行
+                echo "$DELIMITER"
+              } >> "$GITHUB_OUTPUT"
+            else
+              echo "result=No output from Codex command" >> $GITHUB_OUTPUT
+            fi
           else
-            # 如果狀態不是 completed，輸出錯誤訊息
-            echo "result<<EOF" >> $GITHUB_OUTPUT
-            echo "Error: Codex execution did not complete successfully. Status: $STATUS" >> $GITHUB_OUTPUT
-            echo "EOF" >> $GITHUB_OUTPUT
+            EXIT_CODE=$?
+            echo "result=Error: Codex execution failed with exit code $EXIT_CODE" >> $GITHUB_OUTPUT
           fi
 
           # 清理暫存檔
