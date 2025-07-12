@@ -41,8 +41,9 @@ jobs:
           export FORCE_COLOR=0
           export NODE_ENV=production
           export TERM=dumb
-          
-          # 使用 /dev/null 重定向 stdin 以避免 raw mode 問題
+
+          # Error: Raw mode is not supported on the current process.stdin, which Ink uses as input stream by default.
+          # 這個問題目前無解: 
           codex --full-auto -q "$PROMPT" < /dev/null | tee "$TEMP_FILE"
 
           # 從暫存檔中取得最後一行 JSON
