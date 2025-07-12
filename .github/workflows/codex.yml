@@ -31,10 +31,15 @@ jobs:
         run: |
           BODY="${{ github.event.comment.body }}"
           PROMPT="${BODY#'/codex '}"
-          RESULT="$(codex --full-auto -q "$PROMPT")"
 
-          # 取得最後一行 JSON
-          LAST_JSON="$(echo "$RESULT" | tail -n 1)"
+          # 使用 tee 將輸出同時顯示在終端和保存到暫存檔
+          TEMP_FILE=$(mktemp)
+          echo "Created temporary file: $TEMP_FILE"
+
+          codex --full-auto -q "$PROMPT" | tee "$TEMP_FILE"
+
+          # 從暫存檔中取得最後一行 JSON
+          LAST_JSON="$(tail -n 1 "$TEMP_FILE")"
 
           # 檢查 status 是否為 completed
           STATUS="$(echo "$LAST_JSON" | jq -r '.status // empty')"
@@ -51,6 +56,10 @@ jobs:
             echo "Error: Codex execution did not complete successfully. Status: $STATUS" >> $GITHUB_OUTPUT
             echo "EOF" >> $GITHUB_OUTPUT
           fi
+
+          # 清理暫存檔
+          rm -f "$TEMP_FILE"
+          echo "Cleaned up temporary file: $TEMP_FILE"
       - name: Comment Codex response
         uses: peter-evans/create-or-update-comment@v3
         with:
