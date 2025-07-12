@@ -36,7 +36,14 @@ jobs:
           TEMP_FILE=$(mktemp)
           echo "Created temporary file: $TEMP_FILE"
 
-          codex --full-auto -q "$PROMPT" | tee "$TEMP_FILE"
+          # 設定環境變數禁用 raw mode 以支援 CI 環境
+          export CI=true
+          export FORCE_COLOR=0
+          export NODE_ENV=production
+          export TERM=dumb
+          
+          # 使用 /dev/null 重定向 stdin 以避免 raw mode 問題
+          codex --full-auto -q "$PROMPT" < /dev/null | tee "$TEMP_FILE"
 
           # 從暫存檔中取得最後一行 JSON
           LAST_JSON="$(tail -n 1 "$TEMP_FILE")"
