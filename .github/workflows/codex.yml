@@ -1,0 +1,63 @@
+name: Codex Runner
+
+on:
+  issue_comment:
+    types:
+      - created
+
+jobs:
+  codex:
+    if: startsWith(github.event.comment.body, '/codex')
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: write
+    env:
+      AZURE_BASE_URL: ${{ vars.AZURE_BASE_URL }}
+      AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
+      CODEX_UNSAFE_ALLOW_NO_SANDBOX: ${{ vars.CODEX_UNSAFE_ALLOW_NO_SANDBOX }}
+      CODEX_SANDBOX_NETWORK_DISABLED: ${{ vars.CODEX_SANDBOX_NETWORK_DISABLED }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22.x'
+      - name: Install Codex CLI
+        run: npm install -g @willh/codex
+      - id: run-codex
+        name: Run Codex
+        run: |
+          BODY="${{ github.event.comment.body }}"
+          PROMPT="${BODY#'/codex '}"
+          RESULT="$(codex --full-auto -q "$PROMPT")"
+
+          # 取得最後一行 JSON
+          LAST_JSON="$(echo "$RESULT" | tail -n 1)"
+
+          # 檢查 status 是否為 completed
+          STATUS="$(echo "$LAST_JSON" | jq -r '.status // empty')"
+
+          if [ "$STATUS" = "completed" ]; then
+            # 提取 content[0].text 的內容
+            CONTENT="$(echo "$LAST_JSON" | jq -r '.content[0].text // empty')"
+            echo "result<<EOF" >> $GITHUB_OUTPUT
+            printf "%s\n" "$CONTENT" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            # 如果狀態不是 completed，輸出錯誤訊息
+            echo "result<<EOF" >> $GITHUB_OUTPUT
+            echo "Error: Codex execution did not complete successfully. Status: $STATUS" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          fi
+      - name: Comment Codex response
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            **Codex response:**
+            ```
+            ${{ steps.run-codex.outputs.result }}
+            ```
