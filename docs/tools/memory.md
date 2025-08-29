@@ -1,24 +1,24 @@
-# Memory Tool (`save_memory`)
+# 記憶體工具 (`save_memory`)
 
-This document describes the `save_memory` tool for the Gemini CLI.
+本文件描述 Gemini CLI 的 `save_memory` 工具。
 
-## Description
+## 描述
 
-Use `save_memory` to save and recall information across your Gemini CLI sessions. With `save_memory`, you can direct the CLI to remember key details across sessions, providing personalized and directed assistance.
+使用 `save_memory` 在您的 Gemini CLI 工作階段之間儲存和回憶資訊。使用 `save_memory`，您可以指示 CLI 跨工作階段記住關鍵詳細資料，提供個人化和有針對性的協助。
 
-### Arguments
+### 引數
 
-`save_memory` takes one argument:
+`save_memory` 接受一個引數：
 
-- `fact` (string, required): The specific fact or piece of information to remember. This should be a clear, self-contained statement written in natural language.
+- `fact`（string，必要）：要記住的特定事實或資訊片段。這應該是用自然語言撰寫的清楚、自包含陳述。
 
-## How to use `save_memory` with the Gemini CLI
+## 如何在 Gemini CLI 中使用 `save_memory`
 
-The tool appends the provided `fact` to a special `GEMINI.md` file located in the user's home directory (`~/.gemini/GEMINI.md`). This file can be configured to have a different name.
+此工具將提供的 `fact` 附加到位於使用者主目錄的特殊 `GEMINI.md` 檔案（`~/.gemini/GEMINI.md`）。此檔案可以設定為具有不同的名稱。
 
-Once added, the facts are stored under a `## Gemini Added Memories` section. This file is loaded as context in subsequent sessions, allowing the CLI to recall the saved information.
+新增後，事實會儲存在 `## Gemini Added Memories` 部分下。此檔案會在後續工作階段中載入為內容，允許 CLI 回憶儲存的資訊。
 
-Usage:
+使用方式：
 
 ```
 save_memory(fact="Your fact here.")

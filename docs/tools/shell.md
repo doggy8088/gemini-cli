@@ -1,33 +1,33 @@
-# Shell Tool (`run_shell_command`)
+# Shell 工具 (`run_shell_command`)
 
-This document describes the `run_shell_command` tool for the Gemini CLI.
+本文件描述 Gemini CLI 的 `run_shell_command` 工具。
 
-## Description
+## 描述
 
-Use `run_shell_command` to interact with the underlying system, run scripts, or perform command-line operations. `run_shell_command` executes a given shell command. On Windows, the command will be executed with `cmd.exe /c`. On other platforms, the command will be executed with `bash -c`.
+使用 `run_shell_command` 與底層系統互動、執行腳本或執行命令列操作。`run_shell_command` 執行給定的 Shell 指令。在 Windows 上，指令將使用 `cmd.exe /c` 執行。在其他平台上，指令將使用 `bash -c` 執行。
 
-### Arguments
+### 引數
 
-`run_shell_command` takes the following arguments:
+`run_shell_command` 接受以下引數：
 
-- `command` (string, required): The exact shell command to execute.
-- `description` (string, optional): A brief description of the command's purpose, which will be shown to the user.
-- `directory` (string, optional): The directory (relative to the project root) in which to execute the command. If not provided, the command runs in the project root.
+- `command`（string，必要）：要執行的確切 Shell 指令。
+- `description`（string，選用）：指令用途的簡短描述，將顯示給使用者。
+- `directory`（string，選用）：執行指令的目錄（相對於專案根目錄）。如果未提供，指令會在專案根目錄中執行。
 
-## How to use `run_shell_command` with the Gemini CLI
+## 如何在 Gemini CLI 中使用 `run_shell_command`
 
-When using `run_shell_command`, the command is executed as a subprocess. `run_shell_command` can start background processes using `&`. The tool returns detailed information about the execution, including:
+使用 `run_shell_command` 時，指令會作為子程序執行。`run_shell_command` 可以使用 `&` 啟動背景程序。此工具回傳執行的詳細資訊，包括：
 
-- `Command`: The command that was executed.
-- `Directory`: The directory where the command was run.
-- `Stdout`: Output from the standard output stream.
-- `Stderr`: Output from the standard error stream.
-- `Error`: Any error message reported by the subprocess.
-- `Exit Code`: The exit code of the command.
-- `Signal`: The signal number if the command was terminated by a signal.
-- `Background PIDs`: A list of PIDs for any background processes started.
+- `Command`：已執行的指令。
+- `Directory`：執行指令的目錄。
+- `Stdout`：標準輸出串流的輸出。
+- `Stderr`：標準錯誤串流的輸出。
+- `Error`：子程序回報的任何錯誤訊息。
+- `Exit Code`：指令的退出代碼。
+- `Signal`：如果指令被信號終止的信號編號。
+- `Background PIDs`：任何已啟動背景程序的 PID 清單。
 
-Usage:
+使用方式：
 
 ```
 run_shell_command(command="Your commands.", description="Your description of the command.", directory="Your execution directory.")

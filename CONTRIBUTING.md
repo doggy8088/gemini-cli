@@ -128,55 +128,55 @@ npm run build:all
 
 要跳過建置沙箱容器，您可以改用 `npm run build`。
 
-### Running
+### 執行
 
-To start the Gemini CLI from the source code (after building), run the following command from the root directory:
+要從原始碼啟動 Gemini CLI（建置後），請從根目錄執行以下指令：
 
 ```bash
 npm start
 ```
 
-If you'd like to run the source build outside of the gemini-cli folder you can utilize `npm link path/to/gemini-cli/packages/cli` (see: [docs](https://docs.npmjs.com/cli/v9/commands/npm-link)) or `alias gemini="node path/to/gemini-cli/packages/cli"` to run with `gemini`
+如果您想在 gemini-cli 資料夾外執行原始碼建置，您可以使用 `npm link path/to/gemini-cli/packages/cli`（請參閱：[文件](https://docs.npmjs.com/cli/v9/commands/npm-link)）或 `alias gemini="node path/to/gemini-cli/packages/cli"` 以 `gemini` 執行
 
-### Running Tests
+### 執行測試
 
-This project contains two types of tests: unit tests and integration tests.
+此專案包含兩種類型的測試：單元測試和整合測試。
 
-#### Unit Tests
+#### 單元測試
 
-To execute the unit test suite for the project:
+要執行專案的單元測試套件：
 
 ```bash
 npm run test
 ```
 
-This will run tests located in the `packages/core` and `packages/cli` directories. Ensure tests pass before submitting any changes. For a more comprehensive check, it is recommended to run `npm run preflight`.
+這將執行位於 `packages/core` 和 `packages/cli` 目錄中的測試。在提交任何變更之前，請確保測試通過。為了進行更全面的檢查，建議執行 `npm run preflight`。
 
-#### Integration Tests
+#### 整合測試
 
-The integration tests are designed to validate the end-to-end functionality of the Gemini CLI. They are not run as part of the default `npm run test` command.
+整合測試旨在驗證 Gemini CLI 的端對端功能。它們不會作為預設 `npm run test` 指令的一部分執行。
 
-To run the integration tests, use the following command:
+要執行整合測試，請使用以下指令：
 
 ```bash
 npm run test:e2e
 ```
 
-For more detailed information on the integration testing framework, please see the [Integration Tests documentation](./docs/integration-tests.md).
+有關整合測試框架的更詳細資訊，請參閱[整合測試說明文件](./docs/integration-tests.md)。
 
-### Linting and Preflight Checks
+### 程式碼檢查和飛行前檢查
 
-To ensure code quality and formatting consistency, run the preflight check:
+要確保程式碼品質和格式一致性，請執行飛行前檢查：
 
 ```bash
 npm run preflight
 ```
 
-This command will run ESLint, Prettier, all tests, and other checks as defined in the project's `package.json`.
+此指令將執行 ESLint、Prettier、所有測試和專案 `package.json` 中定義的其他檢查。
 
-_ProTip_
+_專業提示_
 
-after cloning create a git precommit hook file to ensure your commits are always clean.
+複製後建立 git precommit hook 檔案以確保您的提交始終乾淨。
 
 ```bash
 echo "

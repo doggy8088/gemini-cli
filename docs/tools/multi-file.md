@@ -1,32 +1,32 @@
-# Multi File Read Tool (`read_many_files`)
+# 多檔案讀取工具 (`read_many_files`)
 
-This document describes the `read_many_files` tool for the Gemini CLI.
+本文件描述 Gemini CLI 的 `read_many_files` 工具。
 
-## Description
+## 描述
 
-Use `read_many_files` to read content from multiple files specified by paths or glob patterns. The behavior of this tool depends on the provided files:
+使用 `read_many_files` 從路徑或 glob 模式指定的多個檔案讀取內容。此工具的行為取決於提供的檔案：
 
-- For text files, this tool concatenates their content into a single string.
-- For image (e.g., PNG, JPEG), PDF, audio (MP3, WAV), and video (MP4, MOV) files, it reads and returns them as base64-encoded data, provided they are explicitly requested by name or extension.
+- 對於文字檔案，此工具將其內容串連成單一字串。
+- 對於影像（例如，PNG、JPEG）、PDF、音訊（MP3、WAV）和視訊（MP4、MOV）檔案，如果按名稱或副檔名明確請求，它會讀取並以 base64 編碼資料的形式回傳。
 
-`read_many_files` can be used to perform tasks such as getting an overview of a codebase, finding where specific functionality is implemented, reviewing documentation, or gathering context from multiple configuration files.
+`read_many_files` 可用於執行諸如取得程式碼庫概觀、尋找特定功能的實作位置、檢閱文件或從多個設定檔收集內容等工作。
 
-**Note:** `read_many_files` looks for files following the provided paths or glob patterns. A directory path such as `"/docs"` will return an empty result; the tool requires a pattern such as `"/docs/*"` or `"/docs/*.md"` to identify the relevant files.
+**注意**：`read_many_files` 會依循提供的路徑或 glob 模式尋找檔案。目錄路徑（如 `"/docs"`）將回傳空結果；此工具需要模式（如 `"/docs/*"` 或 `"/docs/*.md"`）來識別相關檔案。
 
-### Arguments
+### 引數
 
-`read_many_files` takes the following arguments:
+`read_many_files` 接受以下引數：
 
-- `paths` (list[string], required): An array of glob patterns or paths relative to the tool's target directory (e.g., `["src/**/*.ts"]`, `["README.md", "docs/*", "assets/logo.png"]`).
-- `exclude` (list[string], optional): Glob patterns for files/directories to exclude (e.g., `["**/*.log", "temp/"]`). These are added to default excludes if `useDefaultExcludes` is true.
-- `include` (list[string], optional): Additional glob patterns to include. These are merged with `paths` (e.g., `["*.test.ts"]` to specifically add test files if they were broadly excluded, or `["images/*.jpg"]` to include specific image types).
-- `recursive` (boolean, optional): Whether to search recursively. This is primarily controlled by `**` in glob patterns. Defaults to `true`.
-- `useDefaultExcludes` (boolean, optional): Whether to apply a list of default exclusion patterns (e.g., `node_modules`, `.git`, non image/pdf binary files). Defaults to `true`.
-- `respect_git_ignore` (boolean, optional): Whether to respect .gitignore patterns when finding files. Defaults to true.
+- `paths`（list[string]，必要）：相對於工具目標目錄的 glob 模式或路徑陣列（例如，`["src/**/*.ts"]`、`["README.md", "docs/*", "assets/logo.png"]`）。
+- `exclude`（list[string]，選用）：要排除的檔案/目錄的 glob 模式（例如，`["**/*.log", "temp/"]`）。如果 `useDefaultExcludes` 為 true，這些會新增至預設排除項。
+- `include`（list[string]，選用）：要包含的其他 glob 模式。這些會與 `paths` 合併（例如，如果測試檔案被廣泛排除，可以用 `["*.test.ts"]` 特別新增測試檔案，或用 `["images/*.jpg"]` 包含特定影像類型）。
+- `recursive`（boolean，選用）：是否遞迴搜尋。這主要由 glob 模式中的 `**` 控制。預設為 `true`。
+- `useDefaultExcludes`（boolean，選用）：是否套用預設排除模式清單（例如，`node_modules`、`.git`、非影像/pdf 二進位檔案）。預設為 `true`。
+- `respect_git_ignore`（boolean，選用）：尋找檔案時是否遵守 .gitignore 模式。預設為 true。
 
-## How to use `read_many_files` with the Gemini CLI
+## 如何在 Gemini CLI 中使用 `read_many_files`
 
-`read_many_files` searches for files matching the provided `paths` and `include` patterns, while respecting `exclude` patterns and default excludes (if enabled).
+`read_many_files` 會搜尋符合提供的 `paths` 和 `include` 模式的檔案，同時遵守 `exclude` 模式和預設排除項（如果啟用）。
 
 - For text files: it reads the content of each matched file (attempting to skip binary files not explicitly requested as image/PDF) and concatenates it into a single string, with a separator `--- {filePath} ---` between the content of each file. Uses UTF-8 encoding by default.
 - The tool inserts a `--- End of content ---` after the last file.

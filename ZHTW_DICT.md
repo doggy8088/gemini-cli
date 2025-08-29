@@ -74,6 +74,11 @@ memory = 記憶體
 directory = 目錄
 path = 路徑
 folder = 資料夾
+glob pattern = glob 模式
+exclude = 排除
+include = 包含
+recursive = 遞迴
+search = 搜尋
 
 ## Development Terms
 contribution = 貢獻
@@ -147,6 +152,8 @@ option = 選項
 flag = 旗標
 parameter = 參數
 argument = 引數
+keyboard shortcut = 鍵盤快速鍵
+shortcut = 快速鍵
 
 ## Quality and Testing
 preflight = 飛行前檢查
@@ -170,3 +177,30 @@ access = 存取
 token = 權杖
 key = 金鑰
 certificate = 憑證
+URL = URL
+web page = 網頁
+web content = 網頁內容
+
+## Data and Storage
+cache = 快取
+database = 資料庫
+storage = 儲存
+backup = 備份
+restore = 還原
+checkpoint = 檢查點
+snapshot = 快照
+history = 歷史記錄
+session = 工作階段
+state = 狀態
+
+## User Experience
+confirmation = 確認
+feedback = 回饋
+suggestion = 建議
+notification = 通知
+dialog = 對話方塊
+menu = 選單
+option = 選項
+setting = 設定
+preference = 偏好設定
+customization = 自訂
