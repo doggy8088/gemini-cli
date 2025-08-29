@@ -1,32 +1,32 @@
-# CLI Commands
+# CLI 指令
 
-Gemini CLI supports several built-in commands to help you manage your session, customize the interface, and control its behavior. These commands are prefixed with a forward slash (`/`), an at symbol (`@`), or an exclamation mark (`!`).
+Gemini CLI 支援多個內建指令來幫助您管理工作階段、自訂介面和控制其行為。這些指令以正斜線 (`/`)、at 符號 (`@`) 或驚嘆號 (`!`) 為前置詞。
 
-## Slash commands (`/`)
+## 斜線指令 (`/`)
 
-Slash commands provide meta-level control over the CLI itself.
+斜線指令提供對 CLI 本身的元層級控制。
 
-### Built-in Commands
+### 內建指令
 
 - **`/bug`**
-  - **Description:** File an issue about Gemini CLI. By default, the issue is filed within the GitHub repository for Gemini CLI. The string you enter after `/bug` will become the headline for the bug being filed. The default `/bug` behavior can be modified using the `advanced.bugCommand` setting in your `.gemini/settings.json` files.
+  - **描述**：回報關於 Gemini CLI 的問題。預設情況下，問題會在 Gemini CLI 的 GitHub 儲存庫中回報。您在 `/bug` 後輸入的字串將成為所回報錯誤的標題。可以使用 `.gemini/settings.json` 檔案中的 `advanced.bugCommand` 設定修改預設 `/bug` 行為。
 
 - **`/chat`**
-  - **Description:** Save and resume conversation history for branching conversation state interactively, or resuming a previous state from a later session.
-  - **Sub-commands:**
+  - **描述**：儲存和恢復對話歷史記錄，以互動方式分支對話狀態，或從後續工作階段恢復先前狀態。
+  - **子指令**：
     - **`save`**
-      - **Description:** Saves the current conversation history. You must add a `<tag>` for identifying the conversation state.
-      - **Usage:** `/chat save <tag>`
-      - **Details on Checkpoint Location:** The default locations for saved chat checkpoints are:
-        - Linux/macOS: `~/.gemini/tmp/<project_hash>/`
-        - Windows: `C:\Users\<YourUsername>\.gemini\tmp\<project_hash>\`
-        - When you run `/chat list`, the CLI only scans these specific directories to find available checkpoints.
-        - **Note:** These checkpoints are for manually saving and resuming conversation states. For automatic checkpoints created before file modifications, see the [Checkpointing documentation](../checkpointing.md).
+      - **描述**：儲存目前的對話歷史記錄。您必須新增用於識別對話狀態的 `<tag>`。
+      - **使用方式**：`/chat save <tag>`
+      - **檢查點位置詳細資訊**：儲存的聊天檢查點的預設位置為：
+        - Linux/macOS：`~/.gemini/tmp/<project_hash>/`
+        - Windows：`C:\Users\<YourUsername>\.gemini\tmp\<project_hash>\`
+        - 當您執行 `/chat list` 時，CLI 只會掃描這些特定目錄以尋找可用的檢查點。
+        - **注意**：這些檢查點用於手動儲存和恢復對話狀態。對於在檔案修改前建立的自動檢查點，請參閱[檢查點說明文件](../checkpointing.md)。
     - **`resume`**
-      - **Description:** Resumes a conversation from a previous save.
-      - **Usage:** `/chat resume <tag>`
+      - **描述**：從先前的儲存恢復對話。
+      - **使用方式**：`/chat resume <tag>`
     - **`list`**
-      - **Description:** Lists available tags for chat state resumption.
+      - **描述**：列出可用於聊天狀態恢復的標籤。
     - **`delete`**
       - **Description:** Deletes a saved conversation checkpoint.
       - **Usage:** `/chat delete <tag>`

@@ -1,33 +1,33 @@
-# Gemini CLI Keyboard Shortcuts
+# Gemini CLI 鍵盤快速鍵
 
-This document lists the available keyboard shortcuts in the Gemini CLI.
+本文件列出 Gemini CLI 中可用的鍵盤快速鍵。
 
-## General
+## 一般
 
-| Shortcut | Description                                                                                                           |
-| -------- | --------------------------------------------------------------------------------------------------------------------- |
-| `Esc`    | Close dialogs and suggestions.                                                                                        |
-| `Ctrl+C` | Cancel the ongoing request and clear the input. Press twice to exit the application.                                  |
-| `Ctrl+D` | Exit the application if the input is empty. Press twice to confirm.                                                   |
-| `Ctrl+L` | Clear the screen.                                                                                                     |
-| `Ctrl+O` | Toggle the display of the debug console.                                                                              |
-| `Ctrl+S` | Allows long responses to print fully, disabling truncation. Use your terminal's scrollback to view the entire output. |
-| `Ctrl+T` | Toggle the display of tool descriptions.                                                                              |
-| `Ctrl+Y` | Toggle auto-approval (YOLO mode) for all tool calls.                                                                  |
+| 快速鍵   | 描述                                                       |
+| -------- | ---------------------------------------------------------- |
+| `Esc`    | 關閉對話方塊和建議。                                       |
+| `Ctrl+C` | 取消正在進行的請求並清除輸入。按兩次以退出應用程式。       |
+| `Ctrl+D` | 如果輸入為空，則退出應用程式。按兩次以確認。               |
+| `Ctrl+L` | 清除螢幕。                                                 |
+| `Ctrl+O` | 切換偵錯主控台的顯示。                                     |
+| `Ctrl+S` | 允許長回應完整列印，停用截斷。使用您的終端機回捲查看完整輸出。 |
+| `Ctrl+T` | 切換工具描述的顯示。                                       |
+| `Ctrl+Y` | 切換所有工具呼叫的自動核准（YOLO 模式）。                  |
 
-## Input Prompt
+## 輸入提示
 
-| Shortcut                                           | Description                                                                                                                         |
-| -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| `!`                                                | Toggle shell mode when the input is empty.                                                                                          |
-| `\` (at end of line) + `Enter`                     | Insert a newline.                                                                                                                   |
-| `Down Arrow`                                       | Navigate down through the input history.                                                                                            |
-| `Enter`                                            | Submit the current prompt.                                                                                                          |
-| `Meta+Delete` / `Ctrl+Delete`                      | Delete the word to the right of the cursor.                                                                                         |
-| `Tab`                                              | Autocomplete the current suggestion if one exists.                                                                                  |
-| `Up Arrow`                                         | Navigate up through the input history.                                                                                              |
-| `Ctrl+A` / `Home`                                  | Move the cursor to the beginning of the line.                                                                                       |
-| `Ctrl+B` / `Left Arrow`                            | Move the cursor one character to the left.                                                                                          |
+| 快速鍵                                      | 描述                                               |
+| ------------------------------------------- | -------------------------------------------------- |
+| `!`                                         | 當輸入為空時切換 Shell 模式。                      |
+| `\`（在行尾）+ `Enter`                      | 插入換行。                                         |
+| `Down Arrow`                                | 透過輸入歷史記錄向下導覽。                         |
+| `Enter`                                     | 提交目前提示。                                     |
+| `Meta+Delete` / `Ctrl+Delete`               | 刪除游標右邊的單字。                               |
+| `Tab`                                       | 如果存在目前建議，則自動完成。                     |
+| `Up Arrow`                                  | 透過輸入歷史記錄向上導覽。                         |
+| `Ctrl+A` / `Home`                           | 將游標移動到行首。                                 |
+| `Ctrl+B` / `Left Arrow`                     | 將游標向左移動一個字元。                           |
 | `Ctrl+C`                                           | Clear the input prompt                                                                                                              |
 | `Esc` (double press)                               | Clear the input prompt.                                                                                                             |
 | `Ctrl+D` / `Delete`                                | Delete the character to the right of the cursor.                                                                                    |

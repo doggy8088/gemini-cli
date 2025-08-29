@@ -1,33 +1,33 @@
-# Authentication Setup
+# 驗證設定
 
-The Gemini CLI requires you to authenticate with Google's AI services. On initial startup you'll need to configure **one** of the following authentication methods:
+Gemini CLI 需要您向 Google 的 AI 服務進行驗證。在初始啟動時，您需要設定**其中一種**驗證方法：
 
-1.  **Login with Google (Gemini Code Assist):**
-    - Use this option to log in with your Google account.
-    - During initial startup, Gemini CLI will direct you to a webpage for authentication. Once authenticated, your credentials will be cached locally so the web login can be skipped on subsequent runs.
-    - Note that the web login must be done in a browser that can communicate with the machine Gemini CLI is being run from. (Specifically, the browser will be redirected to a localhost url that Gemini CLI will be listening on).
-    - <a id="workspace-gca">Users may have to specify a GOOGLE_CLOUD_PROJECT if:</a>
-      1. You have a Google Workspace account. Google Workspace is a paid service for businesses and organizations that provides a suite of productivity tools, including a custom email domain (e.g. your-name@your-company.com), enhanced security features, and administrative controls. These accounts are often managed by an employer or school.
-      1. You have received a Gemini Code Assist license through the [Google Developer Program](https://developers.google.com/program/plans-and-pricing) (including qualified Google Developer Experts)
-      1. You have been assigned a license to a current Gemini Code Assist standard or enterprise subscription.
-      1. You are using the product outside the [supported regions](https://developers.google.com/gemini-code-assist/resources/available-locations) for free individual usage.
-      1. You are a Google account holder under the age of 18
-      - If you fall into one of these categories, you must first configure a Google Cloud Project ID to use, [enable the Gemini for Cloud API](https://cloud.google.com/gemini/docs/discover/set-up-gemini#enable-api) and [configure access permissions](https://cloud.google.com/gemini/docs/discover/set-up-gemini#grant-iam).
+1.  **使用 Google 登入（Gemini Code Assist）**：
+    - 使用此選項以您的 Google 帳戶登入。
+    - 在初始啟動期間，Gemini CLI 會將您導向網頁進行驗證。驗證後，您的憑證將在本機快取，以便在後續執行時跳過網路登入。
+    - 請注意，網路登入必須在能與執行 Gemini CLI 的機器通訊的瀏覽器中完成。（具體來說，瀏覽器將被重新導向到 Gemini CLI 正在監聽的 localhost url）。
+    - <a id="workspace-gca">如果您符合以下情況，使用者可能需要指定 GOOGLE_CLOUD_PROJECT：</a>
+      1. 您有 Google Workspace 帳戶。Google Workspace 是為企業和組織提供的付費服務，提供一套生產力工具，包括自訂電子郵件網域（例如 your-name@your-company.com）、增強的安全功能和管理控制。這些帳戶通常由雇主或學校管理。
+      1. 您透過 [Google Developer Program](https://developers.google.com/program/plans-and-pricing) 獲得 Gemini Code Assist 授權（包括合格的 Google Developer Experts）
+      1. 您已被指派目前 Gemini Code Assist 標準或企業版訂閱的授權。
+      1. 您在免費個人使用的[支援地區](https://developers.google.com/gemini-code-assist/resources/available-locations)以外使用產品。
+      1. 您是 18 歲以下的 Google 帳戶持有者
+      - 如果您屬於這些類別之一，您必須先設定要使用的 Google Cloud 專案 ID，[啟用 Gemini for Cloud API](https://cloud.google.com/gemini/docs/discover/set-up-gemini#enable-api) 並[設定存取權限](https://cloud.google.com/gemini/docs/discover/set-up-gemini#grant-iam)。
 
-      You can temporarily set the environment variable in your current shell session using the following command:
+      您可以使用以下指令在目前的 Shell 工作階段中暫時設定環境變數：
 
       ```bash
       export GOOGLE_CLOUD_PROJECT="YOUR_PROJECT_ID"
       ```
-      - For repeated use, you can add the environment variable to your [.env file](#persisting-environment-variables-with-env-files) or your shell's configuration file (like `~/.bashrc`, `~/.zshrc`, or `~/.profile`). For example, the following command adds the environment variable to a `~/.bashrc` file:
+      - 對於重複使用，您可以將環境變數新增到您的 [.env 檔案](#persisting-environment-variables-with-env-files) 或您的 Shell 設定檔案（如 `~/.bashrc`、`~/.zshrc` 或 `~/.profile`）。例如，以下指令將環境變數新增到 `~/.bashrc` 檔案：
 
       ```bash
       echo 'export GOOGLE_CLOUD_PROJECT="YOUR_PROJECT_ID"' >> ~/.bashrc
       source ~/.bashrc
       ```
 
-2.  **<a id="gemini-api-key"></a>Gemini API key:**
-    - Obtain your API key from Google AI Studio: [https://aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey)
+2.  **<a id="gemini-api-key"></a>Gemini API 金鑰**：
+    - 從 Google AI Studio 取得您的 API 金鑰：[https://aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey)
     - Set the `GEMINI_API_KEY` environment variable. In the following methods, replace `YOUR_GEMINI_API_KEY` with the API key you obtained from Google AI Studio:
       - You can temporarily set the environment variable in your current shell session using the following command:
         ```bash

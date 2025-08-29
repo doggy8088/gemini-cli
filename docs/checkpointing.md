@@ -1,30 +1,30 @@
-# Checkpointing
+# 檢查點
 
-The Gemini CLI includes a Checkpointing feature that automatically saves a snapshot of your project's state before any file modifications are made by AI-powered tools. This allows you to safely experiment with and apply code changes, knowing you can instantly revert back to the state before the tool was run.
+Gemini CLI 包含檢查點功能，可在 AI 驅動的工具進行任何檔案修改之前自動儲存專案狀態的快照。這讓您可以安全地實驗和套用程式碼變更，並知道您可以立即回復到工具執行前的狀態。
 
-## How It Works
+## 運作方式
 
-When you approve a tool that modifies the file system (like `write_file` or `replace`), the CLI automatically creates a "checkpoint." This checkpoint includes:
+當您核准修改檔案系統的工具（如 `write_file` 或 `replace`）時，CLI 會自動建立「檢查點」。此檢查點包括：
 
-1.  **A Git Snapshot:** A commit is made in a special, shadow Git repository located in your home directory (`~/.gemini/history/<project_hash>`). This snapshot captures the complete state of your project files at that moment. It does **not** interfere with your own project's Git repository.
-2.  **Conversation History:** The entire conversation you've had with the agent up to that point is saved.
-3.  **The Tool Call:** The specific tool call that was about to be executed is also stored.
+1.  **Git 快照**：在位於您主目錄的特殊影子 Git 儲存庫中進行提交（`~/.gemini/history/<project_hash>`）。此快照擷取該時刻專案檔案的完整狀態。它**不會**干擾您自己專案的 Git 儲存庫。
+2.  **對話歷史記錄**：儲存您與代理程式到該時點的整個對話。
+3.  **工具呼叫**：也會儲存即將執行的特定工具呼叫。
 
-If you want to undo the change or simply go back, you can use the `/restore` command. Restoring a checkpoint will:
+如果您想撤銷變更或只是回到之前的狀態，您可以使用 `/restore` 指令。還原檢查點將：
 
-- Revert all files in your project to the state captured in the snapshot.
-- Restore the conversation history in the CLI.
-- Re-propose the original tool call, allowing you to run it again, modify it, or simply ignore it.
+- 將專案中的所有檔案回復到快照中擷取的狀態。
+- 在 CLI 中還原對話歷史記錄。
+- 重新提議原始工具呼叫，允許您再次執行它、修改它，或直接忽略它。
 
-All checkpoint data, including the Git snapshot and conversation history, is stored locally on your machine. The Git snapshot is stored in the shadow repository while the conversation history and tool calls are saved in a JSON file in your project's temporary directory, typically located at `~/.gemini/tmp/<project_hash>/checkpoints`.
+所有檢查點資料，包括 Git 快照和對話歷史記錄，都儲存在您的機器本機上。Git 快照儲存在影子儲存庫中，而對話歷史記錄和工具呼叫則儲存在您專案暫存目錄的 JSON 檔案中，通常位於 `~/.gemini/tmp/<project_hash>/checkpoints`。
 
-## Enabling the Feature
+## 啟用功能
 
-The Checkpointing feature is disabled by default. To enable it, you can either use a command-line flag or edit your `settings.json` file.
+檢查點功能預設為停用。要啟用它，您可以使用命令列旗標或編輯您的 `settings.json` 檔案。
 
-### Using the Command-Line Flag
+### 使用命令列旗標
 
-You can enable checkpointing for the current session by using the `--checkpointing` flag when starting the Gemini CLI:
+您可以在啟動 Gemini CLI 時使用 `--checkpointing` 旗標啟用目前工作階段的檢查點功能：
 
 ```bash
 gemini --checkpointing
