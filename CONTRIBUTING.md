@@ -1,96 +1,88 @@
-# How to Contribute
+# 如何貢獻
 
-We would love to accept your patches and contributions to this project.
+我們很樂意接受您對此專案的修補程式和貢獻。
 
-## Before you begin
+## 開始之前
 
-### Sign our Contributor License Agreement
+### 簽署我們的貢獻者授權協議
 
-Contributions to this project must be accompanied by a
-[Contributor License Agreement](https://cla.developers.google.com/about) (CLA).
-You (or your employer) retain the copyright to your contribution; this simply
-gives us permission to use and redistribute your contributions as part of the
-project.
+對此專案的貢獻必須附帶[貢獻者授權協議](https://cla.developers.google.com/about) (CLA)。
+您（或您的雇主）保留對您貢獻的版權；這只是給予我們使用和重新分發您的貢獻作為專案一部分的權限。
 
-If you or your current employer have already signed the Google CLA (even if it
-was for a different project), you probably don't need to do it again.
+如果您或您目前的雇主已經簽署了 Google CLA（即使是針對不同的專案），您可能不需要再次簽署。
 
-Visit <https://cla.developers.google.com/> to see your current agreements or to
-sign a new one.
+請造訪 <https://cla.developers.google.com/> 查看您目前的協議或簽署新協議。
 
-### Review our Community Guidelines
+### 檢閱我們的社群準則
 
-This project follows [Google's Open Source Community
-Guidelines](https://opensource.google/conduct/).
+此專案遵循 [Google 的開源社群準則](https://opensource.google/conduct/)。
 
-## Contribution Process
+## 貢獻流程
 
-### Code Reviews
+### 程式碼審查
 
-All submissions, including submissions by project members, require review. We
-use [GitHub pull requests](https://docs.github.com/articles/about-pull-requests)
-for this purpose.
+所有提交內容，包括專案成員的提交內容，都需要審查。我們為此目的使用 [GitHub 拉取請求](https://docs.github.com/articles/about-pull-requests)。
 
-### Self Assigning Issues
+### 自行指派問題
 
-If you're looking for an issue to work on, check out our list of issues that are labeled ["help wanted"](https://github.com/google-gemini/gemini-cli/issues?q=is%3Aissue+state%3Aopen+label%3A%22help+wanted%22).
+如果您正在尋找要處理的問題，請查看我們標記為["需要協助"](https://github.com/google-gemini/gemini-cli/issues?q=is%3Aissue+state%3Aopen+label%3A%22help+wanted%22)的問題清單。
 
-To assign an issue to yourself, simply add a comment with the text `/assign`. The comment must contain only that text and nothing else. This command will assign the issue to you, provided it is not already assigned.
+要將問題指派給自己，只需新增包含文字 `/assign` 的留言。留言必須僅包含該文字，不得包含其他內容。如果問題尚未被指派，此指令將把問題指派給您。
 
-Please note that you can have a maximum of 3 issues assigned to you at any given time.
+請注意，您在任何時候最多只能被指派 3 個問題。
 
-### Pull Request Guidelines
+### 拉取請求準則
 
-To help us review and merge your PRs quickly, please follow these guidelines. PRs that do not meet these standards may be closed.
+為了幫助我們快速審查和合併您的拉取請求，請遵循這些準則。不符合這些標準的拉取請求可能會被關閉。
 
-#### 1. Link to an Existing Issue
+#### 1. 連結到現有問題
 
-All PRs should be linked to an existing issue in our tracker. This ensures that every change has been discussed and is aligned with the project's goals before any code is written.
+所有拉取請求都應該連結到我們追蹤器中的現有問題。這確保每個變更在撰寫任何程式碼之前都已經過討論並與專案目標一致。
 
-- **For bug fixes:** The PR should be linked to the bug report issue.
-- **For features:** The PR should be linked to the feature request or proposal issue that has been approved by a maintainer.
+- **對於錯誤修正**：拉取請求應該連結到錯誤報告問題。
+- **對於功能**：拉取請求應該連結到已被維護者核准的功能請求或提案問題。
 
-If an issue for your change doesn't exist, please **open one first** and wait for feedback before you start coding.
+如果您的變更沒有對應的問題，請**先開啟一個問題**並在開始編碼之前等待回饋。
 
-#### 2. Keep It Small and Focused
+#### 2. 保持小巧且專注
 
-We favor small, atomic PRs that address a single issue or add a single, self-contained feature.
+我們偏好解決單一問題或新增單一自包含功能的小型、原子性拉取請求。
 
-- **Do:** Create a PR that fixes one specific bug or adds one specific feature.
-- **Don't:** Bundle multiple unrelated changes (e.g., a bug fix, a new feature, and a refactor) into a single PR.
+- **應該做**：建立修正一個特定錯誤或新增一個特定功能的拉取請求。
+- **不應該做**：將多個不相關的變更（例如，錯誤修正、新功能和重構）打包到單一拉取請求中。
 
-Large changes should be broken down into a series of smaller, logical PRs that can be reviewed and merged independently.
+大型變更應該分解為一系列較小的、邏輯性的拉取請求，可以獨立審查和合併。
 
-#### 3. Use Draft PRs for Work in Progress
+#### 3. 使用草稿拉取請求處理進行中的工作
 
-If you'd like to get early feedback on your work, please use GitHub's **Draft Pull Request** feature. This signals to the maintainers that the PR is not yet ready for a formal review but is open for discussion and initial feedback.
+如果您想對您的工作獲得早期回饋，請使用 GitHub 的**草稿拉取請求**功能。這向維護者表明拉取請求尚未準備好進行正式審查，但開放討論和初步回饋。
 
-#### 4. Ensure All Checks Pass
+#### 4. 確保所有檢查都通過
 
-Before submitting your PR, ensure that all automated checks are passing by running `npm run preflight`. This command runs all tests, linting, and other style checks.
+在提交拉取請求之前，請透過執行 `npm run preflight` 確保所有自動檢查都通過。此指令會執行所有測試、程式碼檢查和其他樣式檢查。
 
-#### 5. Update Documentation
+#### 5. 更新說明文件
 
-If your PR introduces a user-facing change (e.g., a new command, a modified flag, or a change in behavior), you must also update the relevant documentation in the `/docs` directory.
+如果您的拉取請求引入了面向使用者的變更（例如，新指令、修改的旗標或行為變更），您也必須更新 `/docs` 目錄中的相關說明文件。
 
-#### 6. Write Clear Commit Messages and a Good PR Description
+#### 6. 撰寫清楚的提交訊息和良好的拉取請求描述
 
-Your PR should have a clear, descriptive title and a detailed description of the changes. Follow the [Conventional Commits](https://www.conventionalcommits.org/) standard for your commit messages.
+您的拉取請求應該有清楚、描述性的標題和變更的詳細描述。請遵循 [Conventional Commits](https://www.conventionalcommits.org/) 標準來撰寫您的提交訊息。
 
-- **Good PR Title:** `feat(cli): Add --json flag to 'config get' command`
-- **Bad PR Title:** `Made some changes`
+- **良好的拉取請求標題**：`feat(cli): Add --json flag to 'config get' command`
+- **不良的拉取請求標題**：`Made some changes`
 
-In the PR description, explain the "why" behind your changes and link to the relevant issue (e.g., `Fixes #123`).
+在拉取請求描述中，說明您變更背後的「原因」並連結到相關問題（例如，`Fixes #123`）。
 
-## Forking
+## 分叉
 
-If you are forking the repository you will be able to run the Build, Test and Integration test workflows. However in order to make the integration tests run you'll need to add a [GitHub Repository Secret](https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions#creating-secrets-for-a-repository) with a value of `GEMINI_API_KEY` and set that to a valid API key that you have available. Your key and secret are private to your repo; no one without access can see your key and you cannot see any secrets related to this repo.
+如果您分叉此儲存庫，您將能夠執行建置、測試和整合測試工作流程。但是，為了讓整合測試執行，您需要新增一個值為 `GEMINI_API_KEY` 的 [GitHub 儲存庫密鑰](https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions#creating-secrets-for-a-repository)，並將其設定為您可用的有效 API 金鑰。您的金鑰和密鑰對您的儲存庫是私有的；沒有存取權限的人無法看到您的金鑰，您也無法看到與此儲存庫相關的任何密鑰。
 
-Additionally you will need to click on the `Actions` tab and enable workflows for your repository, you'll find it's the large blue button in the center of the screen.
+此外，您需要點擊 `Actions` 標籤並為您的儲存庫啟用工作流程，您會發現它是螢幕中央的大藍色按鈕。
 
-## Development Setup and Workflow
+## 開發設定和工作流程
 
-This section guides contributors on how to build, modify, and understand the development setup of this project.
+本節指導貢獻者如何建置、修改和了解此專案的開發設定。
 
 ### Setting Up the Development Environment
 
