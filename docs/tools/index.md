@@ -1,32 +1,32 @@
-# Gemini CLI tools
+# Gemini CLI 工具
 
-The Gemini CLI includes built-in tools that the Gemini model uses to interact with your local environment, access information, and perform actions. These tools enhance the CLI's capabilities, enabling it to go beyond text generation and assist with a wide range of tasks.
+Gemini CLI 包含內建工具，供 Gemini 模型用來與您的本機環境互動、存取資訊和執行動作。這些工具增強了 CLI 的功能，使其能夠超越文字生成並協助執行各種任務。
 
-## Overview of Gemini CLI tools
+## Gemini CLI 工具總覽
 
-In the context of the Gemini CLI, tools are specific functions or modules that the Gemini model can request to be executed. For example, if you ask Gemini to "Summarize the contents of `my_document.txt`," the model will likely identify the need to read that file and will request the execution of the `read_file` tool.
+在 Gemini CLI 的情境中，工具是 Gemini 模型可以請求執行的特定函數或模組。例如，如果您要求 Gemini「摘要 `my_document.txt` 的內容」，模型很可能會識別出需要讀取該檔案，並請求執行 `read_file` 工具。
 
-The core component (`packages/core`) manages these tools, presents their definitions (schemas) to the Gemini model, executes them when requested, and returns the results to the model for further processing into a user-facing response.
+核心元件 (`packages/core`) 管理這些工具，將其定義（結構描述）呈現給 Gemini 模型，在請求時執行它們，並將結果回傳給模型，以進一步處理為面向使用者的回應。
 
-These tools provide the following capabilities:
+這些工具提供以下功能：
 
-- **Access local information:** Tools allow Gemini to access your local file system, read file contents, list directories, etc.
-- **Execute commands:** With tools like `run_shell_command`, Gemini can run shell commands (with appropriate safety measures and user confirmation).
-- **Interact with the web:** Tools can fetch content from URLs.
-- **Take actions:** Tools can modify files, write new files, or perform other actions on your system (again, typically with safeguards).
-- **Ground responses:** By using tools to fetch real-time or specific local data, Gemini's responses can be more accurate, relevant, and grounded in your actual context.
+- **存取本機資訊**：工具允許 Gemini 存取您的本機檔案系統、讀取檔案內容、列出目錄等。
+- **執行指令**：透過 `run_shell_command` 等工具，Gemini 可以執行 Shell 指令（具有適當的安全措施和使用者確認）。
+- **與網路互動**：工具可以從 URL 擷取內容。
+- **執行動作**：工具可以修改檔案、寫入新檔案，或在您的系統上執行其他動作（同樣，通常具有安全保護措施）。
+- **基礎回應**：透過使用工具擷取即時或特定本機資料，Gemini 的回應可以更準確、相關，並建立在您的實際情境上。
 
-## How to use Gemini CLI tools
+## 如何使用 Gemini CLI 工具
 
-To use Gemini CLI tools, provide a prompt to the Gemini CLI. The process works as follows:
+要使用 Gemini CLI 工具，請向 Gemini CLI 提供提示。流程如下：
 
-1.  You provide a prompt to the Gemini CLI.
-2.  The CLI sends the prompt to the core.
-3.  The core, along with your prompt and conversation history, sends a list of available tools and their descriptions/schemas to the Gemini API.
-4.  The Gemini model analyzes your request. If it determines that a tool is needed, its response will include a request to execute a specific tool with certain parameters.
-5.  The core receives this tool request, validates it, and (often after user confirmation for sensitive operations) executes the tool.
-6.  The output from the tool is sent back to the Gemini model.
-7.  The Gemini model uses the tool's output to formulate its final answer, which is then sent back through the core to the CLI and displayed to you.
+1.  您向 Gemini CLI 提供提示。
+2.  CLI 將提示傳送到核心。
+3.  核心連同您的提示和對話歷史記錄，將可用工具清單及其描述/結構描述傳送到 Gemini API。
+4.  Gemini 模型分析您的請求。如果它判斷需要工具，其回應將包含執行具有特定參數的特定工具的請求。
+5.  核心接收此工具請求，驗證它，並（通常在敏感操作的使用者確認後）執行工具。
+6.  工具的輸出被送回 Gemini 模型。
+7.  Gemini 模型使用工具的輸出來制定其最終答案，然後透過核心送回 CLI 並顯示給您。
 
 You will typically see messages in the CLI indicating when a tool is being called and whether it succeeded or failed.
 

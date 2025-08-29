@@ -1,38 +1,38 @@
-# Gemini CLI file system tools
+# Gemini CLI 檔案系統工具
 
-The Gemini CLI provides a comprehensive suite of tools for interacting with the local file system. These tools allow the Gemini model to read from, write to, list, search, and modify files and directories, all under your control and typically with confirmation for sensitive operations.
+Gemini CLI 提供與本機檔案系統互動的完整工具套件。這些工具允許 Gemini 模型讀取、寫入、列出、搜尋和修改檔案和目錄，全部在您的控制下，通常需要對敏感操作進行確認。
 
-**Note:** All file system tools operate within a `rootDirectory` (usually the current working directory where you launched the CLI) for security. Paths that you provide to these tools are generally expected to be absolute or are resolved relative to this root directory.
+**注意**：為了安全起見，所有檔案系統工具都在 `rootDirectory`（通常是您啟動 CLI 的目前工作目錄）內運作。您提供給這些工具的路徑通常預期為絕對路徑，或相對於此根目錄進行解析。
 
 ## 1. `list_directory` (ReadFolder)
 
-`list_directory` lists the names of files and subdirectories directly within a specified directory path. It can optionally ignore entries matching provided glob patterns.
+`list_directory` 列出指定目錄路徑內的檔案和子目錄名稱。它可以選擇性地忽略符合提供的 glob 模式的項目。
 
-- **Tool name:** `list_directory`
-- **Display name:** ReadFolder
-- **File:** `ls.ts`
-- **Parameters:**
-  - `path` (string, required): The absolute path to the directory to list.
-  - `ignore` (array of strings, optional): A list of glob patterns to exclude from the listing (e.g., `["*.log", ".git"]`).
-  - `respect_git_ignore` (boolean, optional): Whether to respect `.gitignore` patterns when listing files. Defaults to `true`.
-- **Behavior:**
-  - Returns a list of file and directory names.
-  - Indicates whether each entry is a directory.
-  - Sorts entries with directories first, then alphabetically.
-- **Output (`llmContent`):** A string like: `Directory listing for /path/to/your/folder:\n[DIR] subfolder1\nfile1.txt\nfile2.png`
-- **Confirmation:** No.
+- **工具名稱**：`list_directory`
+- **顯示名稱**：ReadFolder
+- **檔案**：`ls.ts`
+- **參數**：
+  - `path`（字串，必要）：要列出的目錄的絕對路徑。
+  - `ignore`（字串陣列，選用）：要從列表中排除的 glob 模式清單（例如，`["*.log", ".git"]`）。
+  - `respect_git_ignore`（布林值，選用）：列出檔案時是否遵守 `.gitignore` 模式。預設為 `true`。
+- **行為**：
+  - 傳回檔案和目錄名稱清單。
+  - 指示每個項目是否為目錄。
+  - 排序項目時目錄優先，然後按字母順序排列。
+- **輸出 (`llmContent`)**：類似以下的字串：`Directory listing for /path/to/your/folder:\n[DIR] subfolder1\nfile1.txt\nfile2.png`
+- **確認**：否。
 
 ## 2. `read_file` (ReadFile)
 
-`read_file` reads and returns the content of a specified file. This tool handles text, images (PNG, JPG, GIF, WEBP, SVG, BMP), and PDF files. For text files, it can read specific line ranges. Other binary file types are generally skipped.
+`read_file` 讀取並傳回指定檔案的內容。此工具處理文字、影像（PNG、JPG、GIF、WEBP、SVG、BMP）和 PDF 檔案。對於文字檔案，它可以讀取特定的行範圍。其他二進位檔案類型通常會跳過。
 
-- **Tool name:** `read_file`
-- **Display name:** ReadFile
-- **File:** `read-file.ts`
-- **Parameters:**
-  - `path` (string, required): The absolute path to the file to read.
-  - `offset` (number, optional): For text files, the 0-based line number to start reading from. Requires `limit` to be set.
-  - `limit` (number, optional): For text files, the maximum number of lines to read. If omitted, reads a default maximum (e.g., 2000 lines) or the entire file if feasible.
+- **工具名稱**：`read_file`
+- **顯示名稱**：ReadFile
+- **檔案**：`read-file.ts`
+- **參數**：
+  - `path`（字串，必要）：要讀取的檔案的絕對路徑。
+  - `offset`（數字，選用）：對於文字檔案，開始讀取的 0 基行號。需要設定 `limit`。
+  - `limit`（數字，選用）：對於文字檔案，要讀取的最大行數。如果省略，讀取預設最大值（例如，2000 行）或整個檔案（如果可行）。
 - **Behavior:**
   - For text files: Returns the content. If `offset` and `limit` are used, returns only that slice of lines. Indicates if content was truncated due to line limits or line length limits.
   - For image and PDF files: Returns the file content as a base64-encoded data structure suitable for model consumption.

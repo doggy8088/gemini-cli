@@ -1,43 +1,38 @@
-# Troubleshooting guide
+# 疑難排解指南
 
-This guide provides solutions to common issues and debugging tips, including topics on:
+本指南提供常見問題的解決方案和偵錯技巧，包括以下主題：
 
-- Authentication or login errors
-- Frequently asked questions (FAQs)
-- Debugging tips
-- Existing GitHub Issues similar to yours or creating new Issues
+- 驗證或登入錯誤
+- 常見問題 (FAQ)
+- 偵錯技巧
+- 與您的問題類似的現有 GitHub 問題或建立新問題
 
-## Authentication or login errors
+## 驗證或登入錯誤
 
-- **Error: `Failed to login. Message: Request contains an invalid argument`**
-  - Users with Google Workspace accounts or Google Cloud accounts
-    associated with their Gmail accounts may not be able to activate the free
-    tier of the Google Code Assist plan.
-  - For Google Cloud accounts, you can work around this by setting
-    `GOOGLE_CLOUD_PROJECT` to your project ID.
-  - Alternatively, you can obtain the Gemini API key from
-    [Google AI Studio](http://aistudio.google.com/app/apikey), which also includes a
-    separate free tier.
+- **錯誤：`Failed to login. Message: Request contains an invalid argument`**
+  - 擁有 Google Workspace 帳戶或與其 Gmail 帳戶相關聯的 Google Cloud 帳戶的使用者可能無法啟用 Google Code Assist 計畫的免費層級。
+  - 對於 Google Cloud 帳戶，您可以透過將 `GOOGLE_CLOUD_PROJECT` 設定為您的專案 ID 來解決此問題。
+  - 或者，您可以從 [Google AI Studio](http://aistudio.google.com/app/apikey) 取得 Gemini API 金鑰，它也包含單獨的免費層級。
 
-- **Error: `UNABLE_TO_GET_ISSUER_CERT_LOCALLY` or `unable to get local issuer certificate`**
-  - **Cause:** You may be on a corporate network with a firewall that intercepts and inspects SSL/TLS traffic. This often requires a custom root CA certificate to be trusted by Node.js.
-  - **Solution:** Set the `NODE_EXTRA_CA_CERTS` environment variable to the absolute path of your corporate root CA certificate file.
-    - Example: `export NODE_EXTRA_CA_CERTS=/path/to/your/corporate-ca.crt`
+- **錯誤：`UNABLE_TO_GET_ISSUER_CERT_LOCALLY` 或 `unable to get local issuer certificate`**
+  - **原因**：您可能位於使用防火牆攔截和檢查 SSL/TLS 流量的企業網路上。這通常需要 Node.js 信任自訂根 CA 憑證。
+  - **解決方案**：將 `NODE_EXTRA_CA_CERTS` 環境變數設定為您企業根 CA 憑證檔案的絕對路徑。
+    - 範例：`export NODE_EXTRA_CA_CERTS=/path/to/your/corporate-ca.crt`
 
-## Frequently asked questions (FAQs)
+## 常見問題 (FAQ)
 
-- **Q: How do I update Gemini CLI to the latest version?**
-  - A: If you installed it globally via `npm`, update it using the command `npm install -g @google/gemini-cli@latest`. If you compiled it from source, pull the latest changes from the repository, and then rebuild using the command `npm run build`.
+- **問：如何將 Gemini CLI 更新到最新版本？**
+  - 答：如果您透過 `npm` 全域安裝，請使用指令 `npm install -g @google/gemini-cli@latest` 更新。如果您從原始碼編譯，請從儲存庫提取最新變更，然後使用指令 `npm run build` 重新建置。
 
-- **Q: Where are the Gemini CLI configuration or settings files stored?**
-  - A: The Gemini CLI configuration is stored in two `settings.json` files:
-    1. In your home directory: `~/.gemini/settings.json`.
-    2. In your project's root directory: `./.gemini/settings.json`.
+- **問：Gemini CLI 設定或設定檔案儲存在哪裡？**
+  - 答：Gemini CLI 設定儲存在兩個 `settings.json` 檔案中：
+    1. 在您的主目錄：`~/.gemini/settings.json`。
+    2. 在您專案的根目錄：`./.gemini/settings.json`。
 
-    Refer to [Gemini CLI Configuration](./cli/configuration.md) for more details.
+    請參閱 [Gemini CLI 設定](./cli/configuration.md) 以取得更多詳細資訊。
 
-- **Q: Why don't I see cached token counts in my stats output?**
-  - A: Cached token information is only displayed when cached tokens are being used. This feature is available for API key users (Gemini API key or Google Cloud Vertex AI) but not for OAuth users (such as Google Personal/Enterprise accounts like Google Gmail or Google Workspace, respectively). This is because the Gemini Code Assist API does not support cached content creation. You can still view your total token usage using the `/stats` command in Gemini CLI.
+- **問：為什麼我在統計輸出中看不到快取的權杖計數？**
+  - 答：只有在使用快取權杖時才會顯示快取權杖資訊。此功能適用於 API 金鑰使用者（Gemini API 金鑰或 Google Cloud Vertex AI），但不適用於 OAuth 使用者（例如 Google 個人/企業帳戶，如 Google Gmail 或 Google Workspace）。這是因為 Gemini Code Assist API 不支援快取內容建立。您仍然可以使用 Gemini CLI 中的 `/stats` 指令查看您的總權杖使用量。
 
 ## Common error messages and solutions
 

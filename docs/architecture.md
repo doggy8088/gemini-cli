@@ -1,32 +1,32 @@
-# Gemini CLI Architecture Overview
+# Gemini CLI 架構總覽
 
-This document provides a high-level overview of the Gemini CLI's architecture.
+本文件提供 Gemini CLI 架構的高階總覽。
 
-## Core components
+## 核心元件
 
-The Gemini CLI is primarily composed of two main packages, along with a suite of tools that can be used by the system in the course of handling command-line input:
+Gemini CLI 主要由兩個主要套件組成，以及一套在處理命令列輸入過程中可供系統使用的工具：
 
-1.  **CLI package (`packages/cli`):**
-    - **Purpose:** This contains the user-facing portion of the Gemini CLI, such as handling the initial user input, presenting the final output, and managing the overall user experience.
-    - **Key functions contained in the package:**
-      - [Input processing](./cli/commands.md)
-      - History management
-      - Display rendering
-      - [Theme and UI customization](./cli/themes.md)
-      - [CLI configuration settings](./cli/configuration.md)
+1.  **CLI 套件 (`packages/cli`)**：
+    - **目的**：包含 Gemini CLI 面向使用者的部分，例如處理初始使用者輸入、呈現最終輸出，以及管理整體使用者體驗。
+    - **套件包含的主要功能**：
+      - [輸入處理](./cli/commands.md)
+      - 歷史記錄管理
+      - 顯示渲染
+      - [主題和 UI 自訂](./cli/themes.md)
+      - [CLI 設定](./cli/configuration.md)
 
-2.  **Core package (`packages/core`):**
-    - **Purpose:** This acts as the backend for the Gemini CLI. It receives requests sent from `packages/cli`, orchestrates interactions with the Gemini API, and manages the execution of available tools.
-    - **Key functions contained in the package:**
-      - API client for communicating with the Google Gemini API
-      - Prompt construction and management
-      - Tool registration and execution logic
-      - State management for conversations or sessions
-      - Server-side configuration
+2.  **核心套件 (`packages/core`)**：
+    - **目的**：作為 Gemini CLI 的後端。它接收來自 `packages/cli` 的請求，協調與 Gemini API 的互動，並管理可用工具的執行。
+    - **套件包含的主要功能**：
+      - 與 Google Gemini API 通訊的 API 用戶端
+      - 提示建構和管理
+      - 工具註冊和執行邏輯
+      - 對話或工作階段的狀態管理
+      - 伺服器端設定
 
-3.  **Tools (`packages/core/src/tools/`):**
-    - **Purpose:** These are individual modules that extend the capabilities of the Gemini model, allowing it to interact with the local environment (e.g., file system, shell commands, web fetching).
-    - **Interaction:** `packages/core` invokes these tools based on requests from the Gemini model.
+3.  **工具 (`packages/core/src/tools/`)**：
+    - **目的**：這些是擴充 Gemini 模型功能的個別模組，讓它能與本機環境互動（例如，檔案系統、Shell 指令、網頁擷取）。
+    - **互動**：`packages/core` 根據來自 Gemini 模型的請求調用這些工具。
 
 ## Interaction Flow
 

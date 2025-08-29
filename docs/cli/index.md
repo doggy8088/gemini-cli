@@ -1,28 +1,28 @@
 # Gemini CLI
 
-Within Gemini CLI, `packages/cli` is the frontend for users to send and receive prompts with the Gemini AI model and its associated tools. For a general overview of Gemini CLI, see the [main documentation page](../index.md).
+在 Gemini CLI 中，`packages/cli` 是供使用者與 Gemini AI 模型及其相關工具傳送和接收提示的前端。如需 Gemini CLI 的一般總覽，請參閱[主要說明文件頁面](../index.md)。
 
-## Navigating this section
+## 導覽本節
 
-- **[Authentication](./authentication.md):** A guide to setting up authentication with Google's AI services.
-- **[Commands](./commands.md):** A reference for Gemini CLI commands (e.g., `/help`, `/tools`, `/theme`).
-- **[Configuration](./configuration.md):** A guide to tailoring Gemini CLI behavior using configuration files.
-- **[Enterprise](./enterprise.md):** A guide to enterprise configuration.
-- **[Token Caching](./token-caching.md):** Optimize API costs through token caching.
-- **[Themes](./themes.md)**: A guide to customizing the CLI's appearance with different themes.
-- **[Tutorials](tutorials.md)**: A tutorial showing how to use Gemini CLI to automate a development task.
+- **[驗證](./authentication.md)**：設定 Google AI 服務驗證的指南。
+- **[指令](./commands.md)**：Gemini CLI 指令的參考（例如，`/help`、`/tools`、`/theme`）。
+- **[設定](./configuration.md)**：使用設定檔案調整 Gemini CLI 行為的指南。
+- **[企業版](./enterprise.md)**：企業版設定指南。
+- **[權杖快取](./token-caching.md)**：透過權杖快取最佳化 API 成本。
+- **[主題](./themes.md)**：使用不同主題自訂 CLI 外觀的指南。
+- **[教學課程](tutorials.md)**：示範如何使用 Gemini CLI 自動化開發任務的教學課程。
 
-## Non-interactive mode
+## 非互動模式
 
-Gemini CLI can be run in a non-interactive mode, which is useful for scripting and automation. In this mode, you pipe input to the CLI, it executes the command, and then it exits.
+Gemini CLI 可以在非互動模式下執行，這對於指令碼編寫和自動化很有用。在此模式下，您將輸入傳送到 CLI，它執行指令，然後退出。
 
-The following example pipes a command to Gemini CLI from your terminal:
+以下範例從您的終端機將指令傳送到 Gemini CLI：
 
 ```bash
 echo "What is fine tuning?" | gemini
 ```
 
-Gemini CLI executes the command and prints the output to your terminal. Note that you can achieve the same behavior by using the `--prompt` or `-p` flag. For example:
+Gemini CLI 執行指令並將輸出列印到您的終端機。請注意，您可以使用 `--prompt` 或 `-p` 旗標達到相同的行為。例如：
 
 ```bash
 gemini -p "What is fine tuning?"

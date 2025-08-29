@@ -84,49 +84,49 @@
 
 本節指導貢獻者如何建置、修改和了解此專案的開發設定。
 
-### Setting Up the Development Environment
+### 設定開發環境
 
-**Prerequisites:**
+**先決條件：**
 
-1.  **Node.js**:
-    - **Development:** Please use Node.js `~20.19.0`. This specific version is required due to an upstream development dependency issue. You can use a tool like [nvm](https://github.com/nvm-sh/nvm) to manage Node.js versions.
-    - **Production:** For running the CLI in a production environment, any version of Node.js `>=20` is acceptable.
+1.  **Node.js**：
+    - **開發**：請使用 Node.js `~20.19.0`。由於上游開發相依性問題，需要此特定版本。您可以使用 [nvm](https://github.com/nvm-sh/nvm) 等工具來管理 Node.js 版本。
+    - **生產環境**：對於在生產環境中執行 CLI，任何 Node.js `>=20` 版本都可以接受。
 2.  **Git**
 
-### Build Process
+### 建置流程
 
-To clone the repository:
+複製儲存庫：
 
 ```bash
-git clone https://github.com/google-gemini/gemini-cli.git # Or your fork's URL
+git clone https://github.com/google-gemini/gemini-cli.git # 或您的分叉 URL
 cd gemini-cli
 ```
 
-To install dependencies defined in `package.json` as well as root dependencies:
+安裝 `package.json` 中定義的相依性以及根相依性：
 
 ```bash
 npm install
 ```
 
-To build the entire project (all packages):
+建置整個專案（所有套件）：
 
 ```bash
 npm run build
 ```
 
-This command typically compiles TypeScript to JavaScript, bundles assets, and prepares the packages for execution. Refer to `scripts/build.js` and `package.json` scripts for more details on what happens during the build.
+此指令通常會將 TypeScript 編譯為 JavaScript、打包資產，並為執行準備套件。請參考 `scripts/build.js` 和 `package.json` 腳本，了解建置過程中發生的詳細資訊。
 
-### Enabling Sandboxing
+### 啟用沙箱化
 
-[Sandboxing](#sandboxing) is highly recommended and requires, at a minimum, setting `GEMINI_SANDBOX=true` in your `~/.env` and ensuring a sandboxing provider (e.g. `macOS Seatbelt`, `docker`, or `podman`) is available. See [Sandboxing](#sandboxing) for details.
+強烈建議使用[沙箱化](#sandboxing)，至少需要在您的 `~/.env` 中設定 `GEMINI_SANDBOX=true`，並確保沙箱化提供者（例如 `macOS Seatbelt`、`docker` 或 `podman`）可用。請參閱[沙箱化](#sandboxing)了解詳細資訊。
 
-To build both the `gemini` CLI utility and the sandbox container, run `build:all` from the root directory:
+要同時建置 `gemini` CLI 公用程式和沙箱容器，請從根目錄執行 `build:all`：
 
 ```bash
 npm run build:all
 ```
 
-To skip building the sandbox container, you can use `npm run build` instead.
+要跳過建置沙箱容器，您可以改用 `npm run build`。
 
 ### Running
 
