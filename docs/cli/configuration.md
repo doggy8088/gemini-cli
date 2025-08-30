@@ -1,190 +1,190 @@
-# Configuration
+# 設定
 
-**Note on New Configuration Format**
+**新設定格式說明**
 
-The format of the `settings.json` file has been updated to a new, more organized structure.
+`settings.json` 檔案的格式已更新為新的、更有條理的結構。
 
-- The new format will be supported in the stable release starting **[09/10/25]**.
-- Automatic migration from the old format to the new format will begin on **[09/17/25]**.
+- 新格式將從 **[09/10/25]** 開始在穩定版本中受到支援。
+- 從舊格式到新格式的自動遷移將於 **[09/17/25]** 開始。
 
-For details on the previous format, please see the [v1 Configuration documentation](./configuration-v1.md).
+如需之前格式的詳細資訊，請參閱 [v1 設定說明文件](./configuration-v1.md)。
 
-Gemini CLI offers several ways to configure its behavior, including environment variables, command-line arguments, and settings files. This document outlines the different configuration methods and available settings.
+Gemini CLI 提供多種設定其行為的方式，包括環境變數、命令列引數和設定檔。本文件概述不同的設定方法和可用設定。
 
-## Configuration layers
+## 設定層級
 
-Configuration is applied in the following order of precedence (lower numbers are overridden by higher numbers):
+設定按以下優先順序套用（較低的數字會被較高的數字覆蓋）：
 
-1.  **Default values:** Hardcoded defaults within the application.
-2.  **System defaults file:** System-wide default settings that can be overridden by other settings files.
-3.  **User settings file:** Global settings for the current user.
-4.  **Project settings file:** Project-specific settings.
-5.  **System settings file:** System-wide settings that override all other settings files.
-6.  **Environment variables:** System-wide or session-specific variables, potentially loaded from `.env` files.
-7.  **Command-line arguments:** Values passed when launching the CLI.
+1.  **預設值：** 應用程式內的硬編碼預設值。
+2.  **系統預設檔案：** 可被其他設定檔覆蓋的系統範圍預設設定。
+3.  **使用者設定檔案：** 目前使用者的全域設定。
+4.  **專案設定檔案：** 專案特定的設定。
+5.  **系統設定檔案：** 覆蓋所有其他設定檔的系統範圍設定。
+6.  **環境變數：** 系統範圍或工作階段特定的變數，可能從 `.env` 檔案載入。
+7.  **命令列引數：** 啟動 CLI 時傳遞的值。
 
-## Settings files
+## 設定檔
 
-Gemini CLI uses JSON settings files for persistent configuration. There are four locations for these files:
+Gemini CLI 使用 JSON 設定檔進行持久設定。這些檔案有四個位置：
 
-- **System defaults file:**
-  - **Location:** `/etc/gemini-cli/system-defaults.json` (Linux), `C:\ProgramData\gemini-cli\system-defaults.json` (Windows) or `/Library/Application Support/GeminiCli/system-defaults.json` (macOS). The path can be overridden using the `GEMINI_CLI_SYSTEM_DEFAULTS_PATH` environment variable.
-  - **Scope:** Provides a base layer of system-wide default settings. These settings have the lowest precedence and are intended to be overridden by user, project, or system override settings.
-- **User settings file:**
-  - **Location:** `~/.gemini/settings.json` (where `~` is your home directory).
-  - **Scope:** Applies to all Gemini CLI sessions for the current user. User settings override system defaults.
-- **Project settings file:**
-  - **Location:** `.gemini/settings.json` within your project's root directory.
-  - **Scope:** Applies only when running Gemini CLI from that specific project. Project settings override user settings and system defaults.
-- **System settings file:**
-  - **Location:** `/etc/gemini-cli/settings.json` (Linux), `C:\ProgramData\gemini-cli\settings.json` (Windows) or `/Library/Application Support/GeminiCli/settings.json` (macOS). The path can be overridden using the `GEMINI_CLI_SYSTEM_SETTINGS_PATH` environment variable.
-  - **Scope:** Applies to all Gemini CLI sessions on the system, for all users. System settings act as overrides, taking precedence over all other settings files. May be useful for system administrators at enterprises to have controls over users' Gemini CLI setups.
+- **系統預設檔案：**
+  - **位置：** `/etc/gemini-cli/system-defaults.json`（Linux）、`C:\ProgramData\gemini-cli\system-defaults.json`（Windows）或 `/Library/Application Support/GeminiCli/system-defaults.json`（macOS）。路徑可以使用 `GEMINI_CLI_SYSTEM_DEFAULTS_PATH` 環境變數覆蓋。
+  - **範圍：** 提供系統範圍預設設定的基礎層。這些設定具有最低優先順序，旨在被使用者、專案或系統覆蓋設定覆蓋。
+- **使用者設定檔案：**
+  - **位置：** `~/.gemini/settings.json`（其中 `~` 是您的主目錄）。
+  - **範圍：** 適用於目前使用者的所有 Gemini CLI 工作階段。使用者設定覆蓋系統預設值。
+- **專案設定檔案：**
+  - **位置：** 專案根目錄內的 `.gemini/settings.json`。
+  - **範圍：** 僅適用於從該特定專案執行 Gemini CLI 時。專案設定覆蓋使用者設定和系統預設值。
+- **系統設定檔案：**
+  - **位置：** `/etc/gemini-cli/settings.json`（Linux）、`C:\ProgramData\gemini-cli\settings.json`（Windows）或 `/Library/Application Support/GeminiCli/settings.json`（macOS）。路徑可以使用 `GEMINI_CLI_SYSTEM_SETTINGS_PATH` 環境變數覆蓋。
+  - **範圍：** 適用於系統上所有使用者的所有 Gemini CLI 工作階段。系統設定作為覆蓋，優先於所有其他設定檔。對於企業的系統管理員來說，控制使用者的 Gemini CLI 設定可能很有用。
 
-**Note on environment variables in settings:** String values within your `settings.json` files can reference environment variables using either `$VAR_NAME` or `${VAR_NAME}` syntax. These variables will be automatically resolved when the settings are loaded. For example, if you have an environment variable `MY_API_TOKEN`, you could use it in `settings.json` like this: `"apiKey": "$MY_API_TOKEN"`.
+**設定中環境變數的說明：** 您的 `settings.json` 檔案內的字串值可以使用 `$VAR_NAME` 或 `${VAR_NAME}` 語法參考環境變數。載入設定時，這些變數會自動解析。例如，如果您有環境變數 `MY_API_TOKEN`，您可以在 `settings.json` 中這樣使用它：`"apiKey": "$MY_API_TOKEN"`。
 
-> **Note for Enterprise Users:** For guidance on deploying and managing Gemini CLI in a corporate environment, please see the [Enterprise Configuration](./enterprise.md) documentation.
+> **企業使用者注意事項：** 如需在企業環境中部署和管理 Gemini CLI 的指導，請參閱[企業設定](./enterprise.md)說明文件。
 
-### The `.gemini` directory in your project
+### 專案中的 `.gemini` 目錄
 
-In addition to a project settings file, a project's `.gemini` directory can contain other project-specific files related to Gemini CLI's operation, such as:
+除了專案設定檔案外，專案的 `.gemini` 目錄還可以包含與 Gemini CLI 操作相關的其他專案特定檔案，例如：
 
-- [Custom sandbox profiles](#sandboxing) (e.g., `.gemini/sandbox-macos-custom.sb`, `.gemini/sandbox.Dockerfile`).
+- [自訂沙箱設定檔](#sandboxing)（例如，`.gemini/sandbox-macos-custom.sb`、`.gemini/sandbox.Dockerfile`）。
 
-### Available settings in `settings.json`
+### `settings.json` 中的可用設定
 
-Settings are organized into categories. All settings should be placed within their corresponding top-level category object in your `settings.json` file.
+設定分為不同類別。所有設定都應放置在 `settings.json` 檔案中相對應的頂層類別物件內。
 
 #### `general`
 
-- **`general.preferredEditor`** (string):
-  - **Description:** The preferred editor to open files in.
-  - **Default:** `undefined`
+- **`general.preferredEditor`**（字串）：
+  - **說明：** 開啟檔案的偏好編輯器。
+  - **預設值：** `undefined`
 
-- **`general.vimMode`** (boolean):
-  - **Description:** Enable Vim keybindings.
-  - **Default:** `false`
+- **`general.vimMode`**（布林值）：
+  - **說明：** 啟用 Vim 鍵盤繫結。
+  - **預設值：** `false`
 
-- **`general.disableAutoUpdate`** (boolean):
-  - **Description:** Disable automatic updates.
-  - **Default:** `false`
+- **`general.disableAutoUpdate`**（布林值）：
+  - **說明：** 停用自動更新。
+  - **預設值：** `false`
 
-- **`general.disableUpdateNag`** (boolean):
-  - **Description:** Disable update notification prompts.
-  - **Default:** `false`
+- **`general.disableUpdateNag`**（布林值）：
+  - **說明：** 停用更新通知提示。
+  - **預設值：** `false`
 
-- **`general.checkpointing.enabled`** (boolean):
-  - **Description:** Enable session checkpointing for recovery.
-  - **Default:** `false`
+- **`general.checkpointing.enabled`**（布林值）：
+  - **說明：** 啟用工作階段檢查點以供復原。
+  - **預設值：** `false`
 
 #### `ui`
 
-- **`ui.theme`** (string):
-  - **Description:** The color theme for the UI. See [Themes](./themes.md) for available options.
-  - **Default:** `undefined`
+- **`ui.theme`**（字串）：
+  - **說明：** UI 的色彩主題。可用選項請參閱[主題](./themes.md)。
+  - **預設值：** `undefined`
 
-- **`ui.customThemes`** (object):
-  - **Description:** Custom theme definitions.
-  - **Default:** `{}`
+- **`ui.customThemes`**（物件）：
+  - **說明：** 自訂主題定義。
+  - **預設值：** `{}`
 
-- **`ui.hideWindowTitle`** (boolean):
-  - **Description:** Hide the window title bar.
-  - **Default:** `false`
+- **`ui.hideWindowTitle`**（布林值）：
+  - **說明：** 隱藏視窗標題列。
+  - **預設值：** `false`
 
-- **`ui.hideTips`** (boolean):
-  - **Description:** Hide helpful tips in the UI.
-  - **Default:** `false`
+- **`ui.hideTips`**（布林值）：
+  - **說明：** 在 UI 中隱藏有用的提示。
+  - **預設值：** `false`
 
-- **`ui.hideBanner`** (boolean):
-  - **Description:** Hide the application banner.
-  - **Default:** `false`
+- **`ui.hideBanner`**（布林值）：
+  - **說明：** 隱藏應用程式橫幅。
+  - **預設值：** `false`
 
-- **`ui.hideFooter`** (boolean):
-  - **Description:** Hide the footer from the UI.
-  - **Default:** `false`
+- **`ui.hideFooter`**（布林值）：
+  - **說明：** 從 UI 中隱藏頁尾。
+  - **預設值：** `false`
 
-- **`ui.showMemoryUsage`** (boolean):
-  - **Description:** Display memory usage information in the UI.
-  - **Default:** `false`
+- **`ui.showMemoryUsage`**（布林值）：
+  - **說明：** 在 UI 中顯示記憶體使用量資訊。
+  - **預設值：** `false`
 
-- **`ui.showLineNumbers`** (boolean):
-  - **Description:** Show line numbers in the chat.
-  - **Default:** `false`
+- **`ui.showLineNumbers`**（布林值）：
+  - **說明：** 在聊天中顯示行號。
+  - **預設值：** `false`
 
-- **`ui.accessibility.disableLoadingPhrases`** (boolean):
-  - **Description:** Disable loading phrases for accessibility.
-  - **Default:** `false`
+- **`ui.accessibility.disableLoadingPhrases`**（布林值）：
+  - **說明：** 為無障礙功能停用載入片語。
+  - **預設值：** `false`
 
 #### `ide`
 
-- **`ide.enabled`** (boolean):
-  - **Description:** Enable IDE integration mode.
-  - **Default:** `false`
+- **`ide.enabled`**（布林值）：
+  - **說明：** 啟用 IDE 整合模式。
+  - **預設值：** `false`
 
-- **`ide.hasSeenNudge`** (boolean):
-  - **Description:** Whether the user has seen the IDE integration nudge.
-  - **Default:** `false`
+- **`ide.hasSeenNudge`**（布林值）：
+  - **說明：** 使用者是否已看過 IDE 整合提示。
+  - **預設值：** `false`
 
 #### `privacy`
 
-- **`privacy.usageStatisticsEnabled`** (boolean):
-  - **Description:** Enable collection of usage statistics.
-  - **Default:** `true`
+- **`privacy.usageStatisticsEnabled`**（布林值）：
+  - **說明：** 啟用使用統計資料收集。
+  - **預設值：** `true`
 
 #### `model`
 
-- **`model.name`** (string):
-  - **Description:** The Gemini model to use for conversations.
-  - **Default:** `undefined`
+- **`model.name`**（字串）：
+  - **說明：** 用於對話的 Gemini 模型。
+  - **預設值：** `undefined`
 
-- **`model.maxSessionTurns`** (number):
-  - **Description:** Maximum number of user/model/tool turns to keep in a session. -1 means unlimited.
-  - **Default:** `-1`
+- **`model.maxSessionTurns`**（數字）：
+  - **說明：** 工作階段中保留的使用者/模型/工具輪次的最大數量。-1 表示無限制。
+  - **預設值：** `-1`
 
-- **`model.summarizeToolOutput`** (object):
-  - **Description:** Settings for summarizing tool output.
-  - **Default:** `undefined`
+- **`model.summarizeToolOutput`**（物件）：
+  - **說明：** 摘要工具輸出的設定。
+  - **預設值：** `undefined`
 
-- **`model.chatCompression`** (object):
-  - **Description:** Chat compression settings.
-  - **Default:** `undefined`
+- **`model.chatCompression`**（物件）：
+  - **說明：** 聊天壓縮設定。
+  - **預設值：** `undefined`
 
-- **`model.skipNextSpeakerCheck`** (boolean):
-  - **Description:** Skip the next speaker check.
-  - **Default:** `false`
+- **`model.skipNextSpeakerCheck`**（布林值）：
+  - **說明：** 跳過下一位發言者檢查。
+  - **預設值：** `false`
 
 #### `context`
 
-- **`context.fileName`** (string or array of strings):
-  - **Description:** The name of the context file(s).
-  - **Default:** `undefined`
+- **`context.fileName`**（字串或字串陣列）：
+  - **說明：** 內容檔案的名稱。
+  - **預設值：** `undefined`
 
-- **`context.importFormat`** (string):
-  - **Description:** The format to use when importing memory.
-  - **Default:** `undefined`
+- **`context.importFormat`**（字串）：
+  - **說明：** 匯入記憶體時使用的格式。
+  - **預設值：** `undefined`
 
-- **`context.discoveryMaxDirs`** (number):
-  - **Description:** Maximum number of directories to search for memory.
-  - **Default:** `200`
+- **`context.discoveryMaxDirs`**（數字）：
+  - **說明：** 搜尋記憶體的最大目錄數量。
+  - **預設值：** `200`
 
-- **`context.includeDirectories`** (array):
-  - **Description:** Additional directories to include in the workspace context. Missing directories will be skipped with a warning.
-  - **Default:** `[]`
+- **`context.includeDirectories`**（陣列）：
+  - **說明：** 要包含在工作區內容中的額外目錄。遺失的目錄將被跳過並發出警告。
+  - **預設值：** `[]`
 
-- **`context.loadFromIncludeDirectories`** (boolean):
-  - **Description:** Whether to load memory files from include directories.
-  - **Default:** `false`
+- **`context.loadFromIncludeDirectories`**（布林值）：
+  - **說明：** 是否從包含目錄載入記憶體檔案。
+  - **預設值：** `false`
 
-- **`context.fileFiltering.respectGitIgnore`** (boolean):
-  - **Description:** Respect .gitignore files when searching.
-  - **Default:** `true`
+- **`context.fileFiltering.respectGitIgnore`**（布林值）：
+  - **說明：** 搜尋時遵守 .gitignore 檔案。
+  - **預設值：** `true`
 
-- **`context.fileFiltering.respectGeminiIgnore`** (boolean):
-  - **Description:** Respect .geminiignore files when searching.
-  - **Default:** `true`
+- **`context.fileFiltering.respectGeminiIgnore`**（布林值）：
+  - **說明：** 搜尋時遵守 .geminiignore 檔案。
+  - **預設值：** `true`
 
-- **`context.fileFiltering.enableRecursiveFileSearch`** (boolean):
-  - **Description:** Enable recursive file search functionality.
-  - **Default:** `true`
+- **`context.fileFiltering.enableRecursiveFileSearch`**（布林值）：
+  - **說明：** 啟用遞迴檔案搜尋功能。
+  - **預設值：** `true`
 
 #### `tools`
 
