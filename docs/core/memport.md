@@ -1,18 +1,14 @@
-# 記憶匯入處理器
+# 記憶體匯入處理器
 
-記憶匯入處理器是一項功能，可讓您使用 `@file.md` 語法從其他 Markdown 檔案匯入內容，將您的 GEMINI.md 檔案模組化。
+記憶體匯入處理器是一個功能，允許您使用 `@file.md` 語法從其他檔案匯入內容，將您的 GEMINI.md 檔案模組化。
 
 ## 總覽
 
-此功能可讓您將大型 GEMINI.md 檔案分解為更小、更易於管理的可在不同情境中重複使用的元件。匯入處理器支援相對和絕對路徑，並內建安全功能以防止循環匯入並確保檔案存取安全。
-
-## 重要限制
-
-**此功能僅支援 `.md` (markdown) 檔案。** 嘗試匯入具有其他副檔名（如 `.txt`、`.json` 等）的檔案將導致警告且匯入將會失敗。
+此功能使您能夠將大型 GEMINI.md 檔案分解為更小、更易管理的元件，這些元件可以在不同內容中重複使用。匯入處理器支援相對和絕對路徑，並具有內建安全功能以防止循環匯入並確保檔案存取安全性。
 
 ## 語法
 
-使用 `@` 符號，後接您要匯入的 Markdown 檔案的路徑：
+使用 `@` 符號後跟您要匯入的檔案路徑：
 
 ```markdown
 # 主要 GEMINI.md 檔案
@@ -56,7 +52,7 @@
 
 ### 巢狀匯入
 
-匯入的檔案本身可以包含匯入，從而建立巢狀結構：
+匯入的檔案本身可以包含匯入，建立巢狀結構：
 
 ```markdown
 # main.md
@@ -87,88 +83,132 @@
 
 # file-b.md
 
-@./file-a.md <!-- 這將被偵測到並被阻止 -->
+@./file-a.md <!-- 這將被偵測並防止 -->
 ```
 
-### 檔案存取安全
+### 檔案存取安全性
 
-`validateImportPath` 函式可確保僅允許從指定目錄進行匯入，從而防止存取允許範圍之外的敏感檔案。
+`validateImportPath` 函式確保只允許從指定目錄進行匯入，防止存取允許範圍外的敏感檔案。
 
 ### 最大匯入深度
 
-為防止無限遞迴，有一個可設定的最大匯入深度（預設值：10 層）。
+為防止無限遞迴，有一個可設定的最大匯入深度（預設：5 層）。
 
 ## 錯誤處理
 
-### 非 MD 檔案嘗試
-
-如果您嘗試匯入非 Markdown 檔案，您會看到一則警告：
-
-```markdown
-@./instructions.txt <!-- 這將顯示警告並失敗 -->
-```
-
-主控台輸出：
-
-```
-[WARN] [ImportProcessor] Import processor only supports .md files. Attempting to import non-md file: ./instructions.txt. This will fail.
-```
-
 ### 遺失檔案
 
-如果參照的檔案不存在，匯入將會正常失敗，並在輸出中顯示錯誤註解。
+如果參考的檔案不存在，匯入將優雅地失敗，並在輸出中顯示錯誤註解。
 
 ### 檔案存取錯誤
 
-權限問題或其他檔案系統錯誤會以適當的錯誤訊息正常處理。
+權限問題或其他檔案系統錯誤會以適當的錯誤訊息優雅地處理。
+
+## 程式碼區域偵測
+
+匯入處理器使用 `marked` 函式庫來偵測程式碼區塊和內嵌程式碼片段，確保這些區域內的 `@` 匯入被適當地忽略。這提供了對巢狀程式碼區塊和複雜 Markdown 結構的強健處理。
+
+## 匯入樹狀結構
+
+處理器回傳一個匯入樹，顯示匯入檔案的階層，類似於 Claude 的 `/memory` 功能。這幫助使用者透過顯示讀取了哪些檔案及其匯入關係來除錯 GEMINI.md 檔案的問題。
+
+範例樹狀結構：
+
+```
+記憶體檔案
+ L 專案: GEMINI.md
+            L a.md
+              L b.md
+                L c.md
+              L d.md
+                L e.md
+                  L f.md
+            L included.md
+```
+
+樹狀結構保留檔案匯入的順序，並顯示完整的匯入鏈以供除錯之用。
+
+## 與 Claude Code 的 `/memory`（`claude.md`）方法比較
+
+Claude Code 的 `/memory` 功能（如 `claude.md` 中所見）透過串聯所有包含的檔案來產生平坦的線性文件，始終以清楚的註解和路徑名稱標記檔案邊界。它不明確呈現匯入階層，但 LLM 接收所有檔案內容和路徑，這足以在需要時重建階層。
+
+注意：匯入樹主要是為了開發期間的清晰度，對 LLM 消費的相關性有限。
 
 ## API 參考
 
 ### `processImports(content, basePath, debugMode?, importState?)`
 
-處理 GEMINI.md 內容中的匯入陳述式。
+處理 GEMINI.md 內容中的匯入陳述。
 
-**參數**：
+**參數：**
 
-- `content` (string): 要處理匯入的內容
-- `basePath` (string): 目前檔案所在的目錄路徑
-- `debugMode` (boolean, optional): 是否啟用偵錯記錄（預設值：false）
-- `importState` (ImportState, optional): 用於防止循環匯入的狀態追蹤
+- `content`（字串）：要處理匯入的內容
+- `basePath`（字串）：目前檔案所在的目錄路徑
+- `debugMode`（布林值，可選）：是否啟用除錯記錄（預設：false）
+- `importState`（ImportState，可選）：循環匯入防止的狀態追蹤
 
-**傳回**： `Promise<string>` - 已解析匯入的已處理內容
+**回傳：** Promise&lt;ProcessImportsResult&gt; - 包含處理過的內容和匯入樹的物件
+
+### `ProcessImportsResult`
+
+```typescript
+interface ProcessImportsResult {
+  content: string; // 已解析匯入的處理內容
+  importTree: MemoryFile; // 顯示匯入階層的樹狀結構
+}
+```
+
+### `MemoryFile`
+
+```typescript
+interface MemoryFile {
+  path: string; // 檔案路徑
+  imports?: MemoryFile[]; // 直接匯入，按匯入順序
+}
+```
 
 ### `validateImportPath(importPath, basePath, allowedDirectories)`
 
-驗證匯入路徑以確保其安全且在允許的目錄內。
+驗證匯入路徑以確保它們是安全的且在允許的目錄內。
 
-**參數**：
+**參數：**
 
-- `importPath` (string): 要驗證的匯入路徑
-- `basePath` (string): 用於解析相對路徑的基礎目錄
-- `allowedDirectories` (string[]): 允許的目錄路徑陣列
+- `importPath`（字串）：要驗證的匯入路徑
+- `basePath`（字串）：解析相對路徑的基礎目錄
+- `allowedDirectories`（字串陣列）：允許的目錄路徑陣列
 
-**傳回**： boolean - 匯入路徑是否有效
+**回傳：** 布林值 - 匯入路徑是否有效
+
+### `findProjectRoot(startDir)`
+
+透過從給定的起始目錄向上搜尋 `.git` 目錄來尋找專案根目錄。實作為**非同步**函式，使用非阻塞檔案系統 API 以避免阻塞 Node.js 事件迴圈。
+
+**參數：**
+
+- `startDir`（字串）：開始搜尋的目錄
+
+**回傳：** Promise&lt;string&gt; - 專案根目錄（如果找不到 `.git` 則為起始目錄）
 
 ## 最佳實務
 
 1. **為匯入的元件使用描述性檔案名稱**
-2. **保持匯入的淺層性** - 避免深度巢狀的匯入鏈
-3. **記錄您的結構** - 維護匯入檔案的清晰階層
-4. **測試您的匯入** - 確保所有參照的檔案都存在且可存取
-5. **盡可能使用相對路徑** 以獲得更好的可攜性
+2. **保持匯入淺層** - 避免深度巢狀的匯入鏈
+3. **記錄您的結構** - 維護清楚的匯入檔案階層
+4. **測試您的匯入** - 確保所有參考的檔案存在且可存取
+5. **盡可能使用相對路徑**以獲得更好的可攜性
 
 ## 疑難排解
 
 ### 常見問題
 
-1. **匯入無法運作**：檢查檔案是否存在且副檔名為 `.md`
-2. **循環匯入警告**：檢查您的匯入結構是否有循環參照
+1. **匯入無法運作**：檢查檔案是否存在且路徑正確
+2. **循環匯入警告**：檢查您的匯入結構是否有循環參考
 3. **權限錯誤**：確保檔案可讀取且在允許的目錄內
-4. **路徑解析問題**：如果相對路徑無法正確解析，請使用絕對路徑
+4. **路徑解析問題**：如果相對路徑無法解析，請使用絕對路徑
 
-### 偵錯模式
+### 除錯模式
 
-啟用偵錯模式以查看匯入程序的詳細記錄：
+啟用除錯模式以查看匯入流程的詳細記錄：
 
 ```typescript
 const result = await processImports(content, basePath, true);
