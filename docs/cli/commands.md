@@ -28,114 +28,114 @@ Gemini CLI 支援多個內建指令來幫助您管理工作階段、自訂介面
     - **`list`**
       - **描述**：列出可用於聊天狀態恢復的標籤。
     - **`delete`**
-      - **Description:** Deletes a saved conversation checkpoint.
-      - **Usage:** `/chat delete <tag>`
+      - **描述**：刪除已儲存的對話檢查點。
+      - **使用方式**：`/chat delete <tag>`
 
 - **`/clear`**
-  - **Description:** Clear the terminal screen, including the visible session history and scrollback within the CLI. The underlying session data (for history recall) might be preserved depending on the exact implementation, but the visual display is cleared.
-  - **Keyboard shortcut:** Press **Ctrl+L** at any time to perform a clear action.
+  - **描述**：清除終端畫面，包括 CLI 內的可見工作階段歷史記錄和回捲。底層工作階段資料（用於歷史記錄召回）可能會根據確切實作而保留，但視覺顯示會被清除。
+  - **鍵盤快速鍵**：隨時按 **Ctrl+L** 執行清除操作。
 
 - **`/compress`**
-  - **Description:** Replace the entire chat context with a summary. This saves on tokens used for future tasks while retaining a high level summary of what has happened.
+  - **描述**：用摘要替換整個聊天內容。這節省了未來任務使用的令牌，同時保留發生事情的高層摘要。
 
 - **`/copy`**
-  - **Description:** Copies the last output produced by Gemini CLI to your clipboard, for easy sharing or reuse.
-  - **Note:** This command requires platform-specific clipboard tools to be installed.
-    - On Linux, it requires `xclip` or `xsel`. You can typically install them using your system's package manager.
-    - On macOS, it requires `pbcopy`, and on Windows, it requires `clip`. These tools are typically pre-installed on their respective systems.
+  - **描述**：將 Gemini CLI 產生的最後輸出複製到您的剪貼簿，以便於分享或重複使用。
+  - **注意**：此指令需要安裝平台特定的剪貼簿工具。
+    - 在 Linux 上，它需要 `xclip` 或 `xsel`。您通常可以使用系統的套件管理器安裝它們。
+    - 在 macOS 上，它需要 `pbcopy`，在 Windows 上，它需要 `clip`。這些工具通常在各自的系統上預先安裝。
 
-- **`/directory`** (or **`/dir`**)
-  - **Description:** Manage workspace directories for multi-directory support.
-  - **Sub-commands:**
-    - **`add`**:
-      - **Description:** Add a directory to the workspace. The path can be absolute or relative to the current working directory. Moreover, the reference from home directory is supported as well.
-      - **Usage:** `/directory add <path1>,<path2>`
-      - **Note:** Disabled in restrictive sandbox profiles. If you're using that, use `--include-directories` when starting the session instead.
-    - **`show`**:
-      - **Description:** Display all directories added by `/directory add` and `--include-directories`.
-      - **Usage:** `/directory show`
+- **`/directory`**（或 **`/dir`**）
+  - **描述**：管理多目錄支援的工作區目錄。
+  - **子指令**：
+    - **`add`**：
+      - **描述**：將目錄新增到工作區。路徑可以是絕對路徑或相對於目前工作目錄的路徑。此外，也支援從主目錄的參照。
+      - **使用方式**：`/directory add <path1>,<path2>`
+      - **注意**：在限制性沙箱設定檔中停用。如果您使用該設定檔，請在啟動工作階段時使用 `--include-directories` 代替。
+    - **`show`**：
+      - **描述**：顯示透過 `/directory add` 和 `--include-directories` 新增的所有目錄。
+      - **使用方式**：`/directory show`
 
 - **`/editor`**
-  - **Description:** Open a dialog for selecting supported editors.
+  - **描述**：開啟對話方塊以選擇支援的編輯器。
 
 - **`/extensions`**
-  - **Description:** Lists all active extensions in the current Gemini CLI session. See [Gemini CLI Extensions](../extension.md).
+  - **描述**：列出目前 Gemini CLI 工作階段中的所有啟用擴充功能。請參閱 [Gemini CLI 擴充功能](../extension.md)。
 
-- **`/help`** (or **`/?`**)
-  - **Description:** Display help information about Gemini CLI, including available commands and their usage.
+- **`/help`**（或 **`/?`**）
+  - **描述**：顯示關於 Gemini CLI 的幫助資訊，包括可用指令及其使用方式。
 
 - **`/mcp`**
-  - **Description:** List configured Model Context Protocol (MCP) servers, their connection status, server details, and available tools.
-  - **Sub-commands:**
-    - **`desc`** or **`descriptions`**:
-      - **Description:** Show detailed descriptions for MCP servers and tools.
-    - **`nodesc`** or **`nodescriptions`**:
-      - **Description:** Hide tool descriptions, showing only the tool names.
-    - **`schema`**:
-      - **Description:** Show the full JSON schema for the tool's configured parameters.
-  - **Keyboard Shortcut:** Press **Ctrl+T** at any time to toggle between showing and hiding tool descriptions.
+  - **描述**：列出已設定的模型內容協定（MCP）伺服器、其連線狀態、伺服器詳細資訊和可用工具。
+  - **子指令**：
+    - **`desc`** 或 **`descriptions`**：
+      - **描述**：顯示 MCP 伺服器和工具的詳細描述。
+    - **`nodesc`** 或 **`nodescriptions`**：
+      - **描述**：隱藏工具描述，僅顯示工具名稱。
+    - **`schema`**：
+      - **描述**：顯示工具設定參數的完整 JSON 結構描述。
+  - **鍵盤快速鍵**：隨時按 **Ctrl+T** 在顯示和隱藏工具描述之間切換。
 
 - **`/memory`**
-  - **Description:** Manage the AI's instructional context (hierarchical memory loaded from `GEMINI.md` files).
-  - **Sub-commands:**
-    - **`add`**:
-      - **Description:** Adds the following text to the AI's memory. Usage: `/memory add <text to remember>`
-    - **`show`**:
-      - **Description:** Display the full, concatenated content of the current hierarchical memory that has been loaded from all `GEMINI.md` files. This lets you inspect the instructional context being provided to the Gemini model.
-    - **`refresh`**:
-      - **Description:** Reload the hierarchical instructional memory from all `GEMINI.md` files found in the configured locations (global, project/ancestors, and sub-directories). This command updates the model with the latest `GEMINI.md` content.
-    - **Note:** For more details on how `GEMINI.md` files contribute to hierarchical memory, see the [CLI Configuration documentation](./configuration.md#4-geminimd-files-hierarchical-instructional-context).
+  - **描述**：管理 AI 的指示內容（從 `GEMINI.md` 檔案載入的階層式記憶體）。
+  - **子指令**：
+    - **`add`**：
+      - **描述**：將以下文字新增到 AI 的記憶體。使用方式：`/memory add <要記住的文字>`
+    - **`show`**：
+      - **描述**：顯示目前從所有 `GEMINI.md` 檔案載入的階層式記憶體的完整串聯內容。這讓您檢查提供給 Gemini 模型的指示內容。
+    - **`refresh`**：
+      - **描述**：從在設定位置找到的所有 `GEMINI.md` 檔案重新載入階層式指示記憶體（全域、專案/祖先和子目錄）。此指令使用最新的 `GEMINI.md` 內容更新模型。
+    - **注意**：有關 `GEMINI.md` 檔案如何促成階層式記憶體的更多詳細資訊，請參閱 [CLI 設定說明文件](./configuration.md#4-geminimd-files-hierarchical-instructional-context)。
 
 - **`/restore`**
-  - **Description:** Restores the project files to the state they were in just before a tool was executed. This is particularly useful for undoing file edits made by a tool. If run without a tool call ID, it will list available checkpoints to restore from.
-  - **Usage:** `/restore [tool_call_id]`
-  - **Note:** Only available if the CLI is invoked with the `--checkpointing` option or configured via [settings](./configuration.md). See [Checkpointing documentation](../checkpointing.md) for more details.
+  - **描述**：將專案檔案還原到工具執行前的狀態。這對於復原工具所做的檔案編輯特別有用。如果在沒有工具呼叫 ID 的情況下執行，它會列出可供還原的可用檢查點。
+  - **使用方式**：`/restore [tool_call_id]`
+  - **注意**：僅在使用 `--checkpointing` 選項呼叫 CLI 或透過[設定](./configuration.md)設定時可用。有關更多詳細資訊，請參閱[檢查點說明文件](../checkpointing.md)。
 
 - **`/settings`**
-  - **Description:** Open the settings editor to view and modify Gemini CLI settings.
-  - **Details:** This command provides a user-friendly interface for changing settings that control the behavior and appearance of Gemini CLI. It is equivalent to manually editing the `.gemini/settings.json` file, but with validation and guidance to prevent errors.
-  - **Usage:** Simply run `/settings` and the editor will open. You can then browse or search for specific settings, view their current values, and modify them as desired. Changes to some settings are applied immediately, while others require a restart.
+  - **描述**：開啟設定編輯器以檢視和修改 Gemini CLI 設定。
+  - **詳細資訊**：此指令提供使用者友善的介面來變更控制 Gemini CLI 行為和外觀的設定。它等同於手動編輯 `.gemini/settings.json` 檔案，但具有驗證和指導以防止錯誤。
+  - **使用方式**：只需執行 `/settings`，編輯器就會開啟。您然後可以瀏覽或搜尋特定設定、檢視其目前值，並根據需要修改它們。某些設定的變更會立即套用，而其他設定則需要重新啟動。
 
 - **`/stats`**
-  - **Description:** Display detailed statistics for the current Gemini CLI session, including token usage, cached token savings (when available), and session duration. Note: Cached token information is only displayed when cached tokens are being used, which occurs with API key authentication but not with OAuth authentication at this time.
+  - **描述**：顯示目前 Gemini CLI 工作階段的詳細統計資料，包括令牌使用情況、快取令牌節省（可用時）和工作階段持續時間。注意：快取令牌資訊僅在使用快取令牌時顯示，這在 API 金鑰驗證時發生，但目前不適用於 OAuth 驗證。
 
 - [**`/theme`**](./themes.md)
-  - **Description:** Open a dialog that lets you change the visual theme of Gemini CLI.
+  - **描述**：開啟對話方塊，讓您變更 Gemini CLI 的視覺主題。
 
 - **`/auth`**
-  - **Description:** Open a dialog that lets you change the authentication method.
+  - **描述**：開啟對話方塊，讓您變更驗證方法。
 
 - **`/about`**
-  - **Description:** Show version info. Please share this information when filing issues.
+  - **描述**：顯示版本資訊。回報問題時請分享此資訊。
 
 - [**`/tools`**](../tools/index.md)
-  - **Description:** Display a list of tools that are currently available within Gemini CLI.
-  - **Usage:** `/tools [desc]`
-  - **Sub-commands:**
-    - **`desc`** or **`descriptions`**:
-      - **Description:** Show detailed descriptions of each tool, including each tool's name with its full description as provided to the model.
-    - **`nodesc`** or **`nodescriptions`**:
-      - **Description:** Hide tool descriptions, showing only the tool names.
+  - **描述**：顯示 Gemini CLI 內目前可用的工具清單。
+  - **使用方式**：`/tools [desc]`
+  - **子指令**：
+    - **`desc`** 或 **`descriptions`**：
+      - **描述**：顯示每個工具的詳細描述，包括每個工具的名稱及其提供給模型的完整描述。
+    - **`nodesc`** 或 **`nodescriptions`**：
+      - **描述**：隱藏工具描述，僅顯示工具名稱。
 
 - **`/privacy`**
-  - **Description:** Display the Privacy Notice and allow users to select whether they consent to the collection of their data for service improvement purposes.
+  - **描述**：顯示隱私權聲明並允許使用者選擇是否同意收集其資料以供服務改善目的。
 
-- **`/quit`** (or **`/exit`**)
-  - **Description:** Exit Gemini CLI.
+- **`/quit`**（或 **`/exit`**）
+  - **描述**：結束 Gemini CLI。
 
 - **`/vim`**
-  - **Description:** Toggle vim mode on or off. When vim mode is enabled, the input area supports vim-style navigation and editing commands in both NORMAL and INSERT modes.
-  - **Features:**
-    - **NORMAL mode:** Navigate with `h`, `j`, `k`, `l`; jump by words with `w`, `b`, `e`; go to line start/end with `0`, `$`, `^`; go to specific lines with `G` (or `gg` for first line)
-    - **INSERT mode:** Standard text input with escape to return to NORMAL mode
-    - **Editing commands:** Delete with `x`, change with `c`, insert with `i`, `a`, `o`, `O`; complex operations like `dd`, `cc`, `dw`, `cw`
-    - **Count support:** Prefix commands with numbers (e.g., `3h`, `5w`, `10G`)
-    - **Repeat last command:** Use `.` to repeat the last editing operation
-    - **Persistent setting:** Vim mode preference is saved to `~/.gemini/settings.json` and restored between sessions
-  - **Status indicator:** When enabled, shows `[NORMAL]` or `[INSERT]` in the footer
+  - **描述**：開啟或關閉 vim 模式。啟用 vim 模式時，輸入區域在 NORMAL 和 INSERT 模式中都支援 vim 風格的導航和編輯指令。
+  - **功能**：
+    - **NORMAL 模式**：使用 `h`、`j`、`k`、`l` 導航；使用 `w`、`b`、`e` 按字跳躍；使用 `0`、`$`、`^` 移至行首/行尾；使用 `G`（或首行的 `gg`）移至特定行
+    - **INSERT 模式**：標準文字輸入，按 escape 返回 NORMAL 模式
+    - **編輯指令**：使用 `x` 刪除，使用 `c` 變更，使用 `i`、`a`、`o`、`O` 插入；複雜操作如 `dd`、`cc`、`dw`、`cw`
+    - **計數支援**：在指令前加上數字（例如，`3h`、`5w`、`10G`）
+    - **重複上一個指令**：使用 `.` 重複上一個編輯操作
+    - **持久設定**：Vim 模式偏好設定儲存到 `~/.gemini/settings.json` 並在工作階段間還原
+  - **狀態指示器**：啟用時，在頁尾顯示 `[NORMAL]` 或 `[INSERT]`
 
 - **`/init`**
-  - **Description:** To help users easily create a `GEMINI.md` file, this command analyzes the current directory and generates a tailored context file, making it simpler for them to provide project-specific instructions to the Gemini agent.
+  - **描述**：為了幫助使用者輕鬆建立 `GEMINI.md` 檔案，此指令分析目前目錄並產生量身定做的內容檔案，讓他們更容易向 Gemini 代理提供專案特定的指示。
 
 ### 自訂指令
 
