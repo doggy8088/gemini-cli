@@ -528,42 +528,42 @@ CLI 會自動從 `.env` 檔案載入環境變數。載入順序為：
 
 雖然嚴格來說不是 CLI _行為_ 的設定，但內容檔案（預設為 `GEMINI.md`，但可透過 `contextFileName` 設定進行設定）對於設定提供給 Gemini 模型的_指令內容_（也稱為「記憶體」）至關重要。這個強大的功能讓您可以向 AI 提供專案特定的指示、編碼風格指南或任何相關的背景資訊，使其回應更符合您的需求且更準確。CLI 包含 UI 元素，例如頁尾中顯示已載入內容檔案數量的指示器，以讓您了解作用中的內容。
 
-- **Purpose:** These Markdown files contain instructions, guidelines, or context that you want the Gemini model to be aware of during your interactions. The system is designed to manage this instructional context hierarchically.
+- **目的：** 這些 Markdown 檔案包含您希望 Gemini 模型在互動期間了解的指示、指導原則或內容。系統設計為階層式管理此指示內容。
 
-### Example Context File Content (e.g., `GEMINI.md`)
+### 範例內容檔案內容（例如，`GEMINI.md`）
 
-Here's a conceptual example of what a context file at the root of a TypeScript project might contain:
+以下是 TypeScript 專案根目錄中內容檔案可能包含的概念範例：
 
 ```markdown
-# Project: My Awesome TypeScript Library
+# 專案：我的出色 TypeScript 程式庫
 
-## General Instructions:
+## 一般指示：
 
-- When generating new TypeScript code, please follow the existing coding style.
-- Ensure all new functions and classes have JSDoc comments.
-- Prefer functional programming paradigms where appropriate.
-- All code should be compatible with TypeScript 5.0 and Node.js 20+.
+- 產生新的 TypeScript 程式碼時，請遵循現有的編碼風格。
+- 確保所有新函式和類別都有 JSDoc 註解。
+- 在適當的地方偏好函式程式設計範式。
+- 所有程式碼都應與 TypeScript 5.0 和 Node.js 20+ 相容。
 
-## Coding Style:
+## 編碼風格：
 
-- Use 2 spaces for indentation.
-- Interface names should be prefixed with `I` (e.g., `IUserService`).
-- Private class members should be prefixed with an underscore (`_`).
-- Always use strict equality (`===` and `!==`).
+- 使用 2 個空格進行縮排。
+- 介面名稱應以 `I` 為前綴（例如，`IUserService`）。
+- 私有類別成員應以底線（`_`）為前綴。
+- 始終使用嚴格相等（`===` 和 `!==`）。
 
-## Specific Component: `src/api/client.ts`
+## 特定元件：`src/api/client.ts`
 
-- This file handles all outbound API requests.
-- When adding new API call functions, ensure they include robust error handling and logging.
-- Use the existing `fetchWithRetry` utility for all GET requests.
+- 此檔案處理所有出站 API 請求。
+- 新增新的 API 呼叫函式時，請確保它們包含強健的錯誤處理和日誌記錄。
+- 對所有 GET 請求使用現有的 `fetchWithRetry` 工具。
 
-## Regarding Dependencies:
+## 關於相依性：
 
-- Avoid introducing new external dependencies unless absolutely necessary.
-- If a new dependency is required, please state the reason.
+- 除非絕對必要，否則避免引入新的外部相依性。
+- 如果需要新的相依性，請說明原因。
 ```
 
-This example demonstrates how you can provide general project context, specific coding conventions, and even notes about particular files or components. The more relevant and precise your context files are, the better the AI can assist you. Project-specific context files are highly encouraged to establish conventions and context.
+此範例展示了如何提供一般專案內容、特定編碼慣例，甚至關於特定檔案或元件的註記。您的內容檔案越相關和精確，AI 就能更好地協助您。強烈建議專案特定的內容檔案建立慣例和內容。
 
 - **Hierarchical Loading and Precedence:** The CLI implements a sophisticated hierarchical memory system by loading context files (e.g., `GEMINI.md`) from several locations. Content from files lower in this list (more specific) typically overrides or supplements content from files higher up (more general). The exact concatenation order and final context can be inspected using the `/memory show` command. The typical loading order is:
   1.  **Global Context File:**

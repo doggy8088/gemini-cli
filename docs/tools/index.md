@@ -28,29 +28,29 @@ Gemini CLI 包含內建工具，供 Gemini 模型用來與您的本機環境互�
 6.  工具的輸出被送回 Gemini 模型。
 7.  Gemini 模型使用工具的輸出來制定其最終答案，然後透過核心送回 CLI 並顯示給您。
 
-You will typically see messages in the CLI indicating when a tool is being called and whether it succeeded or failed.
+您通常會在 CLI 中看到指示工具正在被呼叫以及是否成功或失敗的訊息。
 
-## Security and confirmation
+## 安全性和確認
 
-Many tools, especially those that can modify your file system or execute commands (`write_file`, `edit`, `run_shell_command`), are designed with safety in mind. The Gemini CLI will typically:
+許多工具，特別是那些可以修改您的檔案系統或執行指令的工具（`write_file`、`edit`、`run_shell_command`），都是以安全為考量設計的。Gemini CLI 通常會：
 
-- **Require confirmation:** Prompt you before executing potentially sensitive operations, showing you what action is about to be taken.
-- **Utilize sandboxing:** All tools are subject to restrictions enforced by sandboxing (see [Sandboxing in the Gemini CLI](../sandbox.md)). This means that when operating in a sandbox, any tools (including MCP servers) you wish to use must be available _inside_ the sandbox environment. For example, to run an MCP server through `npx`, the `npx` executable must be installed within the sandbox's Docker image or be available in the `sandbox-exec` environment.
+- **需要確認：** 在執行潛在敏感操作前提示您，向您顯示即將執行的操作。
+- **利用沙箱化：** 所有工具都受到沙箱化強制執行的限制（請參閱 [Gemini CLI 中的沙箱化](../sandbox.md)）。這意味著在沙箱中操作時，您希望使用的任何工具（包括 MCP 伺服器）都必須在沙箱環境_內_可用。例如，要透過 `npx` 執行 MCP 伺服器，`npx` 執行檔必須安裝在沙箱的 Docker 影像內或在 `sandbox-exec` 環境中可用。
 
-It's important to always review confirmation prompts carefully before allowing a tool to proceed.
+在允許工具繼續執行前，仔細檢查確認提示很重要。
 
-## Learn more about Gemini CLI's tools
+## 了解更多關於 Gemini CLI 的工具
 
-Gemini CLI's built-in tools can be broadly categorized as follows:
+Gemini CLI 的內建工具大致可以分類如下：
 
-- **[File System Tools](./file-system.md):** For interacting with files and directories (reading, writing, listing, searching, etc.).
-- **[Shell Tool](./shell.md) (`run_shell_command`):** For executing shell commands.
-- **[Web Fetch Tool](./web-fetch.md) (`web_fetch`):** For retrieving content from URLs.
-- **[Web Search Tool](./web-search.md) (`web_search`):** For searching the web.
-- **[Multi-File Read Tool](./multi-file.md) (`read_many_files`):** A specialized tool for reading content from multiple files or directories, often used by the `@` command.
-- **[Memory Tool](./memory.md) (`save_memory`):** For saving and recalling information across sessions.
+- **[檔案系統工具](./file-system.md)：** 用於與檔案和目錄互動（讀取、寫入、列表、搜尋等）。
+- **[Shell 工具](./shell.md)（`run_shell_command`）：** 用於執行 Shell 指令。
+- **[網頁擷取工具](./web-fetch.md)（`web_fetch`）：** 用於從 URL 擷取內容。
+- **[網頁搜尋工具](./web-search.md)（`web_search`）：** 用於搜尋網頁。
+- **[多檔案讀取工具](./multi-file.md)（`read_many_files`）：** 用於從多個檔案或目錄讀取內容的專用工具，通常由 `@` 指令使用。
+- **[記憶體工具](./memory.md)（`save_memory`）：** 用於跨工作階段儲存和召回資訊。
 
-Additionally, these tools incorporate:
+此外，這些工具還包含：
 
-- **[MCP servers](./mcp-server.md)**: MCP servers act as a bridge between the Gemini model and your local environment or other services like APIs.
-- **[Sandboxing](../sandbox.md)**: Sandboxing isolates the model and its changes from your environment to reduce potential risk.
+- **[MCP 伺服器](./mcp-server.md)**：MCP 伺服器充當 Gemini 模型與您的本機環境或其他服務（如 API）之間的橋樑。
+- **[沙箱化](../sandbox.md)**：沙箱化將模型及其變更與您的環境隔離，以降低潛在風險。
