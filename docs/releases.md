@@ -1,4 +1,4 @@
-# Gemini CLI Releases
+# Releases
 
 ## Release Cadence and Tags
 

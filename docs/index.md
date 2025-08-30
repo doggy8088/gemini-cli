@@ -31,7 +31,7 @@ Gemini CLI 以互動式讀取-評估-輸出循環 (REPL) 環境的形式，將 G
   - **[網頁擷取工具](./tools/web-fetch.md)**：`web_fetch` 工具的說明文件。
   - **[網頁搜尋工具](./tools/web-search.md)**：`google_web_search` 工具的說明文件。
   - **[記憶體工具](./tools/memory.md)**：`save_memory` 工具的說明文件。
-- **[貢獻與開發指南](../CONTRIBUTING.md)**：提供給貢獻者和開發人員的資訊，包括設定、建置、測試和編碼慣例。
+- **[貢獻與開發指南](./CONTRIBUTING.md)**：提供給貢獻者和開發人員的資訊，包括設定、建置、測試和編碼慣例。
 - **[NPM](./npm.md)**：專案套件結構的詳細資料。
 - **[疑難排解指南](./troubleshooting.md)**：尋找常見問題的解決方案和常見問題。
 - **[服務條款和隱私權聲明](./tos-privacy.md)**：適用於您使用 Gemini CLI 的服務條款和隱私權聲明相關資訊。

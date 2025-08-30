@@ -1,4 +1,4 @@
-# Gemini CLI for the Enterprise
+# for the Enterprise
 
 This document outlines configuration patterns and best practices for deploying and managing Gemini CLI in an enterprise environment. By leveraging system-level settings, administrators can enforce security policies, manage tool access, and ensure a consistent experience for all users.
 

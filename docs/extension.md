@@ -1,4 +1,4 @@
-# Gemini CLI Extensions
+# Extensions
 
 Gemini CLI supports extensions that can be used to configure and extend its functionality.
 

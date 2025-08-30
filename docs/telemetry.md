@@ -1,4 +1,4 @@
-# Gemini CLI Observability Guide
+# Observability Guide
 
 Telemetry provides data about Gemini CLI's performance, health, and usage. By enabling it, you can monitor operations, debug issues, and optimize tool usage through traces, metrics, and structured logs.
 
