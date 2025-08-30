@@ -147,7 +147,7 @@ Claude Code 的 `/memory` 功能（如 `claude.md` 中所見）透過串聯所�
 - `debugMode`（布林值，可選）：是否啟用除錯記錄（預設：false）
 - `importState`（ImportState，可選）：循環匯入防止的狀態追蹤
 
-**回傳：** Promise<ProcessImportsResult> - 包含處理過的內容和匯入樹的物件
+**回傳：** Promise&lt;ProcessImportsResult&gt; - 包含處理過的內容和匯入樹的物件
 
 ### `ProcessImportsResult`
 
@@ -187,7 +187,7 @@ interface MemoryFile {
 
 - `startDir`（字串）：開始搜尋的目錄
 
-**回傳：** Promise<string> - 專案根目錄（如果找不到 `.git` 則為起始目錄）
+**回傳：** Promise&lt;string&gt; - 專案根目錄（如果找不到 `.git` 則為起始目錄）
 
 ## 最佳實務
 
