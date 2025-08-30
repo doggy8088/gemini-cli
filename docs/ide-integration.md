@@ -104,14 +104,14 @@ Gemini CLI 可以與您的 IDE 整合，提供更無縫和內容感知的體驗�
 
 如果您在沙箱內使用 Gemini CLI，請注意以下事項：
 
-- **On macOS:** The IDE integration requires network access to communicate with the IDE companion extension. You must use a Seatbelt profile that allows network access.
-- **In a Docker Container:** If you run Gemini CLI inside a Docker (or Podman) container, the IDE integration can still connect to the VS Code extension running on your host machine. The CLI is configured to automatically find the IDE server on `host.docker.internal`. No special configuration is usually required, but you may need to ensure your Docker networking setup allows connections from the container to the host.
+- **在 macOS 上：** IDE 整合需要網路存取權限才能與 IDE 配套擴充功能通訊。您必須使用允許網路存取的 Seatbelt 設定檔。
+- **在 Docker 容器中：** 如果您在 Docker（或 Podman）容器內執行 Gemini CLI，IDE 整合仍可連線到在主機上執行的 VS Code 擴充功能。CLI 設定為自動在 `host.docker.internal` 上尋找 IDE 伺服器。通常不需要特殊設定，但您可能需要確保 Docker 網路設定允許從容器連線到主機。
 
-## Troubleshooting
+## 疑難排解
 
-If you encounter issues with IDE integration, here are some common error messages and how to resolve them.
+如果您在 IDE 整合方面遇到問題，以下是一些常見錯誤訊息及解決方法。
 
-### Connection Errors
+### 連線錯誤
 
 - **Message:** `🔴 Disconnected: Failed to connect to IDE companion extension in [IDE Name]. Please ensure the extension is running. To install the extension, run /ide install.`
   - **Cause:** Gemini CLI could not find the necessary environment variables (`GEMINI_CLI_IDE_WORKSPACE_PATH` or `GEMINI_CLI_IDE_SERVER_PORT`) to connect to the IDE. This usually means the IDE companion extension is not running or did not initialize correctly.

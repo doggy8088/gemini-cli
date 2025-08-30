@@ -708,13 +708,13 @@ await server.connect(transport);
 /poem-writer --title="Gemini CLI" --mood="reverent"
 ```
 
-or, using positional arguments:
+或者，使用位置引數：
 
 ```bash
 /poem-writer "Gemini CLI" reverent
 ```
 
-When you run this command, the Gemini CLI executes the `prompts/get` method on the MCP server with the provided arguments. The server is responsible for substituting the arguments into the prompt template and returning the final prompt text. The CLI then sends this prompt to the model for execution. This provides a convenient way to automate and share common workflows.
+執行此指令時，Gemini CLI 會在 MCP 伺服器上使用提供的引數執行 `prompts/get` 方法。伺服器負責將引數替換到提示模板中並傳回最終的提示文字。CLI 然後將此提示傳送給模型執行。這提供了自動化和分享常見工作流程的便利方式。
 
 ## 使用 `gemini mcp` 管理 MCP 伺服器
 
@@ -748,21 +748,21 @@ gemini mcp add [選項] <名稱> <指令或URL> [引數...]
 
 #### 新增 stdio 伺服器
 
-This is the default transport for running local servers.
+這是執行本機伺服器的預設傳輸。
 
-```bash
+# 基本語法
 # Basic syntax
 gemini mcp add <name> <command> [args...]
-
+# 範例：新增本機伺服器
 # Example: Adding a local server
 gemini mcp add my-stdio-server -e API_KEY=123 /path/to/server arg1 arg2 arg3
-
+# 範例：新增本機 Python 伺服器
 # Example: Adding a local python server
 gemini mcp add python-server python server.py --port 8080
 ```
-
+#### 新增 HTTP 伺服器
 #### Adding an HTTP server
-
+此傳輸適用於使用可串流 HTTP 傳輸的伺服器。
 This transport is for servers that use the streamable HTTP transport.
 
 ```bash
@@ -791,9 +791,9 @@ gemini mcp add --transport sse sse-server https://api.example.com/sse/
 gemini mcp add --transport sse secure-sse https://api.example.com/sse/ --header "Authorization: Bearer abc123"
 ```
 
-### Listing Servers (`gemini mcp list`)
+### 列出伺服器（`gemini mcp list`）
 
-To view all MCP servers currently configured, use the `list` command. It displays each server's name, configuration details, and connection status.
+要檢視目前設定的所有 MCP 伺服器，請使用 `list` 指令。它會顯示每個伺服器的名稱、設定詳細資料和連線狀態。
 
 **Command:**
 
