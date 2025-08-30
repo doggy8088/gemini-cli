@@ -32,13 +32,13 @@ web_fetch(prompt="Your prompt, including a URL such as https://google.com.")
 web_fetch(prompt="Can you summarize the main points of https://example.com/news/latest")
 ```
 
-Compare two articles:
+比較兩篇文章：
 
 ```
 web_fetch(prompt="What are the differences in the conclusions of these two papers: https://arxiv.org/abs/2401.0001 and https://arxiv.org/abs/2401.0002?")
 ```
 
-## Important notes
+## 重要注意事項
 
-- **URL processing:** `web_fetch` relies on the Gemini API's ability to access and process the given URLs.
-- **Output quality:** The quality of the output will depend on the clarity of the instructions in the prompt.
+- **URL 處理：** `web_fetch` 依賴 Gemini API 存取和處理指定 URL 的能力。
+- **輸出品質：** 輸出品質將取決於提示中指示的清晰度。

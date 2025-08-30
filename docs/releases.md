@@ -237,97 +237,82 @@ npm_package_version=9.9.9 SANDBOX_IMAGE_REGISTRY="registry" SANDBOX_IMAGE_NAME="
 
 透過執行試執行，您可以確信您對封裝流程的變更是正確的，並且套件會成功發布。
 
-## Release Deep Dive
+## 發布深入探討
 
-The main goal of the release process is to take the source code from the packages/ directory, build it, and assemble a
-clean, self-contained package in a temporary `bundle` directory at the root of the project. This `bundle` directory is what
-actually gets published to NPM.
+發布流程的主要目標是從 packages/ 目錄取得原始碼，建置它，並在專案根目錄的臨時 `bundle` 目錄中組裝一個乾淨、自包含的套件。這個 `bundle` 目錄就是實際發布到 NPM 的內容。
 
-Here are the key stages:
+以下是關鍵階段：
 
-Stage 1: Pre-Release Sanity Checks and Versioning
+階段 1：發布前完整性檢查與版本控制
 
-- What happens: Before any files are moved, the process ensures the project is in a good state. This involves running tests,
-  linting, and type-checking (npm run preflight). The version number in the root package.json and packages/cli/package.json
-  is updated to the new release version.
-- Why: This guarantees that only high-quality, working code is released. Versioning is the first step to signify a new
-  release.
+- 發生什麼：在移動任何檔案之前，流程確保專案處於良好狀態。這包括執行測試、程式碼檢查和類型檢查（npm run preflight）。根目錄 package.json 和 packages/cli/package.json 的版本號會更新為新的發布版本。
+- 為什麼：這保證只有高品質、可運作的程式碼會被發布。版本控制是表示新發布的第一步。
 
-Stage 2: Building the Source Code
+階段 2：建置原始碼
 
-- What happens: The TypeScript source code in packages/core/src and packages/cli/src is compiled into JavaScript.
-- File movement:
-  - packages/core/src/\*_/_.ts -> compiled to -> packages/core/dist/
-  - packages/cli/src/\*_/_.ts -> compiled to -> packages/cli/dist/
-- Why: The TypeScript code written during development needs to be converted into plain JavaScript that can be run by
-  Node.js. The core package is built first as the cli package depends on it.
+- 發生什麼：packages/core/src 和 packages/cli/src 中的 TypeScript 原始碼會編譯成 JavaScript。
+- 檔案移動：
+  - packages/core/src/\*_/_.ts -> 編譯到 -> packages/core/dist/
+  - packages/cli/src/\*_/_.ts -> 編譯到 -> packages/cli/dist/
+- 為什麼：開發過程中撰寫的 TypeScript 程式碼需要轉換成可由 Node.js 執行的純 JavaScript。核心套件會先建置，因為 cli 套件依賴它。
 
-Stage 3: Assembling the Final Publishable Package
+階段 3：組裝最終可發布套件
 
-This is the most critical stage where files are moved and transformed into their final state for publishing. A temporary
-`bundle` folder is created at the project root to house the final package contents.
+這是最關鍵的階段，檔案會被移動和轉換到最終發布狀態。在專案根目錄建立臨時 `bundle` 資料夾來存放最終套件內容。
 
-1.  The `package.json` is Transformed:
-    - What happens: The package.json from packages/cli/ is read, modified, and written into the root `bundle`/ directory.
-    - File movement: packages/cli/package.json -> (in-memory transformation) -> `bundle`/package.json
-    - Why: The final package.json must be different from the one used in development. Key changes include:
-      - Removing devDependencies.
-      - Removing workspace-specific "dependencies": { "@gemini-cli/core": "workspace:\*" } and ensuring the core code is
-        bundled directly into the final JavaScript file.
-      - Ensuring the bin, main, and files fields point to the correct locations within the final package structure.
+1.  轉換 `package.json`：
+    - 發生什麼：從 packages/cli/ 讀取 package.json，修改後寫入根目錄 `bundle`/ 目錄。
+    - 檔案移動：packages/cli/package.json -> （記憶體中轉換）-> `bundle`/package.json
+    - 為什麼：最終的 package.json 必須與開發時使用的不同。主要變更包括：
+      - 移除 devDependencies。
+      - 移除工作區特定的 "dependencies": { "@gemini-cli/core": "workspace:\*" } 並確保核心程式碼直接打包到最終 JavaScript 檔案中。
+      - 確保 bin、main 和 files 欄位指向最終套件結構中的正確位置。
 
-2.  The JavaScript Bundle is Created:
-    - What happens: The built JavaScript from both packages/core/dist and packages/cli/dist are bundled into a single,
-      executable JavaScript file.
-    - File movement: packages/cli/dist/index.js + packages/core/dist/index.js -> (bundled by esbuild) -> `bundle`/gemini.js (or a
-      similar name).
-    - Why: This creates a single, optimized file that contains all the necessary application code. It simplifies the package
-      by removing the need for the core package to be a separate dependency on NPM, as its code is now included directly.
+2.  建立 JavaScript 組合包：
+    - 發生什麼：來自 packages/core/dist 和 packages/cli/dist 的已建置 JavaScript 會打包成單一、可執行的 JavaScript 檔案。
+    - 檔案移動：packages/cli/dist/index.js + packages/core/dist/index.js -> （由 esbuild 打包）-> `bundle`/gemini.js（或類似名稱）。
+    - 為什麼：這建立了包含所有必要應用程式碼的單一最佳化檔案。它透過移除核心套件作為 NPM 上獨立相依性的需求來簡化套件，因為其程式碼現在直接包含在內。
 
-3.  Static and Supporting Files are Copied:
-    - What happens: Essential files that are not part of the source code but are required for the package to work correctly
-      or be well-described are copied into the `bundle` directory.
-    - File movement:
+3.  複製靜態和支援檔案：
+    - 發生什麼：不屬於原始碼但套件正常運作或良好描述所需的基本檔案會複製到 `bundle` 目錄。
+    - 檔案移動：
       - README.md -> `bundle`/README.md
       - LICENSE -> `bundle`/LICENSE
-      - packages/cli/src/utils/\*.sb (sandbox profiles) -> `bundle`/
-    - Why:
-      - The README.md and LICENSE are standard files that should be included in any NPM package.
-      - The sandbox profiles (.sb files) are critical runtime assets required for the CLI's sandboxing feature to
-        function. They must be located next to the final executable.
+      - packages/cli/src/utils/\*.sb（沙箱設定檔）-> `bundle`/
+    - 為什麼：
+      - README.md 和 LICENSE 是任何 NPM 套件都應該包含的標準檔案。
+      - 沙箱設定檔（.sb 檔案）是 CLI 沙箱化功能運作所需的關鍵執行時資產。它們必須位於最終可執行檔旁邊。
 
-Stage 4: Publishing to NPM
+階段 4：發布到 NPM
 
-- What happens: The npm publish command is run from inside the root `bundle` directory.
-- Why: By running npm publish from within the `bundle` directory, only the files we carefully assembled in Stage 3 are uploaded
-  to the NPM registry. This prevents any source code, test files, or development configurations from being accidentally
-  published, resulting in a clean and minimal package for users.
+- 發生什麼：從根目錄 `bundle` 目錄內執行 npm publish 指令。
+- 為什麼：透過從 `bundle` 目錄內執行 npm publish，只有我們在階段 3 中仔細組裝的檔案會上傳到 NPM 註冊表。這防止任何原始碼、測試檔案或開發設定被意外發布，為使用者提供乾淨且最小的套件。
 
-Summary of File Flow
+檔案流程摘要
 
 ```mermaid
 graph TD
-    subgraph "Source Files"
+    subgraph "原始檔案"
         A["packages/core/src/*.ts<br/>packages/cli/src/*.ts"]
         B["packages/cli/package.json"]
         C["README.md<br/>LICENSE<br/>packages/cli/src/utils/*.sb"]
     end
 
-    subgraph "Process"
-        D(Build)
-        E(Transform)
-        F(Assemble)
-        G(Publish)
+    subgraph "流程"
+        D(建置)
+        E(轉換)
+        F(組裝)
+        G(發布)
     end
 
-    subgraph "Artifacts"
-        H["Bundled JS"]
-        I["Final package.json"]
+    subgraph "成品"
+        H["打包的 JS"]
+        I["最終 package.json"]
         J["bundle/"]
     end
 
-    subgraph "Destination"
-        K["NPM Registry"]
+    subgraph "目的地"
+        K["NPM 註冊表"]
     end
 
     A --> D --> H
@@ -339,5 +324,4 @@ graph TD
     J --> G --> K
 ```
 
-This process ensures that the final published artifact is a purpose-built, clean, and efficient representation of the
-project, rather than a direct copy of the development workspace.
+這個流程確保最終發布的成品是專案的專用建置、乾淨且高效的表示，而不是開發工作區的直接副本。

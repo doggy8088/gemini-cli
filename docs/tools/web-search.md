@@ -24,13 +24,13 @@ google_web_search(query="Your query goes here.")
 
 ## `google_web_search` 範例
 
-Get information on a topic:
+取得主題資訊：
 
 ```
 google_web_search(query="latest advancements in AI-powered code generation")
 ```
 
-## Important notes
+## 重要注意事項
 
-- **Response returned:** The `google_web_search` tool returns a processed summary, not a raw list of search results.
-- **Citations:** The response includes citations to the sources used to generate the summary.
+- **回傳的回應：** `google_web_search` 工具回傳處理過的摘要，而非原始搜尋結果清單。
+- **引用：** 回應包含用於生成摘要的來源引用。

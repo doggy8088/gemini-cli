@@ -113,32 +113,32 @@ Gemini CLI 可以與您的 IDE 整合，提供更無縫和內容感知的體驗�
 
 ### 連線錯誤
 
-- **Message:** `🔴 Disconnected: Failed to connect to IDE companion extension in [IDE Name]. Please ensure the extension is running. To install the extension, run /ide install.`
-  - **Cause:** Gemini CLI could not find the necessary environment variables (`GEMINI_CLI_IDE_WORKSPACE_PATH` or `GEMINI_CLI_IDE_SERVER_PORT`) to connect to the IDE. This usually means the IDE companion extension is not running or did not initialize correctly.
-  - **Solution:**
-    1.  Make sure you have installed the **Gemini CLI Companion** extension in your IDE and that it is enabled.
-    2.  Open a new terminal window in your IDE to ensure it picks up the correct environment.
+- **訊息：** `🔴 Disconnected: Failed to connect to IDE companion extension in [IDE Name]. Please ensure the extension is running. To install the extension, run /ide install.`
+  - **原因：** Gemini CLI 無法找到連線到 IDE 所需的環境變數（`GEMINI_CLI_IDE_WORKSPACE_PATH` 或 `GEMINI_CLI_IDE_SERVER_PORT`）。這通常表示 IDE 配套擴充功能未執行或未正確初始化。
+  - **解決方法：**
+    1.  確保您已在 IDE 中安裝 **Gemini CLI Companion** 擴充功能且已啟用。
+    2.  在 IDE 中開啟新的終端機視窗以確保它擷取正確的環境。
 
-- **Message:** `🔴 Disconnected: IDE connection error. The connection was lost unexpectedly. Please try reconnecting by running /ide enable`
-  - **Cause:** The connection to the IDE companion was lost.
-  - **Solution:** Run `/ide enable` to try and reconnect. If the issue continues, open a new terminal window or restart your IDE.
+- **訊息：** `🔴 Disconnected: IDE connection error. The connection was lost unexpectedly. Please try reconnecting by running /ide enable`
+  - **原因：** 與 IDE 配套的連線中斷。
+  - **解決方法：** 執行 `/ide enable` 嘗試重新連線。如果問題持續，請開啟新的終端機視窗或重新啟動您的 IDE。
 
-### Configuration Errors
+### 設定錯誤
 
-- **Message:** `🔴 Disconnected: Directory mismatch. Gemini CLI is running in a different location than the open workspace in [IDE Name]. Please run the CLI from one of the following directories: [List of directories]`
-  - **Cause:** The CLI's current working directory is outside the workspace you have open in your IDE.
-  - **Solution:** `cd` into the same directory that is open in your IDE and restart the CLI.
+- **訊息：** `🔴 Disconnected: Directory mismatch. Gemini CLI is running in a different location than the open workspace in [IDE Name]. Please run the CLI from one of the following directories: [List of directories]`
+  - **原因：** CLI 的目前工作目錄在您在 IDE 中開啟的工作區之外。
+  - **解決方法：** `cd` 到與您在 IDE 中開啟的相同目錄並重新啟動 CLI。
 
-- **Message:** `🔴 Disconnected: To use this feature, please open a workspace folder in [IDE Name] and try again.`
-  - **Cause:** You have no workspace open in your IDE.
-  - **Solution:** Open a workspace in your IDE and restart the CLI.
+- **訊息：** `🔴 Disconnected: To use this feature, please open a workspace folder in [IDE Name] and try again.`
+  - **原因：** 您的 IDE 中沒有開啟工作區。
+  - **解決方法：** 在 IDE 中開啟工作區並重新啟動 CLI。
 
-### General Errors
+### 一般錯誤
 
-- **Message:** `IDE integration is not supported in your current environment. To use this feature, run Gemini CLI in one of these supported IDEs: [List of IDEs]`
-  - **Cause:** You are running Gemini CLI in a terminal or environment that is not a supported IDE.
-  - **Solution:** Run Gemini CLI from the integrated terminal of a supported IDE, like VS Code.
+- **訊息：** `IDE integration is not supported in your current environment. To use this feature, run Gemini CLI in one of these supported IDEs: [List of IDEs]`
+  - **原因：** 您在不受支援的 IDE 的終端機或環境中執行 Gemini CLI。
+  - **解決方法：** 從受支援的 IDE（如 VS Code）的整合終端機執行 Gemini CLI。
 
-- **Message:** `No installer is available for IDE. Please install the Gemini CLI Companion extension manually from the marketplace.`
-  - **Cause:** You ran `/ide install`, but the CLI does not have an automated installer for your specific IDE.
-  - **Solution:** Open your IDE's extension marketplace, search for "Gemini CLI Companion", and [install it manually](#3-manual-installation-from-a-marketplace).
+- **訊息：** `No installer is available for IDE. Please install the Gemini CLI Companion extension manually from the marketplace.`
+  - **原因：** 您執行了 `/ide install`，但 CLI 沒有您特定 IDE 的自動安裝程式。
+  - **解決方法：** 開啟您 IDE 的擴充功能市集，搜尋「Gemini CLI Companion」，並[手動安裝](#3-從市集手動安裝)。

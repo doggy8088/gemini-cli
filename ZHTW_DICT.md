@@ -880,6 +880,22 @@ explicitly = 明確
 select = 選擇
 that = 那些
 
+## Web and Search Tools Translation Terms (New)
+usage = 用法
+compare = 比較
+important = 重要
+processing = 處理
+output quality = 輸出品質
+clarity = 清晰度
+instructions = 指示
+response returned = 回傳的回應
+citations = 引用
+sources = 來源
+summary = 摘要
+generate = 生成
+information = 資訊
+topic = 主題
+
 ## Hierarchical and System Terms
 hierarchical = 階層的
 hierarchy = 階層

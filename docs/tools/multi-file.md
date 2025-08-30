@@ -33,7 +33,7 @@
 - 對於影像和 PDF 檔案：如果透過名稱或副檔名明確請求（例如，`paths: ["logo.png"]` 或 `include: ["*.pdf"]`），工具會讀取檔案並以 base64 編碼字串形式回傳其內容。
 - 工具嘗試透過檢查其初始內容中的 null 位元組來偵測並跳過其他二進位檔案（那些不匹配常見影像/PDF 類型或未明確請求的檔案）。
 
-Usage:
+用法：
 
 ```
 read_many_files(paths=["Your files or paths here."], include=["Additional files to include."], exclude=["Files to exclude."], recursive=False, useDefaultExcludes=false, respect_git_ignore=true)
