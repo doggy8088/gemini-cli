@@ -1,23 +1,23 @@
-# IDE Integration
+# IDE 整合
 
-Gemini CLI can integrate with your IDE to provide a more seamless and context-aware experience. This integration allows the CLI to understand your workspace better and enables powerful features like native in-editor diffing.
+Gemini CLI 可以與您的 IDE 整合，提供更無縫和內容感知的體驗。此整合允許 CLI 更好地了解您的工作區，並啟用原生編輯器差異比較等強大功能。
 
-Currently, the only supported IDE is [Visual Studio Code](https://code.visualstudio.com/) and other editors that support VS Code extensions.
+目前，唯一支援的 IDE 是 [Visual Studio Code](https://code.visualstudio.com/) 和其他支援 VS Code 擴充功能的編輯器。
 
-## Features
+## 功能
 
-- **Workspace Context:** The CLI automatically gains awareness of your workspace to provide more relevant and accurate responses. This context includes:
-  - The **10 most recently accessed files** in your workspace.
-  - Your active cursor position.
-  - Any text you have selected (up to a 16KB limit; longer selections will be truncated).
+- **工作區內容：** CLI 自動獲得您工作區的感知，以提供更相關和準確的回應。此內容包括：
+  - 您工作區中**最近存取的 10 個檔案**。
+  - 您的作用中游標位置。
+  - 您選擇的任何文字（最多 16KB 限制；較長的選擇將被截斷）。
 
-- **Native Diffing:** When Gemini suggests code modifications, you can view the changes directly within your IDE's native diff viewer. This allows you to review, edit, and accept or reject the suggested changes seamlessly.
+- **原生差異比較：** 當 Gemini 建議程式碼修改時，您可以直接在 IDE 的原生差異檢視器中查看變更。這讓您可以無縫地檢視、編輯並接受或拒絕建議的變更。
 
-- **VS Code Commands:** You can access Gemini CLI features directly from the VS Code Command Palette (`Cmd+Shift+P` or `Ctrl+Shift+P`):
-  - `Gemini CLI: Run`: Starts a new Gemini CLI session in the integrated terminal.
-  - `Gemini CLI: Accept Diff`: Accepts the changes in the active diff editor.
-  - `Gemini CLI: Close Diff Editor`: Rejects the changes and closes the active diff editor.
-  - `Gemini CLI: View Third-Party Notices`: Displays the third-party notices for the extension.
+- **VS Code 指令：** 您可以直接從 VS Code 指令選擇區（`Cmd+Shift+P` 或 `Ctrl+Shift+P`）存取 Gemini CLI 功能：
+  - `Gemini CLI: Run`：在整合終端機中啟動新的 Gemini CLI 工作階段。
+  - `Gemini CLI: Accept Diff`：接受作用中差異編輯器中的變更。
+  - `Gemini CLI: Close Diff Editor`：拒絕變更並關閉作用中的差異編輯器。
+  - `Gemini CLI: View Third-Party Notices`：顯示擴充功能的第三方聲明。
 
 ## Installation and Setup
 

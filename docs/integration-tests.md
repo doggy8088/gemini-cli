@@ -1,12 +1,12 @@
-# Integration Tests
+# 整合測試
 
-This document provides information about the integration testing framework used in this project.
+本文件提供此專案中使用的整合測試框架的資訊。
 
-## Overview
+## 總覽
 
-The integration tests are designed to validate the end-to-end functionality of the Gemini CLI. They execute the built binary in a controlled environment and verify that it behaves as expected when interacting with the file system.
+整合測試旨在驗證 Gemini CLI 的端對端功能。它們在受控環境中執行建置的二進位檔，並驗證它在與檔案系統互動時的行為是否如預期。
 
-These tests are located in the `integration-tests` directory and are run using a custom test runner.
+這些測試位於 `integration-tests` 目錄中，並使用自訂測試執行器執行。
 
 ## Running the tests
 
