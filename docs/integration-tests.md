@@ -8,44 +8,44 @@
 
 這些測試位於 `integration-tests` 目錄中，並使用自訂測試執行器執行。
 
-## Running the tests
+## 執行測試
 
-The integration tests are not run as part of the default `npm run test` command. They must be run explicitly using the `npm run test:integration:all` script.
+整合測試不會作為預設 `npm run test` 指令的一部分執行。必須使用 `npm run test:integration:all` 腳本明確執行。
 
-The integration tests can also be run using the following shortcut:
+整合測試也可以使用以下快速指令執行：
 
 ```bash
 npm run test:e2e
 ```
 
-## Running a specific set of tests
+## 執行特定測試集
 
-To run a subset of test files, you can use `npm run <integration test command> <file_name1> ....` where <integration test command> is either `test:e2e` or `test:integration*` and `<file_name>` is any of the `.test.js` files in the `integration-tests/` directory. For example, the following command runs `list_directory.test.js` and `write_file.test.js`:
+要執行測試檔案的子集，您可以使用 `npm run <integration test command> <file_name1> ....`，其中 `<integration test command>` 是 `test:e2e` 或 `test:integration*`，`<file_name>` 是 `integration-tests/` 目錄中任何的 `.test.js` 檔案。例如，以下指令執行 `list_directory.test.js` 和 `write_file.test.js`：
 
 ```bash
 npm run test:e2e list_directory write_file
 ```
 
-### Running a single test by name
+### 按名稱執行單一測試
 
-To run a single test by its name, use the `--test-name-pattern` flag:
+要按名稱執行單一測試，請使用 `--test-name-pattern` 旗標：
 
 ```bash
 npm run test:e2e -- --test-name-pattern "reads a file"
 ```
 
-### Running all tests
+### 執行所有測試
 
-To run the entire suite of integration tests, use the following command:
+要執行整套整合測試，請使用以下指令：
 
 ```bash
 npm run test:integration:all
 ```
 
-### Sandbox matrix
+### 沙箱矩陣
 
-The `all` command will run tests for `no sandboxing`, `docker` and `podman`.
-Each individual type can be run using the following commands:
+`all` 指令將為 `no sandboxing`、`docker` 和 `podman` 執行測試。
+每個個別類型可以使用以下指令執行：
 
 ```bash
 npm run test:integration:sandbox:none
@@ -59,15 +59,15 @@ npm run test:integration:sandbox:docker
 npm run test:integration:sandbox:podman
 ```
 
-## Diagnostics
+## 診斷
 
-The integration test runner provides several options for diagnostics to help track down test failures.
+整合測試執行器提供多種診斷選項來幫助追蹤測試失敗。
 
-### Keeping test output
+### 保留測試輸出
 
-You can preserve the temporary files created during a test run for inspection. This is useful for debugging issues with file system operations.
+您可以保留測試執行期間建立的暫存檔案以供檢查。這對於偵錯檔案系統操作問題很有用。
 
-To keep the test output set the `KEEP_OUTPUT` environment variable to `true`.
+要保留測試輸出，請將 `KEEP_OUTPUT` 環境變數設定為 `true`。
 
 ```bash
 KEEP_OUTPUT=true npm run test:integration:sandbox:none

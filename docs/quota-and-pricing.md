@@ -49,56 +49,56 @@ Vertex AI 提供 Express 模式，無需啟用計費。這包括：
 
 在 [Vertex AI Express 模式限制](https://cloud.google.com/vertex-ai/generative-ai/docs/start/express-mode/overview#quotas) 了解更多。
 
-## Paid tier: Higher limits for a fixed cost
+## 付費層級：固定成本的更高限制
 
-If you use up your initial number of requests, you can upgrade your plan to continue to benefit from Gemini CLI by using the [Standard or Enterprise editions of Gemini Code Assist](https://cloud.google.com/products/gemini/pricing) by signing up [here](https://goo.gle/set-up-gemini-code-assist). Quotas and pricing are based on a fixed price subscription with assigned license seats. For predictable costs, you can log in with Google. This includes:
+如果您用完了初始請求數量，您可以透過 [在此註冊](https://goo.gle/set-up-gemini-code-assist) 使用 [Gemini Code Assist 標準版或企業版](https://cloud.google.com/products/gemini/pricing) 來升級您的計畫以繼續享受 Gemini CLI 的好處。配額和定價基於具有指定授權席位的固定價格訂閱。為了可預測的成本，您可以使用 Google 登入。這包括：
 
-- Standard:
-  - 1500 model requests / user / day
-  - 120 model requests / user / minute
-- Enterprise:
-  - 2000 model requests / user / day
-  - 120 model requests / user / minute
-- Model requests will be made across the Gemini model family as determined by Gemini CLI.
+- 標準版：
+  - 1500 個模型請求 / 使用者 / 天
+  - 120 個模型請求 / 使用者 / 分鐘
+- 企業版：
+  - 2000 個模型請求 / 使用者 / 天
+  - 120 個模型請求 / 使用者 / 分鐘
+- 模型請求將由 Gemini CLI 決定在 Gemini 模型系列中進行。
 
-Learn more at [Gemini Code Assist Standard and Enterprise license Limits](https://developers.google.com/gemini-code-assist/resources/quotas#quotas-for-agent-mode-gemini-cli).
+在 [Gemini Code Assist 標準版與企業版授權限制](https://developers.google.com/gemini-code-assist/resources/quotas#quotas-for-agent-mode-gemini-cli) 了解更多。
 
-## Pay As You Go
+## 按使用量付費
 
-If you hit your daily request limits or exhaust your Gemini Pro quota even after upgrading, the most flexible solution is to switch to a pay-as-you-go model, where you pay for the specific amount of processing you use. This is the recommended path for uninterrupted access.
+如果您達到每日請求限制或即使在升級後仍耗盡 Gemini Pro 配額，最靈活的解決方案是切換到按使用量付費模式，您根據使用的特定處理量付費。這是不間斷存取的建議路徑。
 
-To do this, log in using a Gemini API key or Vertex AI.
+要做到這一點，請使用 Gemini API 金鑰或 Vertex AI 登入。
 
-- Vertex AI (Regular Mode):
-  - Quota: Governed by a dynamic shared quota system or pre-purchased provisioned throughput.
-  - Cost: Based on model and token usage.
+- Vertex AI（一般模式）：
+  - 配額：由動態共享配額系統或預購置配置輸送量管理。
+  - 成本：基於模型和權杖使用量。
 
-Learn more at [Vertex AI Dynamic Shared Quota](https://cloud.google.com/vertex-ai/generative-ai/docs/resources/dynamic-shared-quota) and [Vertex AI Pricing](https://cloud.google.com/vertex-ai/pricing).
+在 [Vertex AI 動態共享配額](https://cloud.google.com/vertex-ai/generative-ai/docs/resources/dynamic-shared-quota) 和 [Vertex AI 定價](https://cloud.google.com/vertex-ai/pricing) 了解更多。
 
-- Gemini API key:
-  - Quota: Varies by pricing tier.
-  - Cost: Varies by pricing tier and model/token usage.
+- Gemini API 金鑰：
+  - 配額：因定價層級而異。
+  - 成本：因定價層級和模型/權杖使用量而異。
 
-Learn more at [Gemini API Rate Limits](https://ai.google.dev/gemini-api/docs/rate-limits), [Gemini API Pricing](https://ai.google.dev/gemini-api/docs/pricing)
+在 [Gemini API 速率限制](https://ai.google.dev/gemini-api/docs/rate-limits)、[Gemini API 定價](https://ai.google.dev/gemini-api/docs/pricing) 了解更多
 
-It’s important to highlight that when using an API key, you pay per token/call. This can be more expensive for many small calls with few tokens, but it's the only way to ensure your workflow isn't interrupted by quota limits.
+重要的是要強調，使用 API 金鑰時，您按權杖/呼叫付費。對於許多少權杖的小呼叫，這可能更昂貴，但這是確保您的工作流程不被配額限制中斷的唯一方法。
 
-## Google One and Ultra plans, Gemini for Workspace plans
+## Google One 和 Ultra 計畫、Gemini for Workspace 計畫
 
-These plans currently apply only to the use of Gemini web-based products provided by Google-based experiences (for example, the Gemini web app or the Flow video editor). These plans do not apply to the API usage which powers the Gemini CLI. Supporting these plans is under active consideration for future support.
+這些計畫目前僅適用於 Google 體驗提供的基於網路的 Gemini 產品（例如 Gemini 網路應用程式或 Flow 影片編輯器）。這些計畫不適用於為 Gemini CLI 提供動力的 API 使用。目前正在積極考慮為未來支援這些計畫。
 
-## Tips to Avoid High Costs
+## 避免高成本的技巧
 
-When using a Pay as you Go API key, be mindful of your usage to avoid unexpected costs.
+使用按使用量付費 API 金鑰時，請注意您的使用量以避免意外成本。
 
-- Don't blindly accept every suggestion, especially for computationally intensive tasks like refactoring large codebases.
-- Be intentional with your prompts and commands. You are paying per call, so think about the most efficient way to get the job done.
+- 不要盲目接受每個建議，特別是對於計算密集型任務，如重構大型程式碼庫。
+- 對您的提示和指令要有意圖。您按呼叫付費，所以要考慮完成工作的最有效方式。
 
-## Gemini API vs. Vertex
+## Gemini API 與 Vertex
 
-- Gemini API (gemini developer api): This is the fastest way to use the Gemini models directly.
-- Vertex AI: This is the enterprise-grade platform for building, deploying, and managing Gemini models with specific security and control requirements.
+- Gemini API（gemini developer api）：這是直接使用 Gemini 模型的最快方式。
+- Vertex AI：這是用於建置、部署和管理具有特定安全和控制要求的 Gemini 模型的企業級平台。
 
-## Understanding your usage
+## 了解您的使用情況
 
-A summary of model usage is available through the `/stats` command and presented on exit at the end of a session.
+模型使用情況摘要可透過 `/stats` 指令取得，並在工作階段結束時退出時顯示。
