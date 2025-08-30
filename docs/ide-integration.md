@@ -98,11 +98,11 @@ Gemini CLI 可以與您的 IDE 整合，提供更無縫和內容感知的體驗�
 
 您也可以在接受建議變更前，**直接在差異檢視中修改建議的變更**。
 
-If you select ‘Yes, allow always’ in the CLI, changes will no longer show up in the IDE as they will be auto-accepted.
+如果您在 CLI 中選擇「是，始終允許」，變更將不再出現在 IDE 中，因為它們會被自動接受。
 
-## Using with Sandboxing
+## 與沙箱化一起使用
 
-If you are using Gemini CLI within a sandbox, please be aware of the following:
+如果您在沙箱內使用 Gemini CLI，請注意以下事項：
 
 - **On macOS:** The IDE integration requires network access to communicate with the IDE companion extension. You must use a Seatbelt profile that allows network access.
 - **In a Docker Container:** If you run Gemini CLI inside a Docker (or Podman) container, the IDE integration can still connect to the VS Code extension running on your host machine. The CLI is configured to automatically find the IDE server on `host.docker.internal`. No special configuration is usually required, but you may need to ensure your Docker networking setup allows connections from the container to the host.

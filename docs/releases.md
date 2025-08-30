@@ -42,30 +42,30 @@ npm install -g @google/gemini-cli@nightly
 
 每週二 UTC 23:59 我們會自動部署下一個正式版 x.y.z 的預覽版發布。
 
-- 這將發生 as a scheduled instance of the ‘release’ action. It will be cut off of Main.
-- 這將建立 a branch `release/vx.y.z-preview.n`
-- 我們將執行 evals and smoke testing against this branch and the npm package. 目前這應該是手動煙霧測試, 我們還沒有專門的矩陣 或特定的詳細流程. 即將有工作 讓這更正式化和自動化 see https://github.com/google-gemini/gemini-cli/issues/3788
-- 安裝的使用者 `@preview` 也會獲得此發布
+- 這將發生作為 'release' 動作的排程實例。它將從 Main 分支切出。
+- 這將建立分支 `release/vx.y.z-preview.n`
+- 我們將針對此分支和 npm 套件執行評估和煙霧測試。目前這應該是手動煙霧測試，我們還沒有專門的矩陣或特定的詳細流程。即將有工作讓這更正式化和自動化，請參閱 https://github.com/google-gemini/gemini-cli/issues/3788
+- 安裝 `@preview` 的使用者也會獲得此發布
 
-## Promote Stable Release
+## 推廣穩定版發布
 
-經過一週後 (On the following Tuesday) 所有信號都正常, 我們將手動發布 at 2000 UTC 透過目前值班人員.
+經過一週後（在接下來的週二），所有信號都正常，我們將在 UTC 20:00 透過目前值班人員手動發布。
 
-- 發布動作將使用 並以來源分支為 `release/vx.y.z-preview.n`
+- 發布動作將使用並以 `release/vx.y.z-preview.n` 作為來源分支
 - 版本將是 x.y.z
-- 發布者將建立並合併 a pr 到主分支，包含版本變更.
-- 將執行煙霧測試和手動驗證. 目前這應該是手動煙霧測試, 我們還沒有專門的矩陣 或特定的詳細流程. 即將有工作 讓這更正式化和自動化 see https://github.com/google-gemini/gemini-cli/issues/3788
+- 發布者將建立並合併拉取請求到主分支，包含版本變更。
+- 將執行煙霧測試和手動驗證。目前這應該是手動煙霧測試，我們還沒有專門的矩陣或特定的詳細流程。即將有工作讓這更正式化和自動化，請參閱 https://github.com/google-gemini/gemini-cli/issues/3788
 
-## Patching Releases
+## 修補發布
 
-如果關鍵錯誤需要修正 在下次排程發布前, 請遵循此流程 建立修補程式.
+如果關鍵錯誤需要修正在下次排程發布前，請遵循此流程建立修補程式。
 
-### 1. Create a Hotfix Branch
+### 1. 建立熱修復分支
 
-首先，建立新分支 供您修正使用. 此分支的來源取決於 您是要修補 穩定版還是預覽版發布.
+首先，建立新分支供您修正使用。此分支的來源取決於您是要修補穩定版還是預覽版發布。
 
-- **For a stable release patch:**
-  從 Git 標籤建立分支 您需要修補的版本. 標籤名稱格式為 `vx.y.z`.
+- **對於穩定版發布修補：**
+  從您需要修補的版本的 Git 標籤建立分支。標籤名稱格式為 `vx.y.z`。
 
   ```bash
   # 範例：建立熱修復分支 for v0.2.0

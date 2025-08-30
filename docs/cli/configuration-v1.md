@@ -565,38 +565,38 @@ CLI 會自動從 `.env` 檔案載入環境變數。載入順序為：
 
 此範例展示了如何提供一般專案內容、特定編碼慣例，甚至關於特定檔案或元件的註記。您的內容檔案越相關和精確，AI 就能更好地協助您。強烈建議專案特定的內容檔案建立慣例和內容。
 
-- **Hierarchical Loading and Precedence:** The CLI implements a sophisticated hierarchical memory system by loading context files (e.g., `GEMINI.md`) from several locations. Content from files lower in this list (more specific) typically overrides or supplements content from files higher up (more general). The exact concatenation order and final context can be inspected using the `/memory show` command. The typical loading order is:
-  1.  **Global Context File:**
-      - Location: `~/.gemini/<contextFileName>` (e.g., `~/.gemini/GEMINI.md` in your user home directory).
-      - Scope: Provides default instructions for all your projects.
-  2.  **Project Root & Ancestors Context Files:**
-      - Location: The CLI searches for the configured context file in the current working directory and then in each parent directory up to either the project root (identified by a `.git` folder) or your home directory.
-      - Scope: Provides context relevant to the entire project or a significant portion of it.
-  3.  **Sub-directory Context Files (Contextual/Local):**
-      - Location: The CLI also scans for the configured context file in subdirectories _below_ the current working directory (respecting common ignore patterns like `node_modules`, `.git`, etc.). The breadth of this search is limited to 200 directories by default, but can be configured with a `memoryDiscoveryMaxDirs` field in your `settings.json` file.
-      - Scope: Allows for highly specific instructions relevant to a particular component, module, or subsection of your project.
-- **Concatenation & UI Indication:** The contents of all found context files are concatenated (with separators indicating their origin and path) and provided as part of the system prompt to the Gemini model. The CLI footer displays the count of loaded context files, giving you a quick visual cue about the active instructional context.
-- **Importing Content:** You can modularize your context files by importing other Markdown files using the `@path/to/file.md` syntax. For more details, see the [Memory Import Processor documentation](../core/memport.md).
-- **Commands for Memory Management:**
-  - Use `/memory refresh` to force a re-scan and reload of all context files from all configured locations. This updates the AI's instructional context.
-  - Use `/memory show` to display the combined instructional context currently loaded, allowing you to verify the hierarchy and content being used by the AI.
-  - See the [Commands documentation](./commands.md#memory) for full details on the `/memory` command and its sub-commands (`show` and `refresh`).
+- **階層載入與優先順序：** CLI 透過從多個位置載入內容檔案（例如 `GEMINI.md`）來實作精密的階層記憶體系統。此清單中較低位置（較具體）的檔案內容通常會覆寫或補充較高位置（較一般）的檔案內容。確切的串聯順序和最終內容可以使用 `/memory show` 指令檢查。典型的載入順序為：
+  1.  **全域內容檔案：**
+      - 位置：`~/.gemini/<contextFileName>`（例如，您使用者主目錄中的 `~/.gemini/GEMINI.md`）。
+      - 範圍：為您的所有專案提供預設指示。
+  2.  **專案根目錄與上級內容檔案：**
+      - 位置：CLI 在目前工作目錄中搜尋設定的內容檔案，然後在每個父目錄中搜尋，直到專案根目錄（由 `.git` 資料夾識別）或您的主目錄。
+      - 範圍：提供與整個專案或其重要部分相關的內容。
+  3.  **子目錄內容檔案（上下文/本機）：**
+      - 位置：CLI 也會在目前工作目錄_下方_的子目錄中掃描設定的內容檔案（遵守常見的忽略模式，如 `node_modules`、`.git` 等）。此搜尋的廣度預設限制為 200 個目錄，但可以使用 `settings.json` 檔案中的 `memoryDiscoveryMaxDirs` 欄位進行設定。
+      - 範圍：允許與您專案的特定元件、模組或子節高度相關的特定指示。
+- **串聯與 UI 指示：** 所有找到的內容檔案的內容都會串聯在一起（使用指示其來源和路徑的分隔符號），並作為系統提示的一部分提供給 Gemini 模型。CLI 頁尾顯示已載入內容檔案的數量，為您提供關於作用中指示內容的快速視覺提示。
+- **匯入內容：** 您可以使用 `@path/to/file.md` 語法匯入其他 Markdown 檔案來模組化您的內容檔案。如需更多詳細資訊，請參閱[記憶體匯入處理器說明文件](../core/memport.md)。
+- **記憶體管理指令：**
+  - 使用 `/memory refresh` 強制重新掃描並重新載入所有設定位置的內容檔案。這會更新 AI 的指示內容。
+  - 使用 `/memory show` 顯示目前載入的合併指示內容，讓您可以驗證 AI 正在使用的階層和內容。
+  - 請參閱[指令說明文件](./commands.md#memory)以取得 `/memory` 指令及其子指令（`show` 和 `refresh`）的完整詳細資訊。
 
-By understanding and utilizing these configuration layers and the hierarchical nature of context files, you can effectively manage the AI's memory and tailor the Gemini CLI's responses to your specific needs and projects.
+透過理解並利用這些設定層級和內容檔案的階層性質，您可以有效管理 AI 的記憶體，並根據您的特定需求和專案客製化 Gemini CLI 的回應。
 
-## Sandboxing
+## 沙箱化
 
-The Gemini CLI can execute potentially unsafe operations (like shell commands and file modifications) within a sandboxed environment to protect your system.
+Gemini CLI 可以在沙箱化環境中執行潛在不安全的操作（如 shell 指令和檔案修改），以保護您的系統。
 
-Sandboxing is disabled by default, but you can enable it in a few ways:
+沙箱化預設為停用，但您可以透過幾種方式啟用：
 
-- Using `--sandbox` or `-s` flag.
-- Setting `GEMINI_SANDBOX` environment variable.
-- Sandbox is enabled when using `--yolo` or `--approval-mode=yolo` by default.
+- 使用 `--sandbox` 或 `-s` 旗標。
+- 設定 `GEMINI_SANDBOX` 環境變數。
+- 使用 `--yolo` 或 `--approval-mode=yolo` 時預設啟用沙箱。
 
-By default, it uses a pre-built `gemini-cli-sandbox` Docker image.
+預設情況下，它使用預建的 `gemini-cli-sandbox` Docker 映像。
 
-For project-specific sandboxing needs, you can create a custom Dockerfile at `.gemini/sandbox.Dockerfile` in your project's root directory. This Dockerfile can be based on the base sandbox image:
+對於專案特定的沙箱化需求，您可以在專案根目錄的 `.gemini/sandbox.Dockerfile` 建立自訂 Dockerfile。此 Dockerfile 可以基於基底沙箱映像：
 
 ```dockerfile
 FROM gemini-cli-sandbox
@@ -607,31 +607,31 @@ FROM gemini-cli-sandbox
 # COPY ./my-config /app/my-config
 ```
 
-When `.gemini/sandbox.Dockerfile` exists, you can use `BUILD_SANDBOX` environment variable when running Gemini CLI to automatically build the custom sandbox image:
+當 `.gemini/sandbox.Dockerfile` 存在時，您可以在執行 Gemini CLI 時使用 `BUILD_SANDBOX` 環境變數來自動建置自訂沙箱映像：
 
 ```bash
 BUILD_SANDBOX=1 gemini -s
 ```
 
-## Usage Statistics
+## 使用統計資料
 
-To help us improve the Gemini CLI, we collect anonymized usage statistics. This data helps us understand how the CLI is used, identify common issues, and prioritize new features.
+為了幫助我們改善 Gemini CLI，我們會收集匿名使用統計資料。這些資料幫助我們了解 CLI 的使用方式、識別常見問題並優先考慮新功能。
 
-**What we collect:**
+**我們收集的資料：**
 
-- **Tool Calls:** We log the names of the tools that are called, whether they succeed or fail, and how long they take to execute. We do not collect the arguments passed to the tools or any data returned by them.
-- **API Requests:** We log the Gemini model used for each request, the duration of the request, and whether it was successful. We do not collect the content of the prompts or responses.
-- **Session Information:** We collect information about the configuration of the CLI, such as the enabled tools and the approval mode.
+- **工具呼叫：** 我們記錄呼叫的工具名稱、它們是否成功或失敗，以及執行所需的時間。我們不會收集傳遞給工具的引數或工具回傳的任何資料。
+- **API 請求：** 我們記錄每個請求使用的 Gemini 模型、請求的持續時間，以及是否成功。我們不會收集提示或回應的內容。
+- **工作階段資訊：** 我們收集關於 CLI 設定的資訊，例如啟用的工具和核准模式。
 
-**What we DON'T collect:**
+**我們不收集的資料：**
 
-- **Personally Identifiable Information (PII):** We do not collect any personal information, such as your name, email address, or API keys.
-- **Prompt and Response Content:** We do not log the content of your prompts or the responses from the Gemini model.
-- **File Content:** We do not log the content of any files that are read or written by the CLI.
+- **個人識別資訊（PII）：** 我們不會收集任何個人資訊，例如您的姓名、電子郵件地址或 API 金鑰。
+- **提示和回應內容：** 我們不會記錄您的提示內容或來自 Gemini 模型的回應。
+- **檔案內容：** 我們不會記錄 CLI 讀取或寫入的任何檔案內容。
 
-**How to opt out:**
+**如何退出：**
 
-You can opt out of usage statistics collection at any time by setting the `usageStatisticsEnabled` property to `false` in your `settings.json` file:
+您可以隨時透過在 `settings.json` 檔案中將 `usageStatisticsEnabled` 屬性設為 `false` 來退出使用統計資料收集：
 
 ```json
 {

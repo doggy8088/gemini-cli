@@ -879,4 +879,49 @@ recommended = 建議
 explicitly = 明確
 select = 選擇
 that = 那些
+
+## Hierarchical and System Terms
+hierarchical = 階層的
+hierarchy = 階層
+precedence = 優先順序
+concatenation = 串聯
+concatenated = 串聯的
+override = 覆寫
+supplement = 補充
+ancestor = 上級
+subsection = 子節
+modularize = 模組化
+sophisticated = 精密的
+
+## Sandboxing Terms
+sandboxing = 沙箱化
+sandboxed = 沙箱化的
+sandbox = 沙箱
+unsafe operations = 不安全的操作
+potentially unsafe = 潛在不安全的
+protect your system = 保護您的系統
+custom = 自訂
+dockerfile = Dockerfile
+pre-built = 預建的
+
+## Statistics and Privacy Terms
+usage statistics = 使用統計資料
+anonymized = 匿名的
+anonymous = 匿名
+collect = 收集
+personally identifiable information = 個人識別資訊
+PII = PII
+opt out = 退出
+prompt content = 提示內容
+response content = 回應內容
+file content = 檔案內容
+duration = 持續時間
+common issues = 常見問題
+prioritize = 優先考慮
+arguments = 引數
+returned = 回傳
+succeed = 成功
+fail = 失敗
+execute = 執行
+approval mode = 核准模式
 executed = 執行
