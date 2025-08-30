@@ -34,72 +34,72 @@
 - **問：為什麼我在統計輸出中看不到快取的權杖計數？**
   - 答：只有在使用快取權杖時才會顯示快取權杖資訊。此功能適用於 API 金鑰使用者（Gemini API 金鑰或 Google Cloud Vertex AI），但不適用於 OAuth 使用者（例如 Google 個人/企業帳戶，如 Google Gmail 或 Google Workspace）。這是因為 Gemini Code Assist API 不支援快取內容建立。您仍然可以使用 Gemini CLI 中的 `/stats` 指令查看您的總權杖使用量。
 
-## Common error messages and solutions
+## 常見錯誤訊息與解決方案
 
-- **Error: `EADDRINUSE` (Address already in use) when starting an MCP server.**
-  - **Cause:** Another process is already using the port that the MCP server is trying to bind to.
-  - **Solution:**
-    Either stop the other process that is using the port or configure the MCP server to use a different port.
+- **錯誤：`EADDRINUSE`（位址已被使用）在啟動 MCP 伺服器時。**
+  - **原因：** 另一個程序正在使用 MCP 伺服器嘗試綁定的連接埠。
+  - **解決方案：**
+    停止使用該連接埠的其他程序，或設定 MCP 伺服器使用不同的連接埠。
 
-- **Error: Command not found (when attempting to run Gemini CLI with `gemini`).**
-  - **Cause:** Gemini CLI is not correctly installed or it is not in your system's `PATH`.
-  - **Solution:**
-    The update depends on how you installed Gemini CLI:
-    - If you installed `gemini` globally, check that your `npm` global binary directory is in your `PATH`. You can update Gemini CLI using the command `npm install -g @google/gemini-cli@latest`.
-    - If you are running `gemini` from source, ensure you are using the correct command to invoke it (e.g., `node packages/cli/dist/index.js ...`). To update Gemini CLI, pull the latest changes from the repository, and then rebuild using the command `npm run build`.
+- **錯誤：找不到指令（嘗試使用 `gemini` 執行 Gemini CLI 時）。**
+  - **原因：** Gemini CLI 未正確安裝或不在您系統的 `PATH` 中。
+  - **解決方案：**
+    更新方式取決於您如何安裝 Gemini CLI：
+    - 如果您全域安裝了 `gemini`，請檢查您的 `npm` 全域二進位檔案目錄是否在您的 `PATH` 中。您可以使用指令 `npm install -g @google/gemini-cli@latest` 更新 Gemini CLI。
+    - 如果您從原始碼執行 `gemini`，請確保您使用正確的指令來叫用它（例如 `node packages/cli/dist/index.js ...`）。要更新 Gemini CLI，請從儲存庫拉取最新變更，然後使用指令 `npm run build` 重新建置。
 
-- **Error: `MODULE_NOT_FOUND` or import errors.**
-  - **Cause:** Dependencies are not installed correctly, or the project hasn't been built.
-  - **Solution:**
-    1.  Run `npm install` to ensure all dependencies are present.
-    2.  Run `npm run build` to compile the project.
-    3.  Verify that the build completed successfully with `npm run start`.
+- **錯誤：`MODULE_NOT_FOUND` 或匯入錯誤。**
+  - **原因：** 相依性未正確安裝，或專案尚未建置。
+  - **解決方案：**
+    1.  執行 `npm install` 以確保所有相依性都存在。
+    2.  執行 `npm run build` 來編譯專案。
+    3.  使用 `npm run start` 驗證建置是否成功完成。
 
-- **Error: "Operation not permitted", "Permission denied", or similar.**
-  - **Cause:** When sandboxing is enabled, Gemini CLI may attempt operations that are restricted by your sandbox configuration, such as writing outside the project directory or system temp directory.
-  - **Solution:** Refer to the [Configuration: Sandboxing](./cli/configuration.md#sandboxing) documentation for more information, including how to customize your sandbox configuration.
+- **錯誤：「不允許操作」、「權限被拒絕」或類似錯誤。**
+  - **原因：** 啟用沙箱化時，Gemini CLI 可能嘗試進行被您的沙箱設定限制的操作，例如在專案目錄或系統暫存目錄之外寫入檔案。
+  - **解決方案：** 請參考 [設定：沙箱化](./cli/configuration.md#sandboxing) 文件以取得更多資訊，包括如何自訂您的沙箱設定。
 
-- **Gemini CLI is not running in interactive mode in "CI" environments**
-  - **Issue:** The Gemini CLI does not enter interactive mode (no prompt appears) if an environment variable starting with `CI_` (e.g., `CI_TOKEN`) is set. This is because the `is-in-ci` package, used by the underlying UI framework, detects these variables and assumes a non-interactive CI environment.
-  - **Cause:** The `is-in-ci` package checks for the presence of `CI`, `CONTINUOUS_INTEGRATION`, or any environment variable with a `CI_` prefix. When any of these are found, it signals that the environment is non-interactive, which prevents the Gemini CLI from starting in its interactive mode.
-  - **Solution:** If the `CI_` prefixed variable is not needed for the CLI to function, you can temporarily unset it for the command. e.g., `env -u CI_TOKEN gemini`
+- **Gemini CLI 在「CI」環境中未以互動模式執行**
+  - **問題：** 如果設定了以 `CI_` 開頭的環境變數（例如 `CI_TOKEN`），Gemini CLI 不會進入互動模式（不會出現提示）。這是因為底層 UI 框架使用的 `is-in-ci` 套件會偵測這些變數並假設是非互動式 CI 環境。
+  - **原因：** `is-in-ci` 套件會檢查是否存在 `CI`、`CONTINUOUS_INTEGRATION` 或任何具有 `CI_` 前綴的環境變數。當找到任何這些變數時，它會表示環境是非互動式的，這會阻止 Gemini CLI 以互動模式啟動。
+  - **解決方案：** 如果 CLI 運作不需要 `CI_` 前綴變數，您可以暫時為該指令取消設定它。例如：`env -u CI_TOKEN gemini`
 
-- **DEBUG mode not working from project .env file**
-  - **Issue:** Setting `DEBUG=true` in a project's `.env` file doesn't enable debug mode for gemini-cli.
-  - **Cause:** The `DEBUG` and `DEBUG_MODE` variables are automatically excluded from project `.env` files to prevent interference with gemini-cli behavior.
-  - **Solution:** Use a `.gemini/.env` file instead, or configure the `advanced.excludedEnvVars` setting in your `settings.json` to exclude fewer variables.
+- **DEBUG 模式無法從專案 .env 檔案運作**
+  - **問題：** 在專案的 `.env` 檔案中設定 `DEBUG=true` 無法啟用 gemini-cli 的偵錯模式。
+  - **原因：** `DEBUG` 和 `DEBUG_MODE` 變數會自動從專案 `.env` 檔案中排除，以防止干擾 gemini-cli 行為。
+  - **解決方案：** 改用 `.gemini/.env` 檔案，或在您的 `settings.json` 中設定 `advanced.excludedEnvVars` 設定以排除較少的變數。
 
-## Exit Codes
+## 退出代碼
 
-The Gemini CLI uses specific exit codes to indicate the reason for termination. This is especially useful for scripting and automation.
+Gemini CLI 使用特定的退出代碼來指示終止的原因。這對於腳本編寫和自動化特別有用。
 
-| Exit Code | Error Type                 | Description                                                                                         |
-| --------- | -------------------------- | --------------------------------------------------------------------------------------------------- |
-| 41        | `FatalAuthenticationError` | An error occurred during the authentication process.                                                |
-| 42        | `FatalInputError`          | Invalid or missing input was provided to the CLI. (non-interactive mode only)                       |
-| 44        | `FatalSandboxError`        | An error occurred with the sandboxing environment (e.g., Docker, Podman, or Seatbelt).              |
-| 52        | `FatalConfigError`         | A configuration file (`settings.json`) is invalid or contains errors.                               |
-| 53        | `FatalTurnLimitedError`    | The maximum number of conversational turns for the session was reached. (non-interactive mode only) |
+| 退出代碼 | 錯誤類型                   | 描述                                                                                               |
+| -------- | -------------------------- | -------------------------------------------------------------------------------------------------- |
+| 41       | `FatalAuthenticationError` | 驗證過程中發生錯誤。                                                                               |
+| 42       | `FatalInputError`          | 提供給 CLI 的輸入無效或缺失。（僅限非互動模式）                                                     |
+| 44       | `FatalSandboxError`        | 沙箱環境發生錯誤（例如 Docker、Podman 或 Seatbelt）。                                              |
+| 52       | `FatalConfigError`         | 設定檔案（`settings.json`）無效或包含錯誤。                                                        |
+| 53       | `FatalTurnLimitedError`    | 已達到工作階段的最大對話輪數。（僅限非互動模式）                                                    |
 
-## Debugging Tips
+## 偵錯技巧
 
-- **CLI debugging:**
-  - Use the `--verbose` flag (if available) with CLI commands for more detailed output.
-  - Check the CLI logs, often found in a user-specific configuration or cache directory.
+- **CLI 偵錯：**
+  - 在 CLI 指令中使用 `--verbose` 旗標（如果可用）以獲得更詳細的輸出。
+  - 檢查 CLI 日誌，通常位於使用者特定的設定或快取目錄中。
 
-- **Core debugging:**
-  - Check the server console output for error messages or stack traces.
-  - Increase log verbosity if configurable.
-  - Use Node.js debugging tools (e.g., `node --inspect`) if you need to step through server-side code.
+- **核心偵錯：**
+  - 檢查伺服器主控台輸出中的錯誤訊息或堆疊追蹤。
+  - 如果可設定，增加日誌詳細程度。
+  - 如果您需要逐步執行伺服器端程式碼，請使用 Node.js 偵錯工具（例如 `node --inspect`）。
 
-- **Tool issues:**
-  - If a specific tool is failing, try to isolate the issue by running the simplest possible version of the command or operation the tool performs.
-  - For `run_shell_command`, check that the command works directly in your shell first.
-  - For _file system tools_, verify that paths are correct and check the permissions.
+- **工具問題：**
+  - 如果特定工具失敗，請嘗試執行該工具執行的指令或操作的最簡單版本來隔離問題。
+  - 對於 `run_shell_command`，請先檢查指令是否直接在您的 Shell 中運作。
+  - 對於檔案系統工具，請驗證路徑是否正確並檢查權限。
 
-- **Pre-flight checks:**
-  - Always run `npm run preflight` before committing code. This can catch many common issues related to formatting, linting, and type errors.
+- **預檢檢查：**
+  - 在提交程式碼之前，請務必執行 `npm run preflight`。這可以捕捉許多與格式化、Lint 檢查和類型錯誤相關的常見問題。
 
-## Existing GitHub Issues similar to yours or creating new Issues
+## 與您的問題類似的現有 GitHub 問題或建立新問題
 
-If you encounter an issue that was not covered here in this _Troubleshooting guide_, consider searching the Gemini CLI [Issue tracker on GitHub](https://github.com/google-gemini/gemini-cli/issues). If you can't find an issue similar to yours, consider creating a new GitHub Issue with a detailed description. Pull requests are also welcome!
+如果您遇到本疑難排解指南未涵蓋的問題，請考慮搜尋 Gemini CLI [GitHub 問題追蹤器](https://github.com/google-gemini/gemini-cli/issues)。如果您找不到類似的問題，請考慮建立新的 GitHub 問題並提供詳細描述。我們也歡迎拉取請求！

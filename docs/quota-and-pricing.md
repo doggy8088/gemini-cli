@@ -1,53 +1,53 @@
-# Gemini CLI: Quotas and Pricing
+# Gemini CLI：配額與定價
 
-Gemini CLI offers a generous free tier that covers the use cases for many individual developers. For enterprise / professional usage, or if you need higher limits, there are multiple possible avenues depending on what type of account you use to authenticate.
+Gemini CLI 提供一個慷慨的免費層級，涵蓋許多個人開發者的使用情況。對於企業/專業使用或如果您需要更高的限制，根據您用來進行驗證的帳戶類型，有多種可能的途徑。
 
-See [privacy and terms](./tos-privacy.md) for details on Privacy policy and Terms of Service.
+請參閱[隱私權與條款](./tos-privacy.md)以了解隱私權政策與服務條款的詳細資訊。
 
-Note: published prices are list price; additional negotiated commercial discounting may apply.
+注意：公布的價格為定價表價格；可能適用額外的協商商業折扣。
 
-This article outlines the specific quotas and pricing applicable to the Gemini CLI when using different authentication methods.
+本文章概述使用不同驗證方法時適用於 Gemini CLI 的特定配額和定價。
 
-Generally, there are three categories to choose from:
+一般來說，有三個類別可供選擇：
 
-- Free Usage: Ideal for experimentation and light use.
-- Paid Tier (fixed price): For individual developers or enterprises who need more generous daily quotas and predictable costs.
-- Pay-As-You-Go: The most flexible option for professional use, long-running tasks, or when you need full control over your usage.
+- 免費使用：適合實驗和輕度使用。
+- 付費層級（固定價格）：適合需要更慷慨每日配額和可預測成本的個人開發者或企業。
+- 按使用量付費：最靈活的專業使用選項、長時間執行的任務，或當您需要完全控制使用量時。
 
-## Free Usage
+## 免費使用
 
-Your journey begins with a generous free tier, perfect for experimentation and light use.
+您的旅程從慷慨的免費層級開始，非常適合實驗和輕度使用。
 
-Your free usage limits depend on your authorization type.
+您的免費使用限制取決於您的授權類型。
 
-### Log in with Google (Gemini Code Assist for Individuals)
+### 使用 Google 登入（Gemini Code Assist for Individuals）
 
-For users who authenticate by using their Google account to access Gemini Code Assist for individuals. This includes:
+對於使用 Google 帳戶驗證以存取個人版 Gemini Code Assist 的使用者。這包括：
 
-- 1000 model requests / user / day
-- 60 model requests / user / minute
-- Model requests will be made across the Gemini model family as determined by Gemini CLI.
+- 1000 個模型請求 / 使用者 / 天
+- 60 個模型請求 / 使用者 / 分鐘
+- 模型請求將由 Gemini CLI 決定在 Gemini 模型系列中進行。
 
-Learn more at [Gemini Code Assist for Individuals Limits](https://developers.google.com/gemini-code-assist/resources/quotas#quotas-for-agent-mode-gemini-cli).
+在 [Gemini Code Assist for Individuals 限制](https://developers.google.com/gemini-code-assist/resources/quotas#quotas-for-agent-mode-gemini-cli) 了解更多。
 
-### Log in with Gemini API Key (Unpaid)
+### 使用 Gemini API 金鑰登入（免費）
 
-If you are using a Gemini API key, you can also benefit from a free tier. This includes:
+如果您使用 Gemini API 金鑰，您也可以享受免費層級。這包括：
 
-- 250 model requests / user / day
-- 10 model requests / user / minute
-- Model requests to Flash model only.
+- 250 個模型請求 / 使用者 / 天
+- 10 個模型請求 / 使用者 / 分鐘
+- 僅限 Flash 模型的模型請求。
 
-Learn more at [Gemini API Rate Limits](https://ai.google.dev/gemini-api/docs/rate-limits).
+在 [Gemini API 速率限制](https://ai.google.dev/gemini-api/docs/rate-limits) 了解更多。
 
-### Log in with Vertex AI (Express Mode)
+### 使用 Vertex AI 登入（Express 模式）
 
-Vertex AI offers an Express Mode without the need to enable billing. This includes:
+Vertex AI 提供 Express 模式，無需啟用計費。這包括：
 
-- 90 days before you need to enable billing.
-- Quotas and models are variable and specific to your account.
+- 啟用計費前有 90 天
+- 配額和模型因您的帳戶而異且特定。
 
-Learn more at [Vertex AI Express Mode Limits](https://cloud.google.com/vertex-ai/generative-ai/docs/start/express-mode/overview#quotas).
+在 [Vertex AI Express 模式限制](https://cloud.google.com/vertex-ai/generative-ai/docs/start/express-mode/overview#quotas) 了解更多。
 
 ## Paid tier: Higher limits for a fixed cost
 

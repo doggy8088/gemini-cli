@@ -1,45 +1,45 @@
-# Observability Guide
+# 可觀測性指南
 
-Telemetry provides data about Gemini CLI's performance, health, and usage. By enabling it, you can monitor operations, debug issues, and optimize tool usage through traces, metrics, and structured logs.
+遙測提供 Gemini CLI 效能、健康狀況和使用情況的資料。透過啟用遙測，您可以透過追蹤、指標和結構化日誌來監控操作、偵錯問題並最佳化工具使用。
 
-Gemini CLI's telemetry system is built on the **[OpenTelemetry] (OTEL)** standard, allowing you to send data to any compatible backend.
+Gemini CLI 的遙測系統建立在 **[OpenTelemetry] (OTEL)** 標準之上，允許您將資料發送到任何相容的後端。
 
 [OpenTelemetry]: https://opentelemetry.io/
 
-## Enabling telemetry
+## 啟用遙測
 
-You can enable telemetry in multiple ways. Configuration is primarily managed via the [`.gemini/settings.json` file](./cli/configuration.md) and environment variables, but CLI flags can override these settings for a specific session.
+您可以透過多種方式啟用遙測。設定主要透過 [`.gemini/settings.json` 檔案](./cli/configuration.md) 和環境變數管理，但 CLI 旗標可以覆蓋這些設定以適用於特定工作階段。
 
-### Order of precedence
+### 優先順序
 
-The following lists the precedence for applying telemetry settings, with items listed higher having greater precedence:
+以下列出套用遙測設定的優先順序，清單中較高的項目具有更高的優先順序：
 
-1.  **CLI flags (for `gemini` command):**
-    - `--telemetry` / `--no-telemetry`: Overrides `telemetry.enabled`.
-    - `--telemetry-target <local|gcp>`: Overrides `telemetry.target`.
-    - `--telemetry-otlp-endpoint <URL>`: Overrides `telemetry.otlpEndpoint`.
-    - `--telemetry-log-prompts` / `--no-telemetry-log-prompts`: Overrides `telemetry.logPrompts`.
-    - `--telemetry-outfile <path>`: Redirects telemetry output to a file. See [Exporting to a file](#exporting-to-a-file).
+1.  **CLI 旗標（適用於 `gemini` 指令）：**
+    - `--telemetry` / `--no-telemetry`：覆蓋 `telemetry.enabled`。
+    - `--telemetry-target <local|gcp>`：覆蓋 `telemetry.target`。
+    - `--telemetry-otlp-endpoint <URL>`：覆蓋 `telemetry.otlpEndpoint`。
+    - `--telemetry-log-prompts` / `--no-telemetry-log-prompts`：覆蓋 `telemetry.logPrompts`。
+    - `--telemetry-outfile <path>`：將遙測輸出重新導向到檔案。請參閱[匯出到檔案](#exporting-to-a-file)。
 
-1.  **Environment variables:**
-    - `OTEL_EXPORTER_OTLP_ENDPOINT`: Overrides `telemetry.otlpEndpoint`.
+1.  **環境變數：**
+    - `OTEL_EXPORTER_OTLP_ENDPOINT`：覆蓋 `telemetry.otlpEndpoint`。
 
-1.  **Workspace settings file (`.gemini/settings.json`):** Values from the `telemetry` object in this project-specific file.
+1.  **工作區設定檔案（`.gemini/settings.json`）：** 此專案特定檔案中 `telemetry` 物件的值。
 
-1.  **User settings file (`~/.gemini/settings.json`):** Values from the `telemetry` object in this global user file.
+1.  **使用者設定檔案（`~/.gemini/settings.json`）：** 此全域使用者檔案中 `telemetry` 物件的值。
 
-1.  **Defaults:** applied if not set by any of the above.
-    - `telemetry.enabled`: `false`
-    - `telemetry.target`: `local`
-    - `telemetry.otlpEndpoint`: `http://localhost:4317`
-    - `telemetry.logPrompts`: `true`
+1.  **預設值：** 如果上述任何方式都未設定則套用。
+    - `telemetry.enabled`：`false`
+    - `telemetry.target`：`local`
+    - `telemetry.otlpEndpoint`：`http://localhost:4317`
+    - `telemetry.logPrompts`：`true`
 
-**For the `npm run telemetry -- --target=<gcp|local>` script:**
-The `--target` argument to this script _only_ overrides the `telemetry.target` for the duration and purpose of that script (i.e., choosing which collector to start). It does not permanently change your `settings.json`. The script will first look at `settings.json` for a `telemetry.target` to use as its default.
+**對於 `npm run telemetry -- --target=<gcp|local>` 腳本：**
+此腳本的 `--target` 參數 _僅_ 覆蓋該腳本持續時間和目的的 `telemetry.target`（即選擇要啟動的收集器）。它不會永久變更您的 `settings.json`。腳本會首先查看 `settings.json` 中的 `telemetry.target` 作為預設值。
 
-### Example settings
+### 範例設定
 
-The following code can be added to your workspace (`.gemini/settings.json`) or user (`~/.gemini/settings.json`) settings to enable telemetry and send the output to Google Cloud:
+以下程式碼可以新增到您的工作區（`.gemini/settings.json`）或使用者（`~/.gemini/settings.json`）設定中，以啟用遙測並將輸出發送到 Google Cloud：
 
 ```json
 {
@@ -53,19 +53,19 @@ The following code can be added to your workspace (`.gemini/settings.json`) or u
 }
 ```
 
-### Exporting to a file
+### 匯出到檔案
 
-You can export all telemetry data to a file for local inspection.
+您可以將所有遙測資料匯出到檔案以進行本機檢查。
 
-To enable file export, use the `--telemetry-outfile` flag with a path to your desired output file. This must be run using `--telemetry-target=local`.
+要啟用檔案匯出，請使用 `--telemetry-outfile` 旗標並指定您想要的輸出檔案路徑。這必須使用 `--telemetry-target=local` 執行。
 
 ```bash
-# Set your desired output file path
+# 設定您想要的輸出檔案路徑
 TELEMETRY_FILE=".gemini/telemetry.log"
 
-# Run Gemini CLI with local telemetry
-# NOTE: --telemetry-otlp-endpoint="" is required to override the default
-# OTLP exporter and ensure telemetry is written to the local file.
+# 使用本機遙測執行 Gemini CLI
+# 注意：需要 --telemetry-otlp-endpoint="" 來覆蓋預設的
+# OTLP 匯出器並確保遙測寫入本機檔案。
 gemini --telemetry \
   --telemetry-target=local \
   --telemetry-otlp-endpoint="" \
@@ -73,135 +73,135 @@ gemini --telemetry \
   --prompt "What is OpenTelemetry?"
 ```
 
-## Running an OTEL Collector
+## 執行 OTEL 收集器
 
-An OTEL Collector is a service that receives, processes, and exports telemetry data.
-The CLI can send data using either the OTLP/gRPC or OTLP/HTTP protocol.
-You can specify which protocol to use via the `--telemetry-otlp-protocol` flag
-or the `telemetry.otlpProtocol` setting in your `settings.json` file. See the
-[configuration docs](./cli/configuration.md#--telemetry-otlp-protocol) for more
-details.
+OTEL 收集器是一個接收、處理和匯出遙測資料的服務。
+CLI 可以使用 OTLP/gRPC 或 OTLP/HTTP 協定發送資料。
+您可以透過 `--telemetry-otlp-protocol` 旗標
+或您的 `settings.json` 檔案中的 `telemetry.otlpProtocol` 設定指定要使用的協定。請參閱
+[設定文件](./cli/configuration.md#--telemetry-otlp-protocol) 以了解更多
+詳細資訊。
 
-Learn more about OTEL exporter standard configuration in [documentation][otel-config-docs].
+在[文件][otel-config-docs]中了解更多關於 OTEL 匯出器標準設定的資訊。
 
 [otel-config-docs]: https://opentelemetry.io/docs/languages/sdk-configuration/otlp-exporter/
 
-### Local
+### 本機
 
-Use the `npm run telemetry -- --target=local` command to automate the process of setting up a local telemetry pipeline, including configuring the necessary settings in your `.gemini/settings.json` file. The underlying script installs `otelcol-contrib` (the OpenTelemetry Collector) and `jaeger` (The Jaeger UI for viewing traces). To use it:
+使用 `npm run telemetry -- --target=local` 指令來自動設定本機遙測管道的過程，包括在您的 `.gemini/settings.json` 檔案中設定必要的設定。底層腳本會安裝 `otelcol-contrib`（OpenTelemetry 收集器）和 `jaeger`（用於檢視追蹤的 Jaeger UI）。使用方法：
 
-1.  **Run the command**:
-    Execute the command from the root of the repository:
+1.  **執行指令**：
+    從儲存庫根目錄執行指令：
 
     ```bash
     npm run telemetry -- --target=local
     ```
 
-    The script will:
-    - Download Jaeger and OTEL if needed.
-    - Start a local Jaeger instance.
-    - Start an OTEL collector configured to receive data from Gemini CLI.
-    - Automatically enable telemetry in your workspace settings.
-    - On exit, disable telemetry.
+    腳本將會：
+    - 如有需要，下載 Jaeger 和 OTEL。
+    - 啟動本機 Jaeger 實例。
+    - 啟動設定為從 Gemini CLI 接收資料的 OTEL 收集器。
+    - 自動在您的工作區設定中啟用遙測。
+    - 退出時，停用遙測。
 
-1.  **View traces**:
-    Open your web browser and navigate to **http://localhost:16686** to access the Jaeger UI. Here you can inspect detailed traces of Gemini CLI operations.
+1.  **檢視追蹤**：
+    開啟您的網頁瀏覽器並導覽到 **http://localhost:16686** 以存取 Jaeger UI。在這裡您可以檢查 Gemini CLI 操作的詳細追蹤。
 
-1.  **Inspect logs and metrics**:
-    The script redirects the OTEL collector output (which includes logs and metrics) to `~/.gemini/tmp/<projectHash>/otel/collector.log`. The script will provide links to view and a command to tail your telemetry data (traces, metrics, logs) locally.
+1.  **檢查日誌和指標**：
+    腳本將 OTEL 收集器輸出（包括日誌和指標）重新導向到 `~/.gemini/tmp/<projectHash>/otel/collector.log`。腳本將提供檢視連結和指令來在本機追蹤您的遙測資料（追蹤、指標、日誌）。
 
-1.  **Stop the services**:
-    Press `Ctrl+C` in the terminal where the script is running to stop the OTEL Collector and Jaeger services.
+1.  **停止服務**：
+    在執行腳本的終端機中按 `Ctrl+C` 來停止 OTEL 收集器和 Jaeger 服務。
 
 ### Google Cloud
 
-Use the `npm run telemetry -- --target=gcp` command to automate setting up a local OpenTelemetry collector that forwards data to your Google Cloud project, including configuring the necessary settings in your `.gemini/settings.json` file. The underlying script installs `otelcol-contrib`. To use it:
+使用 `npm run telemetry -- --target=gcp` 指令來自動設定本機 OpenTelemetry 收集器，將資料轉發到您的 Google Cloud 專案，包括在您的 `.gemini/settings.json` 檔案中設定必要的設定。底層腳本會安裝 `otelcol-contrib`。使用方法：
 
-1.  **Prerequisites**:
-    - Have a Google Cloud project ID.
-    - Export the `GOOGLE_CLOUD_PROJECT` environment variable to make it available to the OTEL collector.
+1.  **先決條件**：
+    - 擁有 Google Cloud 專案 ID。
+    - 匯出 `GOOGLE_CLOUD_PROJECT` 環境變數以讓 OTEL 收集器可以使用。
       ```bash
       export OTLP_GOOGLE_CLOUD_PROJECT="your-project-id"
       ```
-    - Authenticate with Google Cloud (e.g., run `gcloud auth application-default login` or ensure `GOOGLE_APPLICATION_CREDENTIALS` is set).
-    - Ensure your Google Cloud account/service account has the necessary IAM roles: "Cloud Trace Agent", "Monitoring Metric Writer", and "Logs Writer".
+    - 使用 Google Cloud 進行驗證（例如，執行 `gcloud auth application-default login` 或確保設定了 `GOOGLE_APPLICATION_CREDENTIALS`）。
+    - 確保您的 Google Cloud 帳戶/服務帳戶具有必要的 IAM 角色：「Cloud Trace Agent」、「Monitoring Metric Writer」和「Logs Writer」。
 
-1.  **Run the command**:
-    Execute the command from the root of the repository:
+1.  **執行指令**：
+    從儲存庫根目錄執行指令：
 
     ```bash
     npm run telemetry -- --target=gcp
     ```
 
-    The script will:
-    - Download the `otelcol-contrib` binary if needed.
-    - Start an OTEL collector configured to receive data from Gemini CLI and export it to your specified Google Cloud project.
-    - Automatically enable telemetry and disable sandbox mode in your workspace settings (`.gemini/settings.json`).
-    - Provide direct links to view traces, metrics, and logs in your Google Cloud Console.
-    - On exit (Ctrl+C), it will attempt to restore your original telemetry and sandbox settings.
+    腳本將會：
+    - 如有需要，下載 `otelcol-contrib` 二進位檔案。
+    - 啟動設定為從 Gemini CLI 接收資料並將其匯出到您指定的 Google Cloud 專案的 OTEL 收集器。
+    - 自動啟用遙測並在您的工作區設定（`.gemini/settings.json`）中停用沙箱模式。
+    - 提供直接連結以在您的 Google Cloud 主控台中檢視追蹤、指標和日誌。
+    - 退出時（Ctrl+C），它將嘗試還原您的原始遙測和沙箱設定。
 
-1.  **Run Gemini CLI:**
-    In a separate terminal, run your Gemini CLI commands. This generates telemetry data that the collector captures.
+1.  **執行 Gemini CLI：**
+    在單獨的終端機中，執行您的 Gemini CLI 指令。這會產生收集器捕獲的遙測資料。
 
-1.  **View telemetry in Google Cloud**:
-    Use the links provided by the script to navigate to the Google Cloud Console and view your traces, metrics, and logs.
+1.  **在 Google Cloud 中檢視遙測**：
+    使用腳本提供的連結導覽到 Google Cloud 主控台並檢視您的追蹤、指標和日誌。
 
-1.  **Inspect local collector logs**:
-    The script redirects the local OTEL collector output to `~/.gemini/tmp/<projectHash>/otel/collector-gcp.log`. The script provides links to view and command to tail your collector logs locally.
+1.  **檢查本機收集器日誌**：
+    腳本將本機 OTEL 收集器輸出重新導向到 `~/.gemini/tmp/<projectHash>/otel/collector-gcp.log`。腳本提供檢視連結和指令來在本機追蹤您的收集器日誌。
 
-1.  **Stop the service**:
-    Press `Ctrl+C` in the terminal where the script is running to stop the OTEL Collector.
+1.  **停止服務**：
+    在執行腳本的終端機中按 `Ctrl+C` 來停止 OTEL 收集器。
 
-## Logs and metric reference
+## 日誌和指標參考
 
-The following section describes the structure of logs and metrics generated for Gemini CLI.
+以下部分描述為 Gemini CLI 產生的日誌和指標結構。
 
-- A `sessionId` is included as a common attribute on all logs and metrics.
+- 所有日誌和指標都包含 `sessionId` 作為通用屬性。
 
-### Logs
+### 日誌
 
-Logs are timestamped records of specific events. The following events are logged for Gemini CLI:
+日誌是特定事件的時間戳記錄。以下事件會記錄在 Gemini CLI 中：
 
-- `gemini_cli.config`: This event occurs once at startup with the CLI's configuration.
-  - **Attributes**:
-    - `model` (string)
-    - `embedding_model` (string)
-    - `sandbox_enabled` (boolean)
-    - `core_tools_enabled` (string)
-    - `approval_mode` (string)
-    - `api_key_enabled` (boolean)
-    - `vertex_ai_enabled` (boolean)
-    - `code_assist_enabled` (boolean)
-    - `log_prompts_enabled` (boolean)
-    - `file_filtering_respect_git_ignore` (boolean)
-    - `debug_mode` (boolean)
-    - `mcp_servers` (string)
+- `gemini_cli.config`：此事件在啟動時發生一次，記錄 CLI 的設定。
+  - **屬性**：
+    - `model`（字串）
+    - `embedding_model`（字串）
+    - `sandbox_enabled`（布林值）
+    - `core_tools_enabled`（字串）
+    - `approval_mode`（字串）
+    - `api_key_enabled`（布林值）
+    - `vertex_ai_enabled`（布林值）
+    - `code_assist_enabled`（布林值）
+    - `log_prompts_enabled`（布林值）
+    - `file_filtering_respect_git_ignore`（布林值）
+    - `debug_mode`（布林值）
+    - `mcp_servers`（字串）
 
-- `gemini_cli.user_prompt`: This event occurs when a user submits a prompt.
-  - **Attributes**:
-    - `prompt_length` (int)
-    - `prompt_id` (string)
-    - `prompt` (string, this attribute is excluded if `log_prompts_enabled` is configured to be `false`)
-    - `auth_type` (string)
+- `gemini_cli.user_prompt`：此事件在使用者提交提示時發生。
+  - **屬性**：
+    - `prompt_length`（整數）
+    - `prompt_id`（字串）
+    - `prompt`（字串，如果 `log_prompts_enabled` 設定為 `false`，則排除此屬性）
+    - `auth_type`（字串）
 
-- `gemini_cli.tool_call`: This event occurs for each function call.
-  - **Attributes**:
+- `gemini_cli.tool_call`：此事件在每次函式呼叫時發生。
+  - **屬性**：
     - `function_name`
     - `function_args`
     - `duration_ms`
-    - `success` (boolean)
-    - `decision` (string: "accept", "reject", "auto_accept", or "modify", if applicable)
-    - `error` (if applicable)
-    - `error_type` (if applicable)
-    - `metadata` (if applicable, dictionary of string -> any)
+    - `success`（布林值）
+    - `decision`（字串：「accept」、「reject」、「auto_accept」或「modify」，如果適用）
+    - `error`（如果適用）
+    - `error_type`（如果適用）
+    - `metadata`（如果適用，字串到任何類型的字典）
 
-- `gemini_cli.api_request`: This event occurs when making a request to Gemini API.
-  - **Attributes**:
+- `gemini_cli.api_request`：此事件在向 Gemini API 發出請求時發生。
+  - **屬性**：
     - `model`
-    - `request_text` (if applicable)
+    - `request_text`（如果適用）
 
-- `gemini_cli.api_error`: This event occurs if the API request fails.
-  - **Attributes**:
+- `gemini_cli.api_error`：此事件在 API 請求失敗時發生。
+  - **屬性**：
     - `model`
     - `error`
     - `error_type`
@@ -209,79 +209,79 @@ Logs are timestamped records of specific events. The following events are logged
     - `duration_ms`
     - `auth_type`
 
-- `gemini_cli.api_response`: This event occurs upon receiving a response from Gemini API.
-  - **Attributes**:
+- `gemini_cli.api_response`：此事件在從 Gemini API 接收回應時發生。
+  - **屬性**：
     - `model`
     - `status_code`
     - `duration_ms`
-    - `error` (optional)
+    - `error`（可選）
     - `input_token_count`
     - `output_token_count`
     - `cached_content_token_count`
     - `thoughts_token_count`
     - `tool_token_count`
-    - `response_text` (if applicable)
+    - `response_text`（如果適用）
     - `auth_type`
 
-- `gemini_cli.malformed_json_response`: This event occurs when a `generateJson` response from Gemini API cannot be parsed as a json.
-  - **Attributes**:
+- `gemini_cli.malformed_json_response`：此事件在 Gemini API 的 `generateJson` 回應無法解析為 JSON 時發生。
+  - **屬性**：
     - `model`
 
-- `gemini_cli.flash_fallback`: This event occurs when Gemini CLI switches to flash as fallback.
-  - **Attributes**:
+- `gemini_cli.flash_fallback`：此事件在 Gemini CLI 切換到 flash 作為後備時發生。
+  - **屬性**：
     - `auth_type`
 
-- `gemini_cli.slash_command`: This event occurs when a user executes a slash command.
-  - **Attributes**:
-    - `command` (string)
-    - `subcommand` (string, if applicable)
+- `gemini_cli.slash_command`：此事件在使用者執行斜線指令時發生。
+  - **屬性**：
+    - `command`（字串）
+    - `subcommand`（字串，如果適用）
 
-### Metrics
+### 指標
 
-Metrics are numerical measurements of behavior over time. The following metrics are collected for Gemini CLI:
+指標是隨時間測量行為的數值量測。以下指標會收集在 Gemini CLI 中：
 
-- `gemini_cli.session.count` (Counter, Int): Incremented once per CLI startup.
+- `gemini_cli.session.count`（計數器，整數）：每次 CLI 啟動時遞增一次。
 
-- `gemini_cli.tool.call.count` (Counter, Int): Counts tool calls.
-  - **Attributes**:
+- `gemini_cli.tool.call.count`（計數器，整數）：計算工具呼叫次數。
+  - **屬性**：
     - `function_name`
-    - `success` (boolean)
-    - `decision` (string: "accept", "reject", or "modify", if applicable)
-    - `tool_type` (string: "mcp", or "native", if applicable)
+    - `success`（布林值）
+    - `decision`（字串：「accept」、「reject」或「modify」，如果適用）
+    - `tool_type`（字串：「mcp」或「native」，如果適用）
 
-- `gemini_cli.tool.call.latency` (Histogram, ms): Measures tool call latency.
-  - **Attributes**:
+- `gemini_cli.tool.call.latency`（直方圖，毫秒）：測量工具呼叫延遲。
+  - **屬性**：
     - `function_name`
-    - `decision` (string: "accept", "reject", or "modify", if applicable)
+    - `decision`（字串：「accept」、「reject」或「modify」，如果適用）
 
-- `gemini_cli.api.request.count` (Counter, Int): Counts all API requests.
-  - **Attributes**:
+- `gemini_cli.api.request.count`（計數器，整數）：計算所有 API 請求次數。
+  - **屬性**：
     - `model`
     - `status_code`
-    - `error_type` (if applicable)
+    - `error_type`（如果適用）
 
-- `gemini_cli.api.request.latency` (Histogram, ms): Measures API request latency.
-  - **Attributes**:
+- `gemini_cli.api.request.latency`（直方圖，毫秒）：測量 API 請求延遲。
+  - **屬性**：
     - `model`
 
-- `gemini_cli.token.usage` (Counter, Int): Counts the number of tokens used.
-  - **Attributes**:
+- `gemini_cli.token.usage`（計數器，整數）：計算使用的權杖數量。
+  - **屬性**：
     - `model`
-    - `type` (string: "input", "output", "thought", "cache", or "tool")
+    - `type`（字串：「input」、「output」、「thought」、「cache」或「tool」）
 
-- `gemini_cli.file.operation.count` (Counter, Int): Counts file operations.
-  - **Attributes**:
-    - `operation` (string: "create", "read", "update"): The type of file operation.
-    - `lines` (Int, if applicable): Number of lines in the file.
-    - `mimetype` (string, if applicable): Mimetype of the file.
-    - `extension` (string, if applicable): File extension of the file.
-    - `ai_added_lines` (Int, if applicable): Number of lines added/changed by AI.
-    - `ai_removed_lines` (Int, if applicable): Number of lines removed/changed by AI.
-    - `user_added_lines` (Int, if applicable): Number of lines added/changed by user in AI proposed changes.
-    - `user_removed_lines` (Int, if applicable): Number of lines removed/changed by user in AI proposed changes.
-    - `programming_language` (string, if applicable): The programming language of the file.
+- `gemini_cli.file.operation.count`（計數器，整數）：計算檔案操作次數。
+  - **屬性**：
+    - `operation`（字串：「create」、「read」、「update」）：檔案操作的類型。
+    - `lines`（整數，如果適用）：檔案中的行數。
+    - `mimetype`（字串，如果適用）：檔案的 MIME 類型。
+    - `extension`（字串，如果適用）：檔案的副檔名。
+    - `ai_added_lines`（整數，如果適用）：AI 新增/變更的行數。
+    - `ai_removed_lines`（整數，如果適用）：AI 移除/變更的行數。
+    - `user_added_lines`（整數，如果適用）：使用者在 AI 提議的變更中新增/變更的行數。
+    - `user_removed_lines`（整數，如果適用）：使用者在 AI 提議的變更中移除/變更的行數。
+    - `programming_language`（字串，如果適用）：檔案的程式語言。
 
-- `gemini_cli.chat_compression` (Counter, Int): Counts chat compression operations
-  - **Attributes**:
-    - `tokens_before`: (Int): Number of tokens in context prior to compression
-    - `tokens_after`: (Int): Number of tokens in context after compression
+- `gemini_cli.chat_compression`（計數器，整數）：計算聊天壓縮操作次數
+  - **屬性**：
+    - `tokens_before`：（整數）：壓縮前上下文中的權杖數量
+    - `tokens_after`：（整數）：壓縮後上下文中的權杖數量
