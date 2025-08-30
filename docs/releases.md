@@ -164,78 +164,78 @@ After the hotfix is released, merge the changes back to the appropriate branch.
   </tr>
 </table>
 
-## How To Release
+## 如何發布
 
-Releases are managed through the [release.yml](https://github.com/google-gemini/gemini-cli/actions/workflows/release.yml) GitHub Actions workflow. To perform a manual release for a patch or hotfix:
+發布透過 [release.yml](https://github.com/google-gemini/gemini-cli/actions/workflows/release.yml) GitHub Actions 工作流程管理。要執行修補或熱修復的手動發布：
 
-1.  Navigate to the **Actions** tab of the repository.
-2.  Select the **Release** workflow from the list.
-3.  Click the **Run workflow** dropdown button.
-4.  Fill in the required inputs:
-    - **Version**: The exact version to release (e.g., `v0.2.1`).
-    - **Ref**: The branch or commit SHA to release from (defaults to `main`).
-    - **Dry Run**: Leave as `true` to test the workflow without publishing, or set to `false` to perform a live release.
-5.  Click **Run workflow**.
+1.  導覽到儲存庫的 **Actions** 標籤。
+2.  從清單中選擇 **Release** 工作流程。
+3.  點選 **Run workflow** 下拉按鈕。
+4.  填入必要輸入：
+    - **Version**：要發布的確切版本（例如，`v0.2.1`）。
+    - **Ref**：要發布的分支或提交 SHA（預設為 `main`）。
+    - **Dry Run**：保持 `true` 以測試工作流程而不發布，或設定為 `false` 以執行實際發布。
+5.  點選 **Run workflow**。
 
-### TLDR
+### 簡要說明
 
-Each release, wether automated or manual performs the following steps:
+每個發布，無論是自動化還是手動，都會執行以下步驟：
 
-1.  Checks out the latest code from the `main` branch.
-1.  Installs all dependencies.
-1.  Runs the full suite of `preflight` checks and integration tests.
-1.  If all tests succeed, it calculates the next version number based on the inputs.
-1.  It creates a branch name `release/${VERSION}`.
-1.  It creates a tag name `v${VERSION}`.
-1.  It then builds and publishes the packages to npm with the provided version number.
-1.  Finally, it creates a GitHub Release for the version.
+1.  從 `main` 分支檢出最新程式碼。
+1.  安裝所有相依性。
+1.  執行完整的 `preflight` 檢查和整合測試套件。
+1.  如果所有測試成功，根據輸入計算下一個版本號。
+1.  建立分支名稱 `release/${VERSION}`。
+1.  建立標籤名稱 `v${VERSION}`。
+1.  然後建置並發布套件到 npm，使用提供的版本號。
+1.  最後，為版本建立 GitHub Release。
 
-### Failure Handling
+### 失敗處理
 
-If any step in the workflow fails, it will automatically create a new issue in the repository with the labels `bug` and `release-failure`. The issue will contain a link to the failed workflow run for easy debugging.
+如果工作流程中的任何步驟失敗，它會自動在儲存庫中建立新問題，帶有 `bug` 和 `release-failure` 標籤。問題將包含失敗工作流程執行的連結，以便輕鬆偵錯。
 
 ### Docker
 
-We also run a Google cloud build called [release-docker.yml](../.gcp/release-docker.yml). Which publishes the sandbox docker to match your release. This will also be moved to GH and combined with the main release file once service account permissions are sorted out.
+我們也執行名為 [release-docker.yml](../.gcp/release-docker.yml) 的 Google cloud build。它發布沙箱 docker 以配合您的發布。一旦服務帳戶權限整理好，這也會移至 GH 並與主要發布檔案合併。
 
-## Release Validation
+## 發布驗證
 
-After pushing a new release smoke testing should be performed to ensure that the packages are working as expected. This can be done by installing the packages locally and running a set of tests to ensure that they are functioning correctly.
+推送新發布後，應執行煙霧測試以確保套件按預期運作。這可以透過在本機安裝套件並執行一系列測試來確保它們正常運作。
 
-- `npx -y @google/gemini-cli@latest --version` to validate the push worked as expected if you were not doing a rc or dev tag
-- `npx -y @google/gemini-cli@<release tag> --version` to validate the tag pushed appropriately
-- _This is destructive locally_ `npm uninstall @google/gemini-cli && npm uninstall -g @google/gemini-cli && npm cache clean --force &&  npm install @google/gemini-cli@<version>`
-- Smoke testing a basic run through of exercising a few llm commands and tools is recommended to ensure that the packages are working as expected. We'll codify this more in the future.
+- `npx -y @google/gemini-cli@latest --version` 如果您不是在進行 rc 或 dev 標籤，用來驗證推送按預期運作
+- `npx -y @google/gemini-cli@<release tag> --version` 用來驗證標籤適當推送
+- _這在本機是破壞性的_ `npm uninstall @google/gemini-cli && npm uninstall -g @google/gemini-cli && npm cache clean --force &&  npm install @google/gemini-cli@<version>`
+- 建議進行基本執行的煙霧測試，練習一些 llm 指令和工具，以確保套件按預期運作。我們會在未來將此編成規範。
 
-## Local Testing and Validation: Changes to the Packaging and Publishing Process
+## 本機測試與驗證：封裝和發布流程的變更
 
-If you need to test the release process without actually publishing to NPM or creating a public GitHub release, you can trigger the workflow manually from the GitHub UI.
+如果您需要測試發布流程而不實際發布到 NPM 或建立公開 GitHub 發布，您可以從 GitHub UI 手動觸發工作流程。
 
-1.  Go to the [Actions tab](https://github.com/google-gemini/gemini-cli/actions/workflows/release.yml) of the repository.
-2.  Click on the "Run workflow" dropdown.
-3.  Leave the `dry_run` option checked (`true`).
-4.  Click the "Run workflow" button.
+1.  前往儲存庫的 [Actions 標籤](https://github.com/google-gemini/gemini-cli/actions/workflows/release.yml)。
+2.  點選「Run workflow」下拉選單。
+3.  保持 `dry_run` 選項勾選（`true`）。
+4.  點選「Run workflow」按鈕。
 
-This will run the entire release process but will skip the `npm publish` and `gh release create` steps. You can inspect the workflow logs to ensure everything is working as expected.
+這將執行整個發布流程，但會跳過 `npm publish` 和 `gh release create` 步驟。您可以檢查工作流程日誌以確保一切按預期運作。
 
-It is crucial to test any changes to the packaging and publishing process locally before committing them. This ensures that the packages will be published correctly and that they will work as expected when installed by a user.
+在提交之前，在本機測試封裝和發布流程的任何變更是至關重要的。這確保套件會正確發布，並且在使用者安裝時會按預期運作。
 
-To validate your changes, you can perform a dry run of the publishing process. This will simulate the publishing process without actually publishing the packages to the npm registry.
+要驗證您的變更，您可以執行發布流程的試執行。這將模擬發布流程而不實際將套件發布到 npm 註冊表。
 
 ```bash
 npm_package_version=9.9.9 SANDBOX_IMAGE_REGISTRY="registry" SANDBOX_IMAGE_NAME="thename" npm run publish:npm --dry-run
 ```
 
-This command will do the following:
+此指令將執行以下操作：
 
-1.  Build all the packages.
-2.  Run all the prepublish scripts.
-3.  Create the package tarballs that would be published to npm.
-4.  Print a summary of the packages that would be published.
+1.  建置所有套件。
+2.  執行所有預發布腳本。
+3.  建立將發布到 npm 的套件 tarball。
+4.  列印將發布的套件摘要。
 
-You can then inspect the generated tarballs to ensure that they contain the correct files and that the `package.json` files have been updated correctly. The tarballs will be created in the root of each package's directory (e.g., `packages/cli/google-gemini-cli-0.1.6.tgz`).
+然後您可以檢查產生的 tarball，以確保它們包含正確的檔案且 `package.json` 檔案已正確更新。tarball 將在每個套件目錄的根目錄中建立（例如，`packages/cli/google-gemini-cli-0.1.6.tgz`）。
 
-By performing a dry run, you can be confident that your changes to the packaging process are correct and that the packages will be published successfully.
+透過執行試執行，您可以確信您對封裝流程的變更是正確的，並且套件會成功發布。
 
 ## Release Deep Dive
 
