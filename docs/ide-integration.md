@@ -27,56 +27,56 @@ Gemini CLI 可以與您的 IDE 整合，提供更無縫和內容感知的體驗�
 
 當您在支援的編輯器中執行 Gemini CLI 時，它會自動偵測您的環境並提示您連線。回答「是」會自動執行必要的設定，包括安裝配套擴充功能並啟用連線。
 
-### 2. Manual Installation from CLI
+### 2. 從 CLI 手動安裝
 
-If you previously dismissed the prompt or want to install the extension manually, you can run the following command inside Gemini CLI:
+如果您之前取消了提示或想要手動安裝擴充功能，您可以在 Gemini CLI 內執行以下指令：
 
 ```
 /ide install
 ```
 
-This will find the correct extension for your IDE and install it.
+這會找到適合您 IDE 的正確擴充功能並安裝。
 
-### 3. Manual Installation from a Marketplace
+### 3. 從市集手動安裝
 
-You can also install the extension directly from a marketplace.
+您也可以直接從市集安裝擴充功能。
 
-- **For Visual Studio Code:** Install from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=google.gemini-cli-vscode-ide-companion).
-- **For VS Code Forks:** To support forks of VS Code, the extension is also published on the [Open VSX Registry](https://open-vsx.org/extension/google/gemini-cli-vscode-ide-companion). Follow your editor's instructions for installing extensions from this registry.
+- **對於 Visual Studio Code：** 從 [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=google.gemini-cli-vscode-ide-companion) 安裝。
+- **對於 VS Code 分支版本：** 為了支援 VS Code 分支版本，此擴充功能也發佈在 [Open VSX Registry](https://open-vsx.org/extension/google/gemini-cli-vscode-ide-companion) 上。請遵循您編輯器從此註冊表安裝擴充功能的指示。
 
-> NOTE:
-> The "Gemini CLI Companion" extension may appear towards the bottom of search results. If you don't see it immediately, try scrolling down or sorting by "Newly Published".
+> 注意：
+> "Gemini CLI Companion" 擴充功能可能會出現在搜尋結果的底部。如果您沒有立即看到它，請嘗試向下滾動或按「新發佈」排序。
 >
-> After manually installing the extension, you must run `/ide enable` in the CLI to activate the integration.
+> 手動安裝擴充功能後，您必須在 CLI 中執行 `/ide enable` 來啟用整合。
 
-## Usage
+## 使用方式
 
-### Enabling and Disabling
+### 啟用和停用
 
-You can control the IDE integration from within the CLI:
+您可以從 CLI 內控制 IDE 整合：
 
-- To enable the connection to the IDE, run:
+- 要啟用與 IDE 的連線，請執行：
   ```
   /ide enable
   ```
-- To disable the connection, run:
+- 要停用連線，請執行：
   ```
   /ide disable
   ```
 
-When enabled, Gemini CLI will automatically attempt to connect to the IDE companion extension.
+啟用時，Gemini CLI 會自動嘗試連線到 IDE 配套擴充功能。
 
-### Checking the Status
+### 檢查狀態
 
-To check the connection status and see the context the CLI has received from the IDE, run:
+要檢查連線狀態並查看 CLI 從 IDE 接收到的上下文，請執行：
 
 ```
 /ide status
 ```
 
-If connected, this command will show the IDE it's connected to and a list of recently opened files it is aware of.
+如果已連線，此指令會顯示它連線的 IDE 以及它知道的最近開啟檔案清單。
 
-(Note: The file list is limited to 10 recently accessed files within your workspace and only includes local files on disk.)
+（注意：檔案清單限制為工作區內最近存取的 10 個檔案，且僅包含磁碟上的本機檔案。）
 
 ### Working with Diffs
 

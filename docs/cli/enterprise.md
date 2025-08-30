@@ -169,30 +169,30 @@
 
 **安全性說明：** 使用 `excludeTools` 的封鎖清單比使用 `coreTools` 的允許清單安全性較低，因為它依賴於封鎖已知的不良指令，而聰明的使用者可能會找到方法繞過簡單的字串型封鎖。**建議使用允許清單方法。**
 
-## Managing Custom Tools (MCP Servers)
+## 管理自訂工具（MCP 伺服器）
 
-If your organization uses custom tools via [Model-Context Protocol (MCP) servers](../core/tools-api.md), it is crucial to understand how server configurations are managed to apply security policies effectively.
+如果您的組織透過[模型上下文通訊協定（MCP）伺服器](../core/tools-api.md)使用自訂工具，了解如何管理伺服器設定以有效套用安全政策至關重要。
 
-### How MCP Server Configurations are Merged
+### MCP 伺服器設定的合併方式
 
-Gemini CLI loads `settings.json` files from three levels: System, Workspace, and User. When it comes to the `mcpServers` object, these configurations are **merged**:
+Gemini CLI 從三個層級載入 `settings.json` 檔案：系統、工作區和使用者。對於 `mcpServers` 物件，這些設定會被**合併**：
 
-1.  **Merging:** The lists of servers from all three levels are combined into a single list.
-2.  **Precedence:** If a server with the **same name** is defined at multiple levels (e.g., a server named `corp-api` exists in both system and user settings), the definition from the highest-precedence level is used. The order of precedence is: **System > Workspace > User**.
+1.  **合併：** 所有三個層級的伺服器清單會合併成單一清單。
+2.  **優先順序：** 如果在多個層級定義了**相同名稱**的伺服器（例如，系統和使用者設定中都存在名為 `corp-api` 的伺服器），則使用最高優先順序層級的定義。優先順序為：**系統 > 工作區 > 使用者**。
 
-This means a user **cannot** override the definition of a server that is already defined in the system-level settings. However, they **can** add new servers with unique names.
+這表示使用者**無法**覆寫已在系統層級設定中定義的伺服器定義。然而，他們**可以**新增具有唯一名稱的新伺服器。
 
-### Enforcing a Catalog of Tools
+### 強制執行工具目錄
 
-The security of your MCP tool ecosystem depends on a combination of defining the canonical servers and adding their names to an allowlist.
+您 MCP 工具生態系統的安全性取決於定義規範伺服器和將其名稱新增到允許清單的組合。
 
-### Restricting Tools Within an MCP Server
+### 限制 MCP 伺服器內的工具
 
-For even greater security, especially when dealing with third-party MCP servers, you can restrict which specific tools from a server are exposed to the model. This is done using the `includeTools` and `excludeTools` properties within a server's definition. This allows you to use a subset of tools from a server without allowing potentially dangerous ones.
+為了獲得更大的安全性，特別是在處理第三方 MCP 伺服器時，您可以限制從伺服器公開給模型的特定工具。這是透過伺服器定義中的 `includeTools` 和 `excludeTools` 屬性來完成的。這允許您使用伺服器的工具子集，而不允許潛在危險的工具。
 
-Following the principle of least privilege, it is highly recommended to use `includeTools` to create an allowlist of only the necessary tools.
+遵循最小權限原則，強烈建議使用 `includeTools` 來建立僅包含必要工具的允許清單。
 
-**Example:** Only allow the `code-search` and `get-ticket-details` tools from a third-party MCP server, even if the server offers other tools like `delete-ticket`.
+**範例：** 僅允許第三方 MCP 伺服器的 `code-search` 和 `get-ticket-details` 工具，即使伺服器提供其他工具如 `delete-ticket`。
 
 ```json
 {
@@ -208,19 +208,19 @@ Following the principle of least privilege, it is highly recommended to use `inc
 }
 ```
 
-#### More Secure Pattern: Define and Add to Allowlist in System Settings
+#### 更安全的模式：在系統設定中定義並新增到允許清單
 
-To create a secure, centrally-managed catalog of tools, the system administrator **must** do both of the following in the system-level `settings.json` file:
+要建立安全的、集中管理的工具目錄，系統管理員**必須**在系統層級的 `settings.json` 檔案中執行以下兩項操作：
 
-1.  **Define the full configuration** for every approved server in the `mcpServers` object. This ensures that even if a user defines a server with the same name, the secure system-level definition will take precedence.
-2.  **Add the names** of those servers to an allowlist using the `mcp.allowed` setting. This is a critical security step that prevents users from running any servers that are not on this list. If this setting is omitted, the CLI will merge and allow any server defined by the user.
+1.  **在 `mcpServers` 物件中定義每個核准伺服器的完整設定**。這確保即使使用者定義了相同名稱的伺服器，安全的系統層級定義也會優先。
+2.  **使用 `mcp.allowed` 設定將這些伺服器的名稱新增到允許清單**。這是關鍵的安全步驟，可防止使用者執行不在此清單中的任何伺服器。如果省略此設定，CLI 會合併並允許使用者定義的任何伺服器。
 
-**Example System `settings.json`:**
+**系統 `settings.json` 範例：**
 
-1. Add the _names_ of all approved servers to an allowlist.
-   This will prevent users from adding their own servers.
+1. 將所有核准伺服器的_名稱_新增到允許清單。
+   這將防止使用者新增自己的伺服器。
 
-2. Provide the canonical _definition_ for each server on the allowlist.
+2. 為允許清單上的每個伺服器提供規範_定義_。
 
 ```json
 {
@@ -239,16 +239,16 @@ To create a secure, centrally-managed catalog of tools, the system administrator
 }
 ```
 
-This pattern is more secure because it uses both definition and an allowlist. Any server a user defines will either be overridden by the system definition (if it has the same name) or blocked because its name is not in the `mcp.allowed` list.
+這種模式更安全，因為它同時使用定義和允許清單。使用者定義的任何伺服器要麼被系統定義覆寫（如果它有相同的名稱），要麼因為其名稱不在 `mcp.allowed` 清單中而被封鎖。
 
-### Less Secure Pattern: Omitting the Allowlist
+### 較不安全的模式：省略允許清單
 
-If the administrator defines the `mcpServers` object but fails to also specify the `mcp.allowed` allowlist, users may add their own servers.
+如果管理員定義了 `mcpServers` 物件但未同時指定 `mcp.allowed` 允許清單，使用者可能會新增自己的伺服器。
 
-**Example System `settings.json`:**
+**系統 `settings.json` 範例：**
 
-This configuration defines servers but does not enforce the allowlist.
-The administrator has NOT included the "mcp.allowed" setting.
+此設定定義了伺服器但未強制執行允許清單。
+管理員尚未包含 "mcp.allowed" 設定。
 
 ```json
 {
@@ -260,13 +260,13 @@ The administrator has NOT included the "mcp.allowed" setting.
 }
 ```
 
-In this scenario, a user can add their own server in their local `settings.json`. Because there is no `mcp.allowed` list to filter the merged results, the user's server will be added to the list of available tools and allowed to run.
+在此情況下，使用者可以在其本機 `settings.json` 中新增自己的伺服器。由於沒有 `mcp.allowed` 清單來過濾合併結果，使用者的伺服器會被新增到可用工具清單中並允許執行。
 
-## Enforcing Sandboxing for Security
+## 強制執行沙箱化以提升安全性
 
-To mitigate the risk of potentially harmful operations, you can enforce the use of sandboxing for all tool execution. The sandbox isolates tool execution in a containerized environment.
+為了降低潛在有害操作的風險，您可以強制所有工具執行都使用沙箱化。沙箱將工具執行隔離在容器化環境中。
 
-**Example:** Force all tool execution to happen within a Docker sandbox.
+**範例：** 強制所有工具執行都在 Docker 沙箱中進行。
 
 ```json
 {
@@ -276,13 +276,13 @@ To mitigate the risk of potentially harmful operations, you can enforce the use 
 }
 ```
 
-You can also specify a custom, hardened Docker image for the sandbox using the `--sandbox-image` command-line argument or by building a custom `sandbox.Dockerfile` as described in the [Sandboxing documentation](./configuration.md#sandboxing).
+您也可以使用 `--sandbox-image` 命令列參數或建置自訂的 `sandbox.Dockerfile`（如[沙箱化說明文件](./configuration.md#sandboxing)中所述）來指定自訂的強化 Docker 映像檔用於沙箱。
 
-## Controlling Network Access via Proxy
+## 透過代理伺服器控制網路存取
 
-In corporate environments with strict network policies, you can configure Gemini CLI to route all outbound traffic through a corporate proxy. This can be set via an environment variable, but it can also be enforced for custom tools via the `mcpServers` configuration.
+在具有嚴格網路政策的企業環境中，您可以設定 Gemini CLI 透過企業代理伺服器路由所有出站流量。這可以透過環境變數設定，但也可以透過 `mcpServers` 設定強制用於自訂工具。
 
-**Example (for an MCP Server):**
+**範例（針對 MCP 伺服器）：**
 
 ```json
 {
@@ -299,11 +299,11 @@ In corporate environments with strict network policies, you can configure Gemini
 }
 ```
 
-## Telemetry and Auditing
+## 遙測和稽核
 
-For auditing and monitoring purposes, you can configure Gemini CLI to send telemetry data to a central location. This allows you to track tool usage and other events. For more information, see the [telemetry documentation](../telemetry.md).
+出於稽核和監控目的，您可以設定 Gemini CLI 將遙測資料傳送到中央位置。這允許您追蹤工具使用情況和其他事件。如需更多資訊，請參閱[遙測說明文件](../telemetry.md)。
 
-**Example:** Enable telemetry and send it to a local OTLP collector. If `otlpEndpoint` is not specified, it defaults to `http://localhost:4317`.
+**範例：** 啟用遙測並將其傳送到本機 OTLP 收集器。如果未指定 `otlpEndpoint`，預設為 `http://localhost:4317`。
 
 ```json
 {
@@ -315,11 +315,11 @@ For auditing and monitoring purposes, you can configure Gemini CLI to send telem
 }
 ```
 
-**Note:** Ensure that `logPrompts` is set to `false` in an enterprise setting to avoid collecting potentially sensitive information from user prompts.
+**注意：** 確保在企業設定中將 `logPrompts` 設定為 `false`，以避免收集使用者提示中潛在的敏感資訊。
 
-## Putting It All Together: Example System `settings.json`
+## 統整：系統 `settings.json` 範例
 
-Here is an example of a system `settings.json` file that combines several of the patterns discussed above to create a secure, controlled environment for Gemini CLI.
+以下是結合上述討論的幾種模式的系統 `settings.json` 檔案範例，用於為 Gemini CLI 建立安全、受控的環境。
 
 ```json
 {
@@ -359,11 +359,11 @@ Here is an example of a system `settings.json` file that combines several of the
 }
 ```
 
-This configuration:
+此設定：
 
-- Forces all tool execution into a Docker sandbox.
-- Strictly uses an allowlist for a small set of safe shell commands and file tools.
-- Defines and allows a single corporate MCP server for custom tools.
-- Enables telemetry for auditing, without logging prompt content.
-- Redirects the `/bug` command to an internal ticketing system.
-- Disables general usage statistics collection.
+- 強制所有工具執行進入 Docker 沙箱。
+- 嚴格使用一小組安全 shell 指令和檔案工具的允許清單。
+- 定義並允許單一企業 MCP 伺服器用於自訂工具。
+- 啟用遙測以進行稽核，不記錄提示內容。
+- 將 `/bug` 指令重新導向到內部票務系統。
+- 停用一般使用統計收集。

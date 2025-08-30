@@ -1,31 +1,31 @@
-# Configuration
+# 設定
 
-**Note on Deprecated Configuration Format**
+**已棄用設定格式說明**
 
-This document describes the legacy v1 format for the `settings.json` file. This format is now deprecated.
+本文件描述 `settings.json` 檔案的舊版 v1 格式。此格式現已棄用。
 
-- The new format will be supported in the stable release starting **[09/10/25]**.
-- Automatic migration from the old format to the new format will begin on **[09/17/25]**.
+- 新格式將從 **[09/10/25]** 開始在穩定版本中支援。
+- 從舊格式到新格式的自動遷移將於 **[09/17/25]** 開始。
 
-For details on the new, recommended format, please see the [current Configuration documentation](./configuration.md).
+有關新的推薦格式的詳細資訊，請參閱[目前的設定說明文件](./configuration.md)。
 
-Gemini CLI offers several ways to configure its behavior, including environment variables, command-line arguments, and settings files. This document outlines the different configuration methods and available settings.
+Gemini CLI 提供多種設定其行為的方式，包括環境變數、命令列參數和設定檔。本文件概述不同的設定方法和可用設定。
 
-## Configuration layers
+## 設定層級
 
-Configuration is applied in the following order of precedence (lower numbers are overridden by higher numbers):
+設定按以下優先順序套用（較低數字被較高數字覆寫）：
 
-1.  **Default values:** Hardcoded defaults within the application.
-2.  **System defaults file:** System-wide default settings that can be overridden by other settings files.
-3.  **User settings file:** Global settings for the current user.
-4.  **Project settings file:** Project-specific settings.
-5.  **System settings file:** System-wide settings that override all other settings files.
-6.  **Environment variables:** System-wide or session-specific variables, potentially loaded from `.env` files.
-7.  **Command-line arguments:** Values passed when launching the CLI.
+1.  **預設值：** 應用程式內的硬編碼預設值。
+2.  **系統預設檔案：** 可被其他設定檔覆寫的系統範圍預設設定。
+3.  **使用者設定檔案：** 目前使用者的全域設定。
+4.  **專案設定檔案：** 專案特定設定。
+5.  **系統設定檔案：** 覆寫所有其他設定檔的系統範圍設定。
+6.  **環境變數：** 系統範圍或工作階段特定變數，可能從 `.env` 檔案載入。
+7.  **命令列參數：** 啟動 CLI 時傳遞的值。
 
-## Settings files
+## 設定檔案
 
-Gemini CLI uses JSON settings files for persistent configuration. There are four locations for these files:
+Gemini CLI 使用 JSON 設定檔進行持久性設定。這些檔案有四個位置：
 
 - **System defaults file:**
   - **Location:** `/etc/gemini-cli/system-defaults.json` (Linux), `C:\ProgramData\gemini-cli\system-defaults.json` (Windows) or `/Library/Application Support/GeminiCli/system-defaults.json` (macOS). The path can be overridden using the `GEMINI_CLI_SYSTEM_DEFAULTS_PATH` environment variable.
