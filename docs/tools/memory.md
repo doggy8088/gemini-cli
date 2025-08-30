@@ -24,21 +24,21 @@
 save_memory(fact="Your fact here.")
 ```
 
-### `save_memory` examples
+### `save_memory` 範例
 
-Remember a user preference:
-
-```
-save_memory(fact="My preferred programming language is Python.")
-```
-
-Store a project-specific detail:
+記住使用者偏好：
 
 ```
-save_memory(fact="The project I'm currently working on is called 'gemini-cli'.")
+save_memory(fact="我偏好的程式語言是 Python。")
 ```
 
-## Important notes
+儲存專案特定詳細資料：
 
-- **General usage:** This tool should be used for concise, important facts. It is not intended for storing large amounts of data or conversational history.
-- **Memory file:** The memory file is a plain text Markdown file, so you can view and edit it manually if needed.
+```
+save_memory(fact="我目前正在進行的專案叫做 'gemini-cli'。")
+```
+
+## 重要注意事項
+
+- **一般用法：** 此工具應用於簡潔、重要的事實。它不適用於儲存大量資料或對話歷史記錄。
+- **記憶體檔案：** 記憶體檔案是純文字 Markdown 檔案，因此您可以在需要時手動檢視和編輯它。

@@ -38,9 +38,9 @@ npm install -g @google/gemini-cli@nightly
 
 每天 UTC 0000 我們會從 `main` 自動部署每夜版發布。這將是下一個正式版 x.y.z 的版本，帶有 nightly 標籤。
 
-## Create Preview Release
+## 建立預覽版發布
 
-Each Tuesday at UTC 2359 we will auto deploy a preview release of the next production release x.y.z.
+每週二 UTC 23:59 我們會自動部署下一個正式版 x.y.z 的預覽版發布。
 
 - This will happen as a scheduled instance of the ‘release’ action. It will be cut off of Main.
 - This will create a branch `release/vx.y.z-preview.n`

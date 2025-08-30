@@ -213,26 +213,26 @@ Gemini CLI 使用 JSON 設定檔進行持久性設定。這些檔案有四個位
     }
     ```
 
-- **`checkpointing`** (object):
-  - **Description:** Configures the checkpointing feature, which allows you to save and restore conversation and file states. See the [Checkpointing documentation](../checkpointing.md) for more details.
-  - **Default:** `{"enabled": false}`
-  - **Properties:**
-    - **`enabled`** (boolean): When `true`, the `/restore` command is available.
+- **`checkpointing`**（物件）：
+  - **說明：** 設定檢查點功能，讓您可以儲存和還原對話及檔案狀態。如需更多詳細資訊，請參閱[檢查點說明文件](../checkpointing.md)。
+  - **預設值：** `{"enabled": false}`
+  - **屬性：**
+    - **`enabled`**（布林值）：設為 `true` 時，`/restore` 指令可用。
 
-- **`preferredEditor`** (string):
-  - **Description:** Specifies the preferred editor to use for viewing diffs.
-  - **Default:** `vscode`
-  - **Example:** `"preferredEditor": "vscode"`
+- **`preferredEditor`**（字串）：
+  - **說明：** 指定檢視差異時要使用的偏好編輯器。
+  - **預設值：** `vscode`
+  - **範例：** `"preferredEditor": "vscode"`
 
-- **`telemetry`** (object)
-  - **Description:** Configures logging and metrics collection for Gemini CLI. For more information, see [Telemetry](../telemetry.md).
-  - **Default:** `{"enabled": false, "target": "local", "otlpEndpoint": "http://localhost:4317", "logPrompts": true}`
-  - **Properties:**
-    - **`enabled`** (boolean): Whether or not telemetry is enabled.
-    - **`target`** (string): The destination for collected telemetry. Supported values are `local` and `gcp`.
-    - **`otlpEndpoint`** (string): The endpoint for the OTLP Exporter.
-    - **`logPrompts`** (boolean): Whether or not to include the content of user prompts in the logs.
-  - **Example:**
+- **`telemetry`**（物件）
+  - **說明：** 設定 Gemini CLI 的日誌記錄和指標收集。如需更多資訊，請參閱[遙測](../telemetry.md)。
+  - **預設值：** `{"enabled": false, "target": "local", "otlpEndpoint": "http://localhost:4317", "logPrompts": true}`
+  - **屬性：**
+    - **`enabled`**（布林值）：是否啟用遙測。
+    - **`target`**（字串）：收集的遙測資料目的地。支援的值為 `local` 和 `gcp`。
+    - **`otlpEndpoint`**（字串）：OTLP 匯出器的端點。
+    - **`logPrompts`**（布林值）：是否在日誌中包含使用者提示的內容。
+  - **範例：**
     ```json
     "telemetry": {
       "enabled": true,
@@ -241,45 +241,45 @@ Gemini CLI 使用 JSON 設定檔進行持久性設定。這些檔案有四個位
       "logPrompts": false
     }
     ```
-- **`usageStatisticsEnabled`** (boolean):
-  - **Description:** Enables or disables the collection of usage statistics. See [Usage Statistics](#usage-statistics) for more information.
-  - **Default:** `true`
-  - **Example:**
+- **`usageStatisticsEnabled`**（布林值）：
+  - **說明：** 啟用或停用使用統計資料的收集。如需更多資訊，請參閱[使用統計資料](#usage-statistics)。
+  - **預設值：** `true`
+  - **範例：**
     ```json
     "usageStatisticsEnabled": false
     ```
 
-- **`hideTips`** (boolean):
-  - **Description:** Enables or disables helpful tips in the CLI interface.
-  - **Default:** `false`
-  - **Example:**
+- **`hideTips`**（布林值）：
+  - **說明：** 啟用或停用 CLI 介面中的實用提示。
+  - **預設值：** `false`
+  - **範例：**
 
     ```json
     "hideTips": true
     ```
 
-- **`hideBanner`** (boolean):
-  - **Description:** Enables or disables the startup banner (ASCII art logo) in the CLI interface.
-  - **Default:** `false`
-  - **Example:**
+- **`hideBanner`**（布林值）：
+  - **說明：** 啟用或停用 CLI 介面中的啟動橫幅（ASCII 藝術標誌）。
+  - **預設值：** `false`
+  - **範例：**
 
     ```json
     "hideBanner": true
     ```
 
-- **`maxSessionTurns`** (number):
-  - **Description:** Sets the maximum number of turns for a session. If the session exceeds this limit, the CLI will stop processing and start a new chat.
-  - **Default:** `-1` (unlimited)
-  - **Example:**
+- **`maxSessionTurns`**（數字）：
+  - **說明：** 設定工作階段的最大回合數。如果工作階段超過此限制，CLI 將停止處理並開始新的聊天。
+  - **預設值：** `-1`（無限制）
+  - **範例：**
     ```json
     "maxSessionTurns": 10
     ```
 
-- **`summarizeToolOutput`** (object):
-  - **Description:** Enables or disables the summarization of tool output. You can specify the token budget for the summarization using the `tokenBudget` setting.
-  - Note: Currently only the `run_shell_command` tool is supported.
-  - **Default:** `{}` (Disabled by default)
-  - **Example:**
+- **`summarizeToolOutput`**（物件）：
+  - **說明：** 啟用或停用工具輸出的摘要。您可以使用 `tokenBudget` 設定指定摘要的代幣預算。
+  - 注意：目前只支援 `run_shell_command` 工具。
+  - **預設值：** `{}`（預設停用）
+  - **範例：**
     ```json
     "summarizeToolOutput": {
       "run_shell_command": {
@@ -288,18 +288,18 @@ Gemini CLI 使用 JSON 設定檔進行持久性設定。這些檔案有四個位
     }
     ```
 
-- **`excludedProjectEnvVars`** (array of strings):
-  - **Description:** Specifies environment variables that should be excluded from being loaded from project `.env` files. This prevents project-specific environment variables (like `DEBUG=true`) from interfering with gemini-cli behavior. Variables from `.gemini/.env` files are never excluded.
-  - **Default:** `["DEBUG", "DEBUG_MODE"]`
-  - **Example:**
+- **`excludedProjectEnvVars`**（字串陣列）：
+  - **說明：** 指定應從專案 `.env` 檔案中排除載入的環境變數。這可防止專案特定的環境變數（如 `DEBUG=true`）干擾 gemini-cli 行為。來自 `.gemini/.env` 檔案的變數永遠不會被排除。
+  - **預設值：** `["DEBUG", "DEBUG_MODE"]`
+  - **範例：**
     ```json
     "excludedProjectEnvVars": ["DEBUG", "DEBUG_MODE", "NODE_ENV"]
     ```
 
-- **`includeDirectories`** (array of strings):
-  - **Description:** Specifies an array of additional absolute or relative paths to include in the workspace context. Missing directories will be skipped with a warning by default. Paths can use `~` to refer to the user's home directory. This setting can be combined with the `--include-directories` command-line flag.
-  - **Default:** `[]`
-  - **Example:**
+- **`includeDirectories`**（字串陣列）：
+  - **說明：** 指定要包含在工作區內容中的其他絕對或相對路徑陣列。預設情況下，遺失的目錄會被跳過並顯示警告。路徑可以使用 `~` 來參考使用者的主目錄。此設定可與 `--include-directories` 命令列旗標結合使用。
+  - **預設值：** `[]`
+  - **範例：**
     ```json
     "includeDirectories": [
       "/path/to/another/project",
@@ -308,41 +308,40 @@ Gemini CLI 使用 JSON 設定檔進行持久性設定。這些檔案有四個位
     ]
     ```
 
-- **`loadMemoryFromIncludeDirectories`** (boolean):
-  - **Description:** Controls the behavior of the `/memory refresh` command. If set to `true`, `GEMINI.md` files should be loaded from all directories that are added. If set to `false`, `GEMINI.md` should only be loaded from the current directory.
-  - **Default:** `false`
-  - **Example:**
+- **`loadMemoryFromIncludeDirectories`**（布林值）：
+  - **說明：** 控制 `/memory refresh` 指令的行為。如果設為 `true`，應從所有新增的目錄載入 `GEMINI.md` 檔案。如果設為 `false`，只應從目前目錄載入 `GEMINI.md`。
+  - **預設值：** `false`
+  - **範例：**
     ```json
     "loadMemoryFromIncludeDirectories": true
     ```
 
-- **`chatCompression`** (object):
-  - **Description:** Controls the settings for chat history compression, both automatic and
-    when manually invoked through the /compress command.
-  - **Properties:**
-    - **`contextPercentageThreshold`** (number): A value between 0 and 1 that specifies the token threshold for compression as a percentage of the model's total token limit. For example, a value of `0.6` will trigger compression when the chat history exceeds 60% of the token limit.
-  - **Example:**
+- **`chatCompression`**（物件）：
+  - **說明：** 控制聊天歷史記錄壓縮的設定，包括自動壓縮和透過 /compress 指令手動呼叫的壓縮。
+  - **屬性：**
+    - **`contextPercentageThreshold`**（數字）：0 到 1 之間的值，指定作為模型總代幣限制百分比的壓縮代幣閾值。例如，值 `0.6` 將在聊天歷史記錄超過代幣限制的 60% 時觸發壓縮。
+  - **範例：**
     ```json
     "chatCompression": {
       "contextPercentageThreshold": 0.6
     }
     ```
 
-- **`showLineNumbers`** (boolean):
-  - **Description:** Controls whether line numbers are displayed in code blocks in the CLI output.
-  - **Default:** `true`
-  - **Example:**
+- **`showLineNumbers`**（布林值）：
+  - **說明：** 控制是否在 CLI 輸出的程式碼區塊中顯示行號。
+  - **預設值：** `true`
+  - **範例：**
     ```json
     "showLineNumbers": false
     ```
 
-- **`accessibility`** (object):
-  - **Description:** Configures accessibility features for the CLI.
-  - **Properties:**
-    - **`screenReader`** (boolean): Enables screen reader mode, which adjusts the TUI for better compatibility with screen readers. This can also be enabled with the `--screen-reader` command-line flag, which will take precedence over the setting.
-    - **`disableLoadingPhrases`** (boolean): Disables the display of loading phrases during operations.
-  - **Default:** `{"screenReader": false, "disableLoadingPhrases": false}`
-  - **Example:**
+- **`accessibility`**（物件）：
+  - **說明：** 設定 CLI 的無障礙功能。
+  - **屬性：**
+    - **`screenReader`**（布林值）：啟用螢幕報讀器模式，調整 TUI 以提供與螢幕報讀器更好的相容性。這也可以透過 `--screen-reader` 命令列旗標啟用，該旗標將優先於此設定。
+    - **`disableLoadingPhrases`**（布林值）：停用操作期間載入短語的顯示。
+  - **預設值：** `{"screenReader": false, "disableLoadingPhrases": false}`
+  - **範例：**
     ```json
     "accessibility": {
       "screenReader": true,
@@ -350,7 +349,7 @@ Gemini CLI 使用 JSON 設定檔進行持久性設定。這些檔案有四個位
     }
     ```
 
-### Example `settings.json`:
+### `settings.json` 範例：
 
 ```json
 {
@@ -388,146 +387,146 @@ Gemini CLI 使用 JSON 設定檔進行持久性設定。這些檔案有四個位
 }
 ```
 
-## Shell History
+## Shell 歷史記錄
 
-The CLI keeps a history of shell commands you run. To avoid conflicts between different projects, this history is stored in a project-specific directory within your user's home folder.
+CLI 保留您執行的 shell 指令歷史記錄。為避免不同專案之間的衝突，此歷史記錄儲存在使用者主資料夾內的專案特定目錄中。
 
-- **Location:** `~/.gemini/tmp/<project_hash>/shell_history`
-  - `<project_hash>` is a unique identifier generated from your project's root path.
-  - The history is stored in a file named `shell_history`.
+- **位置：** `~/.gemini/tmp/<project_hash>/shell_history`
+  - `<project_hash>` 是從您專案根路徑生成的唯一識別碼。
+  - 歷史記錄儲存在名為 `shell_history` 的檔案中。
 
-## Environment Variables & `.env` Files
+## 環境變數與 `.env` 檔案
 
-Environment variables are a common way to configure applications, especially for sensitive information like API keys or for settings that might change between environments. For authentication setup, see the [Authentication documentation](./authentication.md) which covers all available authentication methods.
+環境變數是設定應用程式的常見方式，特別是對於 API 金鑰等敏感資訊，或可能在不同環境之間變更的設定。如需驗證設定，請參閱涵蓋所有可用驗證方法的[驗證說明文件](./authentication.md)。
 
-The CLI automatically loads environment variables from an `.env` file. The loading order is:
+CLI 會自動從 `.env` 檔案載入環境變數。載入順序為：
 
-1.  `.env` file in the current working directory.
-2.  If not found, it searches upwards in parent directories until it finds an `.env` file or reaches the project root (identified by a `.git` folder) or the home directory.
-3.  If still not found, it looks for `~/.env` (in the user's home directory).
+1.  目前工作目錄中的 `.env` 檔案。
+2.  如果找不到，它會在父目錄中向上搜尋，直到找到 `.env` 檔案或達到專案根目錄（由 `.git` 資料夾識別）或主目錄。
+3.  如果仍然找不到，它會尋找 `~/.env`（在使用者的主目錄中）。
 
-**Environment Variable Exclusion:** Some environment variables (like `DEBUG` and `DEBUG_MODE`) are automatically excluded from being loaded from project `.env` files to prevent interference with gemini-cli behavior. Variables from `.gemini/.env` files are never excluded. You can customize this behavior using the `excludedProjectEnvVars` setting in your `settings.json` file.
+**環境變數排除：** 某些環境變數（如 `DEBUG` 和 `DEBUG_MODE`）會自動從專案 `.env` 檔案中排除載入，以防止干擾 gemini-cli 行為。來自 `.gemini/.env` 檔案的變數永遠不會被排除。您可以使用 `settings.json` 檔案中的 `excludedProjectEnvVars` 設定來自訂此行為。
 
-- **`GEMINI_API_KEY`**:
-  - Your API key for the Gemini API.
-  - One of several available [authentication methods](./authentication.md).
-  - Set this in your shell profile (e.g., `~/.bashrc`, `~/.zshrc`) or an `.env` file.
-- **`GEMINI_MODEL`**:
-  - Specifies the default Gemini model to use.
-  - Overrides the hardcoded default
-  - Example: `export GEMINI_MODEL="gemini-2.5-flash"`
-- **`GOOGLE_API_KEY`**:
-  - Your Google Cloud API key.
-  - Required for using Vertex AI in express mode.
-  - Ensure you have the necessary permissions.
-  - Example: `export GOOGLE_API_KEY="YOUR_GOOGLE_API_KEY"`.
-- **`GOOGLE_CLOUD_PROJECT`**:
-  - Your Google Cloud Project ID.
-  - Required for using Code Assist or Vertex AI.
-  - If using Vertex AI, ensure you have the necessary permissions in this project.
-  - **Cloud Shell Note:** When running in a Cloud Shell environment, this variable defaults to a special project allocated for Cloud Shell users. If you have `GOOGLE_CLOUD_PROJECT` set in your global environment in Cloud Shell, it will be overridden by this default. To use a different project in Cloud Shell, you must define `GOOGLE_CLOUD_PROJECT` in a `.env` file.
-  - Example: `export GOOGLE_CLOUD_PROJECT="YOUR_PROJECT_ID"`.
-- **`GOOGLE_APPLICATION_CREDENTIALS`** (string):
-  - **Description:** The path to your Google Application Credentials JSON file.
-  - **Example:** `export GOOGLE_APPLICATION_CREDENTIALS="/path/to/your/credentials.json"`
-- **`OTLP_GOOGLE_CLOUD_PROJECT`**:
-  - Your Google Cloud Project ID for Telemetry in Google Cloud
-  - Example: `export OTLP_GOOGLE_CLOUD_PROJECT="YOUR_PROJECT_ID"`.
-- **`GOOGLE_CLOUD_LOCATION`**:
-  - Your Google Cloud Project Location (e.g., us-central1).
-  - Required for using Vertex AI in non express mode.
-  - Example: `export GOOGLE_CLOUD_LOCATION="YOUR_PROJECT_LOCATION"`.
-- **`GEMINI_SANDBOX`**:
-  - Alternative to the `sandbox` setting in `settings.json`.
-  - Accepts `true`, `false`, `docker`, `podman`, or a custom command string.
-- **`SEATBELT_PROFILE`** (macOS specific):
-  - Switches the Seatbelt (`sandbox-exec`) profile on macOS.
-  - `permissive-open`: (Default) Restricts writes to the project folder (and a few other folders, see `packages/cli/src/utils/sandbox-macos-permissive-open.sb`) but allows other operations.
-  - `strict`: Uses a strict profile that declines operations by default.
-  - `<profile_name>`: Uses a custom profile. To define a custom profile, create a file named `sandbox-macos-<profile_name>.sb` in your project's `.gemini/` directory (e.g., `my-project/.gemini/sandbox-macos-custom.sb`).
-- **`DEBUG` or `DEBUG_MODE`** (often used by underlying libraries or the CLI itself):
-  - Set to `true` or `1` to enable verbose debug logging, which can be helpful for troubleshooting.
-  - **Note:** These variables are automatically excluded from project `.env` files by default to prevent interference with gemini-cli behavior. Use `.gemini/.env` files if you need to set these for gemini-cli specifically.
-- **`NO_COLOR`**:
-  - Set to any value to disable all color output in the CLI.
-- **`CLI_TITLE`**:
-  - Set to a string to customize the title of the CLI.
-- **`CODE_ASSIST_ENDPOINT`**:
-  - Specifies the endpoint for the code assist server.
-  - This is useful for development and testing.
+- **`GEMINI_API_KEY`**：
+  - 您的 Gemini API 金鑰。
+  - 數種可用[驗證方法](./authentication.md)之一。
+  - 在您的 shell 設定檔（例如，`~/.bashrc`、`~/.zshrc`）或 `.env` 檔案中設定這個。
+- **`GEMINI_MODEL`**：
+  - 指定要使用的預設 Gemini 模型。
+  - 覆寫硬編碼預設值
+  - 範例：`export GEMINI_MODEL="gemini-2.5-flash"`
+- **`GOOGLE_API_KEY`**：
+  - 您的 Google Cloud API 金鑰。
+  - 在快速模式中使用 Vertex AI 時必要。
+  - 確保您有必要的權限。
+  - 範例：`export GOOGLE_API_KEY="YOUR_GOOGLE_API_KEY"`。
+- **`GOOGLE_CLOUD_PROJECT`**：
+  - 您的 Google Cloud 專案 ID。
+  - 使用 Code Assist 或 Vertex AI 時必要。
+  - 如果使用 Vertex AI，請確保您在此專案中有必要的權限。
+  - **Cloud Shell 注意事項：** 在 Cloud Shell 環境中執行時，此變數預設為分配給 Cloud Shell 使用者的特殊專案。如果您在 Cloud Shell 的全域環境中設定了 `GOOGLE_CLOUD_PROJECT`，它將被此預設值覆寫。要在 Cloud Shell 中使用不同的專案，您必須在 `.env` 檔案中定義 `GOOGLE_CLOUD_PROJECT`。
+  - 範例：`export GOOGLE_CLOUD_PROJECT="YOUR_PROJECT_ID"`。
+- **`GOOGLE_APPLICATION_CREDENTIALS`**（字串）：
+  - **說明：** 您的 Google Application Credentials JSON 檔案的路徑。
+  - **範例：** `export GOOGLE_APPLICATION_CREDENTIALS="/path/to/your/credentials.json"`
+- **`OTLP_GOOGLE_CLOUD_PROJECT`**：
+  - 您在 Google Cloud 中遙測的 Google Cloud 專案 ID
+  - 範例：`export OTLP_GOOGLE_CLOUD_PROJECT="YOUR_PROJECT_ID"`。
+- **`GOOGLE_CLOUD_LOCATION`**：
+  - 您的 Google Cloud 專案位置（例如，us-central1）。
+  - 在非快速模式中使用 Vertex AI 時必要。
+  - 範例：`export GOOGLE_CLOUD_LOCATION="YOUR_PROJECT_LOCATION"`。
+- **`GEMINI_SANDBOX`**：
+  - `settings.json` 中 `sandbox` 設定的替代方案。
+  - 接受 `true`、`false`、`docker`、`podman` 或自訂指令字串。
+- **`SEATBELT_PROFILE`**（macOS 特定）：
+  - 在 macOS 上切換 Seatbelt（`sandbox-exec`）設定檔。
+  - `permissive-open`：（預設）限制對專案資料夾的寫入（以及其他一些資料夾，請參閱 `packages/cli/src/utils/sandbox-macos-permissive-open.sb`），但允許其他操作。
+  - `strict`：使用預設拒絕操作的嚴格設定檔。
+  - `<profile_name>`：使用自訂設定檔。要定義自訂設定檔，請在專案的 `.gemini/` 目錄中建立名為 `sandbox-macos-<profile_name>.sb` 的檔案（例如，`my-project/.gemini/sandbox-macos-custom.sb`）。
+- **`DEBUG` 或 `DEBUG_MODE`**（通常由底層程式庫或 CLI 本身使用）：
+  - 設為 `true` 或 `1` 以啟用詳細除錯日誌記錄，這對疑難排解很有幫助。
+  - **注意：** 這些變數預設會自動從專案 `.env` 檔案中排除，以防止干擾 gemini-cli 行為。如果您需要專門為 gemini-cli 設定這些，請使用 `.gemini/.env` 檔案。
+- **`NO_COLOR`**：
+  - 設為任何值以停用 CLI 中的所有色彩輸出。
+- **`CLI_TITLE`**：
+  - 設為字串以自訂 CLI 的標題。
+- **`CODE_ASSIST_ENDPOINT`**：
+  - 指定程式碼協助伺服器的端點。
+  - 這對開發和測試很有用。
 
-## Command-Line Arguments
+## 命令列引數
 
-Arguments passed directly when running the CLI can override other configurations for that specific session.
+直接在執行 CLI 時傳遞的引數可以覆寫該特定工作階段的其他設定。
 
-- **`--model <model_name>`** (**`-m <model_name>`**):
-  - Specifies the Gemini model to use for this session.
-  - Example: `npm start -- --model gemini-1.5-pro-latest`
-- **`--prompt <your_prompt>`** (**`-p <your_prompt>`**):
-  - Used to pass a prompt directly to the command. This invokes Gemini CLI in a non-interactive mode.
-- **`--prompt-interactive <your_prompt>`** (**`-i <your_prompt>`**):
-  - Starts an interactive session with the provided prompt as the initial input.
-  - The prompt is processed within the interactive session, not before it.
-  - Cannot be used when piping input from stdin.
-  - Example: `gemini -i "explain this code"`
-- **`--sandbox`** (**`-s`**):
-  - Enables sandbox mode for this session.
-- **`--sandbox-image`**:
-  - Sets the sandbox image URI.
-- **`--debug`** (**`-d`**):
-  - Enables debug mode for this session, providing more verbose output.
-- **`--all-files`** (**`-a`**):
-  - If set, recursively includes all files within the current directory as context for the prompt.
-- **`--help`** (or **`-h`**):
-  - Displays help information about command-line arguments.
-- **`--show-memory-usage`**:
-  - Displays the current memory usage.
-- **`--yolo`**:
-  - Enables YOLO mode, which automatically approves all tool calls.
-- **`--approval-mode <mode>`**:
-  - Sets the approval mode for tool calls. Available modes:
-    - `default`: Prompt for approval on each tool call (default behavior)
-    - `auto_edit`: Automatically approve edit tools (replace, write_file) while prompting for others
-    - `yolo`: Automatically approve all tool calls (equivalent to `--yolo`)
-  - Cannot be used together with `--yolo`. Use `--approval-mode=yolo` instead of `--yolo` for the new unified approach.
-  - Example: `gemini --approval-mode auto_edit`
-- **`--allowed-tools <tool1,tool2,...>`**:
-  - A comma-separated list of tool names that will bypass the confirmation dialog.
-  - Example: `gemini --allowed-tools "ShellTool(git status)"`
-- **`--telemetry`**:
-  - Enables [telemetry](../telemetry.md).
-- **`--telemetry-target`**:
-  - Sets the telemetry target. See [telemetry](../telemetry.md) for more information.
-- **`--telemetry-otlp-endpoint`**:
-  - Sets the OTLP endpoint for telemetry. See [telemetry](../telemetry.md) for more information.
-- **`--telemetry-otlp-protocol`**:
-  - Sets the OTLP protocol for telemetry (`grpc` or `http`). Defaults to `grpc`. See [telemetry](../telemetry.md) for more information.
-- **`--telemetry-log-prompts`**:
-  - Enables logging of prompts for telemetry. See [telemetry](../telemetry.md) for more information.
-- **`--checkpointing`**:
-  - Enables [checkpointing](../checkpointing.md).
-- **`--extensions <extension_name ...>`** (**`-e <extension_name ...>`**):
-  - Specifies a list of extensions to use for the session. If not provided, all available extensions are used.
-  - Use the special term `gemini -e none` to disable all extensions.
-  - Example: `gemini -e my-extension -e my-other-extension`
-- **`--list-extensions`** (**`-l`**):
-  - Lists all available extensions and exits.
-- **`--proxy`**:
-  - Sets the proxy for the CLI.
-  - Example: `--proxy http://localhost:7890`.
-- **`--include-directories <dir1,dir2,...>`**:
-  - Includes additional directories in the workspace for multi-directory support.
-  - Can be specified multiple times or as comma-separated values.
-  - 5 directories can be added at maximum.
-  - Example: `--include-directories /path/to/project1,/path/to/project2` or `--include-directories /path/to/project1 --include-directories /path/to/project2`
-- **`--screen-reader`**:
-  - Enables screen reader mode for accessibility.
-- **`--version`**:
-  - Displays the version of the CLI.
+- **`--model <model_name>`**（**`-m <model_name>`**）：
+  - 指定此工作階段要使用的 Gemini 模型。
+  - 範例：`npm start -- --model gemini-1.5-pro-latest`
+- **`--prompt <your_prompt>`**（**`-p <your_prompt>`**）：
+  - 用於直接將提示傳遞給指令。這會在非互動模式中呼叫 Gemini CLI。
+- **`--prompt-interactive <your_prompt>`**（**`-i <your_prompt>`**）：
+  - 以提供的提示作為初始輸入開始互動工作階段。
+  - 提示在互動工作階段內處理，而不是在之前。
+  - 從 stdin 管道輸入時無法使用。
+  - 範例：`gemini -i "explain this code"`
+- **`--sandbox`**（**`-s`**）：
+  - 為此工作階段啟用沙箱模式。
+- **`--sandbox-image`**：
+  - 設定沙箱映像 URI。
+- **`--debug`**（**`-d`**）：
+  - 為此工作階段啟用除錯模式，提供更詳細的輸出。
+- **`--all-files`**（**`-a`**）：
+  - 如果設定，會遞迴包含目前目錄內的所有檔案作為提示的內容。
+- **`--help`**（或 **`-h`**）：
+  - 顯示有關命令列引數的說明資訊。
+- **`--show-memory-usage`**：
+  - 顯示目前的記憶體使用量。
+- **`--yolo`**：
+  - 啟用 YOLO 模式，自動核准所有工具呼叫。
+- **`--approval-mode <mode>`**：
+  - 設定工具呼叫的核准模式。可用模式：
+    - `default`：對每個工具呼叫提示核准（預設行為）
+    - `auto_edit`：自動核准編輯工具（replace、write_file），同時對其他工具提示
+    - `yolo`：自動核准所有工具呼叫（等同於 `--yolo`）
+  - 無法與 `--yolo` 一起使用。使用 `--approval-mode=yolo` 而不是 `--yolo` 以採用新的統一方法。
+  - 範例：`gemini --approval-mode auto_edit`
+- **`--allowed-tools <tool1,tool2,...>`**：
+  - 將略過確認對話框的工具名稱的逗號分隔清單。
+  - 範例：`gemini --allowed-tools "ShellTool(git status)"`
+- **`--telemetry`**：
+  - 啟用[遙測](../telemetry.md)。
+- **`--telemetry-target`**：
+  - 設定遙測目標。如需更多資訊，請參閱[遙測](../telemetry.md)。
+- **`--telemetry-otlp-endpoint`**：
+  - 設定遙測的 OTLP 端點。如需更多資訊，請參閱[遙測](../telemetry.md)。
+- **`--telemetry-otlp-protocol`**：
+  - 設定遙測的 OTLP 協定（`grpc` 或 `http`）。預設為 `grpc`。如需更多資訊，請參閱[遙測](../telemetry.md)。
+- **`--telemetry-log-prompts`**：
+  - 啟用遙測的提示日誌記錄。如需更多資訊，請參閱[遙測](../telemetry.md)。
+- **`--checkpointing`**：
+  - 啟用[檢查點](../checkpointing.md)。
+- **`--extensions <extension_name ...>`**（**`-e <extension_name ...>`**）：
+  - 指定工作階段要使用的擴充功能清單。如果未提供，將使用所有可用的擴充功能。
+  - 使用特殊術語 `gemini -e none` 來停用所有擴充功能。
+  - 範例：`gemini -e my-extension -e my-other-extension`
+- **`--list-extensions`**（**`-l`**）：
+  - 列出所有可用的擴充功能並結束。
+- **`--proxy`**：
+  - 設定 CLI 的代理。
+  - 範例：`--proxy http://localhost:7890`。
+- **`--include-directories <dir1,dir2,...>`**：
+  - 在工作區中包含其他目錄以提供多目錄支援。
+  - 可以多次指定或作為逗號分隔的值。
+  - 最多可新增 5 個目錄。
+  - 範例：`--include-directories /path/to/project1,/path/to/project2` 或 `--include-directories /path/to/project1 --include-directories /path/to/project2`
+- **`--screen-reader`**：
+  - 啟用螢幕報讀器模式以提供無障礙功能。
+- **`--version`**：
+  - 顯示 CLI 的版本。
 
-## Context Files (Hierarchical Instructional Context)
+## 內容檔案（階層指令內容）
 
-While not strictly configuration for the CLI's _behavior_, context files (defaulting to `GEMINI.md` but configurable via the `contextFileName` setting) are crucial for configuring the _instructional context_ (also referred to as "memory") provided to the Gemini model. This powerful feature allows you to give project-specific instructions, coding style guides, or any relevant background information to the AI, making its responses more tailored and accurate to your needs. The CLI includes UI elements, such as an indicator in the footer showing the number of loaded context files, to keep you informed about the active context.
+雖然嚴格來說不是 CLI _行為_ 的設定，但內容檔案（預設為 `GEMINI.md`，但可透過 `contextFileName` 設定進行設定）對於設定提供給 Gemini 模型的_指令內容_（也稱為「記憶體」）至關重要。這個強大的功能讓您可以向 AI 提供專案特定的指示、編碼風格指南或任何相關的背景資訊，使其回應更符合您的需求且更準確。CLI 包含 UI 元素，例如頁尾中顯示已載入內容檔案數量的指示器，以讓您了解作用中的內容。
 
 - **Purpose:** These Markdown files contain instructions, guidelines, or context that you want the Gemini model to be aware of during your interactions. The system is designed to manage this instructional context hierarchically.
 
