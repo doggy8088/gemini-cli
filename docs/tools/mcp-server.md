@@ -1,49 +1,49 @@
-# MCP servers with the Gemini CLI
+# 透過 Gemini CLI 使用 MCP 伺服器
 
-This document provides a guide to configuring and using Model Context Protocol (MCP) servers with the Gemini CLI.
+本文件提供透過 Gemini CLI 設定和使用模型內容協定（MCP）伺服器的指南。
 
-## What is an MCP server?
+## 什麼是 MCP 伺服器？
 
-An MCP server is an application that exposes tools and resources to the Gemini CLI through the Model Context Protocol, allowing it to interact with external systems and data sources. MCP servers act as a bridge between the Gemini model and your local environment or other services like APIs.
+MCP 伺服器是一個應用程式，透過模型內容協定向 Gemini CLI 暴露工具和資源，允許它與外部系統和資料來源互動。MCP 伺服器作為 Gemini 模型與您的本地環境或其他服務（如 API）之間的橋樑。
 
-An MCP server enables the Gemini CLI to:
+MCP 伺服器讓 Gemini CLI 能夠：
 
-- **Discover tools:** List available tools, their descriptions, and parameters through standardized schema definitions.
-- **Execute tools:** Call specific tools with defined arguments and receive structured responses.
-- **Access resources:** Read data from specific resources (though the Gemini CLI primarily focuses on tool execution).
+- **探索工具：** 透過標準化綱要定義列出可用工具、其說明和參數。
+- **執行工具：** 使用定義的引數呼叫特定工具並接收結構化回應。
+- **存取資源：** 從特定資源讀取資料（雖然 Gemini CLI 主要專注於工具執行）。
 
-With an MCP server, you can extend the Gemini CLI's capabilities to perform actions beyond its built-in features, such as interacting with databases, APIs, custom scripts, or specialized workflows.
+透過 MCP 伺服器，您可以擴展 Gemini CLI 的能力，執行超越其內建功能的動作，例如與資料庫、API、自訂腳本或專門工作流程互動。
 
-## Core Integration Architecture
+## 核心整合架構
 
-The Gemini CLI integrates with MCP servers through a sophisticated discovery and execution system built into the core package (`packages/core/src/tools/`):
+Gemini CLI 透過建立在核心套件（`packages/core/src/tools/`）中的複雜探索和執行系統與 MCP 伺服器整合：
 
-### Discovery Layer (`mcp-client.ts`)
+### 探索層（`mcp-client.ts`）
 
-The discovery process is orchestrated by `discoverMcpTools()`, which:
+探索流程由 `discoverMcpTools()` 編排，它：
 
-1. **Iterates through configured servers** from your `settings.json` `mcpServers` configuration
-2. **Establishes connections** using appropriate transport mechanisms (Stdio, SSE, or Streamable HTTP)
-3. **Fetches tool definitions** from each server using the MCP protocol
-4. **Sanitizes and validates** tool schemas for compatibility with the Gemini API
-5. **Registers tools** in the global tool registry with conflict resolution
+1. **遍歷設定的伺服器** 從您的 `settings.json` `mcpServers` 設定
+2. **建立連線** 使用適當的傳輸機制（Stdio、SSE 或 Streamable HTTP）
+3. **從每個伺服器擷取工具定義** 使用 MCP 協定
+4. **清理和驗證** 工具綱要以確保與 Gemini API 的相容性
+5. **在全域工具註冊表中註冊工具** 並解決衝突
 
-### Execution Layer (`mcp-tool.ts`)
+### 執行層（`mcp-tool.ts`）
 
-Each discovered MCP tool is wrapped in a `DiscoveredMCPTool` instance that:
+每個被探索的 MCP 工具都被包裝在 `DiscoveredMCPTool` 實例中，它：
 
-- **Handles confirmation logic** based on server trust settings and user preferences
-- **Manages tool execution** by calling the MCP server with proper parameters
-- **Processes responses** for both the LLM context and user display
-- **Maintains connection state** and handles timeouts
+- **處理確認邏輯** 基於伺服器信任設定和使用者偏好
+- **管理工具執行** 透過使用適當參數呼叫 MCP 伺服器
+- **處理回應** 用於 LLM 內容和使用者顯示
+- **維護連線狀態** 並處理逾時
 
-### Transport Mechanisms
+### 傳輸機制
 
-The Gemini CLI supports three MCP transport types:
+Gemini CLI 支援三種 MCP 傳輸類型：
 
-- **Stdio Transport:** Spawns a subprocess and communicates via stdin/stdout
-- **SSE Transport:** Connects to Server-Sent Events endpoints
-- **Streamable HTTP Transport:** Uses HTTP streaming for communication
+- **Stdio 傳輸：** 產生子程序並透過 stdin/stdout 通訊
+- **SSE 傳輸：** 連線到伺服器發送事件端點
+- **Streamable HTTP 傳輸：** 使用 HTTP 串流進行通訊
 
 ## How to set up your MCP server
 

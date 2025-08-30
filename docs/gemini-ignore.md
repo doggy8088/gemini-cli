@@ -1,59 +1,59 @@
-# Ignoring Files
+# 忽略檔案
 
-This document provides an overview of the Gemini Ignore (`.geminiignore`) feature of the Gemini CLI.
+本文件提供 Gemini CLI 的 Gemini 忽略（`.geminiignore`）功能總覽。
 
-The Gemini CLI includes the ability to automatically ignore files, similar to `.gitignore` (used by Git) and `.aiexclude` (used by Gemini Code Assist). Adding paths to your `.geminiignore` file will exclude them from tools that support this feature, although they will still be visible to other services (such as Git).
+Gemini CLI 包含自動忽略檔案的能力，類似於 `.gitignore`（Git 使用）和 `.aiexclude`（Gemini Code Assist 使用）。將路徑新增到您的 `.geminiignore` 檔案會將它們從支援此功能的工具中排除，儘管它們對其他服務（如 Git）仍然可見。
 
-## How it works
+## 運作方式
 
-When you add a path to your `.geminiignore` file, tools that respect this file will exclude matching files and directories from their operations. For example, when you use the [`read_many_files`](./tools/multi-file.md) command, any paths in your `.geminiignore` file will be automatically excluded.
+當您將路徑新增到 `.geminiignore` 檔案時，遵守此檔案的工具會從其操作中排除匹配的檔案和目錄。例如，當您使用 [`read_many_files`](./tools/multi-file.md) 指令時，`.geminiignore` 檔案中的任何路徑都會自動被排除。
 
-For the most part, `.geminiignore` follows the conventions of `.gitignore` files:
+大多數情況下，`.geminiignore` 遵循 `.gitignore` 檔案的慣例：
 
-- Blank lines and lines starting with `#` are ignored.
-- Standard glob patterns are supported (such as `*`, `?`, and `[]`).
-- Putting a `/` at the end will only match directories.
-- Putting a `/` at the beginning anchors the path relative to the `.geminiignore` file.
-- `!` negates a pattern.
+- 空白行和以 `#` 開始的行會被忽略。
+- 支援標準 glob 模式（如 `*`、`?` 和 `[]`）。
+- 在結尾放置 `/` 只會匹配目錄。
+- 在開頭放置 `/` 會將路徑錨定到相對於 `.geminiignore` 檔案。
+- `!` 會否定模式。
 
-You can update your `.geminiignore` file at any time. To apply the changes, you must restart your Gemini CLI session.
+您可以隨時更新 `.geminiignore` 檔案。要套用變更，您必須重新啟動 Gemini CLI 工作階段。
 
-## How to use `.geminiignore`
+## 如何使用 `.geminiignore`
 
-To enable `.geminiignore`:
+啟用 `.geminiignore`：
 
-1. Create a file named `.geminiignore` in the root of your project directory.
+1. 在專案目錄的根目錄中建立名為 `.geminiignore` 的檔案。
 
-To add a file or directory to `.geminiignore`:
+將檔案或目錄新增到 `.geminiignore`：
 
-1. Open your `.geminiignore` file.
-2. Add the path or file you want to ignore, for example: `/archive/` or `apikeys.txt`.
+1. 開啟您的 `.geminiignore` 檔案。
+2. 新增您要忽略的路徑或檔案，例如：`/archive/` 或 `apikeys.txt`。
 
-### `.geminiignore` examples
+### `.geminiignore` 範例
 
-You can use `.geminiignore` to ignore directories and files:
+您可以使用 `.geminiignore` 來忽略目錄和檔案：
 
 ```
-# Exclude your /packages/ directory and all subdirectories
+# 排除您的 /packages/ 目錄和所有子目錄
 /packages/
 
-# Exclude your apikeys.txt file
+# 排除您的 apikeys.txt 檔案
 apikeys.txt
 ```
 
-You can use wildcards in your `.geminiignore` file with `*`:
+您可以在 `.geminiignore` 檔案中使用 `*` 萬用字元：
 
 ```
-# Exclude all .md files
+# 排除所有 .md 檔案
 *.md
 ```
 
-Finally, you can exclude files and directories from exclusion with `!`:
+最後，您可以使用 `!` 將檔案和目錄從排除中排除：
 
 ```
-# Exclude all .md files except README.md
+# 排除所有 .md 檔案，除了 README.md
 *.md
 !README.md
 ```
 
-To remove paths from your `.geminiignore` file, delete the relevant lines.
+要從 `.geminiignore` 檔案中移除路徑，請刪除相關行。
