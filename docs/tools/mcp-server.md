@@ -167,49 +167,49 @@ CLI 會自動：
 - 沒有 X11 轉送的遠端 SSH 工作階段
 - 沒有瀏覽器支援的容器化環境
 
-#### Managing OAuth Authentication
+#### 管理 OAuth 驗證
 
-Use the `/mcp auth` command to manage OAuth authentication:
+使用 `/mcp auth` 指令管理 OAuth 驗證：
 
 ```bash
-# List servers requiring authentication
+# 列出需要驗證的伺服器
 /mcp auth
 
-# Authenticate with a specific server
+# 與特定伺服器進行驗證
 /mcp auth serverName
 
-# Re-authenticate if tokens expire
+# 權杖過期時重新驗證
 /mcp auth serverName
 ```
 
-#### OAuth Configuration Properties
+#### OAuth 設定屬性
 
-- **`enabled`** (boolean): Enable OAuth for this server
-- **`clientId`** (string): OAuth client identifier (optional with dynamic registration)
-- **`clientSecret`** (string): OAuth client secret (optional for public clients)
-- **`authorizationUrl`** (string): OAuth authorization endpoint (auto-discovered if omitted)
-- **`tokenUrl`** (string): OAuth token endpoint (auto-discovered if omitted)
-- **`scopes`** (string[]): Required OAuth scopes
-- **`redirectUri`** (string): Custom redirect URI (defaults to `http://localhost:7777/oauth/callback`)
-- **`tokenParamName`** (string): Query parameter name for tokens in SSE URLs
-- **`audiences`** (string[]): Audiences the token is valid for
+- **`enabled`**（布林值）：為此伺服器啟用 OAuth
+- **`clientId`**（字串）：OAuth 用戶端識別碼（動態註冊時為選用）
+- **`clientSecret`**（字串）：OAuth 用戶端密鑰（公開用戶端為選用）
+- **`authorizationUrl`**（字串）：OAuth 授權端點（省略時自動探索）
+- **`tokenUrl`**（字串）：OAuth 權杖端點（省略時自動探索）
+- **`scopes`**（字串陣列）：所需的 OAuth 範圍
+- **`redirectUri`**（字串）：自訂重新導向 URI（預設為 `http://localhost:7777/oauth/callback`）
+- **`tokenParamName`**（字串）：SSE URL 中權杖的查詢參數名稱
+- **`audiences`**（字串陣列）：權杖有效的目標對象
 
-#### Token Management
+#### 權杖管理
 
-OAuth tokens are automatically:
+OAuth 權杖會自動：
 
-- **Stored securely** in `~/.gemini/mcp-oauth-tokens.json`
-- **Refreshed** when expired (if refresh tokens are available)
-- **Validated** before each connection attempt
-- **Cleaned up** when invalid or expired
+- **安全儲存**於 `~/.gemini/mcp-oauth-tokens.json`
+- **重新整理**過期權杖（如果有重新整理權杖可用）
+- **驗證**每次連線嘗試前
+- **清理**無效或過期的權杖
 
-#### Authentication Provider Type
+#### 驗證提供者類型
 
-You can specify the authentication provider type using the `authProviderType` property:
+您可以使用 `authProviderType` 屬性指定驗證提供者類型：
 
-- **`authProviderType`** (string): Specifies the authentication provider. Can be one of the following:
-  - **`dynamic_discovery`** (default): The CLI will automatically discover the OAuth configuration from the server.
-  - **`google_credentials`**: The CLI will use the Google Application Default Credentials (ADC) to authenticate with the server. When using this provider, you must specify the required scopes.
+- **`authProviderType`**（字串）：指定驗證提供者。可以是以下其中一項：
+  - **`dynamic_discovery`**（預設）：CLI 會自動從伺服器探索 OAuth 設定。
+  - **`google_credentials`**：CLI 會使用 Google 應用程式預設憑證（ADC）與伺服器進行驗證。使用此提供者時，您必須指定所需的範圍。
 
 ```json
 {
@@ -225,9 +225,9 @@ You can specify the authentication provider type using the `authProviderType` pr
 }
 ```
 
-### Example Configurations
+### 設定範例
 
-#### Python MCP Server (Stdio)
+#### Python MCP 伺服器（Stdio）
 
 ```json
 {
@@ -246,7 +246,7 @@ You can specify the authentication provider type using the `authProviderType` pr
 }
 ```
 
-#### Node.js MCP Server (Stdio)
+#### Node.js MCP 伺服器（Stdio）
 
 ```json
 {
@@ -261,7 +261,7 @@ You can specify the authentication provider type using the `authProviderType` pr
 }
 ```
 
-#### Docker-based MCP Server
+#### 基於 Docker 的 MCP 伺服器
 
 ```json
 {
@@ -286,7 +286,7 @@ You can specify the authentication provider type using the `authProviderType` pr
 }
 ```
 
-#### HTTP-based MCP Server
+#### 基於 HTTP 的 MCP 伺服器
 
 ```json
 {
@@ -299,7 +299,7 @@ You can specify the authentication provider type using the `authProviderType` pr
 }
 ```
 
-#### HTTP-based MCP Server with Custom Headers
+#### 帶有自訂標頭的基於 HTTP 的 MCP 伺服器
 
 ```json
 {
@@ -317,7 +317,7 @@ You can specify the authentication provider type using the `authProviderType` pr
 }
 ```
 
-#### MCP Server with Tool Filtering
+#### 帶有工具篩選的 MCP 伺服器
 
 ```json
 {
@@ -333,296 +333,296 @@ You can specify the authentication provider type using the `authProviderType` pr
 }
 ```
 
-## Discovery Process Deep Dive
+## 探索流程深入解析
 
-When the Gemini CLI starts, it performs MCP server discovery through the following detailed process:
+當 Gemini CLI 啟動時，它透過以下詳細流程執行 MCP 伺服器探索：
 
-### 1. Server Iteration and Connection
+### 1. 伺服器迭代與連線
 
-For each configured server in `mcpServers`:
+對於 `mcpServers` 中每個設定的伺服器：
 
-1. **Status tracking begins:** Server status is set to `CONNECTING`
-2. **Transport selection:** Based on configuration properties:
+1. **狀態追蹤開始：** 伺服器狀態設定為 `CONNECTING`
+2. **傳輸選擇：** 基於設定屬性：
    - `httpUrl` → `StreamableHTTPClientTransport`
    - `url` → `SSEClientTransport`
    - `command` → `StdioClientTransport`
-3. **Connection establishment:** The MCP client attempts to connect with the configured timeout
-4. **Error handling:** Connection failures are logged and the server status is set to `DISCONNECTED`
+3. **建立連線：** MCP 用戶端嘗試使用設定的逾時時間連線
+4. **錯誤處理：** 連線失敗會被記錄，伺服器狀態設定為 `DISCONNECTED`
 
-### 2. Tool Discovery
+### 2. 工具探索
 
-Upon successful connection:
+成功連線後：
 
-1. **Tool listing:** The client calls the MCP server's tool listing endpoint
-2. **Schema validation:** Each tool's function declaration is validated
-3. **Tool filtering:** Tools are filtered based on `includeTools` and `excludeTools` configuration
-4. **Name sanitization:** Tool names are cleaned to meet Gemini API requirements:
-   - Invalid characters (non-alphanumeric, underscore, dot, hyphen) are replaced with underscores
-   - Names longer than 63 characters are truncated with middle replacement (`___`)
+1. **工具清單：** 用戶端呼叫 MCP 伺服器的工具清單端點
+2. **綱要驗證：** 每個工具的函式宣告都會被驗證
+3. **工具篩選：** 工具會根據 `includeTools` 和 `excludeTools` 設定進行篩選
+4. **名稱淨化：** 工具名稱會被清理以符合 Gemini API 要求：
+   - 無效字元（非英數字、底線、點、連字號）會被替換為底線
+   - 超過 63 字元的名稱會被截斷並進行中間替換（`___`）
 
-### 3. Conflict Resolution
+### 3. 衝突解決
 
-When multiple servers expose tools with the same name:
+當多個伺服器暴露同名工具時：
 
-1. **First registration wins:** The first server to register a tool name gets the unprefixed name
-2. **Automatic prefixing:** Subsequent servers get prefixed names: `serverName__toolName`
-3. **Registry tracking:** The tool registry maintains mappings between server names and their tools
+1. **首次註冊獲勝：** 第一個註冊工具名稱的伺服器取得無前綴名稱
+2. **自動加前綴：** 後續伺服器取得加前綴的名稱：`serverName__toolName`
+3. **註冊表追蹤：** 工具註冊表維護伺服器名稱與其工具之間的對應
 
-### 4. Schema Processing
+### 4. 綱要處理
 
-Tool parameter schemas undergo sanitization for Gemini API compatibility:
+工具參數綱要會經過淨化以符合 Gemini API 相容性：
 
-- **`$schema` properties** are removed
-- **`additionalProperties`** are stripped
-- **`anyOf` with `default`** have their default values removed (Vertex AI compatibility)
-- **Recursive processing** applies to nested schemas
+- **`$schema` 屬性**會被移除
+- **`additionalProperties`**會被剝離
+- **帶有 `default` 的 `anyOf`**會移除其預設值（Vertex AI 相容性）
+- **遞迴處理**套用於巢狀綱要
 
-### 5. Connection Management
+### 5. 連線管理
 
-After discovery:
+探索後：
 
-- **Persistent connections:** Servers that successfully register tools maintain their connections
-- **Cleanup:** Servers that provide no usable tools have their connections closed
-- **Status updates:** Final server statuses are set to `CONNECTED` or `DISCONNECTED`
+- **持久連線：** 成功註冊工具的伺服器會維持其連線
+- **清理：** 不提供可用工具的伺服器會關閉其連線
+- **狀態更新：** 最終伺服器狀態設定為 `CONNECTED` 或 `DISCONNECTED`
 
-## Tool Execution Flow
+## 工具執行流程
 
-When the Gemini model decides to use an MCP tool, the following execution flow occurs:
+當 Gemini 模型決定使用 MCP 工具時，會發生以下執行流程：
 
-### 1. Tool Invocation
+### 1. 工具呼叫
 
-The model generates a `FunctionCall` with:
+模型會產生一個 `FunctionCall`，包含：
 
-- **Tool name:** The registered name (potentially prefixed)
-- **Arguments:** JSON object matching the tool's parameter schema
+- **工具名稱：** 註冊的名稱（可能帶有前綴）
+- **引數：** 符合工具參數綱要的 JSON 物件
 
-### 2. Confirmation Process
+### 2. 確認流程
 
-Each `DiscoveredMCPTool` implements sophisticated confirmation logic:
+每個 `DiscoveredMCPTool` 實作複雜的確認邏輯：
 
-#### Trust-based Bypass
+#### 基於信任的略過
 
 ```typescript
 if (this.trust) {
-  return false; // No confirmation needed
+  return false; // 不需要確認
 }
 ```
 
-#### Dynamic Allow-listing
+#### 動態允許清單
 
-The system maintains internal allow-lists for:
+系統維護以下內部允許清單：
 
-- **Server-level:** `serverName` → All tools from this server are trusted
-- **Tool-level:** `serverName.toolName` → This specific tool is trusted
+- **伺服器層級：** `serverName` → 此伺服器的所有工具都受信任
+- **工具層級：** `serverName.toolName` → 此特定工具受信任
 
-#### User Choice Handling
+#### 使用者選擇處理
 
-When confirmation is required, users can choose:
+當需要確認時，使用者可以選擇：
 
-- **Proceed once:** Execute this time only
-- **Always allow this tool:** Add to tool-level allow-list
-- **Always allow this server:** Add to server-level allow-list
-- **Cancel:** Abort execution
+- **僅此次執行：** 僅執行這次
+- **總是允許此工具：** 新增到工具層級允許清單
+- **總是允許此伺服器：** 新增到伺服器層級允許清單
+- **取消：** 中止執行
 
-### 3. Execution
+### 3. 執行
 
-Upon confirmation (or trust bypass):
+確認後（或信任略過）：
 
-1. **Parameter preparation:** Arguments are validated against the tool's schema
-2. **MCP call:** The underlying `CallableTool` invokes the server with:
+1. **參數準備：** 引數會根據工具綱要進行驗證
+2. **MCP 呼叫：** 底層 `CallableTool` 會使用以下參數呼叫伺服器：
 
    ```typescript
    const functionCalls = [
      {
-       name: this.serverToolName, // Original server tool name
+       name: this.serverToolName, // 原始伺服器工具名稱
        args: params,
      },
    ];
    ```
 
-3. **Response processing:** Results are formatted for both LLM context and user display
+3. **回應處理：** 結果會格式化供 LLM 內容和使用者顯示使用
 
-### 4. Response Handling
+### 4. 回應處理
 
-The execution result contains:
+執行結果包含：
 
-- **`llmContent`:** Raw response parts for the language model's context
-- **`returnDisplay`:** Formatted output for user display (often JSON in markdown code blocks)
+- **`llmContent`：** 供語言模型內容使用的原始回應部分
+- **`returnDisplay`：** 供使用者顯示使用的格式化輸出（通常是 markdown 程式碼區塊中的 JSON）
 
-## How to interact with your MCP server
+## 如何與您的 MCP 伺服器互動
 
-### Using the `/mcp` Command
+### 使用 `/mcp` 指令
 
-The `/mcp` command provides comprehensive information about your MCP server setup:
+`/mcp` 指令提供關於您 MCP 伺服器設定的完整資訊：
 
 ```bash
 /mcp
 ```
 
-This displays:
+這會顯示：
 
-- **Server list:** All configured MCP servers
-- **Connection status:** `CONNECTED`, `CONNECTING`, or `DISCONNECTED`
-- **Server details:** Configuration summary (excluding sensitive data)
-- **Available tools:** List of tools from each server with descriptions
-- **Discovery state:** Overall discovery process status
+- **伺服器清單：** 所有設定的 MCP 伺服器
+- **連線狀態：** `CONNECTED`、`CONNECTING` 或 `DISCONNECTED`
+- **伺服器詳細資料：** 設定摘要（排除敏感資料）
+- **可用工具：** 來自每個伺服器的工具清單及說明
+- **探索狀態：** 整體探索流程狀態
 
-### Example `/mcp` Output
+### `/mcp` 輸出範例
 
 ```
-MCP Servers Status:
+MCP 伺服器狀態：
 
-📡 pythonTools (CONNECTED)
-  Command: python -m my_mcp_server --port 8080
-  Working Directory: ./mcp-servers/python
-  Timeout: 15000ms
-  Tools: calculate_sum, file_analyzer, data_processor
+📡 pythonTools (已連線)
+  指令：python -m my_mcp_server --port 8080
+  工作目錄：./mcp-servers/python
+  逾時：15000ms
+  工具：calculate_sum、file_analyzer、data_processor
 
-🔌 nodeServer (DISCONNECTED)
-  Command: node dist/server.js --verbose
-  Error: Connection refused
+🔌 nodeServer (已中斷連線)
+  指令：node dist/server.js --verbose
+  錯誤：連線被拒絕
 
-🐳 dockerizedServer (CONNECTED)
-  Command: docker run -i --rm -e API_KEY my-mcp-server:latest
-  Tools: docker__deploy, docker__status
+🐳 dockerizedServer (已連線)
+  指令：docker run -i --rm -e API_KEY my-mcp-server:latest
+  工具：docker__deploy、docker__status
 
-Discovery State: COMPLETED
+探索狀態：已完成
 ```
 
-### Tool Usage
+### 工具使用
 
-Once discovered, MCP tools are available to the Gemini model like built-in tools. The model will automatically:
+一旦被探索，MCP 工具就像內建工具一樣可供 Gemini 模型使用。模型會自動：
 
-1. **Select appropriate tools** based on your requests
-2. **Present confirmation dialogs** (unless the server is trusted)
-3. **Execute tools** with proper parameters
-4. **Display results** in a user-friendly format
+1. **選擇適當的工具**基於您的請求
+2. **顯示確認對話方塊**（除非伺服器受信任）
+3. **執行工具**使用適當的參數
+4. **顯示結果**以使用者友善的格式
 
-## Status Monitoring and Troubleshooting
+## 狀態監控與疑難排解
 
-### Connection States
+### 連線狀態
 
-The MCP integration tracks several states:
+MCP 整合會追蹤數個狀態：
 
-#### Server Status (`MCPServerStatus`)
+#### 伺服器狀態（`MCPServerStatus`）
 
-- **`DISCONNECTED`:** Server is not connected or has errors
-- **`CONNECTING`:** Connection attempt in progress
-- **`CONNECTED`:** Server is connected and ready
+- **`DISCONNECTED`：** 伺服器未連線或有錯誤
+- **`CONNECTING`：** 連線嘗試進行中
+- **`CONNECTED`：** 伺服器已連線且就緒
 
-#### Discovery State (`MCPDiscoveryState`)
+#### 探索狀態（`MCPDiscoveryState`）
 
-- **`NOT_STARTED`:** Discovery hasn't begun
-- **`IN_PROGRESS`:** Currently discovering servers
-- **`COMPLETED`:** Discovery finished (with or without errors)
+- **`NOT_STARTED`：** 探索尚未開始
+- **`IN_PROGRESS`：** 目前正在探索伺服器
+- **`COMPLETED`：** 探索已完成（無論是否有錯誤）
 
-### Common Issues and Solutions
+### 常見問題與解決方案
 
-#### Server Won't Connect
+#### 伺服器無法連線
 
-**Symptoms:** Server shows `DISCONNECTED` status
+**症狀：** 伺服器顯示 `DISCONNECTED` 狀態
 
-**Troubleshooting:**
+**疑難排解：**
 
-1. **Check configuration:** Verify `command`, `args`, and `cwd` are correct
-2. **Test manually:** Run the server command directly to ensure it works
-3. **Check dependencies:** Ensure all required packages are installed
-4. **Review logs:** Look for error messages in the CLI output
-5. **Verify permissions:** Ensure the CLI can execute the server command
+1. **檢查設定：** 驗證 `command`、`args` 和 `cwd` 是否正確
+2. **手動測試：** 直接執行伺服器指令以確保它能運作
+3. **檢查相依性：** 確保所有必要的套件都已安裝
+4. **查看日誌：** 在 CLI 輸出中尋找錯誤訊息
+5. **驗證權限：** 確保 CLI 可以執行伺服器指令
 
-#### No Tools Discovered
+#### 沒有探索到工具
 
-**Symptoms:** Server connects but no tools are available
+**症狀：** 伺服器連線但沒有可用工具
 
-**Troubleshooting:**
+**疑難排解：**
 
-1. **Verify tool registration:** Ensure your server actually registers tools
-2. **Check MCP protocol:** Confirm your server implements the MCP tool listing correctly
-3. **Review server logs:** Check stderr output for server-side errors
-4. **Test tool listing:** Manually test your server's tool discovery endpoint
+1. **驗證工具註冊：** 確保您的伺服器實際上有註冊工具
+2. **檢查 MCP 協定：** 確認您的伺服器正確實作 MCP 工具清單
+3. **查看伺服器日誌：** 檢查 stderr 輸出中的伺服器端錯誤
+4. **測試工具清單：** 手動測試您伺服器的工具探索端點
 
-#### Tools Not Executing
+#### 工具無法執行
 
-**Symptoms:** Tools are discovered but fail during execution
+**症狀：** 工具被探索到但在執行時失敗
 
-**Troubleshooting:**
+**疑難排解：**
 
-1. **Parameter validation:** Ensure your tool accepts the expected parameters
-2. **Schema compatibility:** Verify your input schemas are valid JSON Schema
-3. **Error handling:** Check if your tool is throwing unhandled exceptions
-4. **Timeout issues:** Consider increasing the `timeout` setting
+1. **參數驗證：** 確保您的工具接受預期的參數
+2. **綱要相容性：** 驗證您的輸入綱要是有效的 JSON 綱要
+3. **錯誤處理：** 檢查您的工具是否丟出未處理的例外
+4. **逾時問題：** 考慮增加 `timeout` 設定
 
-#### Sandbox Compatibility
+#### 沙箱相容性
 
-**Symptoms:** MCP servers fail when sandboxing is enabled
+**症狀：** 啟用沙箱化時 MCP 伺服器失敗
 
-**Solutions:**
+**解決方案：**
 
-1. **Docker-based servers:** Use Docker containers that include all dependencies
-2. **Path accessibility:** Ensure server executables are available in the sandbox
-3. **Network access:** Configure sandbox to allow necessary network connections
-4. **Environment variables:** Verify required environment variables are passed through
+1. **基於 Docker 的伺服器：** 使用包含所有相依性的 Docker 容器
+2. **路徑可存取性：** 確保伺服器可執行檔在沙箱中可用
+3. **網路存取：** 設定沙箱以允許必要的網路連線
+4. **環境變數：** 驗證所需的環境變數有被傳遞
 
-### Debugging Tips
+### 偵錯技巧
 
-1. **Enable debug mode:** Run the CLI with `--debug` for verbose output
-2. **Check stderr:** MCP server stderr is captured and logged (INFO messages filtered)
-3. **Test isolation:** Test your MCP server independently before integrating
-4. **Incremental setup:** Start with simple tools before adding complex functionality
-5. **Use `/mcp` frequently:** Monitor server status during development
+1. **啟用偵錯模式：** 使用 `--debug` 執行 CLI 以取得詳細輸出
+2. **檢查 stderr：** MCP 伺服器 stderr 會被擷取並記錄（INFO 訊息已篩選）
+3. **測試隔離：** 在整合前獨立測試您的 MCP 伺服器
+4. **增量設定：** 在新增複雜功能前先從簡單工具開始
+5. **經常使用 `/mcp`：** 在開發期間監控伺服器狀態
 
-## Important Notes
+## 重要注意事項
 
-### Security Considerations
+### 安全性考量
 
-- **Trust settings:** The `trust` option bypasses all confirmation dialogs. Use cautiously and only for servers you completely control
-- **Access tokens:** Be security-aware when configuring environment variables containing API keys or tokens
-- **Sandbox compatibility:** When using sandboxing, ensure MCP servers are available within the sandbox environment
-- **Private data:** Using broadly scoped personal access tokens can lead to information leakage between repositories
+- **信任設定：** `trust` 選項會略過所有確認對話方塊。請謹慎使用，僅用於您完全控制的伺服器
+- **存取權杖：** 設定包含 API 金鑰或權杖的環境變數時要注意安全性
+- **沙箱相容性：** 使用沙箱化時，確保 MCP 伺服器在沙箱環境中可用
+- **私人資料：** 使用範圍廣泛的個人存取權杖可能導致儲存庫間的資訊洩漏
 
-### Performance and Resource Management
+### 效能與資源管理
 
-- **Connection persistence:** The CLI maintains persistent connections to servers that successfully register tools
-- **Automatic cleanup:** Connections to servers providing no tools are automatically closed
-- **Timeout management:** Configure appropriate timeouts based on your server's response characteristics
-- **Resource monitoring:** MCP servers run as separate processes and consume system resources
+- **連線持久性：** CLI 會維持與成功註冊工具的伺服器的持久連線
+- **自動清理：** 與不提供工具的伺服器的連線會自動關閉
+- **逾時管理：** 根據您伺服器的回應特性設定適當的逾時
+- **資源監控：** MCP 伺服器作為獨立程序執行並消耗系統資源
 
-### Schema Compatibility
+### 綱要相容性
 
-- **Property stripping:** The system automatically removes certain schema properties (`$schema`, `additionalProperties`) for Gemini API compatibility
-- **Name sanitization:** Tool names are automatically sanitized to meet API requirements
-- **Conflict resolution:** Tool name conflicts between servers are resolved through automatic prefixing
+- **屬性剝離：** 系統會自動移除某些綱要屬性（`$schema`、`additionalProperties`）以符合 Gemini API 相容性
+- **名稱淨化：** 工具名稱會自動淨化以符合 API 要求
+- **衝突解決：** 伺服器間的工具名稱衝突會透過自動加前綴解決
 
-This comprehensive integration makes MCP servers a powerful way to extend the Gemini CLI's capabilities while maintaining security, reliability, and ease of use.
+這種完整的整合使 MCP 伺服器成為擴展 Gemini CLI 能力的強大方式，同時維護安全性、可靠性和易用性。
 
-## Returning Rich Content from Tools
+## 從工具傳回豐富內容
 
-MCP tools are not limited to returning simple text. You can return rich, multi-part content, including text, images, audio, and other binary data in a single tool response. This allows you to build powerful tools that can provide diverse information to the model in a single turn.
+MCP 工具不僅限於傳回簡單文字。您可以在單一工具回應中傳回豐富的多部分內容，包括文字、影像、音訊和其他二進位資料。這讓您能夠建置強大的工具，可以在單一回合中向模型提供多樣化的資訊。
 
-All data returned from the tool is processed and sent to the model as context for its next generation, enabling it to reason about or summarize the provided information.
+從工具傳回的所有資料都會被處理並作為內容傳送給模型進行下一次生成，使其能夠推理或總結提供的資訊。
 
-### How It Works
+### 運作方式
 
-To return rich content, your tool's response must adhere to the MCP specification for a [`CallToolResult`](https://modelcontextprotocol.io/specification/2025-06-18/server/tools#tool-result). The `content` field of the result should be an array of `ContentBlock` objects. The Gemini CLI will correctly process this array, separating text from binary data and packaging it for the model.
+要傳回豐富內容，您的工具回應必須遵循 [`CallToolResult`](https://modelcontextprotocol.io/specification/2025-06-18/server/tools#tool-result) 的 MCP 規範。結果的 `content` 欄位應該是 `ContentBlock` 物件的陣列。Gemini CLI 會正確處理此陣列，將文字與二進位資料分離並為模型打包。
 
-You can mix and match different content block types in the `content` array. The supported block types include:
+您可以在 `content` 陣列中混合搭配不同的內容區塊類型。支援的區塊類型包括：
 
 - `text`
 - `image`
 - `audio`
-- `resource` (embedded content)
+- `resource`（嵌入內容）
 - `resource_link`
 
-### Example: Returning Text and an Image
+### 範例：傳回文字和影像
 
-Here is an example of a valid JSON response from an MCP tool that returns both a text description and an image:
+以下是 MCP 工具的有效 JSON 回應範例，傳回文字說明和影像：
 
 ```json
 {
   "content": [
     {
       "type": "text",
-      "text": "Here is the logo you requested."
+      "text": "這是您請求的標誌。"
     },
     {
       "type": "image",
@@ -631,27 +631,27 @@ Here is an example of a valid JSON response from an MCP tool that returns both a
     },
     {
       "type": "text",
-      "text": "The logo was created in 2025."
+      "text": "此標誌創建於 2025 年。"
     }
   ]
 }
 ```
 
-When the Gemini CLI receives this response, it will:
+當 Gemini CLI 收到此回應時，它會：
 
-1.  Extract all the text and combine it into a single `functionResponse` part for the model.
-2.  Present the image data as a separate `inlineData` part.
-3.  Provide a clean, user-friendly summary in the CLI, indicating that both text and an image were received.
+1. 提取所有文字並將其合併為模型的單一 `functionResponse` 部分。
+2. 將影像資料作為獨立的 `inlineData` 部分呈現。
+3. 在 CLI 中提供乾淨、使用者友善的摘要，指示已收到文字和影像。
 
-This enables you to build sophisticated tools that can provide rich, multi-modal context to the Gemini model.
+這讓您能夠建置複雜的工具，為 Gemini 模型提供豐富的多模態內容。
 
-## MCP Prompts as Slash Commands
+## MCP 提示作為斜線指令
 
-In addition to tools, MCP servers can expose predefined prompts that can be executed as slash commands within the Gemini CLI. This allows you to create shortcuts for common or complex queries that can be easily invoked by name.
+除了工具之外，MCP 伺服器還可以暴露預定義的提示，這些提示可以在 Gemini CLI 內作為斜線指令執行。這讓您可以為常見或複雜查詢建立捷徑，可以輕鬆透過名稱呼叫。
 
-### Defining Prompts on the Server
+### 在伺服器上定義提示
 
-Here's a small example of a stdio MCP server that defines prompts:
+以下是定義提示的 stdio MCP 伺服器小範例：
 
 ```ts
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
@@ -676,7 +676,7 @@ server.registerPrompt(
         role: 'user',
         content: {
           type: 'text',
-          text: `Write a haiku${mood ? ` with the mood ${mood}` : ''} called ${title}. Note that a haiku is 5 syllables followed by 7 syllables followed by 5 syllables `,
+          text: `寫一首${mood ? `帶有 ${mood} 情緒的` : ''}名為 ${title} 的俳句。請注意俳句是 5 個音節，接著 7 個音節，再接著 5 個音節`,
         },
       },
     ],
@@ -687,7 +687,7 @@ const transport = new StdioServerTransport();
 await server.connect(transport);
 ```
 
-This can be included in `settings.json` under `mcpServers` with:
+這可以在 `settings.json` 的 `mcpServers` 下包含：
 
 ```json
 {
@@ -700,9 +700,9 @@ This can be included in `settings.json` under `mcpServers` with:
 }
 ```
 
-### Invoking Prompts
+### 呼叫提示
 
-Once a prompt is discovered, you can invoke it using its name as a slash command. The CLI will automatically handle parsing arguments.
+一旦提示被探索，您可以使用其名稱作為斜線指令來呼叫它。CLI 會自動處理解析引數。
 
 ```bash
 /poem-writer --title="Gemini CLI" --mood="reverent"
@@ -716,37 +716,37 @@ or, using positional arguments:
 
 When you run this command, the Gemini CLI executes the `prompts/get` method on the MCP server with the provided arguments. The server is responsible for substituting the arguments into the prompt template and returning the final prompt text. The CLI then sends this prompt to the model for execution. This provides a convenient way to automate and share common workflows.
 
-## Managing MCP Servers with `gemini mcp`
+## 使用 `gemini mcp` 管理 MCP 伺服器
 
-While you can always configure MCP servers by manually editing your `settings.json` file, the Gemini CLI provides a convenient set of commands to manage your server configurations programmatically. These commands streamline the process of adding, listing, and removing MCP servers without needing to directly edit JSON files.
+雖然您隨時可以透過手動編輯 `settings.json` 檔案來設定 MCP 伺服器，但 Gemini CLI 提供了一套便利的指令來程式化管理您的伺服器設定。這些指令簡化了新增、列出和移除 MCP 伺服器的流程，無需直接編輯 JSON 檔案。
 
-### Adding a Server (`gemini mcp add`)
+### 新增伺服器（`gemini mcp add`）
 
-The `add` command configures a new MCP server in your `settings.json`. Based on the scope (`-s, --scope`), it will be added to either the user config `~/.gemini/settings.json` or the project config `.gemini/settings.json` file.
+`add` 指令會在您的 `settings.json` 中設定新的 MCP 伺服器。根據範圍（`-s, --scope`），它會被新增到使用者設定 `~/.gemini/settings.json` 或專案設定 `.gemini/settings.json` 檔案中。
 
-**Command:**
+**指令：**
 
 ```bash
-gemini mcp add [options] <name> <commandOrUrl> [args...]
+gemini mcp add [選項] <名稱> <指令或URL> [引數...]
 ```
 
-- `<name>`: A unique name for the server.
-- `<commandOrUrl>`: The command to execute (for `stdio`) or the URL (for `http`/`sse`).
-- `[args...]`: Optional arguments for a `stdio` command.
+- `<名稱>`：伺服器的唯一名稱。
+- `<指令或URL>`：要執行的指令（適用於 `stdio`）或 URL（適用於 `http`/`sse`）。
+- `[引數...]`：`stdio` 指令的選用引數。
 
-**Options (Flags):**
+**選項（旗標）：**
 
-- `-s, --scope`: Configuration scope (user or project). [default: "project"]
-- `-t, --transport`: Transport type (stdio, sse, http). [default: "stdio"]
-- `-e, --env`: Set environment variables (e.g. -e KEY=value).
-- `-H, --header`: Set HTTP headers for SSE and HTTP transports (e.g. -H "X-Api-Key: abc123" -H "Authorization: Bearer abc123").
-- `--timeout`: Set connection timeout in milliseconds.
-- `--trust`: Trust the server (bypass all tool call confirmation prompts).
-- `--description`: Set the description for the server.
-- `--include-tools`: A comma-separated list of tools to include.
-- `--exclude-tools`: A comma-separated list of tools to exclude.
+- `-s, --scope`：設定範圍（user 或 project）。[預設：「project」]
+- `-t, --transport`：傳輸類型（stdio、sse、http）。[預設：「stdio」]
+- `-e, --env`：設定環境變數（例如 -e KEY=value）。
+- `-H, --header`：為 SSE 和 HTTP 傳輸設定 HTTP 標頭（例如 -H "X-Api-Key: abc123" -H "Authorization: Bearer abc123"）。
+- `--timeout`：設定連線逾時毫秒數。
+- `--trust`：信任伺服器（略過所有工具呼叫確認提示）。
+- `--description`：設定伺服器的說明。
+- `--include-tools`：要包含的工具清單，以逗號分隔。
+- `--exclude-tools`：要排除的工具清單，以逗號分隔。
 
-#### Adding an stdio server
+#### 新增 stdio 伺服器
 
 This is the default transport for running local servers.
 
