@@ -188,109 +188,109 @@ fi
 " > .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
 ```
 
-#### Formatting
+#### 格式化
 
-To separately format the code in this project by running the following command from the root directory:
+若要單獨格式化此專案的程式碼，請在專案根目錄執行下列指令：
 
 ```bash
 npm run format
 ```
 
-This command uses Prettier to format the code according to the project's style guidelines.
+此指令使用 Prettier，依專案的程式風格準則格式化程式碼。
 
-#### Linting
+#### Lint 檢查
 
-To separately lint the code in this project, run the following command from the root directory:
+若要單獨對此專案的程式碼進行 Lint 檢查，請在專案根目錄執行下列指令：
 
 ```bash
 npm run lint
 ```
 
-### Coding Conventions
+### 程式碼慣例
 
-- Please adhere to the coding style, patterns, and conventions used throughout the existing codebase.
-- Consult [GEMINI.md](https://github.com/google-gemini/gemini-cli/blob/main/GEMINI.md) (typically found in the project root) for specific instructions related to AI-assisted development, including conventions for React, comments, and Git usage.
-- **Imports:** Pay special attention to import paths. The project uses ESLint to enforce restrictions on relative imports between packages.
+- 請遵循現有程式碼庫中使用的程式設計風格、模式和約定。
+- 請參閱 [GEMINI.md](https://github.com/google-gemini/gemini-cli/blob/main/GEMINI.md)（通常位於專案根目錄）以獲取有關 AI 協助開發的具體指示，包括 React、註釋和 Git 使用的約定。
+- **匯入：** 特別注意匯入路徑。專案使用 ESLint 來強制限制套件之間的相對匯入。
 
-### Project Structure
+### 專案結構
 
-- `packages/`: Contains the individual sub-packages of the project.
-  - `cli/`: The command-line interface.
-  - `core/`: The core backend logic for the Gemini CLI.
-- `docs/`: Contains all project documentation.
-- `scripts/`: Utility scripts for building, testing, and development tasks.
+- `packages/`: 包含專案的各個子套件。
+  - `cli/`: 命令列介面。
+  - `core/`: Gemini CLI 的核心後端邏輯。
+- `docs/`: 包含所有專案文件。
+- `scripts/`: 用於建構、測試和開發任務的工具腳本。
 
-For more detailed architecture, see `docs/architecture.md`.
+欲了解更詳細的架構，請參閱 `docs/architecture.md`。
 
-## Debugging
+## 除錯
 
-### VS Code:
+### VS Code
 
-0.  Run the CLI to interactively debug in VS Code with `F5`
-1.  Start the CLI in debug mode from the root directory:
-    ```bash
-    npm run debug
-    ```
-    This command runs `node --inspect-brk dist/gemini.js` within the `packages/cli` directory, pausing execution until a debugger attaches. You can then open `chrome://inspect` in your Chrome browser to connect to the debugger.
-2.  In VS Code, use the "Attach" launch configuration (found in `.vscode/launch.json`).
+0.  在 VS Code 中按 `F5` 可互動式執行 CLI 並進行除錯。
+1.  從專案根目錄以除錯模式啟動 CLI：
+  ```bash
+  npm run debug
+  ```
+  該指令會在 `packages/cli` 目錄中執行 `node --inspect-brk dist/gemini.js`，在除錯器連線前暫停程式執行。之後可在 Chrome 中開啟 `chrome://inspect` 來連線除錯器。
+2.  在 VS Code 中，使用位於 `.vscode/launch.json` 的 "Attach" launch 配置。
 
-Alternatively, you can use the "Launch Program" configuration in VS Code if you prefer to launch the currently open file directly, but 'F5' is generally recommended.
+另外，如果您偏好直接啟動目前開啟的檔案，也可以使用 VS Code 的 "Launch Program" 配置，但一般建議使用 `F5`。
 
-To hit a breakpoint inside the sandbox container run:
+要在沙箱容器內觸發斷點，請執行：
 
 ```bash
 DEBUG=1 gemini
 ```
 
-**Note:** If you have `DEBUG=true` in a project's `.env` file, it won't affect gemini-cli due to automatic exclusion. Use `.gemini/.env` files for gemini-cli specific debug settings.
+**注意：** 若專案的 `.env` 檔中有 `DEBUG=true`，這不會影響 gemini-cli，因為該設定會被自動排除。若要針對 gemini-cli 設定除錯，請使用 `.gemini/.env` 檔案。
 
 ### React DevTools
 
-To debug the CLI's React-based UI, you can use React DevTools. Ink, the library used for the CLI's interface, is compatible with React DevTools version 4.x.
+要除錯 CLI 的 React-based 使用者介面，可使用 React DevTools。CLI 使用的介面庫 Ink 與 React DevTools 4.x 相容。
 
-1.  **Start the Gemini CLI in development mode:**
+1.  啟動 Gemini CLI 的開發模式：
 
-    ```bash
-    DEV=true npm start
-    ```
+  ```bash
+  DEV=true npm start
+  ```
 
-2.  **Install and run React DevTools version 4.28.5 (or the latest compatible 4.x version):**
+2.  安裝並執行 React DevTools（4.28.5 或相容的 4.x 最新版本）：
 
-    You can either install it globally:
+  您可以全域安裝：
 
-    ```bash
-    npm install -g react-devtools@4.28.5
-    react-devtools
-    ```
+  ```bash
+  npm install -g react-devtools@4.28.5
+  react-devtools
+  ```
 
-    Or run it directly using npx:
+  或使用 npx 直接執行：
 
-    ```bash
-    npx react-devtools@4.28.5
-    ```
+  ```bash
+  npx react-devtools@4.28.5
+  ```
 
-    Your running CLI application should then connect to React DevTools.
-    ![](/docs/assets/connected_devtools.png)
+  執行中的 CLI 應會自動連線到 React DevTools。
+  ![](/docs/assets/connected_devtools.png)
 
 ## Sandboxing
 
 ### macOS Seatbelt
 
-On macOS, `gemini` uses Seatbelt (`sandbox-exec`) under a `permissive-open` profile (see `packages/cli/src/utils/sandbox-macos-permissive-open.sb`) that restricts writes to the project folder but otherwise allows all other operations and outbound network traffic ("open") by default. You can switch to a `restrictive-closed` profile (see `packages/cli/src/utils/sandbox-macos-restrictive-closed.sb`) that declines all operations and outbound network traffic ("closed") by default by setting `SEATBELT_PROFILE=restrictive-closed` in your environment or `.env` file. Available built-in profiles are `{permissive,restrictive}-{open,closed,proxied}` (see below for proxied networking). You can also switch to a custom profile `SEATBELT_PROFILE=<profile>` if you also create a file `.gemini/sandbox-macos-<profile>.sb` under your project settings directory `.gemini`.
+在 macOS 上，`gemini` 使用 Seatbelt（`sandbox-exec`），預設採用 `permissive-open` 的配置檔（請參見 `packages/cli/src/utils/sandbox-macos-permissive-open.sb`）；該配置會限制對專案資料夾的寫入，但預設允許其他操作與對外網路流量（稱為「open」）。您可以透過在環境變數或 `.env` 檔中設定 `SEATBELT_PROFILE=restrictive-closed` 切換到 `restrictive-closed` 配置檔（請參見 `packages/cli/src/utils/sandbox-macos-restrictive-closed.sb`），此配置預設會拒絕所有操作與對外網路流量（稱為「closed」）。內建的可用配置為 `{permissive,restrictive}-{open,closed,proxied}`（關於代理網路設定請見下方說明）。若要使用自訂配置，請在專案設定目錄 `.gemini` 下建立對應的檔案 `.gemini/sandbox-macos-<profile>.sb`，並將 `SEATBELT_PROFILE=<profile>` 設定為該自訂檔名。
 
-### Container-based Sandboxing (All Platforms)
+### 容器式沙箱化（適用於所有平台）
 
-For stronger container-based sandboxing on macOS or other platforms, you can set `GEMINI_SANDBOX=true|docker|podman|<command>` in your environment or `.env` file. The specified command (or if `true` then either `docker` or `podman`) must be installed on the host machine. Once enabled, `npm run build:all` will build a minimal container ("sandbox") image and `npm start` will launch inside a fresh instance of that container. The first build can take 20-30s (mostly due to downloading of the base image) but after that both build and start overhead should be minimal. Default builds (`npm run build`) will not rebuild the sandbox.
+若要在 macOS 或其他平台上使用更強的容器式沙箱化，您可以在環境變數或 `.env` 中設定 `GEMINI_SANDBOX=true|docker|podman|<command>`。所指定的命令（若為 `true`，則會使用 `docker` 或 `podman`）必須已安裝於主機。啟用後，`npm run build:all` 會建立一個最小的容器（"sandbox"）映像，而 `npm start` 將在該容器的新實例中啟動。首次建立可能需約 20-30 秒（主要用於下載基底映像），之後的建立與啟動開銷會顯著減少。預設的建置（`npm run build`）不會重建沙箱。
 
-Container-based sandboxing mounts the project directory (and system temp directory) with read-write access and is started/stopped/removed automatically as you start/stop Gemini CLI. Files created within the sandbox should be automatically mapped to your user/group on host machine. You can easily specify additional mounts, ports, or environment variables by setting `SANDBOX_{MOUNTS,PORTS,ENV}` as needed. You can also fully customize the sandbox for your projects by creating the files `.gemini/sandbox.Dockerfile` and/or `.gemini/sandbox.bashrc` under your project settings directory (`.gemini`) and running `gemini` with `BUILD_SANDBOX=1` to trigger building of your custom sandbox.
+容器式沙箱會將專案目錄（以及系統暫存目錄）以讀寫方式掛載，並會在您啟動/停止 Gemini CLI 時自動啟動、停止與移除。於沙箱中建立的檔案應會自動映射回主機上的使用者/群組。您可以透過設定 `SANDBOX_{MOUNTS,PORTS,ENV}` 來指定額外的掛載、埠或環境變數；亦可在專案設定目錄（`.gemini`）下建立 `.gemini/sandbox.Dockerfile` 與/或 `.gemini/sandbox.bashrc`，然後以 `BUILD_SANDBOX=1` 執行 `gemini`，以觸發自訂沙箱映像的建立。
 
-#### Proxied Networking
+#### 代理網路
 
-All sandboxing methods, including macOS Seatbelt using `*-proxied` profiles, support restricting outbound network traffic through a custom proxy server that can be specified as `GEMINI_SANDBOX_PROXY_COMMAND=<command>`, where `<command>` must start a proxy server that listens on `:::8877` for relevant requests. See `docs/examples/proxy-script.md` for a minimal proxy that only allows `HTTPS` connections to `example.com:443` (e.g. `curl https://example.com`) and declines all other requests. The proxy is started and stopped automatically alongside the sandbox.
+所有沙箱化方法（包括使用 `*-proxied` 配置的 macOS Seatbelt）皆支援透過自訂代理伺服器來限制出站網路流量。可使用 `GEMINI_SANDBOX_PROXY_COMMAND=<command>` 指定代理命令，其中 `<command>` 必須啟動一個監聽 `:::8877` 的代理伺服器以處理相關請求。請參閱 `docs/examples/proxy-script.md` 範例，該範例提供一個最小代理，僅允許對 `example.com:443` 的 HTTPS 連線（例如 `curl https://example.com`），並拒絕其他請求。代理伺服器會與沙箱一同自動啟動與停止。
 
-## Manual Publish
+## 手動發佈
 
-We publish an artifact for each commit to our internal registry. But if you need to manually cut a local build, then run the following commands:
+本專案會在每次提交時將 artifact 發佈到內部註冊表。但若您需要手動建立本地發佈，請執行下列指令：
 
 ```
 npm run clean
