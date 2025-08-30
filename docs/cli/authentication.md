@@ -28,94 +28,94 @@ Gemini CLI 需要您向 Google 的 AI 服務進行驗證。在初始啟動時，
 
 2.  **<a id="gemini-api-key"></a>Gemini API 金鑰**：
     - 從 Google AI Studio 取得您的 API 金鑰：[https://aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey)
-    - Set the `GEMINI_API_KEY` environment variable. In the following methods, replace `YOUR_GEMINI_API_KEY` with the API key you obtained from Google AI Studio:
-      - You can temporarily set the environment variable in your current shell session using the following command:
+    - 設定 `GEMINI_API_KEY` 環境變數。在以下方法中，請將 `YOUR_GEMINI_API_KEY` 替換為您從 Google AI Studio 取得的 API 金鑰：
+      - 您可以使用以下指令在目前的 Shell 工作階段中暫時設定環境變數：
         ```bash
         export GEMINI_API_KEY="YOUR_GEMINI_API_KEY"
         ```
-      - For repeated use, you can add the environment variable to your [.env file](#persisting-environment-variables-with-env-files).
+      - 對於重複使用，您可以將環境變數新增到您的 [.env 檔案](#persisting-environment-variables-with-env-files)。
 
-      - Alternatively you can export the API key from your shell's configuration file (like `~/.bashrc`, `~/.zshrc`, or `~/.profile`). For example, the following command adds the environment variable to a `~/.bashrc` file:
+      - 或者，您可以從 Shell 設定檔案（如 `~/.bashrc`、`~/.zshrc` 或 `~/.profile`）匯出 API 金鑰。例如，以下指令將環境變數新增到 `~/.bashrc` 檔案：
 
         ```bash
         echo 'export GEMINI_API_KEY="YOUR_GEMINI_API_KEY"' >> ~/.bashrc
         source ~/.bashrc
         ```
 
-        :warning: Be advised that when you export your API key inside your shell configuration file, any other process executed from the shell can read it.
+        :warning: 請注意，當您在 Shell 設定檔案中匯出 API 金鑰時，從該 Shell 執行的任何其他程序都可以讀取它。
 
-3.  **Vertex AI:**
-    - **API Key:**
-      - Obtain your Google Cloud API key: [Get an API Key](https://cloud.google.com/vertex-ai/generative-ai/docs/start/api-keys?usertype=newuser)
-      - Set the `GOOGLE_API_KEY` environment variable. In the following methods, replace `YOUR_GOOGLE_API_KEY` with your Vertex AI API key:
-        - You can temporarily set the environment variable in your current shell session using the following command:
+3.  **Vertex AI：**
+    - **API 金鑰：**
+      - 取得您的 Google Cloud API 金鑰：[取得 API 金鑰](https://cloud.google.com/vertex-ai/generative-ai/docs/start/api-keys?usertype=newuser)
+      - 設定 `GOOGLE_API_KEY` 環境變數。在以下方法中，請將 `YOUR_GOOGLE_API_KEY` 替換為您的 Vertex AI API 金鑰：
+        - 您可以使用以下指令在目前的 Shell 工作階段中暫時設定環境變數：
           ```bash
           export GOOGLE_API_KEY="YOUR_GOOGLE_API_KEY"
           ```
-        - For repeated use, you can add the environment variable to your [.env file](#persisting-environment-variables-with-env-files) or your shell's configuration file (like `~/.bashrc`, `~/.zshrc`, or `~/.profile`). For example, the following command adds the environment variable to a `~/.bashrc` file:
+        - 對於重複使用，您可以將環境變數新增到您的 [.env 檔案](#persisting-environment-variables-with-env-files) 或 Shell 設定檔案（如 `~/.bashrc`、`~/.zshrc` 或 `~/.profile`）。例如，以下指令將環境變數新增到 `~/.bashrc` 檔案：
 
           ```bash
           echo 'export GOOGLE_API_KEY="YOUR_GOOGLE_API_KEY"' >> ~/.bashrc
           source ~/.bashrc
           ```
 
-          :warning: Be advised that when you export your API key inside your shell configuration file, any other process executed from the shell can read it.
+          :warning: 請注意，當您在 Shell 設定檔案中匯出 API 金鑰時，從該 Shell 執行的任何其他程序都可以讀取它。
 
-          > **Note:**
-          > If you encounter an error like `"API keys are not supported by this API - Expected OAuth2 access token or other authentication credentials that assert a principal"`, it is likely that your organization has restricted the creation of service account API keys. In this case, please try the [service account JSON key](#service-account-json-key) method described below.
+          > **注意：**
+          > 如果您遇到像 `"API keys are not supported by this API - Expected OAuth2 access token or other authentication credentials that assert a principal"` 這樣的錯誤，很可能是您的組織限制了服務帳戶 API 金鑰的建立。在這種情況下，請嘗試下方描述的[服務帳戶 JSON 金鑰](#service-account-json-key)方法。
 
-    - **Application Default Credentials (ADC):**
+    - **應用程式預設憑證（ADC）：**
 
-      > **Note:**
-      > If you have previously set the `GOOGLE_API_KEY` or `GEMINI_API_KEY` environment variables, you must unset them to use Application Default Credentials.
+      > **注意：**
+      > 如果您先前設定了 `GOOGLE_API_KEY` 或 `GEMINI_API_KEY` 環境變數，您必須取消設定它們才能使用應用程式預設憑證。
       >
       > ```bash
       > unset GOOGLE_API_KEY GEMINI_API_KEY
       > ```
-      - **Using `gcloud` (for local development):**
-        - Ensure you have a Google Cloud project and have enabled the Vertex AI API.
-        - Log in with your user credentials:
+      - **使用 `gcloud`（用於本機開發）：**
+        - 確保您有 Google Cloud 專案並已啟用 Vertex AI API。
+        - 使用您的使用者憑證登入：
           ```bash
           gcloud auth application-default login
           ```
-          For more information, see [Set up Application Default Credentials for Google Cloud](https://cloud.google.com/docs/authentication/provide-credentials-adc).
-      - **<a id="service-account-json-key"></a>Using a Service Account (for applications or when service account API keys are restricted):**
-        - If you are unable to create an API key due to [organization policies](https://cloud.google.com/vertex-ai/generative-ai/docs/start/api-keys?usertype=existinguser#expandable-2), or if you are running in a non-interactive environment, you can authenticate using a service account key.
-        - [Create a service account and key](https://cloud.google.com/iam/docs/keys-create-delete), and download the JSON key file. The service account will need to be assigned the "Vertex AI User" role.
-        - Set the `GOOGLE_APPLICATION_CREDENTIALS` environment variable to the absolute path of the JSON file.
-          - You can temporarily set the environment variable in your current shell session:
+          如需更多資訊，請參閱[為 Google Cloud 設定應用程式預設憑證](https://cloud.google.com/docs/authentication/provide-credentials-adc)。
+      - **<a id="service-account-json-key"></a>使用服務帳戶（用於應用程式或當服務帳戶 API 金鑰受到限制時）：**
+        - 如果您因為[組織政策](https://cloud.google.com/vertex-ai/generative-ai/docs/start/api-keys?usertype=existinguser#expandable-2)而無法建立 API 金鑰，或者如果您在非互動環境中執行，您可以使用服務帳戶金鑰進行驗證。
+        - [建立服務帳戶和金鑰](https://cloud.google.com/iam/docs/keys-create-delete)，並下載 JSON 金鑰檔案。服務帳戶需要被指派「Vertex AI 使用者」角色。
+        - 將 `GOOGLE_APPLICATION_CREDENTIALS` 環境變數設定為 JSON 檔案的絕對路徑。
+          - 您可以在目前的 Shell 工作階段中暫時設定環境變數：
             ```bash
             export GOOGLE_APPLICATION_CREDENTIALS="/path/to/your/keyfile.json"
             ```
-          - For repeated use, you can add the command to your shell's configuration file (e.g., `~/.bashrc`).
+          - 對於重複使用，您可以將指令新增到 Shell 設定檔案（例如 `~/.bashrc`）。
             ```bash
             echo 'export GOOGLE_APPLICATION_CREDENTIALS="/path/to/your/keyfile.json"' >> ~/.bashrc
             source ~/.bashrc
             ```
-            :warning: Be advised that when you export service account credentials inside your shell configuration file, any other process executed from the shell can read it.
+            :warning: 請注意，當您在 Shell 設定檔案中匯出服務帳戶憑證時，從該 Shell 執行的任何其他程序都可以讀取它。
 
-      - **Required Environment Variables for ADC:**
-        - When using ADC (either with `gcloud` or a service account), you must also set the `GOOGLE_CLOUD_PROJECT` and `GOOGLE_CLOUD_LOCATION` environment variables. In the following methods, replace `YOUR_PROJECT_ID` and `YOUR_PROJECT_LOCATION` with the relevant values for your project:
-          - You can temporarily set these environment variables in your current shell session using the following commands:
+      - **ADC 所需的環境變數：**
+        - 使用 ADC 時（無論是使用 `gcloud` 或服務帳戶），您也必須設定 `GOOGLE_CLOUD_PROJECT` 和 `GOOGLE_CLOUD_LOCATION` 環境變數。在以下方法中，請將 `YOUR_PROJECT_ID` 和 `YOUR_PROJECT_LOCATION` 替換為您專案的相關值：
+          - 您可以使用以下指令在目前的 Shell 工作階段中暫時設定這些環境變數：
             ```bash
             export GOOGLE_CLOUD_PROJECT="YOUR_PROJECT_ID"
-            export GOOGLE_CLOUD_LOCATION="YOUR_PROJECT_LOCATION" # e.g., us-central1
+            export GOOGLE_CLOUD_LOCATION="YOUR_PROJECT_LOCATION" # 例如：us-central1
             ```
-          - For repeated use, you can add the environment variables to your [.env file](#persisting-environment-variables-with-env-files) or your shell's configuration file (like `~/.bashrc`, `~/.zshrc`, or `~/.profile`). For example, the following commands add the environment variables to a `~/.bashrc` file:
+          - 對於重複使用，您可以將環境變數新增到您的 [.env 檔案](#persisting-environment-variables-with-env-files) 或 Shell 設定檔案（如 `~/.bashrc`、`~/.zshrc` 或 `~/.profile`）。例如，以下指令將環境變數新增到 `~/.bashrc` 檔案：
             ```bash
             echo 'export GOOGLE_CLOUD_PROJECT="YOUR_PROJECT_ID"' >> ~/.bashrc
             echo 'export GOOGLE_CLOUD_LOCATION="YOUR_PROJECT_LOCATION"' >> ~/.bashrc
             source ~/.bashrc
             ```
 
-4.  **Cloud Shell:**
-    - This option is only available when running in a Google Cloud Shell environment.
-    - It automatically uses the credentials of the logged-in user in the Cloud Shell environment.
-    - This is the default authentication method when running in Cloud Shell and no other method is configured.
+4.  **Cloud Shell：**
+    - 此選項僅在 Google Cloud Shell 環境中執行時可用。
+    - 它會自動使用 Cloud Shell 環境中已登入使用者的憑證。
+    - 這是在 Cloud Shell 中執行且未設定其他方法時的預設驗證方法。
 
-          :warning: Be advised that when you export your API key inside your shell configuration file, any other process executed from the shell can read it.
+          :warning: 請注意，當您在 Shell 設定檔案中匯出 API 金鑰時，從該 Shell 執行的任何其他程序都可以讀取它。
 
-### Persisting Environment Variables with `.env` Files
+### 使用 `.env` 檔案保存環境變數
 
 您可以在專案目錄或主目錄中建立 **`.gemini/.env`** 檔案。建立普通的 **`.env`** 檔案也可以，但建議使用 `.gemini/.env` 來保持 Gemini 變數與其他工具隔離。
 
@@ -141,7 +141,7 @@ mkdir -p .gemini
 echo 'GOOGLE_CLOUD_PROJECT="your-project-id"' >> .gemini/.env
 ```
 
-**User-wide settings** (available in every directory):
+**使用者範圍設定**（在每個目錄中都可用）：
 
 ```bash
 mkdir -p ~/.gemini
