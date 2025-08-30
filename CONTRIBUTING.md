@@ -1,190 +1,182 @@
-# How to Contribute
+# 如何貢獻
 
-We would love to accept your patches and contributions to this project.
+我們很樂意接受您對此專案的修補程式和貢獻。
 
-## Before you begin
+## 開始之前
 
-### Sign our Contributor License Agreement
+### 簽署我們的貢獻者授權協議
 
-Contributions to this project must be accompanied by a
-[Contributor License Agreement](https://cla.developers.google.com/about) (CLA).
-You (or your employer) retain the copyright to your contribution; this simply
-gives us permission to use and redistribute your contributions as part of the
-project.
+對此專案的貢獻必須附帶[貢獻者授權協議](https://cla.developers.google.com/about) (CLA)。
+您（或您的雇主）保留對您貢獻的版權；這只是給予我們使用和重新分發您的貢獻作為專案一部分的權限。
 
-If you or your current employer have already signed the Google CLA (even if it
-was for a different project), you probably don't need to do it again.
+如果您或您目前的雇主已經簽署了 Google CLA（即使是針對不同的專案），您可能不需要再次簽署。
 
-Visit <https://cla.developers.google.com/> to see your current agreements or to
-sign a new one.
+請造訪 <https://cla.developers.google.com/> 查看您目前的協議或簽署新協議。
 
-### Review our Community Guidelines
+### 檢閱我們的社群準則
 
-This project follows [Google's Open Source Community
-Guidelines](https://opensource.google/conduct/).
+此專案遵循 [Google 的開源社群準則](https://opensource.google/conduct/)。
 
-## Contribution Process
+## 貢獻流程
 
-### Code Reviews
+### 程式碼審查
 
-All submissions, including submissions by project members, require review. We
-use [GitHub pull requests](https://docs.github.com/articles/about-pull-requests)
-for this purpose.
+所有提交內容，包括專案成員的提交內容，都需要審查。我們為此目的使用 [GitHub 拉取請求](https://docs.github.com/articles/about-pull-requests)。
 
-### Self Assigning Issues
+### 自行指派問題
 
-If you're looking for an issue to work on, check out our list of issues that are labeled ["help wanted"](https://github.com/google-gemini/gemini-cli/issues?q=is%3Aissue+state%3Aopen+label%3A%22help+wanted%22).
+如果您正在尋找要處理的問題，請查看我們標記為["需要協助"](https://github.com/google-gemini/gemini-cli/issues?q=is%3Aissue+state%3Aopen+label%3A%22help+wanted%22)的問題清單。
 
-To assign an issue to yourself, simply add a comment with the text `/assign`. The comment must contain only that text and nothing else. This command will assign the issue to you, provided it is not already assigned.
+要將問題指派給自己，只需新增包含文字 `/assign` 的留言。留言必須僅包含該文字，不得包含其他內容。如果問題尚未被指派，此指令將把問題指派給您。
 
-Please note that you can have a maximum of 3 issues assigned to you at any given time.
+請注意，您在任何時候最多只能被指派 3 個問題。
 
-### Pull Request Guidelines
+### 拉取請求準則
 
-To help us review and merge your PRs quickly, please follow these guidelines. PRs that do not meet these standards may be closed.
+為了幫助我們快速審查和合併您的拉取請求，請遵循這些準則。不符合這些標準的拉取請求可能會被關閉。
 
-#### 1. Link to an Existing Issue
+#### 1. 連結到現有問題
 
-All PRs should be linked to an existing issue in our tracker. This ensures that every change has been discussed and is aligned with the project's goals before any code is written.
+所有拉取請求都應該連結到我們追蹤器中的現有問題。這確保每個變更在撰寫任何程式碼之前都已經過討論並與專案目標一致。
 
-- **For bug fixes:** The PR should be linked to the bug report issue.
-- **For features:** The PR should be linked to the feature request or proposal issue that has been approved by a maintainer.
+- **對於錯誤修正**：拉取請求應該連結到錯誤報告問題。
+- **對於功能**：拉取請求應該連結到已被維護者核准的功能請求或提案問題。
 
-If an issue for your change doesn't exist, please **open one first** and wait for feedback before you start coding.
+如果您的變更沒有對應的問題，請**先開啟一個問題**並在開始編碼之前等待回饋。
 
-#### 2. Keep It Small and Focused
+#### 2. 保持小巧且專注
 
-We favor small, atomic PRs that address a single issue or add a single, self-contained feature.
+我們偏好解決單一問題或新增單一自包含功能的小型、原子性拉取請求。
 
-- **Do:** Create a PR that fixes one specific bug or adds one specific feature.
-- **Don't:** Bundle multiple unrelated changes (e.g., a bug fix, a new feature, and a refactor) into a single PR.
+- **應該做**：建立修正一個特定錯誤或新增一個特定功能的拉取請求。
+- **不應該做**：將多個不相關的變更（例如，錯誤修正、新功能和重構）打包到單一拉取請求中。
 
-Large changes should be broken down into a series of smaller, logical PRs that can be reviewed and merged independently.
+大型變更應該分解為一系列較小的、邏輯性的拉取請求，可以獨立審查和合併。
 
-#### 3. Use Draft PRs for Work in Progress
+#### 3. 使用草稿拉取請求處理進行中的工作
 
-If you'd like to get early feedback on your work, please use GitHub's **Draft Pull Request** feature. This signals to the maintainers that the PR is not yet ready for a formal review but is open for discussion and initial feedback.
+如果您想對您的工作獲得早期回饋，請使用 GitHub 的**草稿拉取請求**功能。這向維護者表明拉取請求尚未準備好進行正式審查，但開放討論和初步回饋。
 
-#### 4. Ensure All Checks Pass
+#### 4. 確保所有檢查都通過
 
-Before submitting your PR, ensure that all automated checks are passing by running `npm run preflight`. This command runs all tests, linting, and other style checks.
+在提交拉取請求之前，請透過執行 `npm run preflight` 確保所有自動檢查都通過。此指令會執行所有測試、程式碼檢查和其他樣式檢查。
 
-#### 5. Update Documentation
+#### 5. 更新說明文件
 
-If your PR introduces a user-facing change (e.g., a new command, a modified flag, or a change in behavior), you must also update the relevant documentation in the `/docs` directory.
+如果您的拉取請求引入了面向使用者的變更（例如，新指令、修改的旗標或行為變更），您也必須更新 `/docs` 目錄中的相關說明文件。
 
-#### 6. Write Clear Commit Messages and a Good PR Description
+#### 6. 撰寫清楚的提交訊息和良好的拉取請求描述
 
-Your PR should have a clear, descriptive title and a detailed description of the changes. Follow the [Conventional Commits](https://www.conventionalcommits.org/) standard for your commit messages.
+您的拉取請求應該有清楚、描述性的標題和變更的詳細描述。請遵循 [Conventional Commits](https://www.conventionalcommits.org/) 標準來撰寫您的提交訊息。
 
-- **Good PR Title:** `feat(cli): Add --json flag to 'config get' command`
-- **Bad PR Title:** `Made some changes`
+- **良好的拉取請求標題**：`feat(cli): Add --json flag to 'config get' command`
+- **不良的拉取請求標題**：`Made some changes`
 
-In the PR description, explain the "why" behind your changes and link to the relevant issue (e.g., `Fixes #123`).
+在拉取請求描述中，說明您變更背後的「原因」並連結到相關問題（例如，`Fixes #123`）。
 
-## Forking
+## 分叉
 
-If you are forking the repository you will be able to run the Build, Test and Integration test workflows. However in order to make the integration tests run you'll need to add a [GitHub Repository Secret](https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions#creating-secrets-for-a-repository) with a value of `GEMINI_API_KEY` and set that to a valid API key that you have available. Your key and secret are private to your repo; no one without access can see your key and you cannot see any secrets related to this repo.
+如果您分叉此儲存庫，您將能夠執行建置、測試和整合測試工作流程。但是，為了讓整合測試執行，您需要新增一個值為 `GEMINI_API_KEY` 的 [GitHub 儲存庫密鑰](https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions#creating-secrets-for-a-repository)，並將其設定為您可用的有效 API 金鑰。您的金鑰和密鑰對您的儲存庫是私有的；沒有存取權限的人無法看到您的金鑰，您也無法看到與此儲存庫相關的任何密鑰。
 
-Additionally you will need to click on the `Actions` tab and enable workflows for your repository, you'll find it's the large blue button in the center of the screen.
+此外，您需要點擊 `Actions` 標籤並為您的儲存庫啟用工作流程，您會發現它是螢幕中央的大藍色按鈕。
 
-## Development Setup and Workflow
+## 開發設定和工作流程
 
-This section guides contributors on how to build, modify, and understand the development setup of this project.
+本節指導貢獻者如何建置、修改和了解此專案的開發設定。
 
-### Setting Up the Development Environment
+### 設定開發環境
 
-**Prerequisites:**
+**先決條件：**
 
-1.  **Node.js**:
-    - **Development:** Please use Node.js `~20.19.0`. This specific version is required due to an upstream development dependency issue. You can use a tool like [nvm](https://github.com/nvm-sh/nvm) to manage Node.js versions.
-    - **Production:** For running the CLI in a production environment, any version of Node.js `>=20` is acceptable.
+1.  **Node.js**：
+    - **開發**：請使用 Node.js `~20.19.0`。由於上游開發相依性問題，需要此特定版本。您可以使用 [nvm](https://github.com/nvm-sh/nvm) 等工具來管理 Node.js 版本。
+    - **生產環境**：對於在生產環境中執行 CLI，任何 Node.js `>=20` 版本都可以接受。
 2.  **Git**
 
-### Build Process
+### 建置流程
 
-To clone the repository:
+複製儲存庫：
 
 ```bash
-git clone https://github.com/google-gemini/gemini-cli.git # Or your fork's URL
+git clone https://github.com/google-gemini/gemini-cli.git # 或您的分叉 URL
 cd gemini-cli
 ```
 
-To install dependencies defined in `package.json` as well as root dependencies:
+安裝 `package.json` 中定義的相依性以及根相依性：
 
 ```bash
 npm install
 ```
 
-To build the entire project (all packages):
+建置整個專案（所有套件）：
 
 ```bash
 npm run build
 ```
 
-This command typically compiles TypeScript to JavaScript, bundles assets, and prepares the packages for execution. Refer to `scripts/build.js` and `package.json` scripts for more details on what happens during the build.
+此指令通常會將 TypeScript 編譯為 JavaScript、打包資產，並為執行準備套件。請參考 `scripts/build.js` 和 `package.json` 腳本，了解建置過程中發生的詳細資訊。
 
-### Enabling Sandboxing
+### 啟用沙箱化
 
-[Sandboxing](#sandboxing) is highly recommended and requires, at a minimum, setting `GEMINI_SANDBOX=true` in your `~/.env` and ensuring a sandboxing provider (e.g. `macOS Seatbelt`, `docker`, or `podman`) is available. See [Sandboxing](#sandboxing) for details.
+強烈建議使用[沙箱化](#sandboxing)，至少需要在您的 `~/.env` 中設定 `GEMINI_SANDBOX=true`，並確保沙箱化提供者（例如 `macOS Seatbelt`、`docker` 或 `podman`）可用。請參閱[沙箱化](#sandboxing)了解詳細資訊。
 
-To build both the `gemini` CLI utility and the sandbox container, run `build:all` from the root directory:
+要同時建置 `gemini` CLI 公用程式和沙箱容器，請從根目錄執行 `build:all`：
 
 ```bash
 npm run build:all
 ```
 
-To skip building the sandbox container, you can use `npm run build` instead.
+要跳過建置沙箱容器，您可以改用 `npm run build`。
 
-### Running
+### 執行
 
-To start the Gemini CLI from the source code (after building), run the following command from the root directory:
+要從原始碼啟動 Gemini CLI（建置後），請從根目錄執行以下指令：
 
 ```bash
 npm start
 ```
 
-If you'd like to run the source build outside of the gemini-cli folder you can utilize `npm link path/to/gemini-cli/packages/cli` (see: [docs](https://docs.npmjs.com/cli/v9/commands/npm-link)) or `alias gemini="node path/to/gemini-cli/packages/cli"` to run with `gemini`
+如果您想在 gemini-cli 資料夾外執行原始碼建置，您可以使用 `npm link path/to/gemini-cli/packages/cli`（請參閱：[文件](https://docs.npmjs.com/cli/v9/commands/npm-link)）或 `alias gemini="node path/to/gemini-cli/packages/cli"` 以 `gemini` 執行
 
-### Running Tests
+### 執行測試
 
-This project contains two types of tests: unit tests and integration tests.
+此專案包含兩種類型的測試：單元測試和整合測試。
 
-#### Unit Tests
+#### 單元測試
 
-To execute the unit test suite for the project:
+要執行專案的單元測試套件：
 
 ```bash
 npm run test
 ```
 
-This will run tests located in the `packages/core` and `packages/cli` directories. Ensure tests pass before submitting any changes. For a more comprehensive check, it is recommended to run `npm run preflight`.
+這將執行位於 `packages/core` 和 `packages/cli` 目錄中的測試。在提交任何變更之前，請確保測試通過。為了進行更全面的檢查，建議執行 `npm run preflight`。
 
-#### Integration Tests
+#### 整合測試
 
-The integration tests are designed to validate the end-to-end functionality of the Gemini CLI. They are not run as part of the default `npm run test` command.
+整合測試旨在驗證 Gemini CLI 的端對端功能。它們不會作為預設 `npm run test` 指令的一部分執行。
 
-To run the integration tests, use the following command:
+要執行整合測試，請使用以下指令：
 
 ```bash
 npm run test:e2e
 ```
 
-For more detailed information on the integration testing framework, please see the [Integration Tests documentation](./docs/integration-tests.md).
+有關整合測試框架的更詳細資訊，請參閱[整合測試說明文件](./docs/integration-tests.md)。
 
-### Linting and Preflight Checks
+### 程式碼檢查和飛行前檢查
 
-To ensure code quality and formatting consistency, run the preflight check:
+要確保程式碼品質和格式一致性，請執行飛行前檢查：
 
 ```bash
 npm run preflight
 ```
 
-This command will run ESLint, Prettier, all tests, and other checks as defined in the project's `package.json`.
+此指令將執行 ESLint、Prettier、所有測試和專案 `package.json` 中定義的其他檢查。
 
-_ProTip_
+_專業提示_
 
-after cloning create a git precommit hook file to ensure your commits are always clean.
+複製後建立 git precommit hook 檔案以確保您的提交始終乾淨。
 
 ```bash
 echo "
@@ -196,109 +188,109 @@ fi
 " > .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
 ```
 
-#### Formatting
+#### 格式化
 
-To separately format the code in this project by running the following command from the root directory:
+若要單獨格式化此專案的程式碼，請在專案根目錄執行下列指令：
 
 ```bash
 npm run format
 ```
 
-This command uses Prettier to format the code according to the project's style guidelines.
+此指令使用 Prettier，依專案的程式風格準則格式化程式碼。
 
-#### Linting
+#### Lint 檢查
 
-To separately lint the code in this project, run the following command from the root directory:
+若要單獨對此專案的程式碼進行 Lint 檢查，請在專案根目錄執行下列指令：
 
 ```bash
 npm run lint
 ```
 
-### Coding Conventions
+### 程式碼慣例
 
-- Please adhere to the coding style, patterns, and conventions used throughout the existing codebase.
-- Consult [GEMINI.md](https://github.com/google-gemini/gemini-cli/blob/main/GEMINI.md) (typically found in the project root) for specific instructions related to AI-assisted development, including conventions for React, comments, and Git usage.
-- **Imports:** Pay special attention to import paths. The project uses ESLint to enforce restrictions on relative imports between packages.
+- 請遵循現有程式碼庫中使用的程式設計風格、模式和約定。
+- 請參閱 [GEMINI.md](https://github.com/google-gemini/gemini-cli/blob/main/GEMINI.md)（通常位於專案根目錄）以獲取有關 AI 協助開發的具體指示，包括 React、註釋和 Git 使用的約定。
+- **匯入：** 特別注意匯入路徑。專案使用 ESLint 來強制限制套件之間的相對匯入。
 
-### Project Structure
+### 專案結構
 
-- `packages/`: Contains the individual sub-packages of the project.
-  - `cli/`: The command-line interface.
-  - `core/`: The core backend logic for the Gemini CLI.
-- `docs/`: Contains all project documentation.
-- `scripts/`: Utility scripts for building, testing, and development tasks.
+- `packages/`: 包含專案的各個子套件。
+  - `cli/`: 命令列介面。
+  - `core/`: Gemini CLI 的核心後端邏輯。
+- `docs/`: 包含所有專案文件。
+- `scripts/`: 用於建構、測試和開發任務的工具腳本。
 
-For more detailed architecture, see `docs/architecture.md`.
+欲了解更詳細的架構，請參閱 `docs/architecture.md`。
 
-## Debugging
+## 除錯
 
-### VS Code:
+### VS Code
 
-0.  Run the CLI to interactively debug in VS Code with `F5`
-1.  Start the CLI in debug mode from the root directory:
-    ```bash
-    npm run debug
-    ```
-    This command runs `node --inspect-brk dist/gemini.js` within the `packages/cli` directory, pausing execution until a debugger attaches. You can then open `chrome://inspect` in your Chrome browser to connect to the debugger.
-2.  In VS Code, use the "Attach" launch configuration (found in `.vscode/launch.json`).
+0.  在 VS Code 中按 `F5` 可互動式執行 CLI 並進行除錯。
+1.  從專案根目錄以除錯模式啟動 CLI：
+  ```bash
+  npm run debug
+  ```
+  該指令會在 `packages/cli` 目錄中執行 `node --inspect-brk dist/gemini.js`，在除錯器連線前暫停程式執行。之後可在 Chrome 中開啟 `chrome://inspect` 來連線除錯器。
+2.  在 VS Code 中，使用位於 `.vscode/launch.json` 的 "Attach" launch 配置。
 
-Alternatively, you can use the "Launch Program" configuration in VS Code if you prefer to launch the currently open file directly, but 'F5' is generally recommended.
+另外，如果您偏好直接啟動目前開啟的檔案，也可以使用 VS Code 的 "Launch Program" 配置，但一般建議使用 `F5`。
 
-To hit a breakpoint inside the sandbox container run:
+要在沙箱容器內觸發斷點，請執行：
 
 ```bash
 DEBUG=1 gemini
 ```
 
-**Note:** If you have `DEBUG=true` in a project's `.env` file, it won't affect gemini-cli due to automatic exclusion. Use `.gemini/.env` files for gemini-cli specific debug settings.
+**注意：** 若專案的 `.env` 檔中有 `DEBUG=true`，這不會影響 gemini-cli，因為該設定會被自動排除。若要針對 gemini-cli 設定除錯，請使用 `.gemini/.env` 檔案。
 
 ### React DevTools
 
-To debug the CLI's React-based UI, you can use React DevTools. Ink, the library used for the CLI's interface, is compatible with React DevTools version 4.x.
+要除錯 CLI 的 React-based 使用者介面，可使用 React DevTools。CLI 使用的介面庫 Ink 與 React DevTools 4.x 相容。
 
-1.  **Start the Gemini CLI in development mode:**
+1.  啟動 Gemini CLI 的開發模式：
 
-    ```bash
-    DEV=true npm start
-    ```
+  ```bash
+  DEV=true npm start
+  ```
 
-2.  **Install and run React DevTools version 4.28.5 (or the latest compatible 4.x version):**
+2.  安裝並執行 React DevTools（4.28.5 或相容的 4.x 最新版本）：
 
-    You can either install it globally:
+  您可以全域安裝：
 
-    ```bash
-    npm install -g react-devtools@4.28.5
-    react-devtools
-    ```
+  ```bash
+  npm install -g react-devtools@4.28.5
+  react-devtools
+  ```
 
-    Or run it directly using npx:
+  或使用 npx 直接執行：
 
-    ```bash
-    npx react-devtools@4.28.5
-    ```
+  ```bash
+  npx react-devtools@4.28.5
+  ```
 
-    Your running CLI application should then connect to React DevTools.
-    ![](/docs/assets/connected_devtools.png)
+  執行中的 CLI 應會自動連線到 React DevTools。
+  ![](/docs/assets/connected_devtools.png)
 
 ## Sandboxing
 
 ### macOS Seatbelt
 
-On macOS, `gemini` uses Seatbelt (`sandbox-exec`) under a `permissive-open` profile (see `packages/cli/src/utils/sandbox-macos-permissive-open.sb`) that restricts writes to the project folder but otherwise allows all other operations and outbound network traffic ("open") by default. You can switch to a `restrictive-closed` profile (see `packages/cli/src/utils/sandbox-macos-restrictive-closed.sb`) that declines all operations and outbound network traffic ("closed") by default by setting `SEATBELT_PROFILE=restrictive-closed` in your environment or `.env` file. Available built-in profiles are `{permissive,restrictive}-{open,closed,proxied}` (see below for proxied networking). You can also switch to a custom profile `SEATBELT_PROFILE=<profile>` if you also create a file `.gemini/sandbox-macos-<profile>.sb` under your project settings directory `.gemini`.
+在 macOS 上，`gemini` 使用 Seatbelt（`sandbox-exec`），預設採用 `permissive-open` 的配置檔（請參見 `packages/cli/src/utils/sandbox-macos-permissive-open.sb`）；該配置會限制對專案資料夾的寫入，但預設允許其他操作與對外網路流量（稱為「open」）。您可以透過在環境變數或 `.env` 檔中設定 `SEATBELT_PROFILE=restrictive-closed` 切換到 `restrictive-closed` 配置檔（請參見 `packages/cli/src/utils/sandbox-macos-restrictive-closed.sb`），此配置預設會拒絕所有操作與對外網路流量（稱為「closed」）。內建的可用配置為 `{permissive,restrictive}-{open,closed,proxied}`（關於代理網路設定請見下方說明）。若要使用自訂配置，請在專案設定目錄 `.gemini` 下建立對應的檔案 `.gemini/sandbox-macos-<profile>.sb`，並將 `SEATBELT_PROFILE=<profile>` 設定為該自訂檔名。
 
-### Container-based Sandboxing (All Platforms)
+### 容器式沙箱化（適用於所有平台）
 
-For stronger container-based sandboxing on macOS or other platforms, you can set `GEMINI_SANDBOX=true|docker|podman|<command>` in your environment or `.env` file. The specified command (or if `true` then either `docker` or `podman`) must be installed on the host machine. Once enabled, `npm run build:all` will build a minimal container ("sandbox") image and `npm start` will launch inside a fresh instance of that container. The first build can take 20-30s (mostly due to downloading of the base image) but after that both build and start overhead should be minimal. Default builds (`npm run build`) will not rebuild the sandbox.
+若要在 macOS 或其他平台上使用更強的容器式沙箱化，您可以在環境變數或 `.env` 中設定 `GEMINI_SANDBOX=true|docker|podman|<command>`。所指定的命令（若為 `true`，則會使用 `docker` 或 `podman`）必須已安裝於主機。啟用後，`npm run build:all` 會建立一個最小的容器（"sandbox"）映像，而 `npm start` 將在該容器的新實例中啟動。首次建立可能需約 20-30 秒（主要用於下載基底映像），之後的建立與啟動開銷會顯著減少。預設的建置（`npm run build`）不會重建沙箱。
 
-Container-based sandboxing mounts the project directory (and system temp directory) with read-write access and is started/stopped/removed automatically as you start/stop Gemini CLI. Files created within the sandbox should be automatically mapped to your user/group on host machine. You can easily specify additional mounts, ports, or environment variables by setting `SANDBOX_{MOUNTS,PORTS,ENV}` as needed. You can also fully customize the sandbox for your projects by creating the files `.gemini/sandbox.Dockerfile` and/or `.gemini/sandbox.bashrc` under your project settings directory (`.gemini`) and running `gemini` with `BUILD_SANDBOX=1` to trigger building of your custom sandbox.
+容器式沙箱會將專案目錄（以及系統暫存目錄）以讀寫方式掛載，並會在您啟動/停止 Gemini CLI 時自動啟動、停止與移除。於沙箱中建立的檔案應會自動映射回主機上的使用者/群組。您可以透過設定 `SANDBOX_{MOUNTS,PORTS,ENV}` 來指定額外的掛載、埠或環境變數；亦可在專案設定目錄（`.gemini`）下建立 `.gemini/sandbox.Dockerfile` 與/或 `.gemini/sandbox.bashrc`，然後以 `BUILD_SANDBOX=1` 執行 `gemini`，以觸發自訂沙箱映像的建立。
 
-#### Proxied Networking
+#### 代理網路
 
-All sandboxing methods, including macOS Seatbelt using `*-proxied` profiles, support restricting outbound network traffic through a custom proxy server that can be specified as `GEMINI_SANDBOX_PROXY_COMMAND=<command>`, where `<command>` must start a proxy server that listens on `:::8877` for relevant requests. See `docs/examples/proxy-script.md` for a minimal proxy that only allows `HTTPS` connections to `example.com:443` (e.g. `curl https://example.com`) and declines all other requests. The proxy is started and stopped automatically alongside the sandbox.
+所有沙箱化方法（包括使用 `*-proxied` 配置的 macOS Seatbelt）皆支援透過自訂代理伺服器來限制出站網路流量。可使用 `GEMINI_SANDBOX_PROXY_COMMAND=<command>` 指定代理命令，其中 `<command>` 必須啟動一個監聽 `:::8877` 的代理伺服器以處理相關請求。請參閱 `docs/examples/proxy-script.md` 範例，該範例提供一個最小代理，僅允許對 `example.com:443` 的 HTTPS 連線（例如 `curl https://example.com`），並拒絕其他請求。代理伺服器會與沙箱一同自動啟動與停止。
 
-## Manual Publish
+## 手動發佈
 
-We publish an artifact for each commit to our internal registry. But if you need to manually cut a local build, then run the following commands:
+本專案會在每次提交時將 artifact 發佈到內部註冊表。但若您需要手動建立本地發佈，請執行下列指令：
 
 ```
 npm run clean

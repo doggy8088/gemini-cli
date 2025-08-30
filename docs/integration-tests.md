@@ -1,51 +1,51 @@
-# Integration Tests
+# 整合測試
 
-This document provides information about the integration testing framework used in this project.
+本文件提供此專案中使用的整合測試框架的資訊。
 
-## Overview
+## 總覽
 
-The integration tests are designed to validate the end-to-end functionality of the Gemini CLI. They execute the built binary in a controlled environment and verify that it behaves as expected when interacting with the file system.
+整合測試旨在驗證 Gemini CLI 的端對端功能。它們在受控環境中執行建置的二進位檔，並驗證它在與檔案系統互動時的行為是否如預期。
 
-These tests are located in the `integration-tests` directory and are run using a custom test runner.
+這些測試位於 `integration-tests` 目錄中，並使用自訂測試執行器執行。
 
-## Running the tests
+## 執行測試
 
-The integration tests are not run as part of the default `npm run test` command. They must be run explicitly using the `npm run test:integration:all` script.
+整合測試不會作為預設 `npm run test` 指令的一部分執行。必須使用 `npm run test:integration:all` 腳本明確執行。
 
-The integration tests can also be run using the following shortcut:
+整合測試也可以使用以下快速指令執行：
 
 ```bash
 npm run test:e2e
 ```
 
-## Running a specific set of tests
+## 執行特定測試集
 
-To run a subset of test files, you can use `npm run <integration test command> <file_name1> ....` where <integration test command> is either `test:e2e` or `test:integration*` and `<file_name>` is any of the `.test.js` files in the `integration-tests/` directory. For example, the following command runs `list_directory.test.js` and `write_file.test.js`:
+要執行測試檔案的子集，您可以使用 `npm run <integration test command> <file_name1> ....`，其中 `<integration test command>` 是 `test:e2e` 或 `test:integration*`，`<file_name>` 是 `integration-tests/` 目錄中任何的 `.test.js` 檔案。例如，以下指令執行 `list_directory.test.js` 和 `write_file.test.js`：
 
 ```bash
 npm run test:e2e list_directory write_file
 ```
 
-### Running a single test by name
+### 按名稱執行單一測試
 
-To run a single test by its name, use the `--test-name-pattern` flag:
+要按名稱執行單一測試，請使用 `--test-name-pattern` 旗標：
 
 ```bash
 npm run test:e2e -- --test-name-pattern "reads a file"
 ```
 
-### Running all tests
+### 執行所有測試
 
-To run the entire suite of integration tests, use the following command:
+要執行整套整合測試，請使用以下指令：
 
 ```bash
 npm run test:integration:all
 ```
 
-### Sandbox matrix
+### 沙箱矩陣
 
-The `all` command will run tests for `no sandboxing`, `docker` and `podman`.
-Each individual type can be run using the following commands:
+`all` 指令將為 `no sandboxing`、`docker` 和 `podman` 執行測試。
+每個個別類型可以使用以下指令執行：
 
 ```bash
 npm run test:integration:sandbox:none
@@ -59,33 +59,33 @@ npm run test:integration:sandbox:docker
 npm run test:integration:sandbox:podman
 ```
 
-## Diagnostics
+## 診斷
 
-The integration test runner provides several options for diagnostics to help track down test failures.
+整合測試執行器提供多種診斷選項來幫助追蹤測試失敗。
 
-### Keeping test output
+### 保留測試輸出
 
-You can preserve the temporary files created during a test run for inspection. This is useful for debugging issues with file system operations.
+您可以保留測試執行期間建立的暫存檔案以供檢查。這對於偵錯檔案系統操作問題很有用。
 
-To keep the test output set the `KEEP_OUTPUT` environment variable to `true`.
+要保留測試輸出，請將 `KEEP_OUTPUT` 環境變數設定為 `true`。
 
 ```bash
 KEEP_OUTPUT=true npm run test:integration:sandbox:none
 ```
 
-When output is kept, the test runner will print the path to the unique directory for the test run.
+當保留輸出時，測試執行器會列印測試執行的唯一目錄路徑。
 
-### Verbose output
+### 詳細輸出
 
-For more detailed debugging, set the `VERBOSE` environment variable to `true`.
+如需更詳細的偵錯資訊，請將 `VERBOSE` 環境變數設定為 `true`。
 
 ```bash
 VERBOSE=true npm run test:integration:sandbox:none
 ```
 
-When using `VERBOSE=true` and `KEEP_OUTPUT=true` in the same command, the output is streamed to the console and also saved to a log file within the test's temporary directory.
+在同一指令中使用 `VERBOSE=true` 和 `KEEP_OUTPUT=true` 時，輸出會串流到主控台，同時也會儲存到測試暫存目錄中的日誌檔案。
 
-The verbose output is formatted to clearly identify the source of the logs:
+詳細輸出格式化後會清楚識別日誌來源：
 
 ```
 --- TEST: <log dir>:<test-name> ---
@@ -93,29 +93,29 @@ The verbose output is formatted to clearly identify the source of the logs:
 --- END TEST: <log dir>:<test-name> ---
 ```
 
-## Linting and formatting
+## 語法檢查和格式化
 
-To ensure code quality and consistency, the integration test files are linted as part of the main build process. You can also manually run the linter and auto-fixer.
+為了確保程式碼品質和一致性，整合測試檔案會作為主要建置程序的一部分進行語法檢查。您也可以手動執行語法檢查器和自動修正器。
 
-### Running the linter
+### 執行語法檢查器
 
-To check for linting errors, run the following command:
+要檢查語法檢查錯誤，請執行以下指令：
 
 ```bash
 npm run lint
 ```
 
-You can include the `:fix` flag in the command to automatically fix any fixable linting errors:
+您可以在指令中包含 `:fix` 旗標來自動修正任何可修正的語法檢查錯誤：
 
 ```bash
 npm run lint:fix
 ```
 
-## Directory structure
+## 目錄結構
 
-The integration tests create a unique directory for each test run inside the `.integration-tests` directory. Within this directory, a subdirectory is created for each test file, and within that, a subdirectory is created for each individual test case.
+整合測試會在 `.integration-tests` 目錄內為每次測試執行建立唯一的目錄。在此目錄中，會為每個測試檔案建立子目錄，並在其中為每個個別測試案例建立子目錄。
 
-This structure makes it easy to locate the artifacts for a specific test run, file, or case.
+此結構讓您可以輕鬆找到特定測試執行、檔案或案例的成品。
 
 ```
 .integration-tests/
@@ -123,15 +123,15 @@ This structure makes it easy to locate the artifacts for a specific test run, fi
     └── <test-file-name>.test.js/
         └── <test-case-name>/
             ├── output.log
-            └── ...other test artifacts...
+            └── ...其他測試成品...
 ```
 
-## Continuous integration
+## 持續整合
 
-To ensure the integration tests are always run, a GitHub Actions workflow is defined in `.github/workflows/e2e.yml`. This workflow automatically runs the integrations tests for pull requests against the `main` branch, or when a pull request is added to a merge queue.
+為了確保整合測試始終執行，在 `.github/workflows/e2e.yml` 中定義了 GitHub Actions 工作流程。此工作流程會自動為針對 `main` 分支的拉取請求，或當拉取請求新增到合併佇列時，執行整合測試。
 
-The workflow runs the tests in different sandboxing environments to ensure Gemini CLI is tested across each:
+工作流程會在不同的沙箱環境中執行測試，以確保 Gemini CLI 在每個環境中都經過測試：
 
-- `sandbox:none`: Runs the tests without any sandboxing.
-- `sandbox:docker`: Runs the tests in a Docker container.
-- `sandbox:podman`: Runs the tests in a Podman container.
+- `sandbox:none`：在沒有任何沙箱的情況下執行測試。
+- `sandbox:docker`：在 Docker 容器中執行測試。
+- `sandbox:podman`：在 Podman 容器中執行測試。

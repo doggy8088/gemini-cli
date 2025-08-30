@@ -1,109 +1,109 @@
-# Gemini CLI Releases
+# 發布
 
-## Release Cadence and Tags
+## 發布週期與標籤
 
-We will follow https://semver.org/ as closely as possible but will call out when or if we have to deviate from it. Our weekly releases will be minor version increments and any bug or hotfixes btween releases will go out as patch versions on the most recent release.
+我們會盡可能嚴格遵循 https://semver.org/，但會在必須偏離時說明原因。我們的每週發布將是次版本增量，發布之間的任何錯誤修正或緊急修正將作為最新發布的修補版本發布。
 
-### Preview
+### 預覽版
 
-New preview releases will be published each week at UTC 2359 on Tuesdays. These releases will not have been fully vetted and may contain regressions or other outstanding issues. Please help us test and install with `preview` tag.
+新的預覽版發布將在每週二 UTC 23:59 發布。這些發布尚未經過完全審查，可能包含回歸或其他未解決的問題。請協助我們測試並使用 `preview` 標籤安裝。
 
 ```bash
 npm install -g @google/gemini-cli@preview
 ```
 
-### Stable
+### 穩定版
 
-- New stable releases will be published each week at UTC 2000 on Tuesdays, this will be the full promotion of last week's release + any bug fixes and validations. Use `latest` tag.
+- 新的穩定版發布將在每週二 UTC 20:00 發布，這將是上週發布的完整推廣加上任何錯誤修正和驗證。使用 `latest` 標籤。
 
 ```bash
 npm install -g @google/gemini-cli@latest
 ```
 
-### Nightly
+### 每夜版
 
-- New releases will be published each week at UTC 0000 each day, This will be all changes from the main branch as represted at time of release. It should be assumed there are pending validations and issues. Use `nightly` tag.
+- 新版本將在每天 UTC 00:00 發布，這將是發布時主分支的所有變更。應假定有待驗證和問題。使用 `nightly` 標籤。
 
 ```bash
 npm install -g @google/gemini-cli@nightly
 ```
 
-# Release Process.
+# 發布程序
 
-Where `x.y.z` is the next version to be released. In most all cases for the weekly release this will be an increment on `y`, aka minor version update. Major version updates `x` will need broader coordination and communication. For patches `z` see below. When possible we will do our best to adher to https://semver.org/
+其中 `x.y.z` 是下一個要發布的版本。在大多數週版本發布情況下，這將是 `y` 的遞增，即次版本更新。主版本更新 `x` 將需要更廣泛的協調和溝通。對於修補程式 `z`，請參閱下方。在可能的情況下，我們會盡力遵循 https://semver.org/
 
-Our release cadence is new releases are sent to a preview channel for a week and then promoted to stable after a week. Version numbers will follow SemVer with weekly releases incrementing the minor version. Patches and bug fixes to both preview and stable releases will increment the patch version.
+我們的發布節奏是新版本先傳送到預覽頻道一週，然後在一週後推廣到穩定版。版本號將遵循 SemVer，週版本遞增次版本。對預覽版和穩定版的修補程式和錯誤修正將遞增修補版本。
 
-## Nightly Release
+## 每夜版發布
 
-Each night at UTC 0000 we will auto deploy a nightly release from `main`. This will be a version of the next production release, x.y.z, with the nightly tag.
+每天 UTC 0000 我們會從 `main` 自動部署每夜版發布。這將是下一個正式版 x.y.z 的版本，帶有 nightly 標籤。
 
-## Create Preview Release
+## 建立預覽版發布
 
-Each Tuesday at UTC 2359 we will auto deploy a preview release of the next production release x.y.z.
+每週二 UTC 23:59 我們會自動部署下一個正式版 x.y.z 的預覽版發布。
 
-- This will happen as a scheduled instance of the ‘release’ action. It will be cut off of Main.
-- This will create a branch `release/vx.y.z-preview.n`
-- We will run evals and smoke testing against this branch and the npm package. For now this should be manual smoke testing, we don't have a dedicated matrix or specific detailed process. There is work coming soon to make this more formalized and automatic see https://github.com/google-gemini/gemini-cli/issues/3788
-- Users installing `@preview` will get this release as well
+- 這將發生作為 'release' 動作的排程實例。它將從 Main 分支切出。
+- 這將建立分支 `release/vx.y.z-preview.n`
+- 我們將針對此分支和 npm 套件執行評估和煙霧測試。目前這應該是手動煙霧測試，我們還沒有專門的矩陣或特定的詳細流程。即將有工作讓這更正式化和自動化，請參閱 https://github.com/google-gemini/gemini-cli/issues/3788
+- 安裝 `@preview` 的使用者也會獲得此發布
 
-## Promote Stable Release
+## 推廣穩定版發布
 
-After one week (On the following Tuesday) with all signals a go, we will manually release at 2000 UTC via the current on-call person.
+經過一週後（在接下來的週二），所有信號都正常，我們將在 UTC 20:00 透過目前值班人員手動發布。
 
-- The release action will be used with the source branch as `release/vx.y.z-preview.n`
-- The version will be x.y.z
-- The releaser will create and merge a pr into main with the version changes.
-- Smoke tests and manual validation will be run. For now this should be manual smoke testing, we don't have a dedicated matrix or specific detailed process. There is work coming soon to make this more formalized and automatic see https://github.com/google-gemini/gemini-cli/issues/3788
+- 發布動作將使用並以 `release/vx.y.z-preview.n` 作為來源分支
+- 版本將是 x.y.z
+- 發布者將建立並合併拉取請求到主分支，包含版本變更。
+- 將執行煙霧測試和手動驗證。目前這應該是手動煙霧測試，我們還沒有專門的矩陣或特定的詳細流程。即將有工作讓這更正式化和自動化，請參閱 https://github.com/google-gemini/gemini-cli/issues/3788
 
-## Patching Releases
+## 修補發布
 
-If a critical bug needs to be fixed before the next scheduled release, follow this process to create a patch.
+如果關鍵錯誤需要修正在下次排程發布前，請遵循此流程建立修補程式。
 
-### 1. Create a Hotfix Branch
+### 1. 建立熱修復分支
 
-First, create a new branch for your fix. The source for this branch depends on whether you are patching a stable or a preview release.
+首先，建立新分支供您修正使用。此分支的來源取決於您是要修補穩定版還是預覽版發布。
 
-- **For a stable release patch:**
-  Create a branch from the Git tag of the version you need to patch. Tag names are formatted as `vx.y.z`.
+- **對於穩定版發布修補：**
+  從您需要修補的版本的 Git 標籤建立分支。標籤名稱格式為 `vx.y.z`。
 
   ```bash
-  # Example: Create a hotfix branch for v0.2.0
+  # 範例：建立熱修復分支 for v0.2.0
   git checkout v0.2.0 -b hotfix/issue-123-fix-for-v0.2.0
   ```
 
-- **For a preview release patch:**
-  Create a branch from the existing preview release branch, which is formatted as `release/vx.y.z-preview.n`.
+- **對於預覽版發布修補：**
+  從現有的預覽版發布分支建立，其格式為 `release/vx.y.z-preview.n`。
 
   ```bash
-  # Example: Create a hotfix branch for a preview release
+  # 範例：建立預覽版發布的熱修復分支
   git checkout release/v0.2.0-preview.0 && git checkout -b hotfix/issue-456-fix-for-preview
   ```
 
-### 2. Implement the Fix
+### 2. 實作修正
 
-In your new hotfix branch, either create a new commit with the fix or cherry-pick an existing commit from the `main` branch. Merge your changes into the source of the hotfix branch (ex. https://github.com/google-gemini/gemini-cli/pull/6850).
+在您的新熱修復分支中，建立新提交包含修正或從 `main` 分支挑選現有提交。將您的變更合併到熱修復分支的來源（例如 https://github.com/google-gemini/gemini-cli/pull/6850）。
 
-### 3. Perform the Release
+### 3. 執行發布
 
-Follow the manual release process using the "Release" GitHub Actions workflow.
+使用 "Release" GitHub Actions 工作流程遵循手動發布流程。
 
-- **Version**: For stable patches, increment the patch version (e.g., `v0.2.0` -> `v0.2.1`). For preview patches, increment the preview number (e.g., `v0.2.0-preview.0` -> `v0.2.0-preview.1`).
-- **Ref**: Use your source branch as the reference (ex. `release/v0.2.0-preview.0`)
+- **版本**：對於穩定版修補，遞增修補版本（例如，`v0.2.0` -> `v0.2.1`）。對於預覽版修補，遞增預覽編號（例如，`v0.2.0-preview.0` -> `v0.2.0-preview.1`）。
+- **參考**：使用您的來源分支作為參考（例如 `release/v0.2.0-preview.0`）
 
-![How to run a release](assets/release_patch.png)
+![如何執行發布](assets/release_patch.png)
 
-### 4. Update Versions
+### 4. 更新版本
 
-After the hotfix is released, merge the changes back to the appropriate branch.
+熱修復發布後，將變更合併回適當的分支。
 
-- **For a stable release hotfix:**
-  Open a pull request to merge the release branch (e.g., `release/0.2.1`) back into `main`. This keeps the version number in `main` up to date.
+- **對於穩定版發布熱修復：**
+  開啟拉取請求合併發布分支（例如，`release/0.2.1`）回到 `main`。這保持 `main` 中的版本號為最新。
 
-- **For a preview release hotfix:**
-  Open a pull request to merge the new preview release branch (e.g., `release/v0.2.0-preview.1`) back into the existing preview release branch (`release/v0.2.0-preview.0`) (ex. https://github.com/google-gemini/gemini-cli/pull/6868)
+- **對於預覽版發布熱修復：**
+  開啟拉取請求將新的預覽版發布分支（例如，`release/v0.2.0-preview.1`）合併回現有的預覽版發布分支（`release/v0.2.0-preview.0`）（例如 https://github.com/google-gemini/gemini-cli/pull/6868）
 
-## Release Schedule
+## 發布排程
 
 <table>
   <tr>
@@ -164,170 +164,155 @@ After the hotfix is released, merge the changes back to the appropriate branch.
   </tr>
 </table>
 
-## How To Release
+## 如何發布
 
-Releases are managed through the [release.yml](https://github.com/google-gemini/gemini-cli/actions/workflows/release.yml) GitHub Actions workflow. To perform a manual release for a patch or hotfix:
+發布透過 [release.yml](https://github.com/google-gemini/gemini-cli/actions/workflows/release.yml) GitHub Actions 工作流程管理。要執行修補或熱修復的手動發布：
 
-1.  Navigate to the **Actions** tab of the repository.
-2.  Select the **Release** workflow from the list.
-3.  Click the **Run workflow** dropdown button.
-4.  Fill in the required inputs:
-    - **Version**: The exact version to release (e.g., `v0.2.1`).
-    - **Ref**: The branch or commit SHA to release from (defaults to `main`).
-    - **Dry Run**: Leave as `true` to test the workflow without publishing, or set to `false` to perform a live release.
-5.  Click **Run workflow**.
+1.  導覽到儲存庫的 **Actions** 標籤。
+2.  從清單中選擇 **Release** 工作流程。
+3.  點選 **Run workflow** 下拉按鈕。
+4.  填入必要輸入：
+    - **Version**：要發布的確切版本（例如，`v0.2.1`）。
+    - **Ref**：要發布的分支或提交 SHA（預設為 `main`）。
+    - **Dry Run**：保持 `true` 以測試工作流程而不發布，或設定為 `false` 以執行實際發布。
+5.  點選 **Run workflow**。
 
-### TLDR
+### 簡要說明
 
-Each release, wether automated or manual performs the following steps:
+每個發布，無論是自動化還是手動，都會執行以下步驟：
 
-1.  Checks out the latest code from the `main` branch.
-1.  Installs all dependencies.
-1.  Runs the full suite of `preflight` checks and integration tests.
-1.  If all tests succeed, it calculates the next version number based on the inputs.
-1.  It creates a branch name `release/${VERSION}`.
-1.  It creates a tag name `v${VERSION}`.
-1.  It then builds and publishes the packages to npm with the provided version number.
-1.  Finally, it creates a GitHub Release for the version.
+1.  從 `main` 分支檢出最新程式碼。
+1.  安裝所有相依性。
+1.  執行完整的 `preflight` 檢查和整合測試套件。
+1.  如果所有測試成功，根據輸入計算下一個版本號。
+1.  建立分支名稱 `release/${VERSION}`。
+1.  建立標籤名稱 `v${VERSION}`。
+1.  然後建置並發布套件到 npm，使用提供的版本號。
+1.  最後，為版本建立 GitHub Release。
 
-### Failure Handling
+### 失敗處理
 
-If any step in the workflow fails, it will automatically create a new issue in the repository with the labels `bug` and `release-failure`. The issue will contain a link to the failed workflow run for easy debugging.
+如果工作流程中的任何步驟失敗，它會自動在儲存庫中建立新問題，帶有 `bug` 和 `release-failure` 標籤。問題將包含失敗工作流程執行的連結，以便輕鬆偵錯。
 
 ### Docker
 
-We also run a Google cloud build called [release-docker.yml](../.gcp/release-docker.yml). Which publishes the sandbox docker to match your release. This will also be moved to GH and combined with the main release file once service account permissions are sorted out.
+我們也執行名為 [release-docker.yml](../.gcp/release-docker.yml) 的 Google cloud build。它發布沙箱 docker 以配合您的發布。一旦服務帳戶權限整理好，這也會移至 GH 並與主要發布檔案合併。
 
-## Release Validation
+## 發布驗證
 
-After pushing a new release smoke testing should be performed to ensure that the packages are working as expected. This can be done by installing the packages locally and running a set of tests to ensure that they are functioning correctly.
+推送新發布後，應執行煙霧測試以確保套件按預期運作。這可以透過在本機安裝套件並執行一系列測試來確保它們正常運作。
 
-- `npx -y @google/gemini-cli@latest --version` to validate the push worked as expected if you were not doing a rc or dev tag
-- `npx -y @google/gemini-cli@<release tag> --version` to validate the tag pushed appropriately
-- _This is destructive locally_ `npm uninstall @google/gemini-cli && npm uninstall -g @google/gemini-cli && npm cache clean --force &&  npm install @google/gemini-cli@<version>`
-- Smoke testing a basic run through of exercising a few llm commands and tools is recommended to ensure that the packages are working as expected. We'll codify this more in the future.
+- `npx -y @google/gemini-cli@latest --version` 如果您不是在進行 rc 或 dev 標籤，用來驗證推送按預期運作
+- `npx -y @google/gemini-cli@<release tag> --version` 用來驗證標籤適當推送
+- _這在本機是破壞性的_ `npm uninstall @google/gemini-cli && npm uninstall -g @google/gemini-cli && npm cache clean --force &&  npm install @google/gemini-cli@<version>`
+- 建議進行基本執行的煙霧測試，練習一些 llm 指令和工具，以確保套件按預期運作。我們會在未來將此編成規範。
 
-## Local Testing and Validation: Changes to the Packaging and Publishing Process
+## 本機測試與驗證：封裝和發布流程的變更
 
-If you need to test the release process without actually publishing to NPM or creating a public GitHub release, you can trigger the workflow manually from the GitHub UI.
+如果您需要測試發布流程而不實際發布到 NPM 或建立公開 GitHub 發布，您可以從 GitHub UI 手動觸發工作流程。
 
-1.  Go to the [Actions tab](https://github.com/google-gemini/gemini-cli/actions/workflows/release.yml) of the repository.
-2.  Click on the "Run workflow" dropdown.
-3.  Leave the `dry_run` option checked (`true`).
-4.  Click the "Run workflow" button.
+1.  前往儲存庫的 [Actions 標籤](https://github.com/google-gemini/gemini-cli/actions/workflows/release.yml)。
+2.  點選「Run workflow」下拉選單。
+3.  保持 `dry_run` 選項勾選（`true`）。
+4.  點選「Run workflow」按鈕。
 
-This will run the entire release process but will skip the `npm publish` and `gh release create` steps. You can inspect the workflow logs to ensure everything is working as expected.
+這將執行整個發布流程，但會跳過 `npm publish` 和 `gh release create` 步驟。您可以檢查工作流程日誌以確保一切按預期運作。
 
-It is crucial to test any changes to the packaging and publishing process locally before committing them. This ensures that the packages will be published correctly and that they will work as expected when installed by a user.
+在提交之前，在本機測試封裝和發布流程的任何變更是至關重要的。這確保套件會正確發布，並且在使用者安裝時會按預期運作。
 
-To validate your changes, you can perform a dry run of the publishing process. This will simulate the publishing process without actually publishing the packages to the npm registry.
+要驗證您的變更，您可以執行發布流程的試執行。這將模擬發布流程而不實際將套件發布到 npm 註冊表。
 
 ```bash
 npm_package_version=9.9.9 SANDBOX_IMAGE_REGISTRY="registry" SANDBOX_IMAGE_NAME="thename" npm run publish:npm --dry-run
 ```
 
-This command will do the following:
+此指令將執行以下操作：
 
-1.  Build all the packages.
-2.  Run all the prepublish scripts.
-3.  Create the package tarballs that would be published to npm.
-4.  Print a summary of the packages that would be published.
+1.  建置所有套件。
+2.  執行所有預發布腳本。
+3.  建立將發布到 npm 的套件 tarball。
+4.  列印將發布的套件摘要。
 
-You can then inspect the generated tarballs to ensure that they contain the correct files and that the `package.json` files have been updated correctly. The tarballs will be created in the root of each package's directory (e.g., `packages/cli/google-gemini-cli-0.1.6.tgz`).
+然後您可以檢查產生的 tarball，以確保它們包含正確的檔案且 `package.json` 檔案已正確更新。tarball 將在每個套件目錄的根目錄中建立（例如，`packages/cli/google-gemini-cli-0.1.6.tgz`）。
 
-By performing a dry run, you can be confident that your changes to the packaging process are correct and that the packages will be published successfully.
+透過執行試執行，您可以確信您對封裝流程的變更是正確的，並且套件會成功發布。
 
-## Release Deep Dive
+## 發布深入探討
 
-The main goal of the release process is to take the source code from the packages/ directory, build it, and assemble a
-clean, self-contained package in a temporary `bundle` directory at the root of the project. This `bundle` directory is what
-actually gets published to NPM.
+發布流程的主要目標是從 packages/ 目錄取得原始碼，建置它，並在專案根目錄的臨時 `bundle` 目錄中組裝一個乾淨、自包含的套件。這個 `bundle` 目錄就是實際發布到 NPM 的內容。
 
-Here are the key stages:
+以下是關鍵階段：
 
-Stage 1: Pre-Release Sanity Checks and Versioning
+階段 1：發布前完整性檢查與版本控制
 
-- What happens: Before any files are moved, the process ensures the project is in a good state. This involves running tests,
-  linting, and type-checking (npm run preflight). The version number in the root package.json and packages/cli/package.json
-  is updated to the new release version.
-- Why: This guarantees that only high-quality, working code is released. Versioning is the first step to signify a new
-  release.
+- 發生什麼：在移動任何檔案之前，流程確保專案處於良好狀態。這包括執行測試、程式碼檢查和類型檢查（npm run preflight）。根目錄 package.json 和 packages/cli/package.json 的版本號會更新為新的發布版本。
+- 為什麼：這保證只有高品質、可運作的程式碼會被發布。版本控制是表示新發布的第一步。
 
-Stage 2: Building the Source Code
+階段 2：建置原始碼
 
-- What happens: The TypeScript source code in packages/core/src and packages/cli/src is compiled into JavaScript.
-- File movement:
-  - packages/core/src/\*_/_.ts -> compiled to -> packages/core/dist/
-  - packages/cli/src/\*_/_.ts -> compiled to -> packages/cli/dist/
-- Why: The TypeScript code written during development needs to be converted into plain JavaScript that can be run by
-  Node.js. The core package is built first as the cli package depends on it.
+- 發生什麼：packages/core/src 和 packages/cli/src 中的 TypeScript 原始碼會編譯成 JavaScript。
+- 檔案移動：
+  - packages/core/src/\*_/_.ts -> 編譯到 -> packages/core/dist/
+  - packages/cli/src/\*_/_.ts -> 編譯到 -> packages/cli/dist/
+- 為什麼：開發過程中撰寫的 TypeScript 程式碼需要轉換成可由 Node.js 執行的純 JavaScript。核心套件會先建置，因為 cli 套件依賴它。
 
-Stage 3: Assembling the Final Publishable Package
+階段 3：組裝最終可發布套件
 
-This is the most critical stage where files are moved and transformed into their final state for publishing. A temporary
-`bundle` folder is created at the project root to house the final package contents.
+這是最關鍵的階段，檔案會被移動和轉換到最終發布狀態。在專案根目錄建立臨時 `bundle` 資料夾來存放最終套件內容。
 
-1.  The `package.json` is Transformed:
-    - What happens: The package.json from packages/cli/ is read, modified, and written into the root `bundle`/ directory.
-    - File movement: packages/cli/package.json -> (in-memory transformation) -> `bundle`/package.json
-    - Why: The final package.json must be different from the one used in development. Key changes include:
-      - Removing devDependencies.
-      - Removing workspace-specific "dependencies": { "@gemini-cli/core": "workspace:\*" } and ensuring the core code is
-        bundled directly into the final JavaScript file.
-      - Ensuring the bin, main, and files fields point to the correct locations within the final package structure.
+1.  轉換 `package.json`：
+    - 發生什麼：從 packages/cli/ 讀取 package.json，修改後寫入根目錄 `bundle`/ 目錄。
+    - 檔案移動：packages/cli/package.json -> （記憶體中轉換）-> `bundle`/package.json
+    - 為什麼：最終的 package.json 必須與開發時使用的不同。主要變更包括：
+      - 移除 devDependencies。
+      - 移除工作區特定的 "dependencies": { "@gemini-cli/core": "workspace:\*" } 並確保核心程式碼直接打包到最終 JavaScript 檔案中。
+      - 確保 bin、main 和 files 欄位指向最終套件結構中的正確位置。
 
-2.  The JavaScript Bundle is Created:
-    - What happens: The built JavaScript from both packages/core/dist and packages/cli/dist are bundled into a single,
-      executable JavaScript file.
-    - File movement: packages/cli/dist/index.js + packages/core/dist/index.js -> (bundled by esbuild) -> `bundle`/gemini.js (or a
-      similar name).
-    - Why: This creates a single, optimized file that contains all the necessary application code. It simplifies the package
-      by removing the need for the core package to be a separate dependency on NPM, as its code is now included directly.
+2.  建立 JavaScript 組合包：
+    - 發生什麼：來自 packages/core/dist 和 packages/cli/dist 的已建置 JavaScript 會打包成單一、可執行的 JavaScript 檔案。
+    - 檔案移動：packages/cli/dist/index.js + packages/core/dist/index.js -> （由 esbuild 打包）-> `bundle`/gemini.js（或類似名稱）。
+    - 為什麼：這建立了包含所有必要應用程式碼的單一最佳化檔案。它透過移除核心套件作為 NPM 上獨立相依性的需求來簡化套件，因為其程式碼現在直接包含在內。
 
-3.  Static and Supporting Files are Copied:
-    - What happens: Essential files that are not part of the source code but are required for the package to work correctly
-      or be well-described are copied into the `bundle` directory.
-    - File movement:
+3.  複製靜態和支援檔案：
+    - 發生什麼：不屬於原始碼但套件正常運作或良好描述所需的基本檔案會複製到 `bundle` 目錄。
+    - 檔案移動：
       - README.md -> `bundle`/README.md
       - LICENSE -> `bundle`/LICENSE
-      - packages/cli/src/utils/\*.sb (sandbox profiles) -> `bundle`/
-    - Why:
-      - The README.md and LICENSE are standard files that should be included in any NPM package.
-      - The sandbox profiles (.sb files) are critical runtime assets required for the CLI's sandboxing feature to
-        function. They must be located next to the final executable.
+      - packages/cli/src/utils/\*.sb（沙箱設定檔）-> `bundle`/
+    - 為什麼：
+      - README.md 和 LICENSE 是任何 NPM 套件都應該包含的標準檔案。
+      - 沙箱設定檔（.sb 檔案）是 CLI 沙箱化功能運作所需的關鍵執行時資產。它們必須位於最終可執行檔旁邊。
 
-Stage 4: Publishing to NPM
+階段 4：發布到 NPM
 
-- What happens: The npm publish command is run from inside the root `bundle` directory.
-- Why: By running npm publish from within the `bundle` directory, only the files we carefully assembled in Stage 3 are uploaded
-  to the NPM registry. This prevents any source code, test files, or development configurations from being accidentally
-  published, resulting in a clean and minimal package for users.
+- 發生什麼：從根目錄 `bundle` 目錄內執行 npm publish 指令。
+- 為什麼：透過從 `bundle` 目錄內執行 npm publish，只有我們在階段 3 中仔細組裝的檔案會上傳到 NPM 註冊表。這防止任何原始碼、測試檔案或開發設定被意外發布，為使用者提供乾淨且最小的套件。
 
-Summary of File Flow
+檔案流程摘要
 
 ```mermaid
 graph TD
-    subgraph "Source Files"
+    subgraph "原始檔案"
         A["packages/core/src/*.ts<br/>packages/cli/src/*.ts"]
         B["packages/cli/package.json"]
         C["README.md<br/>LICENSE<br/>packages/cli/src/utils/*.sb"]
     end
 
-    subgraph "Process"
-        D(Build)
-        E(Transform)
-        F(Assemble)
-        G(Publish)
+    subgraph "流程"
+        D(建置)
+        E(轉換)
+        F(組裝)
+        G(發布)
     end
 
-    subgraph "Artifacts"
-        H["Bundled JS"]
-        I["Final package.json"]
+    subgraph "成品"
+        H["打包的 JS"]
+        I["最終 package.json"]
         J["bundle/"]
     end
 
-    subgraph "Destination"
-        K["NPM Registry"]
+    subgraph "目的地"
+        K["NPM 註冊表"]
     end
 
     A --> D --> H
@@ -339,5 +324,4 @@ graph TD
     J --> G --> K
 ```
 
-This process ensures that the final published artifact is a purpose-built, clean, and efficient representation of the
-project, rather than a direct copy of the development workspace.
+這個流程確保最終發布的成品是專案的專用建置、乾淨且高效的表示，而不是開發工作區的直接副本。

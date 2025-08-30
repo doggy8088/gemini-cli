@@ -1,87 +1,87 @@
-# Shell Tool (`run_shell_command`)
+# Shell 工具 (`run_shell_command`)
 
-This document describes the `run_shell_command` tool for the Gemini CLI.
+本文件描述 Gemini CLI 的 `run_shell_command` 工具。
 
-## Description
+## 描述
 
-Use `run_shell_command` to interact with the underlying system, run scripts, or perform command-line operations. `run_shell_command` executes a given shell command. On Windows, the command will be executed with `cmd.exe /c`. On other platforms, the command will be executed with `bash -c`.
+使用 `run_shell_command` 與底層系統互動、執行腳本或執行命令列操作。`run_shell_command` 執行給定的 Shell 指令。在 Windows 上，指令將使用 `cmd.exe /c` 執行。在其他平台上，指令將使用 `bash -c` 執行。
 
-### Arguments
+### 引數
 
-`run_shell_command` takes the following arguments:
+`run_shell_command` 接受以下引數：
 
-- `command` (string, required): The exact shell command to execute.
-- `description` (string, optional): A brief description of the command's purpose, which will be shown to the user.
-- `directory` (string, optional): The directory (relative to the project root) in which to execute the command. If not provided, the command runs in the project root.
+- `command`（string，必要）：要執行的確切 Shell 指令。
+- `description`（string，選用）：指令用途的簡短描述，將顯示給使用者。
+- `directory`（string，選用）：執行指令的目錄（相對於專案根目錄）。如果未提供，指令會在專案根目錄中執行。
 
-## How to use `run_shell_command` with the Gemini CLI
+## 如何在 Gemini CLI 中使用 `run_shell_command`
 
-When using `run_shell_command`, the command is executed as a subprocess. `run_shell_command` can start background processes using `&`. The tool returns detailed information about the execution, including:
+使用 `run_shell_command` 時，指令會作為子程序執行。`run_shell_command` 可以使用 `&` 啟動背景程序。此工具回傳執行的詳細資訊，包括：
 
-- `Command`: The command that was executed.
-- `Directory`: The directory where the command was run.
-- `Stdout`: Output from the standard output stream.
-- `Stderr`: Output from the standard error stream.
-- `Error`: Any error message reported by the subprocess.
-- `Exit Code`: The exit code of the command.
-- `Signal`: The signal number if the command was terminated by a signal.
-- `Background PIDs`: A list of PIDs for any background processes started.
+- `Command`：已執行的指令。
+- `Directory`：執行指令的目錄。
+- `Stdout`：標準輸出串流的輸出。
+- `Stderr`：標準錯誤串流的輸出。
+- `Error`：子程序回報的任何錯誤訊息。
+- `Exit Code`：指令的退出代碼。
+- `Signal`：如果指令被信號終止的信號編號。
+- `Background PIDs`：任何已啟動背景程序的 PID 清單。
 
-Usage:
+使用方式：
 
 ```
 run_shell_command(command="Your commands.", description="Your description of the command.", directory="Your execution directory.")
 ```
 
-## `run_shell_command` examples
+## `run_shell_command` 範例
 
-List files in the current directory:
+列出目前目錄中的檔案：
 
 ```
 run_shell_command(command="ls -la")
 ```
 
-Run a script in a specific directory:
+在特定目錄中執行腳本：
 
 ```
-run_shell_command(command="./my_script.sh", directory="scripts", description="Run my custom script")
+run_shell_command(command="./my_script.sh", directory="scripts", description="執行我的自訂腳本")
 ```
 
-Start a background server:
+啟動背景伺服器：
 
 ```
-run_shell_command(command="npm run dev &", description="Start development server in background")
+run_shell_command(command="npm run dev &", description="在背景啟動開發伺服器")
 ```
 
-## Important notes
+## 重要注意事項
 
-- **Security:** Be cautious when executing commands, especially those constructed from user input, to prevent security vulnerabilities.
-- **Interactive commands:** Avoid commands that require interactive user input, as this can cause the tool to hang. Use non-interactive flags if available (e.g., `npm init -y`).
-- **Error handling:** Check the `Stderr`, `Error`, and `Exit Code` fields to determine if a command executed successfully.
-- **Background processes:** When a command is run in the background with `&`, the tool will return immediately and the process will continue to run in the background. The `Background PIDs` field will contain the process ID of the background process.
+- **安全性：** 執行指令時要小心，特別是從使用者輸入建構的指令，以防止安全漏洞。
+- **互動式指令：** 避免需要互動式使用者輸入的指令，因為這可能導致工具掛起。如果可用，請使用非互動式旗標（例如，`npm init -y`）。
+- **錯誤處理：** 檢查 `Stderr`、`Error` 和 `Exit Code` 欄位以確定指令是否成功執行。
+- **背景程序：** 當指令使用 `&` 在背景執行時，工具會立即返回，程序會繼續在背景執行。`Background PIDs` 欄位會包含背景程序的程序 ID。
 
-## Environment Variables
+## 環境變數
 
-When `run_shell_command` executes a command, it sets the `GEMINI_CLI=1` environment variable in the subprocess's environment. This allows scripts or tools to detect if they are being run from within the Gemini CLI.
+當 `run_shell_command` 執行指令時，它會在子程序的環境中設定 `GEMINI_CLI=1` 環境變數。這允許腳本或工具偵測它們是否正在 Gemini CLI 內執行。
 
-## Command Restrictions
+## 指令限制
 
-You can restrict the commands that can be executed by the `run_shell_command` tool by using the `tools.core` and `tools.exclude` settings in your configuration file.
+您可以透過在設定檔中使用 `tools.core` 和 `tools.exclude` 設定來限制 `run_shell_command` 工具可以執行的指令。
 
-- `tools.core`: To restrict `run_shell_command` to a specific set of commands, add entries to the `core` list under the `tools` category in the format `run_shell_command(<command>)`. For example, `"tools": {"core": ["run_shell_command(git)"]}` will only allow `git` commands. Including the generic `run_shell_command` acts as a wildcard, allowing any command not explicitly blocked.
-- `tools.exclude`: To block specific commands, add entries to the `exclude` list under the `tools` category in the format `run_shell_command(<command>)`. For example, `"tools": {"exclude": ["run_shell_command(rm)"]}` will block `rm` commands.
+- `tools.core`：要將 `run_shell_command` 限制為特定指令集，請以 `run_shell_command(<指令>)` 格式將項目新增到 `tools` 類別下的 `core` 清單。例如，`"tools": {"core": ["run_shell_command(git)"]}` 將只允許 `git` 指令。包含通用的 `run_shell_command` 作為萬用字元，允許任何未明確封鎖的指令。
+- `tools.exclude`：要封鎖特定指令，請以 `run_shell_command(<指令>)` 格式將項目新增到 `tools` 類別下的 `exclude` 清單。例如，`"tools": {"exclude": ["run_shell_command(rm)"]}` 將封鎖 `rm` 指令。
 
-The validation logic is designed to be secure and flexible:
+驗證邏輯設計為安全且靈活：
 
-1.  **Command Chaining Disabled**: The tool automatically splits commands chained with `&&`, `||`, or `;` and validates each part separately. If any part of the chain is disallowed, the entire command is blocked.
-2.  **Prefix Matching**: The tool uses prefix matching. For example, if you allow `git`, you can run `git status` or `git log`.
-3.  **Blocklist Precedence**: The `tools.exclude` list is always checked first. If a command matches a blocked prefix, it will be denied, even if it also matches an allowed prefix in `tools.core`.
+1. **停用指令鏈接**：工具會自動分割使用 `&&`、`||` 或 `;` 鏈接的指令，並分別驗證每個部分。如果鏈中的任何部分不被允許，整個指令會被封鎖。
+2. **前綴匹配**：工具使用前綴匹配。例如，如果您允許 `git`，您可以執行 `git status` 或 `git log`。
+3. **封鎖清單優先**：`tools.exclude` 清單總是先檢查。如果指令匹配封鎖的前綴，即使它也匹配 `tools.core` 中允許的前綴，也會被拒絕。
 
-### Command Restriction Examples
+### 指令限制範例
 
-**Allow only specific command prefixes**
+**僅允許特定指令前綴**
 
-To allow only `git` and `npm` commands, and block all others:
+要僅允許 `git` 和 `npm` 指令，並封鎖所有其他指令：
 
 ```json
 {
@@ -91,13 +91,13 @@ To allow only `git` and `npm` commands, and block all others:
 }
 ```
 
-- `git status`: Allowed
-- `npm install`: Allowed
-- `ls -l`: Blocked
+- `git status`：允許
+- `npm install`：允許
+- `ls -l`：封鎖
 
-**Block specific command prefixes**
+**封鎖特定指令前綴**
 
-To block `rm` and allow all other commands:
+要封鎖 `rm` 並允許所有其他指令：
 
 ```json
 {
@@ -108,13 +108,13 @@ To block `rm` and allow all other commands:
 }
 ```
 
-- `rm -rf /`: Blocked
-- `git status`: Allowed
-- `npm install`: Allowed
+- `rm -rf /`：封鎖
+- `git status`：允許
+- `npm install`：允許
 
-**Blocklist takes precedence**
+**封鎖清單優先**
 
-If a command prefix is in both `tools.core` and `tools.exclude`, it will be blocked.
+如果指令前綴同時在 `tools.core` 和 `tools.exclude` 中，它會被封鎖。
 
 ```json
 {
@@ -125,12 +125,12 @@ If a command prefix is in both `tools.core` and `tools.exclude`, it will be bloc
 }
 ```
 
-- `git push origin main`: Blocked
-- `git status`: Allowed
+- `git push origin main`：封鎖
+- `git status`：允許
 
-**Block all shell commands**
+**封鎖所有 shell 指令**
 
-To block all shell commands, add the `run_shell_command` wildcard to `tools.exclude`:
+要封鎖所有 shell 指令，請將 `run_shell_command` 萬用字元新增到 `tools.exclude`：
 
 ```json
 {
@@ -140,10 +140,9 @@ To block all shell commands, add the `run_shell_command` wildcard to `tools.excl
 }
 ```
 
-- `ls -l`: Blocked
-- `any other command`: Blocked
+- `ls -l`：封鎖
+- `any other command`：封鎖
 
-## Security Note for `excludeTools`
+## `excludeTools` 的安全性注意事項
 
-Command-specific restrictions in `excludeTools` for `run_shell_command` are based on simple string matching and can be easily bypassed. This feature is **not a security mechanism** and should not be relied upon to safely execute untrusted code. It is recommended to use `coreTools` to explicitly select commands
-that can be executed.
+`run_shell_command` 在 `excludeTools` 中的指令特定限制基於簡單的字串匹配，可以輕易被繞過。此功能**不是安全機制**，不應依賴它來安全執行不受信任的程式碼。建議使用 `coreTools` 明確選擇可以執行的指令。
