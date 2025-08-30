@@ -117,24 +117,24 @@ Gemini CLI 需要您向 Google 的 AI 服務進行驗證。在初始啟動時，
 
 ### Persisting Environment Variables with `.env` Files
 
-You can create a **`.gemini/.env`** file in your project directory or in your home directory. Creating a plain **`.env`** file also works, but `.gemini/.env` is recommended to keep Gemini variables isolated from other tools.
+您可以在專案目錄或主目錄中建立 **`.gemini/.env`** 檔案。建立普通的 **`.env`** 檔案也可以，但建議使用 `.gemini/.env` 來保持 Gemini 變數與其他工具隔離。
 
-**Important:** Some environment variables (like `DEBUG` and `DEBUG_MODE`) are automatically excluded from project `.env` files to prevent interference with gemini-cli behavior. Use `.gemini/.env` files for gemini-cli specific variables.
+**重要：** 某些環境變數（如 `DEBUG` 和 `DEBUG_MODE`）會自動從專案 `.env` 檔案中排除，以防止干擾 gemini-cli 行為。請使用 `.gemini/.env` 檔案來設定 gemini-cli 特定變數。
 
-Gemini CLI automatically loads environment variables from the **first** `.env` file it finds, using the following search order:
+Gemini CLI 會自動從找到的**第一個** `.env` 檔案載入環境變數，使用以下搜尋順序：
 
-1. Starting in the **current directory** and moving upward toward `/`, for each directory it checks:
+1. 從**目前目錄**開始向上移動到 `/`，對於每個目錄它會檢查：
    1. `.gemini/.env`
    2. `.env`
-2. If no file is found, it falls back to your **home directory**:
+2. 如果找不到檔案，它會回退到您的**主目錄**：
    - `~/.gemini/.env`
    - `~/.env`
 
-> **Important:** The search stops at the **first** file encountered—variables are **not merged** across multiple files.
+> **重要：** 搜尋會在遇到的**第一個**檔案處停止 — 變數**不會**跨多個檔案合併。
 
-#### Examples
+#### 範例
 
-**Project-specific overrides** (take precedence when you are inside the project):
+**專案特定覆蓋**（當您在專案內時會優先採用）：
 
 ```bash
 mkdir -p .gemini
@@ -151,23 +151,23 @@ GEMINI_API_KEY="your-gemini-api-key"
 EOF
 ```
 
-## Non-Interactive Mode / Headless Environments
+## 非互動模式 / 無頭環境
 
-When running the Gemini CLI in a non-interactive environment, you cannot use the interactive login flow.
-Instead, you must configure authentication using environment variables.
+在非互動環境中執行 Gemini CLI 時，您無法使用互動式登入流程。
+相反，您必須使用環境變數設定驗證。
 
-The CLI will automatically detect if it is running in a non-interactive terminal and will use one of the
-following authentication methods if available:
+CLI 會自動偵測是否在非互動終端中執行，並會使用以下其中一種
+驗證方法（如果可用）：
 
-1.  **Gemini API Key:**
-    - Set the `GEMINI_API_KEY` environment variable.
-    - The CLI will use this key to authenticate with the Gemini API.
+1.  **Gemini API 金鑰：**
+    - 設定 `GEMINI_API_KEY` 環境變數。
+    - CLI 會使用此金鑰向 Gemini API 驗證。
 
-2.  **Vertex AI:**
-    - Set the `GOOGLE_GENAI_USE_VERTEXAI=true` environment variable.
-    - **Using an API Key:** Set the `GOOGLE_API_KEY` environment variable.
-    - **Using Application Default Credentials (ADC):**
-      - Run `gcloud auth application-default login` in your environment to configure ADC.
-      - Ensure the `GOOGLE_CLOUD_PROJECT` and `GOOGLE_CLOUD_LOCATION` environment variables are set.
+2.  **Vertex AI：**
+    - 設定 `GOOGLE_GENAI_USE_VERTEXAI=true` 環境變數。
+    - **使用 API 金鑰：** 設定 `GOOGLE_API_KEY` 環境變數。
+    - **使用應用程式預設憑證（ADC）：**
+      - 在您的環境中執行 `gcloud auth application-default login` 來設定 ADC。
+      - 確保設定了 `GOOGLE_CLOUD_PROJECT` 和 `GOOGLE_CLOUD_LOCATION` 環境變數。
 
-If none of these environment variables are set in a non-interactive session, the CLI will exit with an error.
+如果在非互動工作階段中沒有設定這些環境變數，CLI 會以錯誤退出。

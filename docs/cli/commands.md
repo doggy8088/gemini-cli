@@ -137,157 +137,157 @@ Gemini CLI 支援多個內建指令來幫助您管理工作階段、自訂介面
 - **`/init`**
   - **Description:** To help users easily create a `GEMINI.md` file, this command analyzes the current directory and generates a tailored context file, making it simpler for them to provide project-specific instructions to the Gemini agent.
 
-### Custom Commands
+### 自訂指令
 
-For a quick start, see the [example](#example-a-pure-function-refactoring-command) below.
+如需快速開始，請參閱下方的[範例](#example-a-pure-function-refactoring-command)。
 
-Custom commands allow you to save and reuse your favorite or most frequently used prompts as personal shortcuts within Gemini CLI. You can create commands that are specific to a single project or commands that are available globally across all your projects, streamlining your workflow and ensuring consistency.
+自訂指令允許您將最愛或最常使用的提示儲存並重複使用，作為 Gemini CLI 中的個人快速鍵。您可以建立特定於單一專案的指令，或在所有專案中全域可用的指令，簡化您的工作流程並確保一致性。
 
-#### File Locations & Precedence
+#### 檔案位置與優先順序
 
-Gemini CLI discovers commands from two locations, loaded in a specific order:
+Gemini CLI 從兩個位置探索指令，以特定順序載入：
 
-1.  **User Commands (Global):** Located in `~/.gemini/commands/`. These commands are available in any project you are working on.
-2.  **Project Commands (Local):** Located in `<your-project-root>/.gemini/commands/`. These commands are specific to the current project and can be checked into version control to be shared with your team.
+1.  **使用者指令（全域）：** 位於 `~/.gemini/commands/`。這些指令在您進行的任何專案中都可用。
+2.  **專案指令（本機）：** 位於 `<your-project-root>/.gemini/commands/`。這些指令專用於目前專案，可以檢入版本控制以與您的團隊共用。
 
-If a command in the project directory has the same name as a command in the user directory, the **project command will always be used.** This allows projects to override global commands with project-specific versions.
+如果專案目錄中的指令與使用者目錄中的指令同名，**專案指令將永遠被使用。** 這允許專案覆蓋全域指令為專案特定版本。
 
-#### Naming and Namespacing
+#### 命名與命名空間
 
-The name of a command is determined by its file path relative to its `commands` directory. Subdirectories are used to create namespaced commands, with the path separator (`/` or `\`) being converted to a colon (`:`).
+指令的名稱由其相對於 `commands` 目錄的檔案路徑決定。子目錄用於建立命名空間指令，路徑分隔符號（`/` 或 `\`）會轉換為冒號（`:`）。
 
-- A file at `~/.gemini/commands/test.toml` becomes the command `/test`.
-- A file at `<project>/.gemini/commands/git/commit.toml` becomes the namespaced command `/git:commit`.
+- 位於 `~/.gemini/commands/test.toml` 的檔案會成為指令 `/test`。
+- 位於 `<project>/.gemini/commands/git/commit.toml` 的檔案會成為命名空間指令 `/git:commit`。
 
-#### TOML File Format (v1)
+#### TOML 檔案格式（v1）
 
-Your command definition files must be written in the TOML format and use the `.toml` file extension.
+您的指令定義檔案必須以 TOML 格式撰寫並使用 `.toml` 副檔名。
 
-##### Required Fields
+##### 必要欄位
 
-- `prompt` (String): The prompt that will be sent to the Gemini model when the command is executed. This can be a single-line or multi-line string.
+- `prompt`（字串）：當指令執行時將傳送給 Gemini 模型的提示。這可以是單行或多行字串。
 
-##### Optional Fields
+##### 選用欄位
 
-- `description` (String): A brief, one-line description of what the command does. This text will be displayed next to your command in the `/help` menu. **If you omit this field, a generic description will be generated from the filename.**
+- `description`（字串）：指令功能的簡要單行描述。此文字將在 `/help` 選單中顯示在您的指令旁。**如果您省略此欄位，將從檔案名稱產生通用描述。**
 
-#### Handling Arguments
+#### 處理引數
 
-Custom commands support two powerful methods for handling arguments. The CLI automatically chooses the correct method based on the content of your command's `prompt`.
+自訂指令支援兩種強大的引數處理方法。CLI 會根據您指令 `prompt` 的內容自動選擇正確的方法。
 
-##### 1. Context-Aware Injection with `{{args}}`
+##### 1. 使用 `{{args}}` 的內容感知注入
 
-If your `prompt` contains the special placeholder `{{args}}`, the CLI will replace that placeholder with the text the user typed after the command name.
+如果您的 `prompt` 包含特殊占位符 `{{args}}`，CLI 會將該占位符替換為使用者在指令名稱後輸入的文字。
 
-The behavior of this injection depends on where it is used:
+此注入的行為取決於使用位置：
 
-**A. Raw Injection (Outside Shell Commands)**
+**A. 原始注入（Shell 指令外）**
 
-When used in the main body of the prompt, the arguments are injected exactly as the user typed them.
+當在提示的主體中使用時，引數會完全按照使用者輸入的方式注入。
 
-**Example (`git/fix.toml`):**
+**範例（`git/fix.toml`）：**
 
 ```toml
-# Invoked via: /git:fix "Button is misaligned"
+# 透過：/git:fix "Button is misaligned" 呼叫
 
-description = "Generates a fix for a given issue."
-prompt = "Please provide a code fix for the issue described here: {{args}}."
+description = "為給定問題產生修正。"
+prompt = "請為此處描述的問題提供程式碼修正：{{args}}。"
 ```
 
-The model receives: `Please provide a code fix for the issue described here: "Button is misaligned".`
+模型收到：`請為此處描述的問題提供程式碼修正："Button is misaligned"。`
 
-**B. Using Arguments in Shell Commands (Inside `!{...}` Blocks)**
+**B. 在 Shell 指令中使用引數（在 `!{...}` 區塊內）**
 
-When you use `{{args}}` inside a shell injection block (`!{...}`), the arguments are automatically **shell-escaped** before replacement. This allows you to safely pass arguments to shell commands, ensuring the resulting command is syntactically correct and secure while preventing command injection vulnerabilities.
+當您在 shell 注入區塊（`!{...}`）內使用 `{{args}}` 時，引數會在替換前自動**Shell 跳脫**。這允許您安全地將引數傳遞給 shell 指令，確保產生的指令在語法上正確且安全，同時防止指令注入漏洞。
 
-**Example (`/grep-code.toml`):**
+**範例（`/grep-code.toml`）：**
 
 ```toml
 prompt = """
-Please summarize the findings for the pattern `{{args}}`.
+請摘要模式 `{{args}}` 的發現。
 
-Search Results:
+搜尋結果：
 !{grep -r {{args}} .}
 """
 ```
 
-When you run `/grep-code It's complicated`:
+當您執行 `/grep-code It's complicated` 時：
 
-1. The CLI sees `{{args}}` used both outside and inside `!{...}`.
-2. Outside: The first `{{args}}` is replaced raw with `It's complicated`.
-3. Inside: The second `{{args}}` is replaced with the escaped version (e.g., on Linux: `"It's complicated"`).
-4. The command executed is `grep -r "It's complicated" .`.
-5. The CLI prompts you to confirm this exact, secure command before execution.
-6. The final prompt is sent.
+1. CLI 看到 `{{args}}` 同時在 `!{...}` 外部和內部使用。
+2. 外部：第一個 `{{args}}` 被原始替換為 `It's complicated`。
+3. 內部：第二個 `{{args}}` 被替換為跳脫版本（例如，在 Linux 上：`"It's complicated"`）。
+4. 執行的指令是 `grep -r "It's complicated" .`。
+5. CLI 會提示您在執行前確認這個確切、安全的指令。
+6. 最終提示被傳送。
 
-##### 2. Default Argument Handling
+##### 2. 預設引數處理
 
-If your `prompt` does **not** contain the special placeholder `{{args}}`, the CLI uses a default behavior for handling arguments.
+如果您的 `prompt` **不**包含特殊占位符 `{{args}}`，CLI 會使用預設行為來處理引數。
 
-If you provide arguments to the command (e.g., `/mycommand arg1`), the CLI will append the full command you typed to the end of the prompt, separated by two newlines. This allows the model to see both the original instructions and the specific arguments you just provided.
+如果您為指令提供引數（例如，`/mycommand arg1`），CLI 會將您輸入的完整指令附加到提示的末尾，以兩個換行符號分隔。這允許模型同時看到原始指示和您剛提供的特定引數。
 
-If you do **not** provide any arguments (e.g., `/mycommand`), the prompt is sent to the model exactly as it is, with nothing appended.
+如果您**不**提供任何引數（例如，`/mycommand`），提示會完全按原樣傳送給模型，不附加任何內容。
 
-**Example (`changelog.toml`):**
+**範例（`changelog.toml`）：**
 
-This example shows how to create a robust command by defining a role for the model, explaining where to find the user's input, and specifying the expected format and behavior.
+此範例展示如何透過為模型定義角色、說明在哪裡找到使用者的輸入，並指定預期的格式和行為來建立強健的指令。
 
 ```toml
-# In: <project>/.gemini/commands/changelog.toml
-# Invoked via: /changelog 1.2.0 added "Support for default argument parsing."
+# 位於：<project>/.gemini/commands/changelog.toml
+# 透過：/changelog 1.2.0 added "Support for default argument parsing." 呼叫
 
-description = "Adds a new entry to the project's CHANGELOG.md file."
+description = "在專案的 CHANGELOG.md 檔案中新增新項目。"
 prompt = """
-# Task: Update Changelog
+# 任務：更新變更日誌
 
-You are an expert maintainer of this software project. A user has invoked a command to add a new entry to the changelog.
+您是此軟體專案的專家維護者。使用者已呼叫指令以在變更日誌中新增新項目。
 
-**The user's raw command is appended below your instructions.**
+**使用者的原始指令會附加在您的指示下方。**
 
-Your task is to parse the `<version>`, `<change_type>`, and `<message>` from their input and use the `write_file` tool to correctly update the `CHANGELOG.md` file.
+您的任務是從他們的輸入中解析 `<version>`、`<change_type>` 和 `<message>`，並使用 `write_file` 工具正確更新 `CHANGELOG.md` 檔案。
 
-## Expected Format
-The command follows this format: `/changelog <version> <type> <message>`
-- `<type>` must be one of: "added", "changed", "fixed", "removed".
+## 預期格式
+指令遵循此格式：`/changelog <version> <type> <message>`
+- `<type>` 必須是以下之一："added"、"changed"、"fixed"、"removed"。
 
-## Behavior
-1. Read the `CHANGELOG.md` file.
-2. Find the section for the specified `<version>`.
-3. Add the `<message>` under the correct `<type>` heading.
-4. If the version or type section doesn't exist, create it.
-5. Adhere strictly to the "Keep a Changelog" format.
+## 行為
+1. 讀取 `CHANGELOG.md` 檔案。
+2. 找到指定 `<version>` 的區段。
+3. 在正確的 `<type>` 標題下新增 `<message>`。
+4. 如果版本或類型區段不存在，則建立它。
+5. 嚴格遵循「Keep a Changelog」格式。
 """
 ```
 
-When you run `/changelog 1.2.0 added "New feature"`, the final text sent to the model will be the original prompt followed by two newlines and the command you typed.
+當您執行 `/changelog 1.2.0 added "New feature"` 時，傳送給模型的最終文字將是原始提示，後跟兩個換行符號和您輸入的指令。
 
-##### 3. Executing Shell Commands with `!{...}`
+##### 3. 使用 `!{...}` 執行 Shell 指令
 
-You can make your commands dynamic by executing shell commands directly within your `prompt` and injecting their output. This is ideal for gathering context from your local environment, like reading file content or checking the status of Git.
+您可以透過直接在 `prompt` 中執行 shell 指令並注入其輸出，讓您的指令變得動態。這非常適合從本機環境收集內容，例如讀取檔案內容或檢查 Git 狀態。
 
-When a custom command attempts to execute a shell command, Gemini CLI will now prompt you for confirmation before proceeding. This is a security measure to ensure that only intended commands can be run.
+當自訂指令嘗試執行 shell 指令時，Gemini CLI 現在會在繼續之前提示您確認。這是一項安全措施，確保只有預期的指令才能執行。
 
-**How It Works:**
+**運作方式：**
 
-1.  **Inject Commands:** Use the `!{...}` syntax.
-2.  **Argument Substitution:** If `{{args}}` is present inside the block, it is automatically shell-escaped (see [Context-Aware Injection](#1-context-aware-injection-with-args) above).
-3.  **Robust Parsing:** The parser correctly handles complex shell commands that include nested braces, such as JSON payloads. **Note:** The content inside `!{...}` must have balanced braces (`{` and `}`). If you need to execute a command containing unbalanced braces, consider wrapping it in an external script file and calling the script within the `!{...}` block.
-4.  **Security Check and Confirmation:** The CLI performs a security check on the final, resolved command (after arguments are escaped and substituted). A dialog will appear showing the exact command(s) to be executed.
-5.  **Execution and Error Reporting:** The command is executed. If the command fails, the output injected into the prompt will include the error messages (stderr) followed by a status line, e.g., `[Shell command exited with code 1]`. This helps the model understand the context of the failure.
+1.  **注入指令：** 使用 `!{...}` 語法。
+2.  **引數替換：** 如果 `{{args}}` 存在於區塊內，它會自動進行 shell 跳脫（請參閱上方的[內容感知注入](#1-使用-args-的內容感知注入)）。
+3.  **強健解析：** 解析器正確處理包含巢狀大括號的複雜 shell 指令，例如 JSON 承載。**注意：** `!{...}` 內的內容必須有平衡的大括號（`{` 和 `}`）。如果您需要執行包含不平衡大括號的指令，請考慮將其包裝在外部腳本檔案中，並在 `!{...}` 區塊內呼叫該腳本。
+4.  **安全檢查與確認：** CLI 對最終解析的指令（在引數跳脫和替換後）執行安全檢查。將出現對話方塊，顯示要執行的確切指令。
+5.  **執行與錯誤回報：** 指令被執行。如果指令失敗，注入提示的輸出將包含錯誤訊息（stderr），後跟狀態行，例如 `[Shell command exited with code 1]`。這有助於模型理解失敗的內容。
 
-**Example (`git/commit.toml`):**
+**範例（`git/commit.toml`）：**
 
-This command gets the staged git diff and uses it to ask the model to write a commit message.
+此指令取得暫存的 git diff 並使用它請求模型撰寫提交訊息。
 
 ````toml
-# In: <project>/.gemini/commands/git/commit.toml
-# Invoked via: /git:commit
+# 位於：<project>/.gemini/commands/git/commit.toml
+# 透過：/git:commit 呼叫
 
-description = "Generates a Git commit message based on staged changes."
+description = "根據暫存變更產生 Git 提交訊息。"
 
-# The prompt uses !{...} to execute the command and inject its output.
+# 提示使用 !{...} 執行指令並注入其輸出。
 prompt = """
-Please generate a Conventional Commit message based on the following git diff:
+請根據以下 git diff 產生 Conventional Commit 訊息：
 
 ```diff
 !{git diff --staged}
@@ -297,134 +297,134 @@ Please generate a Conventional Commit message based on the following git diff:
 
 ````
 
-When you run `/git:commit`, the CLI first executes `git diff --staged`, then replaces `!{git diff --staged}` with the output of that command before sending the final, complete prompt to the model.
+當您執行 `/git:commit` 時，CLI 首先執行 `git diff --staged`，然後在將最終完整提示傳送給模型之前，將 `!{git diff --staged}` 替換為該指令的輸出。
 
-##### 4. Injecting File Content with `@{...}`
+##### 4. 使用 `@{...}` 注入檔案內容
 
-You can directly embed the content of a file or a directory listing into your prompt using the `@{...}` syntax. This is useful for creating commands that operate on specific files.
+您可以使用 `@{...}` 語法直接將檔案內容或目錄清單嵌入您的提示中。這對於建立操作特定檔案的指令很有用。
 
-**How It Works:**
+**運作方式：**
 
-- **File Injection**: `@{path/to/file.txt}` is replaced by the content of `file.txt`.
-- **Multimodal Support**: If the path points to a supported image (e.g., PNG, JPEG), PDF, audio, or video file, it will be correctly encoded and injected as multimodal input. Other binary files are handled gracefully and skipped.
-- **Directory Listing**: `@{path/to/dir}` is traversed and each file present within the directory and all subdirectories are inserted into the prompt. This respects `.gitignore` and `.geminiignore` if enabled.
-- **Workspace-Aware**: The command searches for the path in the current directory and any other workspace directories. Absolute paths are allowed if they are within the workspace.
-- **Processing Order**: File content injection with `@{...}` is processed _before_ shell commands (`!{...}`) and argument substitution (`{{args}}`).
-- **Parsing**: The parser requires the content inside `@{...}` (the path) to have balanced braces (`{` and `}`).
+- **檔案注入**：`@{path/to/file.txt}` 會被 `file.txt` 的內容替換。
+- **多模態支援**：如果路徑指向支援的影像（例如 PNG、JPEG）、PDF、音訊或視訊檔案，它將被正確編碼並作為多模態輸入注入。其他二進位檔案會優雅處理並跳過。
+- **目錄清單**：`@{path/to/dir}` 會被遍歷，目錄和所有子目錄中存在的每個檔案都會插入提示中。如果啟用，這會尊重 `.gitignore` 和 `.geminiignore`。
+- **工作區感知**：指令在目前目錄和任何其他工作區目錄中搜尋路徑。如果絕對路徑在工作區內，則允許使用。
+- **處理順序**：使用 `@{...}` 的檔案內容注入會在 shell 指令（`!{...}`）和引數替換（`{{args}}`）_之前_處理。
+- **解析**：解析器要求 `@{...}` 內的內容（路徑）有平衡的大括號（`{` 和 `}`）。
 
-**Example (`review.toml`):**
+**範例（`review.toml`）：**
 
-This command injects the content of a _fixed_ best practices file (`docs/best-practices.md`) and uses the user's arguments to provide context for the review.
+此指令注入_固定_最佳實務檔案（`docs/best-practices.md`）的內容，並使用使用者的引數為審查提供內容。
 
 ```toml
-# In: <project>/.gemini/commands/review.toml
-# Invoked via: /review FileCommandLoader.ts
+# 位於：<project>/.gemini/commands/review.toml
+# 透過：/review FileCommandLoader.ts 呼叫
 
-description = "Reviews the provided context using a best practice guide."
+description = "使用最佳實務指南審查提供的內容。"
 prompt = """
-You are an expert code reviewer.
+您是專家程式碼審查員。
 
-Your task is to review {{args}}.
+您的任務是審查 {{args}}。
 
-Use the following best practices when providing your review:
+在提供審查時請使用以下最佳實務：
 
 @{docs/best-practices.md}
 """
 ```
 
-When you run `/review FileCommandLoader.ts`, the `@{docs/best-practices.md}` placeholder is replaced by the content of that file, and `{{args}}` is replaced by the text you provided, before the final prompt is sent to the model.
+當您執行 `/review FileCommandLoader.ts` 時，`@{docs/best-practices.md}` 占位符會被該檔案的內容替換，而 `{{args}}` 會被您提供的文字替換，然後將最終提示傳送給模型。
 
 ---
 
-#### Example: A "Pure Function" Refactoring Command
+#### 範例：「純函式」重構指令
 
-Let's create a global command that asks the model to refactor a piece of code.
+讓我們建立一個全域指令，要求模型重構一段程式碼。
 
-**1. Create the file and directories:**
+**1. 建立檔案和目錄：**
 
-First, ensure the user commands directory exists, then create a `refactor` subdirectory for organization and the final TOML file.
+首先，確保使用者指令目錄存在，然後建立 `refactor` 子目錄以進行組織，以及最終的 TOML 檔案。
 
 ```bash
 mkdir -p ~/.gemini/commands/refactor
 touch ~/.gemini/commands/refactor/pure.toml
 ```
 
-**2. Add the content to the file:**
+**2. 將內容新增到檔案：**
 
-Open `~/.gemini/commands/refactor/pure.toml` in your editor and add the following content. We are including the optional `description` for best practice.
+在編輯器中開啟 `~/.gemini/commands/refactor/pure.toml` 並新增以下內容。為了最佳實務，我們包含了選用的 `description`。
 
 ```toml
-# In: ~/.gemini/commands/refactor/pure.toml
-# This command will be invoked via: /refactor:pure
+# 位於：~/.gemini/commands/refactor/pure.toml
+# 此指令將透過：/refactor:pure 呼叫
 
-description = "Asks the model to refactor the current context into a pure function."
+description = "要求模型將目前內容重構為純函式。"
 
 prompt = """
-Please analyze the code I've provided in the current context.
-Refactor it into a pure function.
+請分析我在目前內容中提供的程式碼。
+將其重構為純函式。
 
-Your response should include:
-1. The refactored, pure function code block.
-2. A brief explanation of the key changes you made and why they contribute to purity.
+您的回應應包括：
+1. 重構的純函式程式碼區塊。
+2. 您所做的關鍵變更的簡要說明，以及為什麼它們有助於純度。
 """
 ```
 
-**3. Run the Command:**
+**3. 執行指令：**
 
-That's it! You can now run your command in the CLI. First, you might add a file to the context, and then invoke your command:
+就是這樣！您現在可以在 CLI 中執行您的指令。首先，您可能會將檔案新增到內容中，然後呼叫您的指令：
 
 ```
 > @my-messy-function.js
 > /refactor:pure
 ```
 
-Gemini CLI will then execute the multi-line prompt defined in your TOML file.
+Gemini CLI 接著會執行您在 TOML 檔案中定義的多行提示。
 
-## At commands (`@`)
+## At 指令（`@`）
 
-At commands are used to include the content of files or directories as part of your prompt to Gemini. These commands include git-aware filtering.
+At 指令用於將檔案或目錄的內容包含在您對 Gemini 的提示中。這些指令包含 git 感知篩選。
 
 - **`@<path_to_file_or_directory>`**
-  - **Description:** Inject the content of the specified file or files into your current prompt. This is useful for asking questions about specific code, text, or collections of files.
-  - **Examples:**
-    - `@path/to/your/file.txt Explain this text.`
-    - `@src/my_project/ Summarize the code in this directory.`
-    - `What is this file about? @README.md`
-  - **Details:**
-    - If a path to a single file is provided, the content of that file is read.
-    - If a path to a directory is provided, the command attempts to read the content of files within that directory and any subdirectories.
-    - Spaces in paths should be escaped with a backslash (e.g., `@My\ Documents/file.txt`).
-    - The command uses the `read_many_files` tool internally. The content is fetched and then inserted into your query before being sent to the Gemini model.
-    - **Git-aware filtering:** By default, git-ignored files (like `node_modules/`, `dist/`, `.env`, `.git/`) are excluded. This behavior can be changed via the `context.fileFiltering` settings.
-    - **File types:** The command is intended for text-based files. While it might attempt to read any file, binary files or very large files might be skipped or truncated by the underlying `read_many_files` tool to ensure performance and relevance. The tool indicates if files were skipped.
-  - **Output:** The CLI will show a tool call message indicating that `read_many_files` was used, along with a message detailing the status and the path(s) that were processed.
+  - **描述：** 將指定檔案或檔案的內容注入您目前的提示中。這對於詢問特定程式碼、文字或檔案集合的問題很有用。
+  - **範例：**
+    - `@path/to/your/file.txt 說明這個文字。`
+    - `@src/my_project/ 摘要此目錄中的程式碼。`
+    - `這個檔案是關於什麼的？@README.md`
+  - **詳細資訊：**
+    - 如果提供單一檔案的路徑，會讀取該檔案的內容。
+    - 如果提供目錄的路徑，指令會嘗試讀取該目錄和任何子目錄中檔案的內容。
+    - 路徑中的空格應使用反斜線跳脫（例如，`@My\ Documents/file.txt`）。
+    - 指令內部使用 `read_many_files` 工具。內容會被擷取，然後在傳送給 Gemini 模型之前插入您的查詢中。
+    - **Git 感知篩選：** 預設情況下，git 忽略的檔案（例如 `node_modules/`、`dist/`、`.env`、`.git/`）會被排除。此行為可以透過 `context.fileFiltering` 設定變更。
+    - **檔案類型：** 指令用於基於文字的檔案。雖然它可能會嘗試讀取任何檔案，但二進位檔案或非常大的檔案可能會被底層 `read_many_files` 工具跳過或截斷，以確保效能和相關性。工具會指示是否有檔案被跳過。
+  - **輸出：** CLI 會顯示工具呼叫訊息，指示使用了 `read_many_files`，以及詳述狀態和處理路徑的訊息。
 
-- **`@` (Lone at symbol)**
-  - **Description:** If you type a lone `@` symbol without a path, the query is passed as-is to the Gemini model. This might be useful if you are specifically talking _about_ the `@` symbol in your prompt.
+- **`@`（單獨的 at 符號）**
+  - **描述：** 如果您輸入單獨的 `@` 符號而沒有路徑，查詢會原樣傳遞給 Gemini 模型。如果您在提示中特別談論 `@` 符號，這可能很有用。
 
-### Error handling for `@` commands
+### `@` 指令的錯誤處理
 
-- If the path specified after `@` is not found or is invalid, an error message will be displayed, and the query might not be sent to the Gemini model, or it will be sent without the file content.
-- If the `read_many_files` tool encounters an error (e.g., permission issues), this will also be reported.
+- 如果在 `@` 後指定的路徑找不到或無效，將顯示錯誤訊息，查詢可能不會傳送給 Gemini 模型，或者會在沒有檔案內容的情況下傳送。
+- 如果 `read_many_files` 工具遇到錯誤（例如權限問題），這也會被回報。
 
-## Shell mode & passthrough commands (`!`)
+## Shell 模式與透傳指令（`!`）
 
-The `!` prefix lets you interact with your system's shell directly from within Gemini CLI.
+`!` 前綴讓您直接從 Gemini CLI 內與系統的 shell 互動。
 
 - **`!<shell_command>`**
-  - **Description:** Execute the given `<shell_command>` using `bash` on Linux/macOS or `cmd.exe` on Windows. Any output or errors from the command are displayed in the terminal.
-  - **Examples:**
-    - `!ls -la` (executes `ls -la` and returns to Gemini CLI)
-    - `!git status` (executes `git status` and returns to Gemini CLI)
+  - **描述：** 在 Linux/macOS 上使用 `bash` 或在 Windows 上使用 `cmd.exe` 執行給定的 `<shell_command>`。指令的任何輸出或錯誤都會在終端中顯示。
+  - **範例：**
+    - `!ls -la`（執行 `ls -la` 並回到 Gemini CLI）
+    - `!git status`（執行 `git status` 並回到 Gemini CLI）
 
-- **`!` (Toggle shell mode)**
-  - **Description:** Typing `!` on its own toggles shell mode.
-    - **Entering shell mode:**
-      - When active, shell mode uses a different coloring and a "Shell Mode Indicator".
-      - While in shell mode, text you type is interpreted directly as a shell command.
-    - **Exiting shell mode:**
-      - When exited, the UI reverts to its standard appearance and normal Gemini CLI behavior resumes.
+- **`!`（切換 shell 模式）**
+  - **描述：** 單獨輸入 `!` 會切換 shell 模式。
+    - **進入 shell 模式：**
+      - 啟用時，shell 模式使用不同的色彩和「Shell 模式指示器」。
+      - 在 shell 模式中，您輸入的文字會直接解釋為 shell 指令。
+    - **退出 shell 模式：**
+      - 退出時，UI 會回復到標準外觀，並恢復正常的 Gemini CLI 行為。
 
-- **Caution for all `!` usage:** Commands you execute in shell mode have the same permissions and impact as if you ran them directly in your terminal.
+- **所有 `!` 使用的注意事項：** 您在 shell 模式中執行的指令具有與您直接在終端中執行相同的權限和影響。
 
-- **Environment Variable:** When a command is executed via `!` or in shell mode, the `GEMINI_CLI=1` environment variable is set in the subprocess's environment. This allows scripts or tools to detect if they are being run from within the Gemini CLI.
+- **環境變數：** 當透過 `!` 或在 shell 模式中執行指令時，`GEMINI_CLI=1` 環境變數會在子程序的環境中設定。這允許腳本或工具偵測它們是否從 Gemini CLI 內執行。

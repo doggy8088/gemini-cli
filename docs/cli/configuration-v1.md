@@ -27,26 +27,26 @@ Gemini CLI 提供多種設定其行為的方式，包括環境變數、命令列
 
 Gemini CLI 使用 JSON 設定檔進行持久性設定。這些檔案有四個位置：
 
-- **System defaults file:**
-  - **Location:** `/etc/gemini-cli/system-defaults.json` (Linux), `C:\ProgramData\gemini-cli\system-defaults.json` (Windows) or `/Library/Application Support/GeminiCli/system-defaults.json` (macOS). The path can be overridden using the `GEMINI_CLI_SYSTEM_DEFAULTS_PATH` environment variable.
-  - **Scope:** Provides a base layer of system-wide default settings. These settings have the lowest precedence and are intended to be overridden by user, project, or system override settings.
-- **User settings file:**
-  - **Location:** `~/.gemini/settings.json` (where `~` is your home directory).
-  - **Scope:** Applies to all Gemini CLI sessions for the current user. User settings override system defaults.
-- **Project settings file:**
-  - **Location:** `.gemini/settings.json` within your project's root directory.
-  - **Scope:** Applies only when running Gemini CLI from that specific project. Project settings override user settings and system defaults.
-- **System settings file:**
-  - **Location:** `/etc/gemini-cli/settings.json` (Linux), `C:\ProgramData\gemini-cli\settings.json` (Windows) or `/Library/Application Support/GeminiCli/settings.json` (macOS). The path can be overridden using the `GEMINI_CLI_SYSTEM_SETTINGS_PATH` environment variable.
-  - **Scope:** Applies to all Gemini CLI sessions on the system, for all users. System settings act as overrides, taking precedence over all other settings files. May be useful for system administrators at enterprises to have controls over users' Gemini CLI setups.
+- **系統預設檔案：**
+  - **位置：** `/etc/gemini-cli/system-defaults.json`（Linux）、`C:\ProgramData\gemini-cli\system-defaults.json`（Windows）或 `/Library/Application Support/GeminiCli/system-defaults.json`（macOS）。路徑可以使用 `GEMINI_CLI_SYSTEM_DEFAULTS_PATH` 環境變數覆蓋。
+  - **範圍：** 提供系統範圍預設設定的基底層。這些設定具有最低優先順序，旨在被使用者、專案或系統覆蓋設定覆蓋。
+- **使用者設定檔案：**
+  - **位置：** `~/.gemini/settings.json`（其中 `~` 是您的主目錄）。
+  - **範圍：** 適用於目前使用者的所有 Gemini CLI 工作階段。使用者設定會覆蓋系統預設值。
+- **專案設定檔案：**
+  - **位置：** 專案根目錄內的 `.gemini/settings.json`。
+  - **範圍：** 僅在從該特定專案執行 Gemini CLI 時適用。專案設定會覆蓋使用者設定和系統預設值。
+- **系統設定檔案：**
+  - **位置：** `/etc/gemini-cli/settings.json`（Linux）、`C:\ProgramData\gemini-cli\settings.json`（Windows）或 `/Library/Application Support/GeminiCli/settings.json`（macOS）。路徑可以使用 `GEMINI_CLI_SYSTEM_SETTINGS_PATH` 環境變數覆蓋。
+  - **範圍：** 適用於系統上所有使用者的所有 Gemini CLI 工作階段。系統設定作為覆蓋，優先於所有其他設定檔案。對於企業的系統管理員控制使用者的 Gemini CLI 設定可能很有用。
 
-**Note on environment variables in settings:** String values within your `settings.json` files can reference environment variables using either `$VAR_NAME` or `${VAR_NAME}` syntax. These variables will be automatically resolved when the settings are loaded. For example, if you have an environment variable `MY_API_TOKEN`, you could use it in `settings.json` like this: `"apiKey": "$MY_API_TOKEN"`.
+**設定中環境變數的注意事項：** `settings.json` 檔案中的字串值可以使用 `$VAR_NAME` 或 `${VAR_NAME}` 語法參考環境變數。這些變數會在載入設定時自動解析。例如，如果您有環境變數 `MY_API_TOKEN`，您可以在 `settings.json` 中這樣使用：`"apiKey": "$MY_API_TOKEN"`。
 
-> **Note for Enterprise Users:** For guidance on deploying and managing Gemini CLI in a corporate environment, please see the [Enterprise Configuration](./enterprise.md) documentation.
+> **企業使用者注意事項：** 有關在企業環境中部署和管理 Gemini CLI 的指導，請參閱[企業設定](./enterprise.md)說明文件。
 
-### The `.gemini` directory in your project
+### 專案中的 `.gemini` 目錄
 
-In addition to a project settings file, a project's `.gemini` directory can contain other project-specific files related to Gemini CLI's operation, such as:
+除了專案設定檔案外，專案的 `.gemini` 目錄還可以包含與 Gemini CLI 操作相關的其他專案特定檔案，例如：
 
 - [Custom sandbox profiles](#sandboxing) (e.g., `.gemini/sandbox-macos-custom.sb`, `.gemini/sandbox.Dockerfile`).
 

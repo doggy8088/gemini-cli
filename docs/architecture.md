@@ -28,27 +28,27 @@ Gemini CLI 主要由兩個主要套件組成，以及一套在處理命令列輸
     - **目的**：這些是擴充 Gemini 模型功能的個別模組，讓它能與本機環境互動（例如，檔案系統、Shell 指令、網頁擷取）。
     - **互動**：`packages/core` 根據來自 Gemini 模型的請求調用這些工具。
 
-## Interaction Flow
+## 互動流程
 
-A typical interaction with the Gemini CLI follows this flow:
+典型的 Gemini CLI 互動遵循此流程：
 
-1.  **User input:** The user types a prompt or command into the terminal, which is managed by `packages/cli`.
-2.  **Request to core:** `packages/cli` sends the user's input to `packages/core`.
-3.  **Request processed:** The core package:
-    - Constructs an appropriate prompt for the Gemini API, possibly including conversation history and available tool definitions.
-    - Sends the prompt to the Gemini API.
-4.  **Gemini API response:** The Gemini API processes the prompt and returns a response. This response might be a direct answer or a request to use one of the available tools.
-5.  **Tool execution (if applicable):**
-    - When the Gemini API requests a tool, the core package prepares to execute it.
-    - If the requested tool can modify the file system or execute shell commands, the user is first given details of the tool and its arguments, and the user must approve the execution.
-    - Read-only operations, such as reading files, might not require explicit user confirmation to proceed.
-    - Once confirmed, or if confirmation is not required, the core package executes the relevant action within the relevant tool, and the result is sent back to the Gemini API by the core package.
-    - The Gemini API processes the tool result and generates a final response.
-6.  **Response to CLI:** The core package sends the final response back to the CLI package.
-7.  **Display to user:** The CLI package formats and displays the response to the user in the terminal.
+1.  **使用者輸入：** 使用者在終端中輸入提示或指令，這由 `packages/cli` 管理。
+2.  **向核心發送請求：** `packages/cli` 將使用者的輸入傳送到 `packages/core`。
+3.  **請求處理：** 核心套件：
+    - 為 Gemini API 建構適當的提示，可能包括對話歷史記錄和可用的工具定義。
+    - 將提示傳送到 Gemini API。
+4.  **Gemini API 回應：** Gemini API 處理提示並回傳回應。此回應可能是直接答案或使用其中一個可用工具的請求。
+5.  **工具執行（如果適用）：**
+    - 當 Gemini API 請求工具時，核心套件準備執行它。
+    - 如果請求的工具可以修改檔案系統或執行 shell 指令，會首先向使用者提供工具及其引數的詳細資料，使用者必須批准執行。
+    - 唯讀操作，例如讀取檔案，可能不需要明確的使用者確認即可繼續。
+    - 一旦確認，或如果不需要確認，核心套件會在相關工具內執行相關操作，結果會由核心套件傳送回 Gemini API。
+    - Gemini API 處理工具結果並產生最終回應。
+6.  **回應至 CLI：** 核心套件將最終回應傳送回 CLI 套件。
+7.  **顯示給使用者：** CLI 套件在終端中格式化並顯示回應給使用者。
 
-## Key Design Principles
+## 關鍵設計原則
 
-- **Modularity:** Separating the CLI (frontend) from the Core (backend) allows for independent development and potential future extensions (e.g., different frontends for the same backend).
-- **Extensibility:** The tool system is designed to be extensible, allowing new capabilities to be added.
-- **User experience:** The CLI focuses on providing a rich and interactive terminal experience.
+- **模組化：** 將 CLI（前端）與核心（後端）分離，允許獨立開發和潛在的未來擴展（例如，同一後端的不同前端）。
+- **可擴展性：** 工具系統設計為可擴展的，允許新增新功能。
+- **使用者體驗：** CLI 專注於提供豐富且互動式的終端體驗。

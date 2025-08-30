@@ -30,11 +30,21 @@ Gemini CLI 包含檢查點功能，可在 AI 驅動的工具進行任何檔案�
 gemini --checkpointing
 ```
 
-### Using the `settings.json` File
+### 使用 `settings.json` 檔案
 
-To enable checkpointing by default for all sessions, you need to edit your `settings.json` file.
+要為所有工作階段預設啟用檢查點功能，您需要編輯您的 `settings.json` 檔案。
 
-Add the following key to your `settings.json`:
+將以下金鑰新增到您的 `settings.json`：
+
+```json
+{
+  "general": {
+    "checkpointing": {
+      "enabled": true
+    }
+  }
+}
+```
 
 ```json
 {
