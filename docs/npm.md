@@ -28,10 +28,10 @@
 }
 ```
 
-This tells NPM that any folder inside the `packages` directory is a separate package that should be managed as part of the workspace.
+這告訴 NPM `packages` 目錄中的任何資料夾都是一個獨立套件，應該作為工作區的一部分進行管理。
 
-### Benefits of Workspaces
+### 工作區的好處
 
-- **Simplified Dependency Management**: Running `npm install` from the root of the project will install all dependencies for all packages in the workspace and link them together. This means you don't need to run `npm install` in each package's directory.
-- **Automatic Linking**: Packages within the workspace can depend on each other. When you run `npm install`, NPM will automatically create symlinks between the packages. This means that when you make changes to one package, the changes are immediately available to other packages that depend on it.
-- **Simplified Script Execution**: You can run scripts in any package from the root of the project using the `--workspace` flag. For example, to run the `build` script in the `cli` package, you can run `npm run build --workspace @google/gemini-cli`.
+- **簡化相依性管理**：從專案根目錄執行 `npm install` 將為工作區中的所有套件安裝所有相依性並將它們連結在一起。這意味著您不需要在每個套件的目錄中執行 `npm install`。
+- **自動連結**：工作區內的套件可以互相相依。當您執行 `npm install` 時，NPM 會自動在套件之間建立符號連結。這意味著當您對一個套件進行變更時，這些變更會立即對依賴它的其他套件可用。
+- **簡化腳本執行**：您可以使用 `--workspace` 旗標從專案根目錄在任何套件中執行腳本。例如，要在 `cli` 套件中執行 `build` 腳本，您可以執行 `npm run build --workspace @google/gemini-cli`。

@@ -46,32 +46,32 @@ Add the following key to your `settings.json`:
 }
 ```
 
-## Using the `/restore` Command
+## 使用 `/restore` 指令
 
-Once enabled, checkpoints are created automatically. To manage them, you use the `/restore` command.
+啟用後，檢查點會自動建立。要管理它們，您可以使用 `/restore` 指令。
 
-### List Available Checkpoints
+### 列出可用檢查點
 
-To see a list of all saved checkpoints for the current project, simply run:
+要查看目前專案所有已儲存檢查點的清單，只需執行：
 
 ```
 /restore
 ```
 
-The CLI will display a list of available checkpoint files. These file names are typically composed of a timestamp, the name of the file being modified, and the name of the tool that was about to be run (e.g., `2025-06-22T10-00-00_000Z-my-file.txt-write_file`).
+CLI 會顯示可用檢查點檔案的清單。這些檔案名稱通常由時間戳記、被修改檔案的名稱和即將執行的工具名稱組成（例如，`2025-06-22T10-00-00_000Z-my-file.txt-write_file`）。
 
-### Restore a Specific Checkpoint
+### 還原特定檢查點
 
-To restore your project to a specific checkpoint, use the checkpoint file from the list:
+要將專案還原到特定檢查點，請使用清單中的檢查點檔案：
 
 ```
 /restore <checkpoint_file>
 ```
 
-For example:
+例如：
 
 ```
 /restore 2025-06-22T10-00-00_000Z-my-file.txt-write_file
 ```
 
-After running the command, your files and conversation will be immediately restored to the state they were in when the checkpoint was created, and the original tool prompt will reappear.
+執行指令後，您的檔案和對話將立即還原到建立檢查點時的狀態，並且原始工具提示會重新出現。
