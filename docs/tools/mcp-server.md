@@ -45,23 +45,23 @@ Gemini CLI 支援三種 MCP 傳輸類型：
 - **SSE 傳輸：** 連線到伺服器發送事件端點
 - **Streamable HTTP 傳輸：** 使用 HTTP 串流進行通訊
 
-## How to set up your MCP server
+## 如何設定您的 MCP 伺服器
 
-The Gemini CLI uses the `mcpServers` configuration in your `settings.json` file to locate and connect to MCP servers. This configuration supports multiple servers with different transport mechanisms.
+Gemini CLI 使用您 `settings.json` 檔案中的 `mcpServers` 設定來定位並連線到 MCP 伺服器。此設定支援使用不同傳輸機制的多個伺服器。
 
-### Configure the MCP server in settings.json
+### 在 settings.json 中設定 MCP 伺服器
 
-You can configure MCP servers in your `settings.json` file in two main ways: through the top-level `mcpServers` object for specific server definitions, and through the `mcp` object for global settings that control server discovery and execution.
+您可以在 `settings.json` 檔案中以兩種主要方式設定 MCP 伺服器：透過頂級 `mcpServers` 物件進行特定伺服器定義，以及透過 `mcp` 物件進行控制伺服器探索和執行的全域設定。
 
-#### Global MCP Settings (`mcp`)
+#### 全域 MCP 設定（`mcp`）
 
-The `mcp` object in your `settings.json` allows you to define global rules for all MCP servers.
+`settings.json` 中的 `mcp` 物件允許您為所有 MCP 伺服器定義全域規則。
 
-- **`mcp.serverCommand`** (string): A global command to start an MCP server.
-- **`mcp.allowed`** (array of strings): A whitelist of MCP server names to allow. If this is set, only servers from this list (matching the keys in the `mcpServers` object) will be connected to.
-- **`mcp.excluded`** (array of strings): A blacklist of MCP server names to exclude. Servers in this list will not be connected to.
+- **`mcp.serverCommand`**（字串）：啟動 MCP 伺服器的全域指令。
+- **`mcp.allowed`**（字串陣列）：允許的 MCP 伺服器名稱白名單。如果設定了此項，只有來自此清單的伺服器（符合 `mcpServers` 物件中的金鑰）才會被連線。
+- **`mcp.excluded`**（字串陣列）：要排除的 MCP 伺服器名稱黑名單。此清單中的伺服器將不會被連線。
 
-**Example:**
+**範例：**
 
 ```json
 {
@@ -72,16 +72,16 @@ The `mcp` object in your `settings.json` allows you to define global rules for a
 }
 ```
 
-#### Server-Specific Configuration (`mcpServers`)
+#### 伺服器特定設定（`mcpServers`）
 
-The `mcpServers` object is where you define each individual MCP server you want the CLI to connect to.
+`mcpServers` 物件是您定義希望 CLI 連線的每個個別 MCP 伺服器的地方。
 
-### Configuration Structure
+### 設定結構
 
-Add an `mcpServers` object to your `settings.json` file:
+將 `mcpServers` 物件新增到您的 `settings.json` 檔案：
 
 ```json
-{ ...file contains other config objects
+{ ...檔案包含其他設定物件
   "mcpServers": {
     "serverName": {
       "command": "path/to/server",
@@ -97,34 +97,34 @@ Add an `mcpServers` object to your `settings.json` file:
 }
 ```
 
-### Configuration Properties
+### 設定屬性
 
-Each server configuration supports the following properties:
+每個伺服器設定支援以下屬性：
 
-#### Required (one of the following)
+#### 必要（以下其中一項）
 
-- **`command`** (string): Path to the executable for Stdio transport
-- **`url`** (string): SSE endpoint URL (e.g., `"http://localhost:8080/sse"`)
-- **`httpUrl`** (string): HTTP streaming endpoint URL
+- **`command`**（字串）：Stdio 傳輸的可執行檔路徑
+- **`url`**（字串）：SSE 端點 URL（例如，`"http://localhost:8080/sse"`）
+- **`httpUrl`**（字串）：HTTP 串流端點 URL
 
-#### Optional
+#### 選用
 
-- **`args`** (string[]): Command-line arguments for Stdio transport
-- **`headers`** (object): Custom HTTP headers when using `url` or `httpUrl`
-- **`env`** (object): Environment variables for the server process. Values can reference environment variables using `$VAR_NAME` or `${VAR_NAME}` syntax
-- **`cwd`** (string): Working directory for Stdio transport
-- **`timeout`** (number): Request timeout in milliseconds (default: 600,000ms = 10 minutes)
-- **`trust`** (boolean): When `true`, bypasses all tool call confirmations for this server (default: `false`)
-- **`includeTools`** (string[]): List of tool names to include from this MCP server. When specified, only the tools listed here will be available from this server (whitelist behavior). If not specified, all tools from the server are enabled by default.
-- **`excludeTools`** (string[]): List of tool names to exclude from this MCP server. Tools listed here will not be available to the model, even if they are exposed by the server. **Note:** `excludeTools` takes precedence over `includeTools` - if a tool is in both lists, it will be excluded.
+- **`args`**（字串陣列）：Stdio 傳輸的命令列引數
+- **`headers`**（物件）：使用 `url` 或 `httpUrl` 時的自訂 HTTP 標頭
+- **`env`**（物件）：伺服器程序的環境變數。值可以使用 `$VAR_NAME` 或 `${VAR_NAME}` 語法參考環境變數
+- **`cwd`**（字串）：Stdio 傳輸的工作目錄
+- **`timeout`**（數字）：請求逾時毫秒數（預設：600,000ms = 10 分鐘）
+- **`trust`**（布林值）：當為 `true` 時，會略過此伺服器的所有工具呼叫確認（預設：`false`）
+- **`includeTools`**（字串陣列）：從此 MCP 伺服器包含的工具名稱清單。指定時，只有此處列出的工具才會從此伺服器可用（白名單行為）。如果未指定，預設啟用來自伺服器的所有工具。
+- **`excludeTools`**（字串陣列）：從此 MCP 伺服器排除的工具名稱清單。此處列出的工具將不會提供給模型，即使它們由伺服器暴露。**注意：** `excludeTools` 優先於 `includeTools` - 如果工具在兩個清單中，它將被排除。
 
-### OAuth Support for Remote MCP Servers
+### 遠端 MCP 伺服器的 OAuth 支援
 
-The Gemini CLI supports OAuth 2.0 authentication for remote MCP servers using SSE or HTTP transports. This enables secure access to MCP servers that require authentication.
+Gemini CLI 支援使用 SSE 或 HTTP 傳輸的遠端 MCP 伺服器的 OAuth 2.0 驗證。這使得需要驗證的 MCP 伺服器能夠安全存取。
 
-#### Automatic OAuth Discovery
+#### 自動 OAuth 探索
 
-For servers that support OAuth discovery, you can omit the OAuth configuration and let the CLI discover it automatically:
+對於支援 OAuth 探索的伺服器，您可以省略 OAuth 設定並讓 CLI 自動探索：
 
 ```json
 {
@@ -136,36 +136,36 @@ For servers that support OAuth discovery, you can omit the OAuth configuration a
 }
 ```
 
-The CLI will automatically:
+CLI 會自動：
 
-- Detect when a server requires OAuth authentication (401 responses)
-- Discover OAuth endpoints from server metadata
-- Perform dynamic client registration if supported
-- Handle the OAuth flow and token management
+- 偵測伺服器何時需要 OAuth 驗證（401 回應）
+- 從伺服器中繼資料探索 OAuth 端點
+- 如果支援，執行動態用戶端註冊
+- 處理 OAuth 流程和權杖管理
 
-#### Authentication Flow
+#### 驗證流程
 
-When connecting to an OAuth-enabled server:
+連線到啟用 OAuth 的伺服器時：
 
-1. **Initial connection attempt** fails with 401 Unauthorized
-2. **OAuth discovery** finds authorization and token endpoints
-3. **Browser opens** for user authentication (requires local browser access)
-4. **Authorization code** is exchanged for access tokens
-5. **Tokens are stored** securely for future use
-6. **Connection retry** succeeds with valid tokens
+1. **初始連線嘗試**因 401 未授權失敗
+2. **OAuth 探索**找到授權和權杖端點
+3. **瀏覽器開啟**供使用者驗證（需要本機瀏覽器存取）
+4. **授權代碼**交換存取權杖
+5. **權杖被安全儲存**供未來使用
+6. **連線重試**以有效權杖成功
 
-#### Browser Redirect Requirements
+#### 瀏覽器重新導向需求
 
-**Important:** OAuth authentication requires that your local machine can:
+**重要：** OAuth 驗證需要您的本機機器能夠：
 
-- Open a web browser for authentication
-- Receive redirects on `http://localhost:7777/oauth/callback`
+- 開啟網頁瀏覽器進行驗證
+- 在 `http://localhost:7777/oauth/callback` 接收重新導向
 
-This feature will not work in:
+此功能在以下情況下無法運作：
 
-- Headless environments without browser access
-- Remote SSH sessions without X11 forwarding
-- Containerized environments without browser support
+- 沒有瀏覽器存取的無頭環境
+- 沒有 X11 轉送的遠端 SSH 工作階段
+- 沒有瀏覽器支援的容器化環境
 
 #### Managing OAuth Authentication
 

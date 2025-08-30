@@ -28,15 +28,15 @@ npm install -g @google/gemini-cli@latest
 npm install -g @google/gemini-cli@nightly
 ```
 
-# Release Process.
+# 發布程序
 
-Where `x.y.z` is the next version to be released. In most all cases for the weekly release this will be an increment on `y`, aka minor version update. Major version updates `x` will need broader coordination and communication. For patches `z` see below. When possible we will do our best to adher to https://semver.org/
+其中 `x.y.z` 是下一個要發布的版本。在大多數週版本發布情況下，這將是 `y` 的遞增，即次版本更新。主版本更新 `x` 將需要更廣泛的協調和溝通。對於修補程式 `z`，請參閱下方。在可能的情況下，我們會盡力遵循 https://semver.org/
 
-Our release cadence is new releases are sent to a preview channel for a week and then promoted to stable after a week. Version numbers will follow SemVer with weekly releases incrementing the minor version. Patches and bug fixes to both preview and stable releases will increment the patch version.
+我們的發布節奏是新版本先傳送到預覽頻道一週，然後在一週後推廣到穩定版。版本號將遵循 SemVer，週版本遞增次版本。對預覽版和穩定版的修補程式和錯誤修正將遞增修補版本。
 
-## Nightly Release
+## 每夜版發布
 
-Each night at UTC 0000 we will auto deploy a nightly release from `main`. This will be a version of the next production release, x.y.z, with the nightly tag.
+每天 UTC 0000 我們會從 `main` 自動部署每夜版發布。這將是下一個正式版 x.y.z 的版本，帶有 nightly 標籤。
 
 ## Create Preview Release
 
