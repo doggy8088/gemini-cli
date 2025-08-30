@@ -1,27 +1,27 @@
-# for the Enterprise
+# 企業版
 
-This document outlines configuration patterns and best practices for deploying and managing Gemini CLI in an enterprise environment. By leveraging system-level settings, administrators can enforce security policies, manage tool access, and ensure a consistent experience for all users.
+本文件概述在企業環境中部署和管理 Gemini CLI 的設定模式和最佳實務。透過利用系統層級設定，管理員可以強制執行安全政策、管理工具存取權限，並確保所有使用者擁有一致的體驗。
 
-> **A Note on Security:** The patterns described in this document are intended to help administrators create a more controlled and secure environment for using Gemini CLI. However, they should not be considered a foolproof security boundary. A determined user with sufficient privileges on their local machine may still be able to circumvent these configurations. These measures are designed to prevent accidental misuse and enforce corporate policy in a managed environment, not to defend against a malicious actor with local administrative rights.
+> **安全性說明：** 本文件中描述的模式旨在幫助管理員為使用 Gemini CLI 建立更受控制和安全的環境。然而，它們不應被視為萬無一失的安全邊界。在本機電腦上擁有足夠權限的有心使用者仍可能能夠規避這些設定。這些措施旨在防止意外誤用並在受管理的環境中強制執行企業政策，而不是防禦具有本機管理權限的惡意行為者。
 
-## Centralized Configuration: The System Settings File
+## 集中化設定：系統設定檔案
 
-The most powerful tools for enterprise administration are the system-wide settings files. These files allow you to define a baseline configuration (`system-defaults.json`) and a set of overrides (`settings.json`) that apply to all users on a machine. For a complete overview of configuration options, see the [Configuration documentation](./configuration.md).
+企業管理最強大的工具是系統範圍的設定檔案。這些檔案允許您定義基準設定（`system-defaults.json`）和套用到電腦上所有使用者的覆寫設定（`settings.json`）。如需設定選項的完整總覽，請參閱[設定說明文件](./configuration.md)。
 
-Settings are merged from four files. The precedence order for single-value settings (like `theme`) is:
+設定會從四個檔案合併。單值設定（如 `theme`）的優先順序為：
 
-1. System Defaults (`system-defaults.json`)
-2. User Settings (`~/.gemini/settings.json`)
-3. Workspace Settings (`<project>/.gemini/settings.json`)
-4. System Overrides (`settings.json`)
+1. 系統預設值（`system-defaults.json`）
+2. 使用者設定（`~/.gemini/settings.json`）
+3. 工作區設定（`<project>/.gemini/settings.json`）
+4. 系統覆寫（`settings.json`）
 
-This means the System Overrides file has the final say. For settings that are arrays (`includeDirectories`) or objects (`mcpServers`), the values are merged.
+這表示系統覆寫檔案具有最終決定權。對於陣列（`includeDirectories`）或物件（`mcpServers`）的設定，值會被合併。
 
-**Example of Merging and Precedence:**
+**合併和優先順序範例：**
 
-Here is how settings from different levels are combined.
+以下是不同層級設定的組合方式。
 
-- **System Defaults `system-defaults.json`:**
+- **系統預設值 `system-defaults.json`：**
 
   ```json
   {
@@ -34,7 +34,7 @@ Here is how settings from different levels are combined.
   }
   ```
 
-- **User `settings.json` (`~/.gemini/settings.json`):**
+- **使用者 `settings.json`（`~/.gemini/settings.json`）：**
 
   ```json
   {
@@ -55,7 +55,7 @@ Here is how settings from different levels are combined.
   }
   ```
 
-- **Workspace `settings.json` (`<project>/.gemini/settings.json`):**
+- **工作區 `settings.json`（`<project>/.gemini/settings.json`）：**
 
   ```json
   {
@@ -73,7 +73,7 @@ Here is how settings from different levels are combined.
   }
   ```
 
-- **System Overrides `settings.json`:**
+- **系統覆寫 `settings.json`：**
   ```json
   {
     "ui": {
@@ -90,9 +90,9 @@ Here is how settings from different levels are combined.
   }
   ```
 
-This results in the following merged configuration:
+這會產生以下合併設定：
 
-- **Final Merged Configuration:**
+- **最終合併設定：**
   ```json
   {
     "ui": {
@@ -120,30 +120,30 @@ This results in the following merged configuration:
   }
   ```
 
-**Why:**
+**原因：**
 
-- **`theme`**: The value from the system overrides (`system-enforced-theme`) is used, as it has the highest precedence.
-- **`mcpServers`**: The objects are merged. The `corp-server` definition from the system overrides takes precedence over the user's definition. The unique `user-tool` and `project-tool` are included.
-- **`includeDirectories`**: The arrays are concatenated in the order of System Defaults, User, Workspace, and then System Overrides.
+- **`theme`**：使用系統覆寫的值（`system-enforced-theme`），因為它具有最高優先順序。
+- **`mcpServers`**：物件被合併。系統覆寫的 `corp-server` 定義優先於使用者的定義。唯一的 `user-tool` 和 `project-tool` 包含在內。
+- **`includeDirectories`**：陣列按系統預設值、使用者、工作區，然後系統覆寫的順序串聯。
 
-- **Location**:
-  - **Linux**: `/etc/gemini-cli/settings.json`
-  - **Windows**: `C:\ProgramData\gemini-cli\settings.json`
-  - **macOS**: `/Library/Application Support/GeminiCli/settings.json`
-  - The path can be overridden using the `GEMINI_CLI_SYSTEM_SETTINGS_PATH` environment variable.
-- **Control**: This file should be managed by system administrators and protected with appropriate file permissions to prevent unauthorized modification by users.
+- **位置**：
+  - **Linux**：`/etc/gemini-cli/settings.json`
+  - **Windows**：`C:\ProgramData\gemini-cli\settings.json`
+  - **macOS**：`/Library/Application Support/GeminiCli/settings.json`
+  - 可以使用 `GEMINI_CLI_SYSTEM_SETTINGS_PATH` 環境變數覆寫路徑。
+- **控制**：此檔案應由系統管理員管理，並以適當的檔案權限保護，以防止使用者未經授權的修改。
 
-By using the system settings file, you can enforce the security and configuration patterns described below.
+透過使用系統設定檔案，您可以強制執行下面描述的安全性和設定模式。
 
-## Restricting Tool Access
+## 限制工具存取
 
-You can significantly enhance security by controlling which tools the Gemini model can use. This is achieved through the `tools.core` and `tools.exclude` settings. For a list of available tools, see the [Tools documentation](../tools/index.md).
+您可以透過控制 Gemini 模型可以使用的工具來大幅增強安全性。這透過 `tools.core` 和 `tools.exclude` 設定來實現。如需可用工具清單，請參閱[工具說明文件](../tools/index.md)。
 
-### Allowlisting with `coreTools`
+### 使用 `coreTools` 的允許清單
 
-The most secure approach is to explicitly add the tools and commands that users are permitted to execute to an allowlist. This prevents the use of any tool not on the approved list.
+最安全的方法是明確將使用者允許執行的工具和指令新增到允許清單中。這可以防止使用任何不在核准清單上的工具。
 
-**Example:** Allow only safe, read-only file operations and listing files.
+**範例：** 僅允許安全的唯讀檔案操作和列出檔案。
 
 ```json
 {
@@ -153,11 +153,11 @@ The most secure approach is to explicitly add the tools and commands that users 
 }
 ```
 
-### Blocklisting with `excludeTools`
+### 使用 `excludeTools` 的封鎖清單
 
-Alternatively, you can add specific tools that are considered dangerous in your environment to a blocklist.
+或者，您可以將在您環境中被視為危險的特定工具新增到封鎖清單中。
 
-**Example:** Prevent the use of the shell tool for removing files.
+**範例：** 防止使用 shell 工具來移除檔案。
 
 ```json
 {
@@ -167,7 +167,7 @@ Alternatively, you can add specific tools that are considered dangerous in your 
 }
 ```
 
-**Security Note:** Blocklisting with `excludeTools` is less secure than allowlisting with `coreTools`, as it relies on blocking known-bad commands, and clever users may find ways to bypass simple string-based blocks. **Allowlisting is the recommended approach.**
+**安全性說明：** 使用 `excludeTools` 的封鎖清單比使用 `coreTools` 的允許清單安全性較低，因為它依賴於封鎖已知的不良指令，而聰明的使用者可能會找到方法繞過簡單的字串型封鎖。**建議使用允許清單方法。**
 
 ## Managing Custom Tools (MCP Servers)
 

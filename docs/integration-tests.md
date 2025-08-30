@@ -73,19 +73,19 @@ npm run test:integration:sandbox:podman
 KEEP_OUTPUT=true npm run test:integration:sandbox:none
 ```
 
-When output is kept, the test runner will print the path to the unique directory for the test run.
+當保留輸出時，測試執行器會列印測試執行的唯一目錄路徑。
 
-### Verbose output
+### 詳細輸出
 
-For more detailed debugging, set the `VERBOSE` environment variable to `true`.
+如需更詳細的偵錯資訊，請將 `VERBOSE` 環境變數設定為 `true`。
 
 ```bash
 VERBOSE=true npm run test:integration:sandbox:none
 ```
 
-When using `VERBOSE=true` and `KEEP_OUTPUT=true` in the same command, the output is streamed to the console and also saved to a log file within the test's temporary directory.
+在同一指令中使用 `VERBOSE=true` 和 `KEEP_OUTPUT=true` 時，輸出會串流到主控台，同時也會儲存到測試暫存目錄中的日誌檔案。
 
-The verbose output is formatted to clearly identify the source of the logs:
+詳細輸出格式化後會清楚識別日誌來源：
 
 ```
 --- TEST: <log dir>:<test-name> ---
@@ -93,29 +93,29 @@ The verbose output is formatted to clearly identify the source of the logs:
 --- END TEST: <log dir>:<test-name> ---
 ```
 
-## Linting and formatting
+## 語法檢查和格式化
 
-To ensure code quality and consistency, the integration test files are linted as part of the main build process. You can also manually run the linter and auto-fixer.
+為了確保程式碼品質和一致性，整合測試檔案會作為主要建置程序的一部分進行語法檢查。您也可以手動執行語法檢查器和自動修正器。
 
-### Running the linter
+### 執行語法檢查器
 
-To check for linting errors, run the following command:
+要檢查語法檢查錯誤，請執行以下指令：
 
 ```bash
 npm run lint
 ```
 
-You can include the `:fix` flag in the command to automatically fix any fixable linting errors:
+您可以在指令中包含 `:fix` 旗標來自動修正任何可修正的語法檢查錯誤：
 
 ```bash
 npm run lint:fix
 ```
 
-## Directory structure
+## 目錄結構
 
-The integration tests create a unique directory for each test run inside the `.integration-tests` directory. Within this directory, a subdirectory is created for each test file, and within that, a subdirectory is created for each individual test case.
+整合測試會在 `.integration-tests` 目錄內為每次測試執行建立唯一的目錄。在此目錄中，會為每個測試檔案建立子目錄，並在其中為每個個別測試案例建立子目錄。
 
-This structure makes it easy to locate the artifacts for a specific test run, file, or case.
+此結構讓您可以輕鬆找到特定測試執行、檔案或案例的成品。
 
 ```
 .integration-tests/
@@ -123,15 +123,15 @@ This structure makes it easy to locate the artifacts for a specific test run, fi
     └── <test-file-name>.test.js/
         └── <test-case-name>/
             ├── output.log
-            └── ...other test artifacts...
+            └── ...其他測試成品...
 ```
 
-## Continuous integration
+## 持續整合
 
-To ensure the integration tests are always run, a GitHub Actions workflow is defined in `.github/workflows/e2e.yml`. This workflow automatically runs the integrations tests for pull requests against the `main` branch, or when a pull request is added to a merge queue.
+為了確保整合測試始終執行，在 `.github/workflows/e2e.yml` 中定義了 GitHub Actions 工作流程。此工作流程會自動為針對 `main` 分支的拉取請求，或當拉取請求新增到合併佇列時，執行整合測試。
 
-The workflow runs the tests in different sandboxing environments to ensure Gemini CLI is tested across each:
+工作流程會在不同的沙箱環境中執行測試，以確保 Gemini CLI 在每個環境中都經過測試：
 
-- `sandbox:none`: Runs the tests without any sandboxing.
-- `sandbox:docker`: Runs the tests in a Docker container.
-- `sandbox:podman`: Runs the tests in a Podman container.
+- `sandbox:none`：在沒有任何沙箱的情況下執行測試。
+- `sandbox:docker`：在 Docker 容器中執行測試。
+- `sandbox:podman`：在 Podman 容器中執行測試。

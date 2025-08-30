@@ -19,13 +19,13 @@ Gemini CLI 可以與您的 IDE 整合，提供更無縫和內容感知的體驗�
   - `Gemini CLI: Close Diff Editor`：拒絕變更並關閉作用中的差異編輯器。
   - `Gemini CLI: View Third-Party Notices`：顯示擴充功能的第三方聲明。
 
-## Installation and Setup
+## 安裝與設定
 
-There are three ways to set up the IDE integration:
+有三種方式可以設定 IDE 整合：
 
-### 1. Automatic Nudge (Recommended)
+### 1. 自動提示（建議）
 
-When you run Gemini CLI inside a supported editor, it will automatically detect your environment and prompt you to connect. Answering "Yes" will automatically run the necessary setup, which includes installing the companion extension and enabling the connection.
+當您在支援的編輯器中執行 Gemini CLI 時，它會自動偵測您的環境並提示您連線。回答「是」會自動執行必要的設定，包括安裝配套擴充功能並啟用連線。
 
 ### 2. Manual Installation from CLI
 
