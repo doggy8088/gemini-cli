@@ -48,35 +48,35 @@ Gemini CLI 使用 JSON 設定檔進行持久性設定。這些檔案有四個位
 
 除了專案設定檔案外，專案的 `.gemini` 目錄還可以包含與 Gemini CLI 操作相關的其他專案特定檔案，例如：
 
-- [Custom sandbox profiles](#sandboxing) (e.g., `.gemini/sandbox-macos-custom.sb`, `.gemini/sandbox.Dockerfile`).
+- [自訂沙箱設定檔](#sandboxing)（例如，`.gemini/sandbox-macos-custom.sb`、`.gemini/sandbox.Dockerfile`）。
 
-### Available settings in `settings.json`:
+### `settings.json` 中的可用設定：
 
-- **`contextFileName`** (string or array of strings):
-  - **Description:** Specifies the filename for context files (e.g., `GEMINI.md`, `AGENTS.md`). Can be a single filename or a list of accepted filenames.
-  - **Default:** `GEMINI.md`
-  - **Example:** `"contextFileName": "AGENTS.md"`
+- **`contextFileName`**（字串或字串陣列）：
+  - **說明：** 指定內容檔案的檔案名稱（例如，`GEMINI.md`、`AGENTS.md`）。可以是單一檔案名稱或接受的檔案名稱清單。
+  - **預設值：** `GEMINI.md`
+  - **範例：** `"contextFileName": "AGENTS.md"`
 
-- **`bugCommand`** (object):
-  - **Description:** Overrides the default URL for the `/bug` command.
-  - **Default:** `"urlTemplate": "https://github.com/google-gemini/gemini-cli/issues/new?template=bug_report.yml&title={title}&info={info}"`
-  - **Properties:**
-    - **`urlTemplate`** (string): A URL that can contain `{title}` and `{info}` placeholders.
-  - **Example:**
+- **`bugCommand`**（物件）：
+  - **說明：** 覆寫 `/bug` 指令的預設 URL。
+  - **預設值：** `"urlTemplate": "https://github.com/google-gemini/gemini-cli/issues/new?template=bug_report.yml&title={title}&info={info}"`
+  - **屬性：**
+    - **`urlTemplate`**（字串）：可以包含 `{title}` 和 `{info}` 預留位置的 URL。
+  - **範例：**
     ```json
     "bugCommand": {
       "urlTemplate": "https://bug.example.com/new?title={title}&info={info}"
     }
     ```
 
-- **`fileFiltering`** (object):
-  - **Description:** Controls git-aware file filtering behavior for @ commands and file discovery tools.
-  - **Default:** `"respectGitIgnore": true, "enableRecursiveFileSearch": true`
-  - **Properties:**
-    - **`respectGitIgnore`** (boolean): Whether to respect .gitignore patterns when discovering files. When set to `true`, git-ignored files (like `node_modules/`, `dist/`, `.env`) are automatically excluded from @ commands and file listing operations.
-    - **`enableRecursiveFileSearch`** (boolean): Whether to enable searching recursively for filenames under the current tree when completing @ prefixes in the prompt.
-    - **`disableFuzzySearch`** (boolean): When `true`, disables the fuzzy search capabilities when searching for files, which can improve performance on projects with a large number of files.
-  - **Example:**
+- **`fileFiltering`**（物件）：
+  - **說明：** 控制 @ 指令和檔案探索工具的 git 感知檔案篩選行為。
+  - **預設值：** `"respectGitIgnore": true, "enableRecursiveFileSearch": true`
+  - **屬性：**
+    - **`respectGitIgnore`**（布林值）：探索檔案時是否遵守 .gitignore 模式。設為 `true` 時，git 忽略的檔案（如 `node_modules/`、`dist/`、`.env`）會自動從 @ 指令和檔案清單操作中排除。
+    - **`enableRecursiveFileSearch`**（布林值）：在提示中完成 @ 前綴時，是否啟用在目前樹狀結構下遞迴搜尋檔案名稱。
+    - **`disableFuzzySearch`**（布林值）：設為 `true` 時，停用搜尋檔案時的模糊搜尋功能，可在檔案數量龐大的專案中改善效能。
+  - **範例：**
     ```json
     "fileFiltering": {
       "respectGitIgnore": true,
@@ -85,97 +85,95 @@ Gemini CLI 使用 JSON 設定檔進行持久性設定。這些檔案有四個位
     }
     ```
 
-### Troubleshooting File Search Performance
+### 檔案搜尋效能疑難排解
 
-If you are experiencing performance issues with file searching (e.g., with `@` completions), especially in projects with a very large number of files, here are a few things you can try in order of recommendation:
+如果您在檔案搜尋（例如，`@` 自動完成）方面遇到效能問題，特別是在檔案數量非常多的專案中，您可以按建議順序嘗試以下幾項設定：
 
-1.  **Use `.geminiignore`:** Create a `.geminiignore` file in your project root to exclude directories that contain a large number of files that you don't need to reference (e.g., build artifacts, logs, `node_modules`). Reducing the total number of files crawled is the most effective way to improve performance.
+1.  **使用 `.geminiignore`：** 在專案根目錄建立 `.geminiignore` 檔案，排除包含大量檔案且您不需要參考的目錄（例如，建置製品、日誌、`node_modules`）。減少爬取的檔案總數是改善效能最有效的方法。
 
-2.  **Disable Fuzzy Search:** If ignoring files is not enough, you can disable fuzzy search by setting `disableFuzzySearch` to `true` in your `settings.json` file. This will use a simpler, non-fuzzy matching algorithm, which can be faster.
+2.  **停用模糊搜尋：** 如果忽略檔案還不夠，您可以在 `settings.json` 檔案中將 `disableFuzzySearch` 設為 `true` 來停用模糊搜尋。這將使用更簡單、非模糊的比對演算法，速度可能更快。
 
-3.  **Disable Recursive File Search:** As a last resort, you can disable recursive file search entirely by setting `enableRecursiveFileSearch` to `false`. This will be the fastest option as it avoids a recursive crawl of your project. However, it means you will need to type the full path to files when using `@` completions.
+3.  **停用遞迴檔案搜尋：** 作為最後手段，您可以將 `enableRecursiveFileSearch` 設為 `false` 來完全停用遞迴檔案搜尋。這將是最快的選項，因為它避免了遞迴爬取您的專案。但是，這意味著使用 `@` 自動完成時需要輸入檔案的完整路徑。
 
-- **`coreTools`** (array of strings):
-  - **Description:** Allows you to specify a list of core tool names that should be made available to the model. This can be used to restrict the set of built-in tools. See [Built-in Tools](../core/tools-api.md#built-in-tools) for a list of core tools. You can also specify command-specific restrictions for tools that support it, like the `ShellTool`. For example, `"coreTools": ["ShellTool(ls -l)"]` will only allow the `ls -l` command to be executed.
-  - **Default:** All tools available for use by the Gemini model.
-  - **Example:** `"coreTools": ["ReadFileTool", "GlobTool", "ShellTool(ls)"]`.
+- **`coreTools`**（字串陣列）：
+  - **說明：** 允許您指定應提供給模型的核心工具名稱清單。這可用於限制內建工具集。請參閱[內建工具](../core/tools-api.md#built-in-tools)以取得核心工具清單。您也可以為支援的工具指定指令特定限制，如 `ShellTool`。例如，`"coreTools": ["ShellTool(ls -l)"]` 將只允許執行 `ls -l` 指令。
+  - **預設值：** 所有可供 Gemini 模型使用的工具。
+  - **範例：** `"coreTools": ["ReadFileTool", "GlobTool", "ShellTool(ls)"]`。
 
-- **`allowedTools`** (array of strings):
-  - **Default:** `undefined`
-  - **Description:** A list of tool names that will bypass the confirmation dialog. This is useful for tools that you trust and use frequently. The match semantics are the same as `coreTools`.
-  - **Example:** `"allowedTools": ["ShellTool(git status)"]`.
+- **`allowedTools`**（字串陣列）：
+  - **預設值：** `undefined`
+  - **說明：** 將略過確認對話框的工具名稱清單。這對您信任且經常使用的工具很有用。比對語義與 `coreTools` 相同。
+  - **範例：** `"allowedTools": ["ShellTool(git status)"]`。
 
-- **`excludeTools`** (array of strings):
-  - **Description:** Allows you to specify a list of core tool names that should be excluded from the model. A tool listed in both `excludeTools` and `coreTools` is excluded. You can also specify command-specific restrictions for tools that support it, like the `ShellTool`. For example, `"excludeTools": ["ShellTool(rm -rf)"]` will block the `rm -rf` command.
-  - **Default**: No tools excluded.
-  - **Example:** `"excludeTools": ["run_shell_command", "findFiles"]`.
-  - **Security Note:** Command-specific restrictions in
-    `excludeTools` for `run_shell_command` are based on simple string matching and can be easily bypassed. This feature is **not a security mechanism** and should not be relied upon to safely execute untrusted code. It is recommended to use `coreTools` to explicitly select commands
-    that can be executed.
+- **`excludeTools`**（字串陣列）：
+  - **說明：** 允許您指定應從模型中排除的核心工具名稱清單。同時列在 `excludeTools` 和 `coreTools` 中的工具會被排除。您也可以為支援的工具指定指令特定限制，如 `ShellTool`。例如，`"excludeTools": ["ShellTool(rm -rf)"]` 將封鎖 `rm -rf` 指令。
+  - **預設值**：不排除任何工具。
+  - **範例：** `"excludeTools": ["run_shell_command", "findFiles"]`。
+  - **安全注意事項：** `excludeTools` 中 `run_shell_command` 的指令特定限制基於簡單字串比對，可輕易略過。此功能**不是安全機制**，不應依賴它來安全執行不信任的程式碼。建議使用 `coreTools` 明確選擇可執行的指令。
 
-- **`allowMCPServers`** (array of strings):
-  - **Description:** Allows you to specify a list of MCP server names that should be made available to the model. This can be used to restrict the set of MCP servers to connect to. Note that this will be ignored if `--allowed-mcp-server-names` is set.
-  - **Default:** All MCP servers are available for use by the Gemini model.
-  - **Example:** `"allowMCPServers": ["myPythonServer"]`.
-  - **Security Note:** This uses simple string matching on MCP server names, which can be modified. If you're a system administrator looking to prevent users from bypassing this, consider configuring the `mcpServers` at the system settings level such that the user will not be able to configure any MCP servers of their own. This should not be used as an airtight security mechanism.
+- **`allowMCPServers`**（字串陣列）：
+  - **說明：** 允許您指定應提供給模型的 MCP 伺服器名稱清單。這可用於限制要連線的 MCP 伺服器集。請注意，如果設定了 `--allowed-mcp-server-names`，此設定將被忽略。
+  - **預設值：** 所有 MCP 伺服器都可供 Gemini 模型使用。
+  - **範例：** `"allowMCPServers": ["myPythonServer"]`。
+  - **安全注意事項：** 這使用對 MCP 伺服器名稱的簡單字串比對，可以修改。如果您是系統管理員想要防止使用者略過此設定，請考慮在系統設定層級設定 `mcpServers`，使用者將無法設定自己的任何 MCP 伺服器。這不應用作密封的安全機制。
 
-- **`excludeMCPServers`** (array of strings):
-  - **Description:** Allows you to specify a list of MCP server names that should be excluded from the model. A server listed in both `excludeMCPServers` and `allowMCPServers` is excluded. Note that this will be ignored if `--allowed-mcp-server-names` is set.
-  - **Default**: No MCP servers excluded.
-  - **Example:** `"excludeMCPServers": ["myNodeServer"]`.
-  - **Security Note:** This uses simple string matching on MCP server names, which can be modified. If you're a system administrator looking to prevent users from bypassing this, consider configuring the `mcpServers` at the system settings level such that the user will not be able to configure any MCP servers of their own. This should not be used as an airtight security mechanism.
+- **`excludeMCPServers`**（字串陣列）：
+  - **說明：** 允許您指定應從模型中排除的 MCP 伺服器名稱清單。同時列在 `excludeMCPServers` 和 `allowMCPServers` 中的伺服器會被排除。請注意，如果設定了 `--allowed-mcp-server-names`，此設定將被忽略。
+  - **預設值**：不排除任何 MCP 伺服器。
+  - **範例：** `"excludeMCPServers": ["myNodeServer"]`。
+  - **安全注意事項：** 這使用對 MCP 伺服器名稱的簡單字串比對，可以修改。如果您是系統管理員想要防止使用者略過此設定，請考慮在系統設定層級設定 `mcpServers`，使用者將無法設定自己的任何 MCP 伺服器。這不應用作密封的安全機制。
 
-- **`autoAccept`** (boolean):
-  - **Description:** Controls whether the CLI automatically accepts and executes tool calls that are considered safe (e.g., read-only operations) without explicit user confirmation. If set to `true`, the CLI will bypass the confirmation prompt for tools deemed safe.
-  - **Default:** `false`
-  - **Example:** `"autoAccept": true`
+- **`autoAccept`**（布林值）：
+  - **說明：** 控制 CLI 是否自動接受並執行被視為安全的工具呼叫（例如，唯讀操作），而無需明確的使用者確認。如果設為 `true`，CLI 將略過被視為安全的工具的確認提示。
+  - **預設值：** `false`
+  - **範例：** `"autoAccept": true`
 
-- **`theme`** (string):
-  - **Description:** Sets the visual [theme](./themes.md) for Gemini CLI.
-  - **Default:** `"Default"`
-  - **Example:** `"theme": "GitHub"`
+- **`theme`**（字串）：
+  - **說明：** 設定 Gemini CLI 的視覺[主題](./themes.md)。
+  - **預設值：** `"Default"`
+  - **範例：** `"theme": "GitHub"`
 
-- **`vimMode`** (boolean):
-  - **Description:** Enables or disables vim mode for input editing. When enabled, the input area supports vim-style navigation and editing commands with NORMAL and INSERT modes. The vim mode status is displayed in the footer and persists between sessions.
-  - **Default:** `false`
-  - **Example:** `"vimMode": true`
+- **`vimMode`**（布林值）：
+  - **說明：** 啟用或停用輸入編輯的 vim 模式。啟用時，輸入區域支援 vim 風格的導覽和編輯指令，具有 NORMAL 和 INSERT 模式。vim 模式狀態顯示在頁尾，並在工作階段之間持續存在。
+  - **預設值：** `false`
+  - **範例：** `"vimMode": true`
 
-- **`sandbox`** (boolean or string):
-  - **Description:** Controls whether and how to use sandboxing for tool execution. If set to `true`, Gemini CLI uses a pre-built `gemini-cli-sandbox` Docker image. For more information, see [Sandboxing](#sandboxing).
-  - **Default:** `false`
-  - **Example:** `"sandbox": "docker"`
+- **`sandbox`**（布林值或字串）：
+  - **說明：** 控制是否以及如何使用沙箱化進行工具執行。如果設為 `true`，Gemini CLI 使用預建的 `gemini-cli-sandbox` Docker 映像。如需更多資訊，請參閱[沙箱化](#sandboxing)。
+  - **預設值：** `false`
+  - **範例：** `"sandbox": "docker"`
 
-- **`toolDiscoveryCommand`** (string):
-  - **Description:** Defines a custom shell command for discovering tools from your project. The shell command must return on `stdout` a JSON array of [function declarations](https://ai.google.dev/gemini-api/docs/function-calling#function-declarations). Tool wrappers are optional.
-  - **Default:** Empty
-  - **Example:** `"toolDiscoveryCommand": "bin/get_tools"`
+- **`toolDiscoveryCommand`**（字串）：
+  - **說明：** 定義從您的專案中探索工具的自訂 shell 指令。shell 指令必須在 `stdout` 上回傳[函式宣告](https://ai.google.dev/gemini-api/docs/function-calling#function-declarations)的 JSON 陣列。工具包裝器是可選的。
+  - **預設值：** 空
+  - **範例：** `"toolDiscoveryCommand": "bin/get_tools"`
 
-- **`toolCallCommand`** (string):
-  - **Description:** Defines a custom shell command for calling a specific tool that was discovered using `toolDiscoveryCommand`. The shell command must meet the following criteria:
-    - It must take function `name` (exactly as in [function declaration](https://ai.google.dev/gemini-api/docs/function-calling#function-declarations)) as first command line argument.
-    - It must read function arguments as JSON on `stdin`, analogous to [`functionCall.args`](https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/inference#functioncall).
-    - It must return function output as JSON on `stdout`, analogous to [`functionResponse.response.content`](https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/inference#functionresponse).
-  - **Default:** Empty
-  - **Example:** `"toolCallCommand": "bin/call_tool"`
+- **`toolCallCommand`**（字串）：
+  - **說明：** 定義呼叫使用 `toolDiscoveryCommand` 探索的特定工具的自訂 shell 指令。shell 指令必須符合以下條件：
+    - 它必須將函式 `name`（與[函式宣告](https://ai.google.dev/gemini-api/docs/function-calling#function-declarations)中完全相同）作為第一個命令列引數。
+    - 它必須從 `stdin` 讀取函式引數作為 JSON，類似於 [`functionCall.args`](https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/inference#functioncall)。
+    - 它必須在 `stdout` 上回傳函式輸出作為 JSON，類似於 [`functionResponse.response.content`](https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/inference#functionresponse)。
+  - **預設值：** 空
+  - **範例：** `"toolCallCommand": "bin/call_tool"`
 
-- **`mcpServers`** (object):
-  - **Description:** Configures connections to one or more Model-Context Protocol (MCP) servers for discovering and using custom tools. Gemini CLI attempts to connect to each configured MCP server to discover available tools. If multiple MCP servers expose a tool with the same name, the tool names will be prefixed with the server alias you defined in the configuration (e.g., `serverAlias__actualToolName`) to avoid conflicts. Note that the system might strip certain schema properties from MCP tool definitions for compatibility. At least one of `command`, `url`, or `httpUrl` must be provided. If multiple are specified, the order of precedence is `httpUrl`, then `url`, then `command`.
-  - **Default:** Empty
-  - **Properties:**
-    - **`<SERVER_NAME>`** (object): The server parameters for the named server.
-      - `command` (string, optional): The command to execute to start the MCP server via standard I/O.
-      - `args` (array of strings, optional): Arguments to pass to the command.
-      - `env` (object, optional): Environment variables to set for the server process.
-      - `cwd` (string, optional): The working directory in which to start the server.
-      - `url` (string, optional): The URL of an MCP server that uses Server-Sent Events (SSE) for communication.
-      - `httpUrl` (string, optional): The URL of an MCP server that uses streamable HTTP for communication.
-      - `headers` (object, optional): A map of HTTP headers to send with requests to `url` or `httpUrl`.
-      - `timeout` (number, optional): Timeout in milliseconds for requests to this MCP server.
-      - `trust` (boolean, optional): Trust this server and bypass all tool call confirmations.
-      - `description` (string, optional): A brief description of the server, which may be used for display purposes.
-      - `includeTools` (array of strings, optional): List of tool names to include from this MCP server. When specified, only the tools listed here will be available from this server (whitelist behavior). If not specified, all tools from the server are enabled by default.
-      - `excludeTools` (array of strings, optional): List of tool names to exclude from this MCP server. Tools listed here will not be available to the model, even if they are exposed by the server. **Note:** `excludeTools` takes precedence over `includeTools` - if a tool is in both lists, it will be excluded.
-  - **Example:**
+- **`mcpServers`**（物件）：
+  - **說明：** 設定連線到一個或多個模型內容協定（MCP）伺服器，以探索和使用自訂工具。Gemini CLI 嘗試連線到每個設定的 MCP 伺服器以探索可用工具。如果多個 MCP 伺服器暴露同名工具，工具名稱將加上您在設定中定義的伺服器別名前綴（例如，`serverAlias__actualToolName`）以避免衝突。請注意，系統可能會從 MCP 工具定義中剝離某些綱要屬性以確保相容性。必須提供 `command`、`url` 或 `httpUrl` 中的至少一個。如果指定多個，優先順序為 `httpUrl`、然後 `url`、然後 `command`。
+  - **預設值：** 空
+  - **屬性：**
+    - **`<SERVER_NAME>`**（物件）：指定伺服器的伺服器參數。
+      - `command`（字串，可選）：執行以透過標準 I/O 啟動 MCP 伺服器的指令。
+      - `args`（字串陣列，可選）：傳遞給指令的引數。
+      - `env`（物件，可選）：為伺服器程序設定的環境變數。
+      - `cwd`（字串，可選）：啟動伺服器的工作目錄。
+      - `url`（字串，可選）：使用伺服器發送事件（SSE）進行通訊的 MCP 伺服器 URL。
+      - `httpUrl`（字串，可選）：使用可串流 HTTP 進行通訊的 MCP 伺服器 URL。
+      - `headers`（物件，可選）：發送請求到 `url` 或 `httpUrl` 時的 HTTP 標頭對應。
+      - `timeout`（數字，可選）：對此 MCP 伺服器請求的逾時時間（毫秒）。
+      - `trust`（布林值，可選）：信任此伺服器並略過所有工具呼叫確認。
+      - `description`（字串，可選）：伺服器的簡要說明，可用於顯示目的。
+      - `includeTools`（字串陣列，可選）：從此 MCP 伺服器包含的工具名稱清單。指定時，只有此處列出的工具才可從此伺服器使用（白名單行為）。如果未指定，預設啟用伺服器的所有工具。
+      - `excludeTools`（字串陣列，可選）：從此 MCP 伺服器排除的工具名稱清單。此處列出的工具將不可供模型使用，即使伺服器暴露了它們。**注意：** `excludeTools` 優先於 `includeTools` - 如果工具在兩個清單中，它將被排除。
+  - **範例：**
     ```json
     "mcpServers": {
       "myPythonServer": {
@@ -203,14 +201,14 @@ If you are experiencing performance issues with file searching (e.g., with `@` c
         "headers": {
           "Authorization": "Bearer $MY_SSE_TOKEN"
         },
-        "description": "An example SSE-based MCP server."
+        "description": "基於 SSE 的 MCP 伺服器範例。"
       },
       "myStreamableHttpServer": {
         "httpUrl": "http://localhost:8082/stream",
         "headers": {
           "X-API-Key": "$MY_HTTP_API_KEY"
         },
-        "description": "An example Streamable HTTP-based MCP server."
+        "description": "基於可串流 HTTP 的 MCP 伺服器範例。"
       }
     }
     ```
