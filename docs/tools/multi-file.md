@@ -28,10 +28,10 @@
 
 `read_many_files` 會搜尋符合提供的 `paths` 和 `include` 模式的檔案，同時遵守 `exclude` 模式和預設排除項（如果啟用）。
 
-- For text files: it reads the content of each matched file (attempting to skip binary files not explicitly requested as image/PDF) and concatenates it into a single string, with a separator `--- {filePath} ---` between the content of each file. Uses UTF-8 encoding by default.
-- The tool inserts a `--- End of content ---` after the last file.
-- For image and PDF files: if explicitly requested by name or extension (e.g., `paths: ["logo.png"]` or `include: ["*.pdf"]`), the tool reads the file and returns its content as a base64 encoded string.
-- The tool attempts to detect and skip other binary files (those not matching common image/PDF types or not explicitly requested) by checking for null bytes in their initial content.
+- 對於文字檔案：它會讀取每個匹配檔案的內容（嘗試跳過未明確請求為影像/PDF 的二進位檔案），並將其串連成單一字串，每個檔案的內容之間使用分隔符 `--- {filePath} ---`。預設使用 UTF-8 編碼。
+- 工具在最後一個檔案後插入 `--- End of content ---`。
+- 對於影像和 PDF 檔案：如果透過名稱或副檔名明確請求（例如，`paths: ["logo.png"]` 或 `include: ["*.pdf"]`），工具會讀取檔案並以 base64 編碼字串形式回傳其內容。
+- 工具嘗試透過檢查其初始內容中的 null 位元組來偵測並跳過其他二進位檔案（那些不匹配常見影像/PDF 類型或未明確請求的檔案）。
 
 Usage:
 
@@ -39,31 +39,31 @@ Usage:
 read_many_files(paths=["Your files or paths here."], include=["Additional files to include."], exclude=["Files to exclude."], recursive=False, useDefaultExcludes=false, respect_git_ignore=true)
 ```
 
-## `read_many_files` examples
+## `read_many_files` 範例
 
-Read all TypeScript files in the `src` directory:
+讀取 `src` 目錄中的所有 TypeScript 檔案：
 
 ```
 read_many_files(paths=["src/**/*.ts"])
 ```
 
-Read the main README, all Markdown files in the `docs` directory, and a specific logo image, excluding a specific file:
+讀取主要 README、`docs` 目錄中的所有 Markdown 檔案和特定標誌影像，排除特定檔案：
 
 ```
 read_many_files(paths=["README.md", "docs/**/*.md", "assets/logo.png"], exclude=["docs/OLD_README.md"])
 ```
 
-Read all JavaScript files but explicitly include test files and all JPEGs in an `images` folder:
+讀取所有 JavaScript 檔案，但明確包含測試檔案和 `images` 資料夾中的所有 JPEG：
 
 ```
 read_many_files(paths=["**/*.js"], include=["**/*.test.js", "images/**/*.jpg"], useDefaultExcludes=False)
 ```
 
-## Important notes
+## 重要注意事項
 
-- **Binary file handling:**
-  - **Image/PDF/Audio/Video files:** The tool can read common image types (PNG, JPEG, etc.), PDF, audio (mp3, wav), and video (mp4, mov) files, returning them as base64 encoded data. These files _must_ be explicitly targeted by the `paths` or `include` patterns (e.g., by specifying the exact filename like `video.mp4` or a pattern like `*.mov`).
-  - **Other binary files:** The tool attempts to detect and skip other types of binary files by examining their initial content for null bytes. The tool excludes these files from its output.
-- **Performance:** Reading a very large number of files or very large individual files can be resource-intensive.
-- **Path specificity:** Ensure paths and glob patterns are correctly specified relative to the tool's target directory. For image/PDF files, ensure the patterns are specific enough to include them.
-- **Default excludes:** Be aware of the default exclusion patterns (like `node_modules`, `.git`) and use `useDefaultExcludes=False` if you need to override them, but do so cautiously.
+- **二進位檔案處理：**
+  - **影像/PDF/音訊/視訊檔案：** 工具可以讀取常見的影像類型（PNG、JPEG 等）、PDF、音訊（mp3、wav）和視訊（mp4、mov）檔案，以 base64 編碼資料回傳。這些檔案_必須_透過 `paths` 或 `include` 模式明確指定（例如，透過指定確切檔案名稱如 `video.mp4` 或模式如 `*.mov`）。
+  - **其他二進位檔案：** 工具嘗試透過檢查其初始內容中的 null 位元組來偵測並跳過其他類型的二進位檔案。工具會從輸出中排除這些檔案。
+- **效能：** 讀取大量檔案或非常大的個別檔案可能會消耗大量資源。
+- **路徑特定性：** 確保路徑和 glob 模式相對於工具的目標目錄正確指定。對於影像/PDF 檔案，確保模式足夠具體以包含它們。
+- **預設排除：** 請注意預設排除模式（如 `node_modules`、`.git`），如果需要覆蓋它們，請使用 `useDefaultExcludes=False`，但要謹慎進行。

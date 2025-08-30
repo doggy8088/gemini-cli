@@ -78,25 +78,25 @@ Gemini CLI 可以與您的 IDE 整合，提供更無縫和內容感知的體驗�
 
 （注意：檔案清單限制為工作區內最近存取的 10 個檔案，且僅包含磁碟上的本機檔案。）
 
-### Working with Diffs
+### 與差異比較工作
 
-When you ask Gemini to modify a file, it can open a diff view directly in your editor.
+當您要求 Gemini 修改檔案時，它可以直接在您的編輯器中開啟差異檢視。
 
-**To accept a diff**, you can perform any of the following actions:
+**要接受差異比較**，您可以執行以下任何動作：
 
-- Click the **checkmark icon** in the diff editor's title bar.
-- Save the file (e.g., with `Cmd+S` or `Ctrl+S`).
-- Open the Command Palette and run **Gemini CLI: Accept Diff**.
-- Respond with `yes` in the CLI when prompted.
+- 點選差異編輯器標題列中的**勾選圖示**。
+- 儲存檔案（例如，使用 `Cmd+S` 或 `Ctrl+S`）。
+- 開啟指令選擇區並執行 **Gemini CLI: Accept Diff**。
+- 在 CLI 提示時回應 `yes`。
 
-**To reject a diff**, you can:
+**要拒絕差異比較**，您可以：
 
-- Click the **'x' icon** in the diff editor's title bar.
-- Close the diff editor tab.
-- Open the Command Palette and run **Gemini CLI: Close Diff Editor**.
-- Respond with `no` in the CLI when prompted.
+- 點選差異編輯器標題列中的 **'x' 圖示**。
+- 關閉差異編輯器分頁。
+- 開啟指令選擇區並執行 **Gemini CLI: Close Diff Editor**。
+- 在 CLI 提示時回應 `no`。
 
-You can also **modify the suggested changes** directly in the diff view before accepting them.
+您也可以在接受建議變更前，**直接在差異檢視中修改建議的變更**。
 
 If you select ‘Yes, allow always’ in the CLI, changes will no longer show up in the IDE as they will be auto-accepted.
 

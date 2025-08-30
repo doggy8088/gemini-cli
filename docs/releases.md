@@ -42,66 +42,66 @@ npm install -g @google/gemini-cli@nightly
 
 每週二 UTC 23:59 我們會自動部署下一個正式版 x.y.z 的預覽版發布。
 
-- This will happen as a scheduled instance of the ‘release’ action. It will be cut off of Main.
-- This will create a branch `release/vx.y.z-preview.n`
-- We will run evals and smoke testing against this branch and the npm package. For now this should be manual smoke testing, we don't have a dedicated matrix or specific detailed process. There is work coming soon to make this more formalized and automatic see https://github.com/google-gemini/gemini-cli/issues/3788
-- Users installing `@preview` will get this release as well
+- 這將發生 as a scheduled instance of the ‘release’ action. It will be cut off of Main.
+- 這將建立 a branch `release/vx.y.z-preview.n`
+- 我們將執行 evals and smoke testing against this branch and the npm package. 目前這應該是手動煙霧測試, 我們還沒有專門的矩陣 或特定的詳細流程. 即將有工作 讓這更正式化和自動化 see https://github.com/google-gemini/gemini-cli/issues/3788
+- 安裝的使用者 `@preview` 也會獲得此發布
 
 ## Promote Stable Release
 
-After one week (On the following Tuesday) with all signals a go, we will manually release at 2000 UTC via the current on-call person.
+經過一週後 (On the following Tuesday) 所有信號都正常, 我們將手動發布 at 2000 UTC 透過目前值班人員.
 
-- The release action will be used with the source branch as `release/vx.y.z-preview.n`
-- The version will be x.y.z
-- The releaser will create and merge a pr into main with the version changes.
-- Smoke tests and manual validation will be run. For now this should be manual smoke testing, we don't have a dedicated matrix or specific detailed process. There is work coming soon to make this more formalized and automatic see https://github.com/google-gemini/gemini-cli/issues/3788
+- 發布動作將使用 並以來源分支為 `release/vx.y.z-preview.n`
+- 版本將是 x.y.z
+- 發布者將建立並合併 a pr 到主分支，包含版本變更.
+- 將執行煙霧測試和手動驗證. 目前這應該是手動煙霧測試, 我們還沒有專門的矩陣 或特定的詳細流程. 即將有工作 讓這更正式化和自動化 see https://github.com/google-gemini/gemini-cli/issues/3788
 
 ## Patching Releases
 
-If a critical bug needs to be fixed before the next scheduled release, follow this process to create a patch.
+如果關鍵錯誤需要修正 在下次排程發布前, 請遵循此流程 建立修補程式.
 
 ### 1. Create a Hotfix Branch
 
-First, create a new branch for your fix. The source for this branch depends on whether you are patching a stable or a preview release.
+首先，建立新分支 供您修正使用. 此分支的來源取決於 您是要修補 穩定版還是預覽版發布.
 
 - **For a stable release patch:**
-  Create a branch from the Git tag of the version you need to patch. Tag names are formatted as `vx.y.z`.
+  從 Git 標籤建立分支 您需要修補的版本. 標籤名稱格式為 `vx.y.z`.
 
   ```bash
-  # Example: Create a hotfix branch for v0.2.0
+  # 範例：建立熱修復分支 for v0.2.0
   git checkout v0.2.0 -b hotfix/issue-123-fix-for-v0.2.0
   ```
 
 - **For a preview release patch:**
-  Create a branch from the existing preview release branch, which is formatted as `release/vx.y.z-preview.n`.
+  從現有的分支建立 預覽版發布分支, 其格式為 `release/vx.y.z-preview.n`.
 
   ```bash
-  # Example: Create a hotfix branch for a preview release
+  # 範例：建立熱修復分支 for a preview release
   git checkout release/v0.2.0-preview.0 && git checkout -b hotfix/issue-456-fix-for-preview
   ```
 
 ### 2. Implement the Fix
 
-In your new hotfix branch, either create a new commit with the fix or cherry-pick an existing commit from the `main` branch. Merge your changes into the source of the hotfix branch (ex. https://github.com/google-gemini/gemini-cli/pull/6850).
+在您的新熱修復分支中, 建立新提交 包含修正 或從中挑選現有提交 from the `main` branch. 將您的變更合併到 熱修復分支的來源 (ex. https://github.com/google-gemini/gemini-cli/pull/6850).
 
 ### 3. Perform the Release
 
-Follow the manual release process using the "Release" GitHub Actions workflow.
+遵循手動發布流程 using the "Release" GitHub Actions workflow.
 
-- **Version**: For stable patches, increment the patch version (e.g., `v0.2.0` -> `v0.2.1`). For preview patches, increment the preview number (e.g., `v0.2.0-preview.0` -> `v0.2.0-preview.1`).
-- **Ref**: Use your source branch as the reference (ex. `release/v0.2.0-preview.0`)
+- **Version**: 對於穩定版修補, 遞增修補版本 (e.g., `v0.2.0` -> `v0.2.1`). 對於預覽版修補, 遞增預覽編號 (e.g., `v0.2.0-preview.0` -> `v0.2.0-preview.1`).
+- **Ref**: 使用您的來源分支作為參考 (ex. `release/v0.2.0-preview.0`)
 
-![How to run a release](assets/release_patch.png)
+![如何執行發布](assets/release_patch.png)
 
 ### 4. Update Versions
 
-After the hotfix is released, merge the changes back to the appropriate branch.
+熱修復發布後, 將變更合併回 適當的分支.
 
 - **For a stable release hotfix:**
-  Open a pull request to merge the release branch (e.g., `release/0.2.1`) back into `main`. This keeps the version number in `main` up to date.
+  開啟拉取請求 合併發布分支 (e.g., `release/0.2.1`) back into `main`. 這保持版本號 in `main` up to date.
 
 - **For a preview release hotfix:**
-  Open a pull request to merge the new preview release branch (e.g., `release/v0.2.0-preview.1`) back into the existing preview release branch (`release/v0.2.0-preview.0`) (ex. https://github.com/google-gemini/gemini-cli/pull/6868)
+  開啟拉取請求 to merge the new 預覽版發布分支 (e.g., `release/v0.2.0-preview.1`) 回到現有的 預覽版發布分支 (`release/v0.2.0-preview.0`) (ex. https://github.com/google-gemini/gemini-cli/pull/6868)
 
 ## Release Schedule
 
