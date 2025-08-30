@@ -72,38 +72,38 @@ npm install -g @google/gemini-cli@nightly
   git checkout v0.2.0 -b hotfix/issue-123-fix-for-v0.2.0
   ```
 
-- **For a preview release patch:**
-  從現有的分支建立 預覽版發布分支, 其格式為 `release/vx.y.z-preview.n`.
+- **對於預覽版發布修補：**
+  從現有的預覽版發布分支建立，其格式為 `release/vx.y.z-preview.n`。
 
   ```bash
-  # 範例：建立熱修復分支 for a preview release
+  # 範例：建立預覽版發布的熱修復分支
   git checkout release/v0.2.0-preview.0 && git checkout -b hotfix/issue-456-fix-for-preview
   ```
 
-### 2. Implement the Fix
+### 2. 實作修正
 
-在您的新熱修復分支中, 建立新提交 包含修正 或從中挑選現有提交 from the `main` branch. 將您的變更合併到 熱修復分支的來源 (ex. https://github.com/google-gemini/gemini-cli/pull/6850).
+在您的新熱修復分支中，建立新提交包含修正或從 `main` 分支挑選現有提交。將您的變更合併到熱修復分支的來源（例如 https://github.com/google-gemini/gemini-cli/pull/6850）。
 
-### 3. Perform the Release
+### 3. 執行發布
 
-遵循手動發布流程 using the "Release" GitHub Actions workflow.
+使用 "Release" GitHub Actions 工作流程遵循手動發布流程。
 
-- **Version**: 對於穩定版修補, 遞增修補版本 (e.g., `v0.2.0` -> `v0.2.1`). 對於預覽版修補, 遞增預覽編號 (e.g., `v0.2.0-preview.0` -> `v0.2.0-preview.1`).
-- **Ref**: 使用您的來源分支作為參考 (ex. `release/v0.2.0-preview.0`)
+- **版本**：對於穩定版修補，遞增修補版本（例如，`v0.2.0` -> `v0.2.1`）。對於預覽版修補，遞增預覽編號（例如，`v0.2.0-preview.0` -> `v0.2.0-preview.1`）。
+- **參考**：使用您的來源分支作為參考（例如 `release/v0.2.0-preview.0`）
 
 ![如何執行發布](assets/release_patch.png)
 
-### 4. Update Versions
+### 4. 更新版本
 
-熱修復發布後, 將變更合併回 適當的分支.
+熱修復發布後，將變更合併回適當的分支。
 
-- **For a stable release hotfix:**
-  開啟拉取請求 合併發布分支 (e.g., `release/0.2.1`) back into `main`. 這保持版本號 in `main` up to date.
+- **對於穩定版發布熱修復：**
+  開啟拉取請求合併發布分支（例如，`release/0.2.1`）回到 `main`。這保持 `main` 中的版本號為最新。
 
-- **For a preview release hotfix:**
-  開啟拉取請求 to merge the new 預覽版發布分支 (e.g., `release/v0.2.0-preview.1`) 回到現有的 預覽版發布分支 (`release/v0.2.0-preview.0`) (ex. https://github.com/google-gemini/gemini-cli/pull/6868)
+- **對於預覽版發布熱修復：**
+  開啟拉取請求將新的預覽版發布分支（例如，`release/v0.2.0-preview.1`）合併回現有的預覽版發布分支（`release/v0.2.0-preview.0`）（例如 https://github.com/google-gemini/gemini-cli/pull/6868）
 
-## Release Schedule
+## 發布排程
 
 <table>
   <tr>
