@@ -84,7 +84,7 @@ Gemini CLI 支援多個內建指令來幫助您管理工作階段、自訂介面
       - **描述**：顯示目前從所有 `GEMINI.md` 檔案載入的階層式記憶體的完整串聯內容。這讓您檢查提供給 Gemini 模型的指示內容。
     - **`refresh`**：
       - **描述**：從在設定位置找到的所有 `GEMINI.md` 檔案重新載入階層式指示記憶體（全域、專案/祖先和子目錄）。此指令使用最新的 `GEMINI.md` 內容更新模型。
-    - **注意**：有關 `GEMINI.md` 檔案如何促成階層式記憶體的更多詳細資訊，請參閱 [CLI 設定說明文件](./configuration.md#4-geminimd-files-hierarchical-instructional-context)。
+  - **注意**：有關 `GEMINI.md` 檔案如何促成階層式記憶體的更多詳細資訊，請參閱 [CLI 設定說明文件](./configuration.md#內容檔案-階層式指示內容)。
 
 - **`/restore`**
   - **描述**：將專案檔案還原到工具執行前的狀態。這對於復原工具所做的檔案編輯特別有用。如果在沒有工具呼叫 ID 的情況下執行，它會列出可供還原的可用檢查點。
@@ -336,6 +336,7 @@ prompt = """
 
 ---
 
+<a id="example-a-pure-function-refactoring-command"></a>
 #### 範例：「純函式」重構指令
 
 讓我們建立一個全域指令，要求模型重構一段程式碼。

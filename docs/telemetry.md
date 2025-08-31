@@ -19,7 +19,7 @@ Gemini CLI 的遙測系統建立在 **[OpenTelemetry] (OTEL)** 標準之上，�
     - `--telemetry-target <local|gcp>`：覆蓋 `telemetry.target`。
     - `--telemetry-otlp-endpoint <URL>`：覆蓋 `telemetry.otlpEndpoint`。
     - `--telemetry-log-prompts` / `--no-telemetry-log-prompts`：覆蓋 `telemetry.logPrompts`。
-    - `--telemetry-outfile <path>`：將遙測輸出重新導向到檔案。請參閱[匯出到檔案](#exporting-to-a-file)。
+  - `--telemetry-outfile <path>`：將遙測輸出重新導向到檔案。請參閱[匯出到檔案](#匯出到檔案)。
 
 1.  **環境變數：**
     - `OTEL_EXPORTER_OTLP_ENDPOINT`：覆蓋 `telemetry.otlpEndpoint`。

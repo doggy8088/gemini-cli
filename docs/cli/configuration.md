@@ -4,8 +4,8 @@
 
 `settings.json` 檔案的格式已更新為新的、更有條理的結構。
 
-- 新格式將從 **[09/10/25]** 開始在穩定版本中受到支援。
-- 從舊格式到新格式的自動遷移將於 **[09/17/25]** 開始。
+- 新格式將從 **09/10/25** 開始在穩定版本中受到支援。
+- 從舊格式到新格式的自動遷移將於 **09/17/25** 開始。
 
 如需之前格式的詳細資訊，請參閱 [v1 設定說明文件](./configuration-v1.md)。
 
@@ -48,7 +48,7 @@ Gemini CLI 使用 JSON 設定檔進行持久設定。這些檔案有四個位置
 
 除了專案設定檔案外，專案的 `.gemini` 目錄還可以包含與 Gemini CLI 操作相關的其他專案特定檔案，例如：
 
-- [自訂沙箱設定檔](#sandboxing)（例如，`.gemini/sandbox-macos-custom.sb`、`.gemini/sandbox.Dockerfile`）。
+- [自訂沙箱設定檔](#沙箱化)（例如，`.gemini/sandbox-macos-custom.sb`、`.gemini/sandbox.Dockerfile`）。
 
 ### `settings.json` 中的可用設定
 
@@ -550,7 +550,7 @@ CLI 會自動從 `.env` 檔案載入環境變數。載入順序為：
 - **記憶體管理指令：**
   - 使用 `/memory refresh` 強制重新掃描並重新載入來自所有設定位置的所有內容檔案。這會更新 AI 的指示內容。
   - 使用 `/memory show` 顯示目前載入的組合指示內容，讓您驗證 AI 使用的階層和內容。
-  - 有關 `/memory` 指令及其子指令（`show` 和 `refresh`）的完整詳細資訊，請參閱[指令說明文件](./commands.md#memory)。
+  - 有關 `/memory` 指令及其子指令（`show` 和 `refresh`）的完整詳細資訊，請參閱[指令說明文件](./commands.md#內建指令)。
 
 透過理解和利用這些設定層級以及內容檔案的階層性質，您可以有效管理 AI 的記憶體並將 Gemini CLI 的回應調整為您的特定需求和專案。
 

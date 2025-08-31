@@ -19,7 +19,7 @@ Gemini CLI 需要您向 Google 的 AI 服務進行驗證。在初始啟動時，
       ```bash
       export GOOGLE_CLOUD_PROJECT="YOUR_PROJECT_ID"
       ```
-      - 對於重複使用，您可以將環境變數新增到您的 [.env 檔案](#persisting-environment-variables-with-env-files) 或您的 Shell 設定檔案（如 `~/.bashrc`、`~/.zshrc` 或 `~/.profile`）。例如，以下指令將環境變數新增到 `~/.bashrc` 檔案：
+  - 對於重複使用，您可以將環境變數新增到您的 [.env 檔案](#使用-env-檔案保存環境變數) 或您的 Shell 設定檔案（如 `~/.bashrc`、`~/.zshrc` 或 `~/.profile`）。例如，以下指令將環境變數新增到 `~/.bashrc` 檔案：
 
       ```bash
       echo 'export GOOGLE_CLOUD_PROJECT="YOUR_PROJECT_ID"' >> ~/.bashrc
@@ -33,7 +33,7 @@ Gemini CLI 需要您向 Google 的 AI 服務進行驗證。在初始啟動時，
         ```bash
         export GEMINI_API_KEY="YOUR_GEMINI_API_KEY"
         ```
-      - 對於重複使用，您可以將環境變數新增到您的 [.env 檔案](#persisting-environment-variables-with-env-files)。
+  - 對於重複使用，您可以將環境變數新增到您的 [.env 檔案](#使用-env-檔案保存環境變數)。
 
       - 或者，您可以從 Shell 設定檔案（如 `~/.bashrc`、`~/.zshrc` 或 `~/.profile`）匯出 API 金鑰。例如，以下指令將環境變數新增到 `~/.bashrc` 檔案：
 
@@ -52,7 +52,7 @@ Gemini CLI 需要您向 Google 的 AI 服務進行驗證。在初始啟動時，
           ```bash
           export GOOGLE_API_KEY="YOUR_GOOGLE_API_KEY"
           ```
-        - 對於重複使用，您可以將環境變數新增到您的 [.env 檔案](#persisting-environment-variables-with-env-files) 或 Shell 設定檔案（如 `~/.bashrc`、`~/.zshrc` 或 `~/.profile`）。例如，以下指令將環境變數新增到 `~/.bashrc` 檔案：
+  - 對於重複使用，您可以將環境變數新增到您的 [.env 檔案](#使用-env-檔案保存環境變數) 或 Shell 設定檔案（如 `~/.bashrc`、`~/.zshrc` 或 `~/.profile`）。例如，以下指令將環境變數新增到 `~/.bashrc` 檔案：
 
           ```bash
           echo 'export GOOGLE_API_KEY="YOUR_GOOGLE_API_KEY"' >> ~/.bashrc
@@ -101,7 +101,7 @@ Gemini CLI 需要您向 Google 的 AI 服務進行驗證。在初始啟動時，
             export GOOGLE_CLOUD_PROJECT="YOUR_PROJECT_ID"
             export GOOGLE_CLOUD_LOCATION="YOUR_PROJECT_LOCATION" # 例如：us-central1
             ```
-          - 對於重複使用，您可以將環境變數新增到您的 [.env 檔案](#persisting-environment-variables-with-env-files) 或 Shell 設定檔案（如 `~/.bashrc`、`~/.zshrc` 或 `~/.profile`）。例如，以下指令將環境變數新增到 `~/.bashrc` 檔案：
+          - 對於重複使用，您可以將環境變數新增到您的 [.env 檔案](#使用-env-檔案保存環境變數) 或 Shell 設定檔案（如 `~/.bashrc`、`~/.zshrc` 或 `~/.profile`）。例如，以下指令將環境變數新增到 `~/.bashrc` 檔案：
             ```bash
             echo 'export GOOGLE_CLOUD_PROJECT="YOUR_PROJECT_ID"' >> ~/.bashrc
             echo 'export GOOGLE_CLOUD_LOCATION="YOUR_PROJECT_LOCATION"' >> ~/.bashrc

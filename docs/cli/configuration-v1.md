@@ -4,8 +4,8 @@
 
 本文件描述 `settings.json` 檔案的舊版 v1 格式。此格式現已棄用。
 
-- 新格式將從 **[09/10/25]** 開始在穩定版本中支援。
-- 從舊格式到新格式的自動遷移將於 **[09/17/25]** 開始。
+- 新格式將從 **09/10/25** 開始在穩定版本中支援。
+- 從舊格式到新格式的自動遷移將於 **09/17/25** 開始。
 
 有關新的推薦格式的詳細資訊，請參閱[目前的設定說明文件](./configuration.md)。
 
@@ -48,7 +48,7 @@ Gemini CLI 使用 JSON 設定檔進行持久性設定。這些檔案有四個位
 
 除了專案設定檔案外，專案的 `.gemini` 目錄還可以包含與 Gemini CLI 操作相關的其他專案特定檔案，例如：
 
-- [自訂沙箱設定檔](#sandboxing)（例如，`.gemini/sandbox-macos-custom.sb`、`.gemini/sandbox.Dockerfile`）。
+- [自訂沙箱設定檔](#沙箱化)（例如，`.gemini/sandbox-macos-custom.sb`、`.gemini/sandbox.Dockerfile`）。
 
 ### `settings.json` 中的可用設定：
 
@@ -96,7 +96,7 @@ Gemini CLI 使用 JSON 設定檔進行持久性設定。這些檔案有四個位
 3.  **停用遞迴檔案搜尋：** 作為最後手段，您可以將 `enableRecursiveFileSearch` 設為 `false` 來完全停用遞迴檔案搜尋。這將是最快的選項，因為它避免了遞迴爬取您的專案。但是，這意味著使用 `@` 自動完成時需要輸入檔案的完整路徑。
 
 - **`coreTools`**（字串陣列）：
-  - **說明：** 允許您指定應提供給模型的核心工具名稱清單。這可用於限制內建工具集。請參閱[內建工具](../core/tools-api.md#built-in-tools)以取得核心工具清單。您也可以為支援的工具指定指令特定限制，如 `ShellTool`。例如，`"coreTools": ["ShellTool(ls -l)"]` 將只允許執行 `ls -l` 指令。
+  - **說明：** 允許您指定應提供給模型的核心工具名稱清單。這可用於限制內建工具集。請參閱[內建工具](../core/tools-api.md#內建工具)以取得核心工具清單。您也可以為支援的工具指定指令特定限制，如 `ShellTool`。例如，`"coreTools": ["ShellTool(ls -l)"]` 將只允許執行 `ls -l` 指令。
   - **預設值：** 所有可供 Gemini 模型使用的工具。
   - **範例：** `"coreTools": ["ReadFileTool", "GlobTool", "ShellTool(ls)"]`。
 
@@ -139,7 +139,7 @@ Gemini CLI 使用 JSON 設定檔進行持久性設定。這些檔案有四個位
   - **範例：** `"vimMode": true`
 
 - **`sandbox`**（布林值或字串）：
-  - **說明：** 控制是否以及如何使用沙箱化進行工具執行。如果設為 `true`，Gemini CLI 使用預建的 `gemini-cli-sandbox` Docker 映像。如需更多資訊，請參閱[沙箱化](#sandboxing)。
+  - **說明：** 控制是否以及如何使用沙箱化進行工具執行。如果設為 `true`，Gemini CLI 使用預建的 `gemini-cli-sandbox` Docker 映像。如需更多資訊，請參閱[沙箱化](#沙箱化)。
   - **預設值：** `false`
   - **範例：** `"sandbox": "docker"`
 
@@ -242,7 +242,7 @@ Gemini CLI 使用 JSON 設定檔進行持久性設定。這些檔案有四個位
     }
     ```
 - **`usageStatisticsEnabled`**（布林值）：
-  - **說明：** 啟用或停用使用統計資料的收集。如需更多資訊，請參閱[使用統計資料](#usage-statistics)。
+  - **說明：** 啟用或停用使用統計資料的收集。如需更多資訊，請參閱[使用統計資料](#使用統計資料)。
   - **預設值：** `true`
   - **範例：**
     ```json
@@ -580,7 +580,7 @@ CLI 會自動從 `.env` 檔案載入環境變數。載入順序為：
 - **記憶體管理指令：**
   - 使用 `/memory refresh` 強制重新掃描並重新載入所有設定位置的內容檔案。這會更新 AI 的指示內容。
   - 使用 `/memory show` 顯示目前載入的合併指示內容，讓您可以驗證 AI 正在使用的階層和內容。
-  - 請參閱[指令說明文件](./commands.md#memory)以取得 `/memory` 指令及其子指令（`show` 和 `refresh`）的完整詳細資訊。
+  - 請參閱[指令說明文件](./commands.md#內建指令)以取得 `/memory` 指令及其子指令（`show` 和 `refresh`）的完整詳細資訊。
 
 透過理解並利用這些設定層級和內容檔案的階層性質，您可以有效管理 AI 的記憶體，並根據您的特定需求和專案客製化 Gemini CLI 的回應。
 
