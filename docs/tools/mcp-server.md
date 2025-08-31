@@ -727,11 +727,11 @@ await server.connect(transport);
 **指令：**
 
 ```bash
-gemini mcp add [選項] <名稱> <指令或URL> [引數...]
+gemini mcp add [選項] &lt;名稱&gt; &lt;指令或URL&gt; [引數...]
 ```
 
-- `<名稱>`：伺服器的唯一名稱。
-- `<指令或URL>`：要執行的指令（適用於 `stdio`）或 URL（適用於 `http`/`sse`）。
+- `&lt;名稱&gt;`：伺服器的唯一名稱。
+- `&lt;指令或URL&gt;`：要執行的指令（適用於 `stdio`）或 URL（適用於 `http`/`sse`）。
 - `[引數...]`：`stdio` 指令的選用引數。
 
 **選項（旗標）：**
@@ -752,7 +752,7 @@ gemini mcp add [選項] <名稱> <指令或URL> [引數...]
 
 # 基本語法
 # Basic syntax
-gemini mcp add <name> <command> [args...]
+gemini mcp add &lt;name&gt; &lt;command&gt; [args...]
 # 範例：新增本機伺服器
 # Example: Adding a local server
 gemini mcp add my-stdio-server -e API_KEY=123 /path/to/server arg1 arg2 arg3
@@ -767,7 +767,7 @@ This transport is for servers that use the streamable HTTP transport.
 
 ```bash
 # Basic syntax
-gemini mcp add --transport http <name> <url>
+gemini mcp add --transport http &lt;name&gt; &lt;url&gt;
 
 # Example: Adding an HTTP server
 gemini mcp add --transport http http-server https://api.example.com/mcp/
@@ -782,7 +782,7 @@ This transport is for servers that use Server-Sent Events (SSE).
 
 ```bash
 # Basic syntax
-gemini mcp add --transport sse <name> <url>
+gemini mcp add --transport sse &lt;name&gt; &lt;url&gt;
 
 # Example: Adding an SSE server
 gemini mcp add --transport sse sse-server https://api.example.com/sse/
@@ -816,7 +816,7 @@ To delete a server from your configuration, use the `remove` command with the se
 **Command:**
 
 ```bash
-gemini mcp remove <name>
+gemini mcp remove &lt;name&gt;
 ```
 
 **Example:**
