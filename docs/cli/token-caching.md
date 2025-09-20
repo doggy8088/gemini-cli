@@ -1,14 +1,14 @@
-# 權杖快取與成本最佳化
+# Token 快取與成本最佳化
 
-Gemini CLI 在使用 API 金鑰驗證（Gemini API 金鑰或 Vertex AI）時，會透過權杖快取自動最佳化 API 成本。此功能會重複使用先前的系統指示和上下文，以減少後續請求中處理的權杖數量。
+Gemini CLI 在使用 API 金鑰驗證（Gemini API 金鑰或 Vertex AI）時，會自動透過 Token 快取來最佳化 API 成本。此功能會重複利用先前的系統指令與 context，以減少後續請求中所需處理的 Token 數量。
 
-**權杖快取可用於：**
+**Token 快取適用於：**
 
 - API 金鑰使用者（Gemini API 金鑰）
-- Vertex AI 使用者（已設定專案和位置）
+- Vertex AI 使用者（已設定專案與地區）
 
-**權杖快取不可用於：**
+**Token 快取不適用於：**
 
-- OAuth 使用者（Google 個人/企業帳戶）- Code Assist API 目前不支援建立快取內容
+- OAuth 使用者（Google 個人／企業帳戶）－目前 Code Assist API 尚不支援快取內容的建立
 
-您可以使用 `/stats` 指令檢視權杖使用量和快取權杖節省量。當快取權杖可用時，它們會顯示在統計輸出中。
+你可以使用 `/stats` 指令來檢視你的 Token 使用量與快取 Token 節省情形。當有可用的快取 Token 時，將會在統計輸出中顯示。

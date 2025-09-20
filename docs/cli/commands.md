@@ -1,293 +1,411 @@
-# CLI 指令
+# 命令列介面 (CLI) 指令
 
-Gemini CLI 支援多個內建指令來幫助您管理工作階段、自訂介面和控制其行為。這些指令以正斜線 (`/`)、at 符號 (`@`) 或驚嘆號 (`!`) 為前置詞。
+Gemini CLI 支援多種內建指令，協助你管理工作階段、自訂介面與控制其行為。這些指令前綴通常為斜線（`/`）、at 符號（`@`）或驚嘆號（`!`）。
 
-## 斜線指令 (`/`)
+## 斜線指令（`/`）
 
-斜線指令提供對 CLI 本身的元層級控制。
+斜線指令提供對命令列介面 (CLI) 本身的元層級控制。
 
 ### 內建指令
 
 - **`/bug`**
-  - **描述**：回報關於 Gemini CLI 的問題。預設情況下，問題會在 Gemini CLI 的 GitHub 儲存庫中回報。您在 `/bug` 後輸入的字串將成為所回報錯誤的標題。可以使用 `.gemini/settings.json` 檔案中的 `advanced.bugCommand` 設定修改預設 `/bug` 行為。
+  - **說明：** 回報 Gemini CLI 的問題。預設情況下，問題會提交到 Gemini CLI 的 GitHub 儲存庫。你在 `/bug` 後輸入的字串將成為回報問題的標題。預設的 `/bug` 行為可透過 `advanced.bugCommand` 設定於你的 `.gemini/settings.json` 檔案中進行調整。
 
 - **`/chat`**
-  - **描述**：儲存和恢復對話歷史記錄，以互動方式分支對話狀態，或從後續工作階段恢復先前狀態。
-  - **子指令**：
+  - **說明：** 儲存並回復對話歷史，以互動方式分支對話狀態，或從之後的工作階段回復先前狀態。
+  - **子指令：**
     - **`save`**
-      - **描述**：儲存目前的對話歷史記錄。您必須新增用於識別對話狀態的 `<tag>`。
-      - **使用方式**：`/chat save <tag>`
-      - **檢查點位置詳細資訊**：儲存的聊天檢查點的預設位置為：
+      - **說明：** 儲存目前的對話歷史。你必須新增一個 `<tag>` 來識別對話狀態。
+      - **用法：** `/chat save <tag>`
+      - **檢查點儲存位置說明：** 預設儲存聊天檢查點的位置如下：
         - Linux/macOS：`~/.gemini/tmp/<project_hash>/`
         - Windows：`C:\Users\<YourUsername>\.gemini\tmp\<project_hash>\`
-        - 當您執行 `/chat list` 時，CLI 只會掃描這些特定目錄以尋找可用的檢查點。
-        - **注意**：這些檢查點用於手動儲存和恢復對話狀態。對於在檔案修改前建立的自動檢查點，請參閱[檢查點說明文件](../checkpointing.md)。
+        - 當你執行 `/chat list` 時，CLI 只會掃描這些特定目錄以尋找可用的檢查點。
+        - **注意：** 這些檢查點僅用於手動儲存與回復對話狀態。關於在檔案修改前自動建立的檢查點，請參閱 [檢查點文件](../checkpointing.md)。
     - **`resume`**
-      - **描述**：從先前的儲存恢復對話。
-      - **使用方式**：`/chat resume <tag>`
+      - **說明：** 從先前儲存的狀態回復對話。
+      - **用法：** `/chat resume <tag>`
     - **`list`**
-      - **描述**：列出可用於聊天狀態恢復的標籤。
+      - **說明：** 列出可用於回復聊天狀態的標籤。
     - **`delete`**
-      - **描述**：刪除已儲存的對話檢查點。
-      - **使用方式**：`/chat delete <tag>`
+      - **說明：** 刪除已儲存的對話檢查點。
+      - **用法：** `/chat delete <tag>`
+    - **`share`**
+      - **說明：** 將目前對話寫入指定的 Markdown 或 JSON 檔案。
+      - **用法：** `/chat share file.md` 或 `/chat share file.json`。若未提供檔名，CLI 會自動產生一個。
 
 - **`/clear`**
-  - **描述**：清除終端畫面，包括 CLI 內的可見工作階段歷史記錄和回捲。底層工作階段資料（用於歷史記錄召回）可能會根據確切實作而保留，但視覺顯示會被清除。
-  - **鍵盤快速鍵**：隨時按 **Ctrl+L** 執行清除操作。
+  - **說明：** 清除終端機畫面，包括可見的工作階段歷史與 CLI 內的回捲內容。底層的工作階段資料（用於歷史回溯）可能會依實作方式而保留，但視覺顯示會被清除。
+  - **鍵盤快捷鍵：** 隨時按下 **Ctrl+L** 以執行清除動作。
 
 - **`/compress`**
-  - **描述**：用摘要替換整個聊天內容。這節省了未來任務使用的令牌，同時保留發生事情的高層摘要。
+  - **說明：** 以摘要取代整個聊天 context。這可節省未來任務所需的 token，同時保留高層次的事件摘要。
 
 - **`/copy`**
-  - **描述**：將 Gemini CLI 產生的最後輸出複製到您的剪貼簿，以便於分享或重複使用。
-  - **注意**：此指令需要安裝平台特定的剪貼簿工具。
-    - 在 Linux 上，它需要 `xclip` 或 `xsel`。您通常可以使用系統的套件管理器安裝它們。
-    - 在 macOS 上，它需要 `pbcopy`，在 Windows 上，它需要 `clip`。這些工具通常在各自的系統上預先安裝。
+  - **說明：** 將 Gemini CLI 最近一次輸出的內容複製到剪貼簿，方便分享或重複使用。
+  - **注意：** 此指令需要安裝特定平台的剪貼簿工具。
+    - Linux 需安裝 `xclip` 或 `xsel`。通常可透過系統套件管理員安裝。
+    - macOS 需安裝 `pbcopy`，Windows 需安裝 `clip`。這些工具通常在各自系統中預先安裝。
 
 - **`/directory`**（或 **`/dir`**）
-  - **描述**：管理多目錄支援的工作區目錄。
-  - **子指令**：
+  - **說明：** 管理 workspace 目錄，以支援多個目錄。
+  - **子指令：**
     - **`add`**：
-      - **描述**：將目錄新增到工作區。路徑可以是絕對路徑或相對於目前工作目錄的路徑。此外，也支援從主目錄的參照。
-      - **使用方式**：`/directory add <path1>,<path2>`
-      - **注意**：在限制性沙箱設定檔中停用。如果您使用該設定檔，請在啟動工作階段時使用 `--include-directories` 代替。
+      - **說明：** 新增目錄至 workspace。路徑可為絕對路徑或相對於目前工作目錄的相對路徑，也支援從家目錄參照。
+      - **用法：** `/directory add <path1>,<path2>`
+      - **注意：** 在限制性沙箱機制（sandbox profiles）下會停用。若你使用該模式，請改於啟動工作階段時使用 `--include-directories`。
     - **`show`**：
-      - **描述**：顯示透過 `/directory add` 和 `--include-directories` 新增的所有目錄。
-      - **使用方式**：`/directory show`
+      - **說明：** 顯示所有透過 `/directory add` 與 `--include-directories` 新增的目錄。
+      - **用法：** `/directory show`
 
 - **`/editor`**
-  - **描述**：開啟對話方塊以選擇支援的編輯器。
+  - **說明：** 開啟選擇支援編輯器的對話框。
 
 - **`/extensions`**
-  - **描述**：列出目前 Gemini CLI 工作階段中的所有啟用擴充功能。請參閱 [Gemini CLI 擴充功能](../extension.md)。
+  - **說明：** 列出目前 Gemini CLI 工作階段中所有已啟用的擴充套件。請參閱 [Gemini CLI 擴充套件](../extension.md)。
 
 - **`/help`**（或 **`/?`**）
-  - **描述**：顯示關於 Gemini CLI 的幫助資訊，包括可用指令及其使用方式。
+  - **說明：** 顯示 Gemini CLI 的說明資訊，包括可用指令及其用法。
 
 - **`/mcp`**
-  - **描述**：列出已設定的模型內容協定（MCP）伺服器、其連線狀態、伺服器詳細資訊和可用工具。
-  - **子指令**：
+  - **說明：** 列出已設定的 Model Context Protocol (MCP) 伺服器、其連線狀態、伺服器詳細資訊與可用工具。
+  - **子指令：**
     - **`desc`** 或 **`descriptions`**：
-      - **描述**：顯示 MCP 伺服器和工具的詳細描述。
+      - **說明：** 顯示 MCP 伺服器與工具的詳細描述。
     - **`nodesc`** 或 **`nodescriptions`**：
-      - **描述**：隱藏工具描述，僅顯示工具名稱。
+      - **說明：** 隱藏工具描述，只顯示工具名稱。
     - **`schema`**：
-      - **描述**：顯示工具設定參數的完整 JSON 結構描述。
-  - **鍵盤快速鍵**：隨時按 **Ctrl+T** 在顯示和隱藏工具描述之間切換。
+      - **說明：** 顯示工具已設定參數的完整 JSON schema。
+  - **鍵盤快捷鍵：** 隨時按下 **Ctrl+T** 以切換顯示或隱藏工具描述。
 
 - **`/memory`**
-  - **描述**：管理 AI 的指示內容（從 `GEMINI.md` 檔案載入的階層式記憶體）。
-  - **子指令**：
+  - **說明：** 管理 AI 的指令 context（從 `GEMINI.md` 檔案載入的階層式記憶）。
+  - **子指令：**
     - **`add`**：
-      - **描述**：將以下文字新增到 AI 的記憶體。使用方式：`/memory add <要記住的文字>`
+      - **說明：** 將以下文字加入 AI 記憶中。用法：`/memory add <text to remember>`
     - **`show`**：
-      - **描述**：顯示目前從所有 `GEMINI.md` 檔案載入的階層式記憶體的完整串聯內容。這讓您檢查提供給 Gemini 模型的指示內容。
+      - **說明：** 顯示目前已從所有 `GEMINI.md` 檔案載入的完整階層式記憶內容。你可以檢視提供給 Gemini 模型的指令 context。
     - **`refresh`**：
-      - **描述**：從在設定位置找到的所有 `GEMINI.md` 檔案重新載入階層式指示記憶體（全域、專案/祖先和子目錄）。此指令使用最新的 `GEMINI.md` 內容更新模型。
-  - **注意**：有關 `GEMINI.md` 檔案如何促成階層式記憶體的更多詳細資訊，請參閱 [CLI 設定說明文件](./configuration.md#內容檔案-階層式指示內容)。
+      - **說明：** 重新載入所有已設定位置（全域、專案/上層目錄與子目錄）中的 `GEMINI.md` 檔案，以更新階層式指令記憶。此指令會以最新的 `GEMINI.md` 內容更新模型。
+    - **注意：** 關於 `GEMINI.md` 檔案如何貢獻於階層式記憶，請參閱 [CLI 設定文件](./configuration.md#4-geminimd-files-hierarchical-instructional-context)。
 
 - **`/restore`**
-  - **描述**：將專案檔案還原到工具執行前的狀態。這對於復原工具所做的檔案編輯特別有用。如果在沒有工具呼叫 ID 的情況下執行，它會列出可供還原的可用檢查點。
-  - **使用方式**：`/restore [tool_call_id]`
-  - **注意**：僅在使用 `--checkpointing` 選項呼叫 CLI 或透過[設定](./configuration.md)設定時可用。有關更多詳細資訊，請參閱[檢查點說明文件](../checkpointing.md)。
+  - **說明：** 將專案檔案還原至執行工具前的狀態。這對於還原工具所做的檔案編輯特別有用。若未指定工具呼叫 ID，則會列出可還原的檢查點。
+  - **用法：** `/restore [tool_call_id]`
+  - **注意：** 僅當 CLI 以 `--checkpointing` 選項啟動或透過 [settings](./configuration.md) 設定時可用。詳情請參閱 [檢查點文件](../checkpointing.md)。
 
 - **`/settings`**
-  - **描述**：開啟設定編輯器以檢視和修改 Gemini CLI 設定。
-  - **詳細資訊**：此指令提供使用者友善的介面來變更控制 Gemini CLI 行為和外觀的設定。它等同於手動編輯 `.gemini/settings.json` 檔案，但具有驗證和指導以防止錯誤。
-  - **使用方式**：只需執行 `/settings`，編輯器就會開啟。您然後可以瀏覽或搜尋特定設定、檢視其目前值，並根據需要修改它們。某些設定的變更會立即套用，而其他設定則需要重新啟動。
+  - **說明：** 開啟設定編輯器以檢視與修改 Gemini CLI 設定。
+  - **細節：** 此指令提供友善的介面來調整控制 Gemini CLI 行為與外觀的設定。其效果等同於手動編輯 `.gemini/settings.json` 檔案，但會有驗證與指引以避免錯誤。
+  - **用法：** 只需執行 `/settings` 即可開啟編輯器。你可以瀏覽或搜尋特定設定、檢視當前值並依需求修改。有些設定會立即生效，部分則需重新啟動。
 
 - **`/stats`**
-  - **描述**：顯示目前 Gemini CLI 工作階段的詳細統計資料，包括令牌使用情況、快取令牌節省（可用時）和工作階段持續時間。注意：快取令牌資訊僅在使用快取令牌時顯示，這在 API 金鑰驗證時發生，但目前不適用於 OAuth 驗證。
+  - **說明：** 顯示目前 Gemini CLI 工作階段的詳細統計資訊，包括 token 使用量、快取 token 節省（若有）與工作階段持續時間。注意：僅在使用 API 金鑰驗證時才會顯示快取 token 資訊，目前 OAuth 驗證尚不支援。
 
 - [**`/theme`**](./themes.md)
-  - **描述**：開啟對話方塊，讓您變更 Gemini CLI 的視覺主題。
+  - **說明：** 開啟對話框以變更 Gemini CLI 的視覺主題。
 
 - **`/auth`**
-  - **描述**：開啟對話方塊，讓您變更驗證方法。
+  - **說明：** 開啟對話框以變更驗證方式。
 
 - **`/about`**
-  - **描述**：顯示版本資訊。回報問題時請分享此資訊。
+  - **說明：** 顯示版本資訊。請在回報問題時一併提供此資訊。
 
 - [**`/tools`**](../tools/index.md)
-  - **描述**：顯示 Gemini CLI 內目前可用的工具清單。
-  - **使用方式**：`/tools [desc]`
-  - **子指令**：
+  - **說明：** 顯示目前 Gemini CLI 可用工具清單。
+  - **用法：** `/tools [desc]`
+  - **子指令：**
     - **`desc`** 或 **`descriptions`**：
-      - **描述**：顯示每個工具的詳細描述，包括每個工具的名稱及其提供給模型的完整描述。
+      - **說明：** 顯示每個工具的詳細描述，包括工具名稱及提供給模型的完整說明。
     - **`nodesc`** 或 **`nodescriptions`**：
-      - **描述**：隱藏工具描述，僅顯示工具名稱。
+      - **說明：** 隱藏工具描述，只顯示工具名稱。
 
 - **`/privacy`**
-  - **描述**：顯示隱私權聲明並允許使用者選擇是否同意收集其資料以供服務改善目的。
+  - **說明：** 顯示隱私權通知，並允許使用者選擇是否同意為服務改進目的而收集其資料。
 
 - **`/quit`**（或 **`/exit`**）
-  - **描述**：結束 Gemini CLI。
+  - **說明：** 離開 Gemini CLI。
 
 - **`/vim`**
-  - **描述**：開啟或關閉 vim 模式。啟用 vim 模式時，輸入區域在 NORMAL 和 INSERT 模式中都支援 vim 風格的導航和編輯指令。
-  - **功能**：
-    - **NORMAL 模式**：使用 `h`、`j`、`k`、`l` 導航；使用 `w`、`b`、`e` 按字跳躍；使用 `0`、`$`、`^` 移至行首/行尾；使用 `G`（或首行的 `gg`）移至特定行
-    - **INSERT 模式**：標準文字輸入，按 escape 返回 NORMAL 模式
-    - **編輯指令**：使用 `x` 刪除，使用 `c` 變更，使用 `i`、`a`、`o`、`O` 插入；複雜操作如 `dd`、`cc`、`dw`、`cw`
-    - **計數支援**：在指令前加上數字（例如，`3h`、`5w`、`10G`）
-    - **重複上一個指令**：使用 `.` 重複上一個編輯操作
-    - **持久設定**：Vim 模式偏好設定儲存到 `~/.gemini/settings.json` 並在工作階段間還原
-  - **狀態指示器**：啟用時，在頁尾顯示 `[NORMAL]` 或 `[INSERT]`
+  - **說明：** 切換 vim 模式開啟或關閉。啟用後，輸入區支援 vim 風格的導覽與編輯指令，包含 NORMAL 與 INSERT 模式。
+  - **功能特色：**
+    - **NORMAL 模式：** 可用 `h`、`j`、`k`、`l` 導覽；以 `w`、`b`、`e` 跳字；以 `0`、`# 命令列介面 (CLI) 指令
+
+Gemini CLI 支援多種內建指令，協助你管理工作階段、自訂介面與控制其行為。這些指令前綴通常為斜線（`/`）、at 符號（`@`）或驚嘆號（`!`）。
+
+## 斜線指令（`/`）
+
+斜線指令提供對命令列介面 (CLI) 本身的元層級控制。
+
+### 內建指令
+
+- **`/bug`**
+  - **說明：** 回報 Gemini CLI 的問題。預設情況下，問題會提交到 Gemini CLI 的 GitHub 儲存庫。你在 `/bug` 後輸入的字串將成為回報問題的標題。預設的 `/bug` 行為可透過 `advanced.bugCommand` 設定於你的 `.gemini/settings.json` 檔案中進行調整。
+
+- **`/chat`**
+  - **說明：** 儲存並回復對話歷史，以互動方式分支對話狀態，或從之後的工作階段回復先前狀態。
+  - **子指令：**
+    - **`save`**
+      - **說明：** 儲存目前的對話歷史。你必須新增一個 `<tag>` 來識別對話狀態。
+      - **用法：** `/chat save <tag>`
+      - **檢查點儲存位置說明：** 預設儲存聊天檢查點的位置如下：
+        - Linux/macOS：`~/.gemini/tmp/<project_hash>/`
+        - Windows：`C:\Users\<YourUsername>\.gemini\tmp\<project_hash>\`
+        - 當你執行 `/chat list` 時，CLI 只會掃描這些特定目錄以尋找可用的檢查點。
+        - **注意：** 這些檢查點僅用於手動儲存與回復對話狀態。關於在檔案修改前自動建立的檢查點，請參閱 [檢查點文件](../checkpointing.md)。
+    - **`resume`**
+      - **說明：** 從先前儲存的狀態回復對話。
+      - **用法：** `/chat resume <tag>`
+    - **`list`**
+      - **說明：** 列出可用於回復聊天狀態的標籤。
+    - **`delete`**
+      - **說明：** 刪除已儲存的對話檢查點。
+      - **用法：** `/chat delete <tag>`
+    - **`share`**
+      - **說明：** 將目前對話寫入指定的 Markdown 或 JSON 檔案。
+      - **用法：** `/chat share file.md` 或 `/chat share file.json`。若未提供檔名，CLI 會自動產生一個。
+
+- **`/clear`**
+  - **說明：** 清除終端機畫面，包括可見的工作階段歷史與 CLI 內的回捲內容。底層的工作階段資料（用於歷史回溯）可能會依實作方式而保留，但視覺顯示會被清除。
+  - **鍵盤快捷鍵：** 隨時按下 **Ctrl+L** 以執行清除動作。
+
+- **`/compress`**
+  - **說明：** 以摘要取代整個聊天 context。這可節省未來任務所需的 token，同時保留高層次的事件摘要。
+
+- **`/copy`**
+  - **說明：** 將 Gemini CLI 最近一次輸出的內容複製到剪貼簿，方便分享或重複使用。
+  - **注意：** 此指令需要安裝特定平台的剪貼簿工具。
+    - Linux 需安裝 `xclip` 或 `xsel`。通常可透過系統套件管理員安裝。
+    - macOS 需安裝 `pbcopy`，Windows 需安裝 `clip`。這些工具通常在各自系統中預先安裝。
+
+- **`/directory`**（或 **`/dir`**）
+  - **說明：** 管理 workspace 目錄，以支援多個目錄。
+  - **子指令：**
+    - **`add`**：
+      - **說明：** 新增目錄至 workspace。路徑可為絕對路徑或相對於目前工作目錄的相對路徑，也支援從家目錄參照。
+      - **用法：** `/directory add <path1>,<path2>`
+      - **注意：** 在限制性沙箱機制（sandbox profiles）下會停用。若你使用該模式，請改於啟動工作階段時使用 `--include-directories`。
+    - **`show`**：
+      - **說明：** 顯示所有透過 `/directory add` 與 `--include-directories` 新增的目錄。
+      - **用法：** `/directory show`
+
+- **`/editor`**
+  - **說明：** 開啟選擇支援編輯器的對話框。
+
+- **`/extensions`**
+  - **說明：** 列出目前 Gemini CLI 工作階段中所有已啟用的擴充套件。請參閱 [Gemini CLI 擴充套件](../extension.md)。
+
+- **`/help`**（或 **`/?`**）
+  - **說明：** 顯示 Gemini CLI 的說明資訊，包括可用指令及其用法。
+
+- **`/mcp`**
+  - **說明：** 列出已設定的 Model Context Protocol (MCP) 伺服器、其連線狀態、伺服器詳細資訊與可用工具。
+  - **子指令：**
+    - **`desc`** 或 **`descriptions`**：
+      - **說明：** 顯示 MCP 伺服器與工具的詳細描述。
+    - **`nodesc`** 或 **`nodescriptions`**：
+      - **說明：** 隱藏工具描述，只顯示工具名稱。
+    - **`schema`**：
+      - **說明：** 顯示工具已設定參數的完整 JSON schema。
+  - **鍵盤快捷鍵：** 隨時按下 **Ctrl+T** 以切換顯示或隱藏工具描述。
+
+- **`/memory`**
+  - **說明：** 管理 AI 的指令 context（從 `GEMINI.md` 檔案載入的階層式記憶）。
+  - **子指令：**
+    - **`add`**：
+      - **說明：** 將以下文字加入 AI 記憶中。用法：`/memory add <text to remember>`
+    - **`show`**：
+      - **說明：** 顯示目前已從所有 `GEMINI.md` 檔案載入的完整階層式記憶內容。你可以檢視提供給 Gemini 模型的指令 context。
+    - **`refresh`**：
+      - **說明：** 重新載入所有已設定位置（全域、專案/上層目錄與子目錄）中的 `GEMINI.md` 檔案，以更新階層式指令記憶。此指令會以最新的 `GEMINI.md` 內容更新模型。
+    - **注意：** 關於 `GEMINI.md` 檔案如何貢獻於階層式記憶，請參閱 [CLI 設定文件](./configuration.md#4-geminimd-files-hierarchical-instructional-context)。
+
+- **`/restore`**
+  - **說明：** 將專案檔案還原至執行工具前的狀態。這對於還原工具所做的檔案編輯特別有用。若未指定工具呼叫 ID，則會列出可還原的檢查點。
+  - **用法：** `/restore [tool_call_id]`
+  - **注意：** 僅當 CLI 以 `--checkpointing` 選項啟動或透過 [settings](./configuration.md) 設定時可用。詳情請參閱 [檢查點文件](../checkpointing.md)。
+
+- **`/settings`**
+  - **說明：** 開啟設定編輯器以檢視與修改 Gemini CLI 設定。
+  - **細節：** 此指令提供友善的介面來調整控制 Gemini CLI 行為與外觀的設定。其效果等同於手動編輯 `.gemini/settings.json` 檔案，但會有驗證與指引以避免錯誤。
+  - **用法：** 只需執行 `/settings` 即可開啟編輯器。你可以瀏覽或搜尋特定設定、檢視當前值並依需求修改。有些設定會立即生效，部分則需重新啟動。
+
+- **`/stats`**
+  - **說明：** 顯示目前 Gemini CLI 工作階段的詳細統計資訊，包括 token 使用量、快取 token 節省（若有）與工作階段持續時間。注意：僅在使用 API 金鑰驗證時才會顯示快取 token 資訊，目前 OAuth 驗證尚不支援。
+
+- [**`/theme`**](./themes.md)
+  - **說明：** 開啟對話框以變更 Gemini CLI 的視覺主題。
+
+- **`/auth`**
+  - **說明：** 開啟對話框以變更驗證方式。
+
+- **`/about`**
+  - **說明：** 顯示版本資訊。請在回報問題時一併提供此資訊。
+
+- [**`/tools`**](../tools/index.md)
+  - **說明：** 顯示目前 Gemini CLI 可用工具清單。
+  - **用法：** `/tools [desc]`
+  - **子指令：**
+    - **`desc`** 或 **`descriptions`**：
+      - **說明：** 顯示每個工具的詳細描述，包括工具名稱及提供給模型的完整說明。
+    - **`nodesc`** 或 **`nodescriptions`**：
+      - **說明：** 隱藏工具描述，只顯示工具名稱。
+
+- **`/privacy`**
+  - **說明：** 顯示隱私權通知，並允許使用者選擇是否同意為服務改進目的而收集其資料。
+
+- **`/quit`**（或 **`/exit`**）
+  - **說明：** 離開 Gemini CLI。
+
+- **`/vim`**
+  - **說明：** 切換 vim 模式開啟或關閉。啟用後，輸入區支援 vim 風格的導覽與編輯指令，包含 NORMAL 與 INSERT 模式。
+  - **功能特色：**
+    - **NORMAL 模式：** 可用 `h`、`j`、`k`、`l` 導覽；以 `w`、`b`、`e` 跳字；以 `0`、、`^` 跳至行首/行尾；以 `G`（或 `gg` 跳第一行）跳至指定行
+    - **INSERT 模式：** 標準文字輸入，按 escape 回 NORMAL 模式
+    - **編輯指令：** 用 `x` 刪除、`c` 變更、`i`、`a`、`o`、`O` 插入；支援複雜操作如 `dd`、`cc`、`dw`、`cw`
+    - **數字前綴：** 指令可加數字（如 `3h`、`5w`、`10G`）
+    - **重複上次指令：** 用 `.` 重複上次編輯操作
+    - **持久設定：** vim 模式偏好會儲存於 `~/.gemini/settings.json`，並於工作階段間自動還原
+  - **狀態指示器：** 啟用時，頁腳會顯示 `[NORMAL]` 或 `[INSERT]`
 
 - **`/init`**
-  - **描述**：為了幫助使用者輕鬆建立 `GEMINI.md` 檔案，此指令分析目前目錄並產生量身定做的內容檔案，讓他們更容易向 Gemini 代理提供專案特定的指示。
+  - **說明：** 為協助使用者輕鬆建立 `GEMINI.md` 檔案，此指令會分析目前目錄並產生專屬的 context 檔案，讓使用者更容易為 Gemini agent 提供專案專屬的指令。
 
 ### 自訂指令
 
-如需快速開始，請參閱下方的[範例](#example-a-pure-function-refactoring-command)。
+快速入門請參閱下方 [範例](#example-a-pure-function-refactoring-command)。
 
-自訂指令允許您將最愛或最常使用的提示儲存並重複使用，作為 Gemini CLI 中的個人快速鍵。您可以建立特定於單一專案的指令，或在所有專案中全域可用的指令，簡化您的工作流程並確保一致性。
+自訂指令讓你能將常用或最愛的提示儲存為 Gemini CLI 的個人捷徑。你可以建立僅限單一專案使用的指令，或是全域可用於所有專案的指令，讓你的工作流程更有效率且一致。
 
 #### 檔案位置與優先順序
 
-Gemini CLI 從兩個位置探索指令，以特定順序載入：
+Gemini CLI 會從兩個位置載入指令，且有特定的載入順序：
 
-1.  **使用者指令（全域）：** 位於 `~/.gemini/commands/`。這些指令在您進行的任何專案中都可用。
-2.  **專案指令（本機）：** 位於 `<your-project-root>/.gemini/commands/`。這些指令專用於目前專案，可以檢入版本控制以與您的團隊共用。
+1.  **使用者指令（全域）：** 位於 `~/.gemini/commands/`。這些指令在你所有專案中皆可使用。
+2.  **專案指令（在地）：** 位於 `<your-project-root>/.gemini/commands/`。這些指令僅適用於目前專案，可納入版本控制與團隊共享。
 
-如果專案目錄中的指令與使用者目錄中的指令同名，**專案指令將永遠被使用。** 這允許專案覆蓋全域指令為專案特定版本。
+若專案目錄中的指令名稱與使用者目錄中的相同，**將優先使用專案指令。** 這讓專案能以專案專屬版本覆蓋全域指令。
 
 #### 命名與命名空間
 
-指令的名稱由其相對於 `commands` 目錄的檔案路徑決定。子目錄用於建立命名空間指令，路徑分隔符號（`/` 或 `\`）會轉換為冒號（`:`）。
+指令名稱由其相對於 `commands` 目錄的檔案路徑決定。子目錄可用於建立命名空間指令，路徑分隔符（`/` 或 `\`）會轉換為冒號（`:`）。
 
-- 位於 `~/.gemini/commands/test.toml` 的檔案會成為指令 `/test`。
-- 位於 `<project>/.gemini/commands/git/commit.toml` 的檔案會成為命名空間指令 `/git:commit`。
+- 位於 `~/.gemini/commands/test.toml` 的檔案會變成指令 `/test`。
+- 位於 `<project>/.gemini/commands/git/commit.toml` 的檔案會變成命名空間指令 `/git:commit`。
 
 #### TOML 檔案格式（v1）
 
-您的指令定義檔案必須以 TOML 格式撰寫並使用 `.toml` 副檔名。
+你的指令定義檔必須採用 TOML 格式，副檔名為 `.toml`。
 
 ##### 必要欄位
 
-- `prompt`（字串）：當指令執行時將傳送給 Gemini 模型的提示。這可以是單行或多行字串。
+- `prompt`（字串）：指令執行時會傳送給 Gemini 模型的提示內容。可為單行或多行字串。
 
 ##### 選用欄位
 
-- `description`（字串）：指令功能的簡要單行描述。此文字將在 `/help` 選單中顯示在您的指令旁。**如果您省略此欄位，將從檔案名稱產生通用描述。**
-
-#### 處理引數
-
-自訂指令支援兩種強大的引數處理方法。CLI 會根據您指令 `prompt` 的內容自動選擇正確的方法。
-
-##### 1. 使用 `{{args}}` 的內容感知注入
-
-如果您的 `prompt` 包含特殊占位符 `{{args}}`，CLI 會將該占位符替換為使用者在指令名稱後輸入的文字。
-
-此注入的行為取決於使用位置：
-
-**A. 原始注入（Shell 指令外）**
-
-當在提示的主體中使用時，引數會完全按照使用者輸入的方式注入。
-
-**範例（`git/fix.toml`）：**
+- ⟦C124
 
 ```toml
-# 透過：/git:fix "Button is misaligned" 呼叫
+# Invoked via: /git:fix "Button is misaligned"
 
-description = "為給定問題產生修正。"
-prompt = "請為此處描述的問題提供程式碼修正：{{args}}。"
+description = "Generates a fix for a given issue."
+prompt = "Please provide a code fix for the issue described here: {{args}}."
 ```
 
-模型收到：`請為此處描述的問題提供程式碼修正："Button is misaligned"。`
+模型接收到：`Please provide a code fix for the issue described here: "Button is misaligned".`
 
-**B. 在 Shell 指令中使用引數（在 `!{...}` 區塊內）**
+**B. 在 Shell 指令中使用參數（於 `!{...}` 區塊內）**
 
-當您在 shell 注入區塊（`!{...}`）內使用 `{{args}}` 時，引數會在替換前自動**Shell 跳脫**。這允許您安全地將引數傳遞給 shell 指令，確保產生的指令在語法上正確且安全，同時防止指令注入漏洞。
+當你在 shell 注入區塊（`!{...}`）中使用 `{{args}}` 時，這些參數會在替換前自動進行**shell 轉義（shell-escaped）**。這讓你可以安全地將參數傳遞給 shell 指令，確保產生的指令在語法上正確且安全，同時防止指令注入漏洞。
 
 **範例（`/grep-code.toml`）：**
 
 ```toml
 prompt = """
-請摘要模式 `{{args}}` 的發現。
+Please summarize the findings for the pattern `{{args}}`.
 
-搜尋結果：
+Search Results:
 !{grep -r {{args}} .}
 """
 ```
 
-當您執行 `/grep-code It's complicated` 時：
+當你執行 `/grep-code It's complicated` 時：
 
-1. CLI 看到 `{{args}}` 同時在 `!{...}` 外部和內部使用。
-2. 外部：第一個 `{{args}}` 被原始替換為 `It's complicated`。
-3. 內部：第二個 `{{args}}` 被替換為跳脫版本（例如，在 Linux 上：`"It's complicated"`）。
-4. 執行的指令是 `grep -r "It's complicated" .`。
-5. CLI 會提示您在執行前確認這個確切、安全的指令。
-6. 最終提示被傳送。
+1. 命令列介面 (CLI) 會發現 `{{args}}` 同時在 `!{...}` 外部與內部被使用。
+2. 外部：第一個 `{{args}}` 會被直接以 `It's complicated` 替換。
+3. 內部：第二個 `{{args}}` 會被替換成跳脫後的版本（例如，在 Linux 上：`"It's complicated"`）。
+4. 實際執行的指令為 `grep -r "It's complicated" .`。
+5. 命令列介面 (CLI) 會在執行前提示你確認這個精確且安全的指令。
+6. 最後的提示會被送出。
 
-##### 2. 預設引數處理
+##### 2. 預設參數處理
 
-如果您的 `prompt` **不**包含特殊占位符 `{{args}}`，CLI 會使用預設行為來處理引數。
+如果你的 `prompt` **沒有**包含特殊的占位符 `{{args}}`，命令列介面 (CLI) 會採用預設的參數處理行為。
 
-如果您為指令提供引數（例如，`/mycommand arg1`），CLI 會將您輸入的完整指令附加到提示的末尾，以兩個換行符號分隔。這允許模型同時看到原始指示和您剛提供的特定引數。
+如果你有為指令提供參數（例如：`/mycommand arg1`），命令列介面 (CLI) 會將你輸入的完整指令附加在提示的結尾，並以兩個換行符號分隔。這樣模型就能同時看到原始說明與你剛提供的具體參數。
 
-如果您**不**提供任何引數（例如，`/mycommand`），提示會完全按原樣傳送給模型，不附加任何內容。
+如果你**沒有**提供任何參數（例如：`/mycommand`），提示會原樣傳送給模型，不會有任何附加內容。
 
 **範例（`changelog.toml`）：**
 
-此範例展示如何透過為模型定義角色、說明在哪裡找到使用者的輸入，並指定預期的格式和行為來建立強健的指令。
+此範例展示如何透過為模型定義角色、說明使用者輸入的位置，以及指定預期的格式與行為，來建立一個健全的指令。
 
 ```toml
-# 位於：<project>/.gemini/commands/changelog.toml
-# 透過：/changelog 1.2.0 added "Support for default argument parsing." 呼叫
+# In: <project>/.gemini/commands/changelog.toml
+# Invoked via: /changelog 1.2.0 added "Support for default argument parsing."
 
-description = "在專案的 CHANGELOG.md 檔案中新增新項目。"
+description = "Adds a new entry to the project's CHANGELOG.md file."
 prompt = """
-# 任務：更新變更日誌
+# Task: Update Changelog
 
-您是此軟體專案的專家維護者。使用者已呼叫指令以在變更日誌中新增新項目。
+You are an expert maintainer of this software project. A user has invoked a command to add a new entry to the changelog.
 
-**使用者的原始指令會附加在您的指示下方。**
+**The user's raw command is appended below your instructions.**
 
-您的任務是從他們的輸入中解析 `<version>`、`<change_type>` 和 `<message>`，並使用 `write_file` 工具正確更新 `CHANGELOG.md` 檔案。
+Your task is to parse the `<version>`, `<change_type>`, and `<message>` from their input and use the `write_file` tool to correctly update the `CHANGELOG.md` file.
 
-## 預期格式
-指令遵循此格式：`/changelog <version> <type> <message>`
-- `<type>` 必須是以下之一："added"、"changed"、"fixed"、"removed"。
+## Expected Format
+The command follows this format: `/changelog <version> <type> <message>`
+- `<type>` must be one of: "added", "changed", "fixed", "removed".
 
-## 行為
-1. 讀取 `CHANGELOG.md` 檔案。
-2. 找到指定 `<version>` 的區段。
-3. 在正確的 `<type>` 標題下新增 `<message>`。
-4. 如果版本或類型區段不存在，則建立它。
-5. 嚴格遵循「Keep a Changelog」格式。
+## Behavior
+1. Read the `CHANGELOG.md` file.
+2. Find the section for the specified `<version>`.
+3. Add the `<message>` under the correct `<type>` heading.
+4. If the version or type section doesn't exist, create it.
+5. Adhere strictly to the "Keep a Changelog" format.
 """
 ```
 
-當您執行 `/changelog 1.2.0 added "New feature"` 時，傳送給模型的最終文字將是原始提示，後跟兩個換行符號和您輸入的指令。
+當你執行 `/changelog 1.2.0 added "New feature"` 時，最終傳送給模型的文字將會是原始提示詞（prompt），後面接著兩個換行符號以及你輸入的指令。
 
 ##### 3. 使用 `!{...}` 執行 Shell 指令
 
-您可以透過直接在 `prompt` 中執行 shell 指令並注入其輸出，讓您的指令變得動態。這非常適合從本機環境收集內容，例如讀取檔案內容或檢查 Git 狀態。
+你可以直接在 `prompt` 內執行 shell 指令，並將其輸出結果注入，使你的指令變得更具動態性。這非常適合從本地環境收集 context，例如讀取檔案內容或檢查 Git 狀態。
 
-當自訂指令嘗試執行 shell 指令時，Gemini CLI 現在會在繼續之前提示您確認。這是一項安全措施，確保只有預期的指令才能執行。
+當自訂指令嘗試執行 shell 指令時，Gemini CLI 會在執行前提示你確認。這是一項安全措施，確保只有你預期的指令會被執行。
 
-**運作方式：**
+**運作方式說明：**
 
 1.  **注入指令：** 使用 `!{...}` 語法。
-2.  **引數替換：** 如果 `{{args}}` 存在於區塊內，它會自動進行 shell 跳脫（請參閱上方的[內容感知注入](#1-使用-args-的內容感知注入)）。
-3.  **強健解析：** 解析器正確處理包含巢狀大括號的複雜 shell 指令，例如 JSON 承載。**注意：** `!{...}` 內的內容必須有平衡的大括號（`{` 和 `}`）。如果您需要執行包含不平衡大括號的指令，請考慮將其包裝在外部腳本檔案中，並在 `!{...}` 區塊內呼叫該腳本。
-4.  **安全檢查與確認：** CLI 對最終解析的指令（在引數跳脫和替換後）執行安全檢查。將出現對話方塊，顯示要執行的確切指令。
-5.  **執行與錯誤回報：** 指令被執行。如果指令失敗，注入提示的輸出將包含錯誤訊息（stderr），後跟狀態行，例如 `[Shell command exited with code 1]`。這有助於模型理解失敗的內容。
+2.  **參數替換：** 如果區塊內有 `{{args}}`，將會自動進行 shell 跳脫（詳見上方的 [Context-Aware Injection](#1-context-aware-injection-with-args)）。
+3.  **強健的解析：** 解析器能正確處理包含巢狀大括號的複雜 shell 指令，例如 JSON 載荷。**注意：** `!{...}` 內的內容必須有成對的大括號（`{` 和 `}`）。若你需要執行包含不成對大括號的指令，建議將其包裝在外部腳本 (script) 檔案中，並在 `!{...}` 區塊內呼叫該腳本。
+4.  **安全檢查與確認：** 命令列介面 (CLI) 會對最終解析後的指令（參數跳脫與替換後）進行安全檢查。系統將會顯示對話框，列出即將執行的實際指令。
+5.  **執行與錯誤回報：** 指令會被執行。如果執行失敗，注入到提示詞的輸出會包含錯誤訊息（stderr），並附上一行狀態說明，例如 `[Shell command exited with code 1]`。這有助於模型理解失敗的 context。
 
 **範例（`git/commit.toml`）：**
 
-此指令取得暫存的 git diff 並使用它請求模型撰寫提交訊息。
+這個指令會取得已 staged 的 git diff，並用它來請模型撰寫 commit 訊息。
 
 ````toml
-# 位於：<project>/.gemini/commands/git/commit.toml
-# 透過：/git:commit 呼叫
+# In: <project>/.gemini/commands/git/commit.toml
+# Invoked via: /git:commit
 
-description = "根據暫存變更產生 Git 提交訊息。"
+description = "Generates a Git commit message based on staged changes."
 
-# 提示使用 !{...} 執行指令並注入其輸出。
+# The prompt uses !{...} to execute the command and inject its output.
 prompt = """
-請根據以下 git diff 產生 Conventional Commit 訊息：
+Please generate a Conventional Commit message based on the following git diff:
 
 ```diff
 !{git diff --staged}
@@ -297,135 +415,144 @@ prompt = """
 
 ````
 
-當您執行 `/git:commit` 時，CLI 首先執行 `git diff --staged`，然後在將最終完整提示傳送給模型之前，將 `!{git diff --staged}` 替換為該指令的輸出。
+當你執行 `/git:commit` 時，命令列介面 (CLI) 會先執行 `git diff --staged`，然後將 `!{git diff --staged}` 替換為該指令的輸出，最後再將完整的提示送給模型。
 
 ##### 4. 使用 `@{...}` 注入檔案內容
 
-您可以使用 `@{...}` 語法直接將檔案內容或目錄清單嵌入您的提示中。這對於建立操作特定檔案的指令很有用。
+你可以直接透過 `@{...}` 語法，將檔案內容或目錄清單嵌入到你的提示中。這對於建立針對特定檔案操作的指令特別有用。
 
-**運作方式：**
+**運作方式說明：**
 
-- **檔案注入**：`@{path/to/file.txt}` 會被 `file.txt` 的內容替換。
-- **多模態支援**：如果路徑指向支援的影像（例如 PNG、JPEG）、PDF、音訊或視訊檔案，它將被正確編碼並作為多模態輸入注入。其他二進位檔案會優雅處理並跳過。
-- **目錄清單**：`@{path/to/dir}` 會被遍歷，目錄和所有子目錄中存在的每個檔案都會插入提示中。如果啟用，這會尊重 `.gitignore` 和 `.geminiignore`。
-- **工作區感知**：指令在目前目錄和任何其他工作區目錄中搜尋路徑。如果絕對路徑在工作區內，則允許使用。
-- **處理順序**：使用 `@{...}` 的檔案內容注入會在 shell 指令（`!{...}`）和引數替換（`{{args}}`）_之前_處理。
-- **解析**：解析器要求 `@{...}` 內的內容（路徑）有平衡的大括號（`{` 和 `}`）。
+- **檔案注入**：`@{path/to/file.txt}` 會被 `file.txt` 的內容所取代。
+- **多模態支援**：如果路徑指向支援的圖片（如 PNG、JPEG）、PDF、音訊或視訊檔案，將會正確編碼並作為多模態輸入注入。其他二進位檔案則會被妥善處理並略過。
+- **目錄清單**：`@{path/to/dir}` 會被遞迴遍歷，該目錄及所有子目錄中的每個檔案都會插入到提示中。若啟用 `.gitignore` 和 `.geminiignore`，也會一併考慮。
+- **支援 workspace**：指令會在目前目錄及其他 workspace 目錄中搜尋該路徑。若為絕對路徑，只要位於 workspace 內也允許使用。
+- **處理順序**：使用 `@{...}` 進行檔案內容注入會在 shell 指令（`!{...}`）及參數替換（`{{args}}`）之前處理。
+- **解析**：解析器要求 `@{...}`（即路徑）內部的大括號（`{` 和 `}`）必須成對平衡。
 
 **範例（`review.toml`）：**
 
-此指令注入_固定_最佳實務檔案（`docs/best-practices.md`）的內容，並使用使用者的引數為審查提供內容。
+此指令會注入一個_固定_最佳實踐檔案（`docs/best-practices.md`）的內容，並利用使用者的參數來提供審查所需的 context。
 
 ```toml
-# 位於：<project>/.gemini/commands/review.toml
-# 透過：/review FileCommandLoader.ts 呼叫
+# In: <project>/.gemini/commands/review.toml
+# Invoked via: /review FileCommandLoader.ts
 
-description = "使用最佳實務指南審查提供的內容。"
+description = "Reviews the provided context using a best practice guide."
 prompt = """
-您是專家程式碼審查員。
+You are an expert code reviewer.
 
-您的任務是審查 {{args}}。
+Your task is to review {{args}}.
 
-在提供審查時請使用以下最佳實務：
+Use the following best practices when providing your review:
 
 @{docs/best-practices.md}
 """
 ```
 
-當您執行 `/review FileCommandLoader.ts` 時，`@{docs/best-practices.md}` 占位符會被該檔案的內容替換，而 `{{args}}` 會被您提供的文字替換，然後將最終提示傳送給模型。
+當你執行 `/review FileCommandLoader.ts` 時，`@{docs/best-practices.md}` 這個占位符會被該檔案的內容取代，而`{{args}}` 則會被你所提供的文字取代，這些都會在最終提示送出給模型之前完成。
 
 ---
 
-<a id="example-a-pure-function-refactoring-command"></a>
 #### 範例：「純函式」重構指令
 
-讓我們建立一個全域指令，要求模型重構一段程式碼。
+讓我們來建立一個要求模型重構一段程式碼的全域指令。
 
-**1. 建立檔案和目錄：**
+**1. 建立檔案與目錄：**
 
-首先，確保使用者指令目錄存在，然後建立 `refactor` 子目錄以進行組織，以及最終的 TOML 檔案。
+首先，請確保使用者指令目錄已存在，然後為了組織管理，建立一個 `refactor` 子目錄，並建立最終的 TOML 檔案。
 
 ```bash
 mkdir -p ~/.gemini/commands/refactor
 touch ~/.gemini/commands/refactor/pure.toml
 ```
 
-**2. 將內容新增到檔案：**
+**2. 將內容加入檔案：**
 
-在編輯器中開啟 `~/.gemini/commands/refactor/pure.toml` 並新增以下內容。為了最佳實務，我們包含了選用的 `description`。
+在你的編輯器中開啟 `~/.gemini/commands/refactor/pure.toml`，並加入以下內容。我們建議同時包含可選的 `description`，以符合最佳實踐。
 
 ```toml
-# 位於：~/.gemini/commands/refactor/pure.toml
-# 此指令將透過：/refactor:pure 呼叫
+# In: ~/.gemini/commands/refactor/pure.toml
+# This command will be invoked via: /refactor:pure
 
-description = "要求模型將目前內容重構為純函式。"
+description = "Asks the model to refactor the current context into a pure function."
 
 prompt = """
-請分析我在目前內容中提供的程式碼。
-將其重構為純函式。
+Please analyze the code I've provided in the current context.
+Refactor it into a pure function.
 
-您的回應應包括：
-1. 重構的純函式程式碼區塊。
-2. 您所做的關鍵變更的簡要說明，以及為什麼它們有助於純度。
+Your response should include:
+1. The refactored, pure function code block.
+2. A brief explanation of the key changes you made and why they contribute to purity.
 """
 ```
 
 **3. 執行指令：**
 
-就是這樣！您現在可以在 CLI 中執行您的指令。首先，您可能會將檔案新增到內容中，然後呼叫您的指令：
+就是這麼簡單！你現在可以在命令列介面 (CLI) 中執行你的指令了。首先，你可以將檔案加入 context，然後呼叫你的指令：
 
 ```
 > @my-messy-function.js
 > /refactor:pure
 ```
 
-Gemini CLI 接著會執行您在 TOML 檔案中定義的多行提示。
+Gemini CLI 會執行你在 TOML 檔案中定義的多行提示詞。
+
+## 輸入提示詞快捷鍵
+
+這些快捷鍵可直接應用於輸入提示詞進行文字操作。
+
+- **復原 (Undo)：**
+  - **鍵盤快捷鍵：** 按下 **Ctrl+z** 可復原輸入提示詞中的上一個動作。
+
+- **重做 (Redo)：**
+  - **鍵盤快捷鍵：** 按下 **Ctrl+Shift+Z** 可重做在輸入提示詞中被復原的上一個動作。
 
 ## At 指令（`@`）
 
-At 指令用於將檔案或目錄的內容包含在您對 Gemini 的提示中。這些指令包含 git 感知篩選。
+At 指令用於將檔案或目錄的內容作為提示詞的一部分，傳遞給 Gemini。這些指令支援 git-aware 過濾。
 
 - **`@<path_to_file_or_directory>`**
-  - **描述：** 將指定檔案或檔案的內容注入您目前的提示中。這對於詢問特定程式碼、文字或檔案集合的問題很有用。
+  - **說明：** 將指定檔案或多個檔案的內容注入到你目前的提示詞中。這對於詢問特定程式碼、文字或檔案集合相關問題時非常有用。
   - **範例：**
-    - `@path/to/your/file.txt 說明這個文字。`
-    - `@src/my_project/ 摘要此目錄中的程式碼。`
-    - `這個檔案是關於什麼的？@README.md`
-  - **詳細資訊：**
-    - 如果提供單一檔案的路徑，會讀取該檔案的內容。
-    - 如果提供目錄的路徑，指令會嘗試讀取該目錄和任何子目錄中檔案的內容。
-    - 路徑中的空格應使用反斜線跳脫（例如，`@My\ Documents/file.txt`）。
-    - 指令內部使用 `read_many_files` 工具。內容會被擷取，然後在傳送給 Gemini 模型之前插入您的查詢中。
-    - **Git 感知篩選：** 預設情況下，git 忽略的檔案（例如 `node_modules/`、`dist/`、`.env`、`.git/`）會被排除。此行為可以透過 `context.fileFiltering` 設定變更。
-    - **檔案類型：** 指令用於基於文字的檔案。雖然它可能會嘗試讀取任何檔案，但二進位檔案或非常大的檔案可能會被底層 `read_many_files` 工具跳過或截斷，以確保效能和相關性。工具會指示是否有檔案被跳過。
-  - **輸出：** CLI 會顯示工具呼叫訊息，指示使用了 `read_many_files`，以及詳述狀態和處理路徑的訊息。
+    - `@path/to/your/file.txt Explain this text.`
+    - `@src/my_project/ Summarize the code in this directory.`
+    - `What is this file about? @README.md`
+  - **詳細說明：**
+    - 若提供的是單一檔案路徑，則會讀取該檔案內容。
+    - 若提供的是目錄路徑，指令會嘗試讀取該目錄及其子目錄中的檔案內容。
+    - 路徑中若有空格，需以反斜線進行跳脫（例如：`@My\ Documents/file.txt`）。
+    - 此指令內部會使用 `read_many_files` 工具。內容會被擷取，並在送出給 Gemini 模型前插入到你的查詢中。
+    - **git-aware 過濾：** 預設會排除 git 忽略的檔案（如 `node_modules/`、`dist/`、`.env`、`.git/`）。此行為可透過 `context.fileFiltering` 設定進行調整。
+    - **檔案類型：** 此指令主要設計用於純文字檔案。雖然它可能嘗試讀取任何檔案，但二進位檔案或非常大的檔案可能會被底層的 `read_many_files` 工具略過或截斷，以確保效能與相關性。若有檔案被略過，工具會顯示相關提示。
+  - **輸出：** 命令列介面 (CLI) 會顯示工具呼叫訊息，說明已使用 `read_many_files`，並附上處理狀態及所處理的路徑。
 
 - **`@`（單獨的 at 符號）**
-  - **描述：** 如果您輸入單獨的 `@` 符號而沒有路徑，查詢會原樣傳遞給 Gemini 模型。如果您在提示中特別談論 `@` 符號，這可能很有用。
+  - **說明：** 如果你只輸入單獨的 `@` 符號而未指定路徑，查詢會原樣傳送給 Gemini 模型。這在你想要在提示詞中特別討論 `@` 符號時會很有用。
 
 ### `@` 指令的錯誤處理
 
-- 如果在 `@` 後指定的路徑找不到或無效，將顯示錯誤訊息，查詢可能不會傳送給 Gemini 模型，或者會在沒有檔案內容的情況下傳送。
-- 如果 `read_many_files` 工具遇到錯誤（例如權限問題），這也會被回報。
+- 如果在 `@` 後指定的路徑不存在或無效，將會顯示錯誤訊息，且查詢可能不會傳送給 Gemini 模型，或將不包含檔案內容。
+- 若 `read_many_files` 工具遇到錯誤（例如權限問題），也會顯示相關錯誤訊息。
 
-## Shell 模式與透傳指令（`!`）
+## shell 模式與 passthrough 指令（`!`）
 
-`!` 前綴讓您直接從 Gemini CLI 內與系統的 shell 互動。
+`!` 前綴可讓你直接在 Gemini CLI 中與系統 shell 互動。
 
 - **`!<shell_command>`**
-  - **描述：** 在 Linux/macOS 上使用 `bash` 或在 Windows 上使用 `cmd.exe` 執行給定的 `<shell_command>`。指令的任何輸出或錯誤都會在終端中顯示。
+  - **說明：** 使用 `bash`（於 Linux/macOS）或 `cmd.exe`（於 Windows）執行指定的 `<shell_command>`。任何來自該指令的輸出或錯誤都會顯示在終端機中。
   - **範例：**
-    - `!ls -la`（執行 `ls -la` 並回到 Gemini CLI）
-    - `!git status`（執行 `git status` 並回到 Gemini CLI）
+    - `!ls -la`（執行 `ls -la` 並返回 Gemini CLI）
+    - `!git status`（執行 `git status` 並返回 Gemini CLI）
 
 - **`!`（切換 shell 模式）**
-  - **描述：** 單獨輸入 `!` 會切換 shell 模式。
+  - **說明：** 單獨輸入 `!` 可切換 shell 模式。
     - **進入 shell 模式：**
-      - 啟用時，shell 模式使用不同的色彩和「Shell 模式指示器」。
-      - 在 shell 模式中，您輸入的文字會直接解釋為 shell 指令。
-    - **退出 shell 模式：**
-      - 退出時，UI 會回復到標準外觀，並恢復正常的 Gemini CLI 行為。
+      - 啟用時，shell 模式會使用不同的顏色標示，並顯示「Shell Mode Indicator」。
+      - 在 shell 模式下，你輸入的文字會被直接當作 shell 指令執行。
+    - **離開 shell 模式：**
+      - 離開後，使用者介面會恢復為標準外觀，並回到一般 Gemini CLI 行為。
 
-- **所有 `!` 使用的注意事項：** 您在 shell 模式中執行的指令具有與您直接在終端中執行相同的權限和影響。
+- **所有 `!` 用法的注意事項：** 你在 shell 模式下執行的指令，擁有與直接在終端機執行相同的權限與影響，請小心操作。
 
-- **環境變數：** 當透過 `!` 或在 shell 模式中執行指令時，`GEMINI_CLI=1` 環境變數會在子程序的環境中設定。這允許腳本或工具偵測它們是否從 Gemini CLI 內執行。
+- **環境變數：** 當你透過 `!` 或在 shell 模式下執行指令時，`GEMINI_CLI=1` 環境變數會在子程序的環境中設定。這讓腳本或工具可以偵測自己是否在 Gemini CLI 中執行。

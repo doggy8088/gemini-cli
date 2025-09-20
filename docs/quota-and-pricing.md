@@ -1,104 +1,104 @@
-# 配額與定價
+# Gemini CLI：配額與定價
 
-Gemini CLI 提供一個慷慨的免費層級，涵蓋許多個人開發者的使用情況。對於企業/專業使用或如果您需要更高的限制，根據您用來進行驗證的帳戶類型，有多種可能的途徑。
+Gemini CLI 提供了相當慷慨的免費額度，能夠滿足多數個人開發者的使用情境。若需企業／專業用途，或需要更高的使用上限，根據您用於驗證的帳戶類型，有多種升級方案可供選擇。
 
-請參閱[隱私權與條款](./tos-privacy.md)以了解隱私權政策與服務條款的詳細資訊。
+有關隱私政策與服務條款的詳細資訊，請參見 [privacy and terms](./tos-privacy.md)。
 
-注意：公布的價格為定價表價格；可能適用額外的協商商業折扣。
+注意：所公佈的價格為標準定價；實際商業合作可能有額外議價折扣。
 
-本文章概述使用不同驗證方法時適用於 Gemini CLI 的特定配額和定價。
+本文將說明在不同驗證方式下，適用於 Gemini CLI 的具體配額與定價。
 
-一般來說，有三個類別可供選擇：
+一般來說，您可以選擇以下三種方案：
 
-- 免費使用：適合實驗和輕度使用。
-- 付費層級（固定價格）：適合需要更慷慨每日配額和可預測成本的個人開發者或企業。
-- 按使用量付費：最靈活的專業使用選項、長時間執行的任務，或當您需要完全控制使用量時。
+- 免費使用：適合實驗與輕量級使用。
+- 付費方案（固定價格）：適合需要更高每日配額與可預測成本的個人開發者或企業。
+- 按量計費（Pay-As-You-Go）：最具彈性的專業選項，適合長時間運行任務或需要完全掌控用量時。
 
 ## 免費使用
 
-您的旅程從慷慨的免費層級開始，非常適合實驗和輕度使用。
+您的旅程從慷慨的免費額度開始，非常適合實驗與輕量級使用。
 
-您的免費使用限制取決於您的授權類型。
+您的免費使用上限取決於您的授權類型。
 
-### 使用 Google 登入（Gemini Code Assist for Individuals）
+### 使用 Google 帳號登入（Gemini Code Assist for Individuals）
 
-對於使用 Google 帳戶驗證以存取個人版 Gemini Code Assist 的使用者。這包括：
+若您以 Google 帳號驗證，使用 Gemini Code Assist for Individuals，包含：
 
-- 1000 個模型請求 / 使用者 / 天
-- 60 個模型請求 / 使用者 / 分鐘
-- 模型請求將由 Gemini CLI 決定在 Gemini 模型系列中進行。
+- 每位使用者每日 1000 次模型請求
+- 每位使用者每分鐘 60 次模型請求
+- 模型請求將依據 Gemini CLI 的判斷，分配至 Gemini 模型家族
 
-在 [Gemini Code Assist for Individuals 限制](https://developers.google.com/gemini-code-assist/resources/quotas#quotas-for-agent-mode-gemini-cli) 了解更多。
+詳情請參見 [Gemini Code Assist for Individuals Limits](https://developers.google.com/gemini-code-assist/resources/quotas#quotas-for-agent-mode-gemini-cli)。
 
-### 使用 Gemini API 金鑰登入（免費）
+### 使用 Gemini API 金鑰登入（未付費）
 
-如果您使用 Gemini API 金鑰，您也可以享受免費層級。這包括：
+若您使用 Gemini API 金鑰，也可享有免費額度，包括：
 
-- 250 個模型請求 / 使用者 / 天
-- 10 個模型請求 / 使用者 / 分鐘
-- 僅限 Flash 模型的模型請求。
+- 每位使用者每日 250 次模型請求
+- 每位使用者每分鐘 10 次模型請求
+- 僅限請求 Flash 模型
 
-在 [Gemini API 速率限制](https://ai.google.dev/gemini-api/docs/rate-limits) 了解更多。
+詳情請參見 [Gemini API Rate Limits](https://ai.google.dev/gemini-api/docs/rate-limits)。
 
-### 使用 Vertex AI 登入（Express 模式）
+### 使用 Vertex AI 登入（Express Mode）
 
-Vertex AI 提供 Express 模式，無需啟用計費。這包括：
+Vertex AI 提供 Express Mode，無需啟用計費。包括：
 
-- 啟用計費前有 90 天
-- 配額和模型因您的帳戶而異且特定。
+- 90 天內無需啟用計費
+- 配額與可用模型依帳戶而異
 
-在 [Vertex AI Express 模式限制](https://cloud.google.com/vertex-ai/generative-ai/docs/start/express-mode/overview#quotas) 了解更多。
+詳情請參見 [Vertex AI Express Mode Limits](https://cloud.google.com/vertex-ai/generative-ai/docs/start/express-mode/overview#quotas)。
 
-## 付費層級：固定成本的更高限制
+## 付費方案：固定費用，享有更高配額
 
-如果您用完了初始請求數量，您可以透過 [在此註冊](https://goo.gle/set-up-gemini-code-assist) 使用 [Gemini Code Assist 標準版或企業版](https://cloud.google.com/products/gemini/pricing) 來升級您的計畫以繼續享受 Gemini CLI 的好處。配額和定價基於具有指定授權席位的固定價格訂閱。為了可預測的成本，您可以使用 Google 登入。這包括：
+若您已用完初始請求次數，可升級方案，繼續享有 Gemini CLI 的服務。請透過 [Gemini Code Assist 的 Standard 或 Enterprise 版本](https://cloud.google.com/products/gemini/pricing)，於 [此處](https://goo.gle/set-up-gemini-code-assist) 註冊。配額與價格採固定訂閱制，並分配授權席次。為了可預測的成本，您可使用 Google 帳號登入。包括：
 
-- 標準版：
-  - 1500 個模型請求 / 使用者 / 天
-  - 120 個模型請求 / 使用者 / 分鐘
-- 企業版：
-  - 2000 個模型請求 / 使用者 / 天
-  - 120 個模型請求 / 使用者 / 分鐘
-- 模型請求將由 Gemini CLI 決定在 Gemini 模型系列中進行。
+- Standard 版本：
+  - 每位使用者每日 1500 次模型請求
+  - 每位使用者每分鐘 120 次模型請求
+- Enterprise 版本：
+  - 每位使用者每日 2000 次模型請求
+  - 每位使用者每分鐘 120 次模型請求
+- 模型請求將依據 Gemini CLI 的判斷，分配至 Gemini 模型家族
 
-在 [Gemini Code Assist 標準版與企業版授權限制](https://developers.google.com/gemini-code-assist/resources/quotas#quotas-for-agent-mode-gemini-cli) 了解更多。
+詳情請參見 [Gemini Code Assist Standard and Enterprise license Limits](https://developers.google.com/gemini-code-assist/resources/quotas#quotas-for-agent-mode-gemini-cli)。
 
-## 按使用量付費
+## 按量計費（Pay As You Go）
 
-如果您達到每日請求限制或即使在升級後仍耗盡 Gemini Pro 配額，最靈活的解決方案是切換到按使用量付費模式，您根據使用的特定處理量付費。這是不間斷存取的建議路徑。
+若您在升級後仍達到每日請求上限或耗盡 Gemini Pro 配額，最具彈性的解決方案是切換至按量計費模式，依實際處理量付費。這是確保不中斷存取的建議方式。
 
-要做到這一點，請使用 Gemini API 金鑰或 Vertex AI 登入。
+操作方式：請使用 Gemini API 金鑰或 Vertex AI 登入。
 
-- Vertex AI（一般模式）：
-  - 配額：由動態共享配額系統或預購置配置輸送量管理。
-  - 成本：基於模型和權杖使用量。
+- Vertex AI（Regular Mode）：
+  - 配額：由動態共享配額系統或預先購買的專屬吞吐量管理
+  - 成本：依模型與 token 使用量計價
 
-在 [Vertex AI 動態共享配額](https://cloud.google.com/vertex-ai/generative-ai/docs/resources/dynamic-shared-quota) 和 [Vertex AI 定價](https://cloud.google.com/vertex-ai/pricing) 了解更多。
+詳情請參見 [Vertex AI Dynamic Shared Quota](https://cloud.google.com/vertex-ai/generative-ai/docs/resources/dynamic-shared-quota) 及 [Vertex AI Pricing](https://cloud.google.com/vertex-ai/pricing)。
 
 - Gemini API 金鑰：
-  - 配額：因定價層級而異。
-  - 成本：因定價層級和模型/權杖使用量而異。
+  - 配額：依定價等級而異
+  - 成本：依定價等級及模型／token 使用量而異
 
-在 [Gemini API 速率限制](https://ai.google.dev/gemini-api/docs/rate-limits)、[Gemini API 定價](https://ai.google.dev/gemini-api/docs/pricing) 了解更多
+詳情請參見 [Gemini API Rate Limits](https://ai.google.dev/gemini-api/docs/rate-limits)、[Gemini API Pricing](https://ai.google.dev/gemini-api/docs/pricing)
 
-重要的是要強調，使用 API 金鑰時，您按權杖/呼叫付費。對於許多少權杖的小呼叫，這可能更昂貴，但這是確保您的工作流程不被配額限制中斷的唯一方法。
+特別提醒，使用 API 金鑰時，您是依 token／呼叫計費。若頻繁進行小型呼叫且每次 token 較少，總成本可能較高，但這是唯一能確保工作流程不受配額限制中斷的方法。
 
-## Google One 和 Ultra 計畫、Gemini for Workspace 計畫
+## Google One 與 Ultra 方案、Gemini for Workspace 方案
 
-這些計畫目前僅適用於 Google 體驗提供的基於網路的 Gemini 產品（例如 Gemini 網路應用程式或 Flow 影片編輯器）。這些計畫不適用於為 Gemini CLI 提供動力的 API 使用。目前正在積極考慮為未來支援這些計畫。
+這些方案目前僅適用於 Google 提供的 Gemini 網頁產品（例如 Gemini 網頁應用程式或 Flow 影片編輯器）。這些方案不適用於驅動 Gemini CLI 的 API 使用。未來支援這些方案正在積極評估中。
 
-## 避免高成本的技巧
+## 避免高額費用的小技巧
 
-使用按使用量付費 API 金鑰時，請注意您的使用量以避免意外成本。
+使用「按量計費」API 金鑰時，請注意您的用量，以避免產生意外費用。
 
-- 不要盲目接受每個建議，特別是對於計算密集型任務，如重構大型程式碼庫。
-- 對您的提示和指令要有意圖。您按呼叫付費，所以要考慮完成工作的最有效方式。
+- 不要盲目接受每一個建議，尤其是像重構大型程式碼庫這類運算密集型任務。
+- 請有意識地設計您的提示與指令。每次呼叫都會產生費用，請思考最有效率的解決方式。
 
-## Gemini API 與 Vertex
+## Gemini API 與 Vertex 比較
 
 - Gemini API（gemini developer api）：這是直接使用 Gemini 模型的最快方式。
-- Vertex AI：這是用於建置、部署和管理具有特定安全和控制要求的 Gemini 模型的企業級平台。
+- Vertex AI：這是企業級平台，適用於建置、部署與管理 Gemini 模型，並滿足特定安全性與控管需求。
 
-## 了解您的使用情況
+## 瞭解您的使用情況
 
-模型使用情況摘要可透過 `/stats` 指令取得，並在工作階段結束時退出時顯示。
+模型使用摘要可透過 `/stats` 指令查詢，並於每次工作階段結束時顯示。

@@ -1,19 +1,19 @@
-# 主題
+# 主題（Themes）
 
-Gemini CLI 支援多種主題來自訂其色彩配置和外觀。您可以透過 `/theme` 指令或 `"theme":` 設定選項來改變主題以符合您的偏好。
+Gemini CLI 支援多種主題，可自訂其配色方案與外觀。你可以透過 `/theme` 指令或 `"theme":` 設定來變更主題，以符合你的個人偏好。
 
 ## 可用主題
 
-Gemini CLI 附帶一系列預定義主題，您可以在 Gemini CLI 中使用 `/theme` 指令列出它們：
+Gemini CLI 提供多種預設主題，你可以在 Gemini CLI 中使用 `/theme` 指令來列出所有可用主題：
 
-- **深色主題：**
+- **深色主題（Dark Themes）：**
   - `ANSI`
   - `Atom One`
   - `Ayu`
   - `Default`
   - `Dracula`
   - `GitHub`
-- **淺色主題：**
+- **淺色主題（Light Themes）：**
   - `ANSI Light`
   - `Ayu Light`
   - `Default Light`
@@ -21,28 +21,28 @@ Gemini CLI 附帶一系列預定義主題，您可以在 Gemini CLI 中使用 `/
   - `Google Code`
   - `Xcode`
 
-### 更改主題
+### 變更主題
 
-1.  在 Gemini CLI 中輸入 `/theme`。
-2.  出現對話框或選擇提示，列出可用主題。
-3.  使用方向鍵選擇主題。某些介面可能會在您選擇時提供即時預覽或高亮顯示。
-4.  確認您的選擇以套用主題。
+1. 在 Gemini CLI 輸入 `/theme`。
+2. 會出現一個對話框或選擇提示，列出所有可用主題。
+3. 使用方向鍵選擇主題。有些介面可能會在選擇時即時預覽或高亮顯示主題。
+4. 確認你的選擇以套用主題。
 
-**注意：** 如果在您的 `settings.json` 檔案中定義了主題（透過名稱或檔案路徑），您必須從檔案中移除 `"theme"` 設定，才能使用 `/theme` 指令變更主題。
+**注意：** 如果你的 `settings.json` 檔案中已定義主題（不論是以名稱或檔案路徑），你必須先將 `"theme"` 設定從該檔案中移除，才能使用 `/theme` 指令變更主題。
 
 ### 主題持久性
 
-選擇的主題會保存在 Gemini CLI 的[設定](./configuration.md)中，因此您的偏好會在工作階段之間被記住。
+所選主題會儲存在 Gemini CLI 的[設定檔](./configuration.md)中，因此你的偏好會在不同工作階段間被記住。
 
 ---
 
-## 自訂色彩主題
+## 自訂配色主題
 
-Gemini CLI 允許您透過在 `settings.json` 檔案中指定自訂色彩主題。這讓您完全控制 CLI 中使用的色彩調色盤。
+Gemini CLI 允許你在 `settings.json` 檔案中自訂配色主題，讓你能完全掌控 CLI 的配色方案。
 
 ### 如何定義自訂主題
 
-在您的使用者、專案或系統 `settings.json` 檔案中新增 `customThemes` 區塊。每個自訂主題都定義為具有唯一名稱和一組色彩鍵的物件。例如：
+在你的使用者、專案或系統 `settings.json` 檔案中新增一個 `customThemes` 區塊。每個自訂主題都以一個唯一名稱及一組顏色鍵值對物件來定義。例如：
 
 ```json
 {
@@ -59,7 +59,7 @@ Gemini CLI 允許您透過在 `settings.json` 檔案中指定自訂色彩主題�
 }
 ```
 
-**色彩鍵：**
+**顏色鍵值說明：**
 
 - `Background`
 - `Foreground`
@@ -72,14 +72,14 @@ Gemini CLI 允許您透過在 `settings.json` 檔案中指定自訂色彩主題�
 - `AccentRed`
 - `Comment`
 - `Gray`
-- `DiffAdded`（可選，用於差異中的新增行）
-- `DiffRemoved`（可選，用於差異中的刪除行）
-- `DiffModified`（可選，用於差異中的修改行）
+- `DiffAdded`（可選，用於 diff 中新增的行）
+- `DiffRemoved`（可選，用於 diff 中移除的行）
+- `DiffModified`（可選，用於 diff 中修改的行）
 
-**必需屬性：**
+**必要屬性：**
 
-- `name`（必須與 `customThemes` 物件中的鍵匹配並且是字串）
-- `type`（必須是字串 `"custom"`）
+- `name`（必須與 `customThemes` 物件中的鍵值相符，且為字串）
+- `type`（必須為字串 `"custom"`）
 - `Background`
 - `Foreground`
 - `LightBlue`
@@ -92,15 +92,15 @@ Gemini CLI 允許您透過在 `settings.json` 檔案中指定自訂色彩主題�
 - `Comment`
 - `Gray`
 
-您可以使用十六進位代碼（例如，`#FF0000`）**或**標準 CSS 色彩名稱（例如，`coral`、`teal`、`blue`）作為任何色彩值。完整的支援名稱清單請參閱[CSS 色彩名稱](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#color_keywords)。
+你可以為任何顏色值使用十六進位色碼（例如：`#FF0000`）**或**標準 CSS 顏色名稱（例如：`coral`、`teal`、`blue`）。完整支援的名稱請參考 [CSS color names](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#color_keywords)。
 
-您可以透過在 `customThemes` 物件中新增更多條目來定義多個自訂主題。
+你可以透過在 `customThemes` 物件中新增多個條目，定義多個自訂主題。
 
 ### 從檔案載入主題
 
-除了在 `settings.json` 中定義自訂主題外，您還可以透過在 `settings.json` 中指定檔案路徑直接從 JSON 檔案載入主題。這對於分享主題或將它們與主要設定分開很有用。
+除了在 `settings.json` 中定義自訂主題外，你也可以在 `settings.json` 中指定主題檔案路徑，直接從 JSON 檔案載入主題。這對於分享主題或將主題與主要設定分開管理非常有用。
 
-要從檔案載入主題，請將 `settings.json` 中的 `theme` 屬性設定為主題檔案的路徑：
+若要從檔案載入主題，請在你的 `settings.json` 中設定 `theme` 屬性為你的主題檔案路徑：
 
 ```json
 {
@@ -110,7 +110,7 @@ Gemini CLI 允許您透過在 `settings.json` 檔案中指定自訂色彩主題�
 }
 ```
 
-主題檔案必須是有效的 JSON 檔案，遵循與在 `settings.json` 中定義的自訂主題相同的結構。
+主題檔案必須是一個有效的 JSON 檔案，且需遵循與`settings.json`中自訂主題相同的結構。
 
 **範例 `my-theme.json`：**
 
@@ -136,17 +136,17 @@ Gemini CLI 允許您透過在 `settings.json` 檔案中指定自訂色彩主題�
 }
 ```
 
-**安全性注意事項：** 為了您的安全，Gemini CLI 只會載入位於您主目錄內的主題檔案。如果您嘗試從主目錄外載入主題，將顯示警告且不會載入主題。這是為了防止從不信任來源載入潛在惡意的主題檔案。
+**安全性注意事項：** 為了您的安全，Gemini CLI 只會載入位於您家目錄內的主題檔案。如果您嘗試從家目錄以外的位置載入主題，系統將顯示警告，且該主題不會被載入。這是為了防止從不受信任來源載入可能具有惡意的主題檔案。
 
 ### 自訂主題範例
 
-<img src="../assets/theme-custom.png" alt="自訂主題範例" width="600" />
+<img src="../assets/theme-custom.png" alt="Custom theme example" width="600" />
 
 ### 使用您的自訂主題
 
-- 在 Gemini CLI 中使用 `/theme` 指令選擇您的自訂主題。您的自訂主題會出現在主題選擇對話框中。
-- 或者，透過在 `settings.json` 的 `ui` 物件中新增 `"theme": "MyCustomTheme"` 將其設定為預設值。
-- 自訂主題可以在使用者、專案或系統層級設定，並遵循與其他設定相同的[設定優先順序](./configuration.md)。
+- 在 Gemini CLI 中使用 `/theme` 指令選擇您的自訂主題。您的自訂主題將會出現在主題選擇對話框中。
+- 或者，將 `"theme": "MyCustomTheme"` 加入至您的 `settings.json` 中的 `ui` 物件，設為預設主題。
+- 自訂主題可設定於使用者、專案或系統層級，並遵循與其他設定相同的 [設定優先順序](./configuration.md)。
 
 ---
 
@@ -154,50 +154,50 @@ Gemini CLI 允許您透過在 `settings.json` 檔案中指定自訂色彩主題�
 
 ### ANSI
 
-<img src="../assets/theme-ansi.png" alt="ANSI 主題" width="600" />
+<img src="../assets/theme-ansi.png" alt="ANSI theme" width="600" />
 
 ### Atom OneDark
 
-<img src="../assets/theme-atom-one.png" alt="Atom One 主題" width="600">
+<img src="../assets/theme-atom-one.png" alt="Atom One theme" width="600">
 
 ### Ayu
 
-<img src="../assets/theme-ayu.png" alt="Ayu 主題" width="600">
+<img src="../assets/theme-ayu.png" alt="Ayu theme" width="600">
 
-### Default
+### 預設
 
-<img src="../assets/theme-default.png" alt="預設主題" width="600">
+<img src="../assets/theme-default.png" alt="Default theme" width="600">
 
 ### Dracula
 
-<img src="../assets/theme-dracula.png" alt="Dracula 主題" width="600">
+<img src="../assets/theme-dracula.png" alt="Dracula theme" width="600">
 
 ### GitHub
 
-<img src="../assets/theme-github.png" alt="GitHub 主題" width="600">
+<img src="../assets/theme-github.png" alt="GitHub theme" width="600">
 
 ## 淺色主題
 
 ### ANSI Light
 
-<img src="../assets/theme-ansi-light.png" alt="ANSI Light 主題" width="600">
+<img src="../assets/theme-ansi-light.png" alt="ANSI Light theme" width="600">
 
 ### Ayu Light
 
-<img src="../assets/theme-ayu-light.png" alt="Ayu Light 主題" width="600">
+<img src="../assets/theme-ayu-light.png" alt="Ayu Light theme" width="600">
 
-### Default Light
+### 預設淺色
 
-<img src="../assets/theme-default-light.png" alt="Default Light 主題" width="600">
+<img src="../assets/theme-default-light.png" alt="Default Light theme" width="600">
 
 ### GitHub Light
 
-<img src="../assets/theme-github-light.png" alt="GitHub Light 主題" width="600">
+<img src="../assets/theme-github-light.png" alt="GitHub Light theme" width="600">
 
 ### Google Code
 
-<img src="../assets/theme-google-light.png" alt="Google Code 主題" width="600">
+<img src="../assets/theme-google-light.png" alt="Google Code theme" width="600">
 
 ### Xcode
 
-<img src="../assets/theme-xcode-light.png" alt="Xcode Light 主題" width="600">
+<img src="../assets/theme-xcode-light.png" alt="Xcode Light theme" width="600">

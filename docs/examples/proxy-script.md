@@ -1,6 +1,6 @@
-# 代理腳本範例
+# 範例 Proxy Script
 
-以下是一個代理腳本範例，可與 `GEMINI_SANDBOX_PROXY_COMMAND` 環境變數一起使用。此腳本僅允許對 `example.com:443` 的 `HTTPS` 連線，並拒絕所有其他請求。
+以下是一個可搭配 `GEMINI_SANDBOX_PROXY_COMMAND` 環境變數使用的 proxy script 範例。此 script 僅允許 `HTTPS` 連線至 `example.com:443`，並拒絕所有其他請求。
 
 ```javascript
 #!/usr/bin/env node
@@ -11,9 +11,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-// 範例代理伺服器，監聽 :::8877 並僅允許對 example.com 的 HTTPS 連線。
-// 設定 `GEMINI_SANDBOX_PROXY_COMMAND=scripts/example-proxy.js` 以與沙箱一起執行代理
-// 透過沙箱內的 `curl https://example.com` 測試（在 shell 模式或透過 shell 工具）
+// Example proxy server that listens on :::8877 and only allows HTTPS connections to example.com.
+// Set `GEMINI_SANDBOX_PROXY_COMMAND=scripts/example-proxy.js` to run proxy alongside sandbox
+// Test via `curl https://example.com` inside sandbox (in shell mode or via shell tool)
 
 import http from 'node:http';
 import net from 'node:net';
@@ -25,7 +25,7 @@ const ALLOWED_DOMAINS = ['example.com', 'googleapis.com'];
 const ALLOWED_PORT = '443';
 
 const server = http.createServer((req, res) => {
-  // 拒絕除 CONNECT 以外的所有 HTTPS 請求
+  // Deny all requests other than CONNECT for HTTPS
   console.log(
     `[PROXY] Denying non-CONNECT request for: ${req.method} ${req.url}`,
   );
@@ -34,7 +34,7 @@ const server = http.createServer((req, res) => {
 });
 
 server.on('connect', (req, clientSocket, head) => {
-  // 對於 CONNECT 請求，req.url 將採用 "hostname:port" 格式。
+  // req.url will be in the format "hostname:port" for a CONNECT request.
   const { port, hostname } = new URL(`http://${req.url}`);
 
   console.log(`[PROXY] Intercepted CONNECT request for: ${hostname}:${port}`);
@@ -47,10 +47,10 @@ server.on('connect', (req, clientSocket, head) => {
   ) {
     console.log(`[PROXY] Allowing connection to ${hostname}:${port}`);
 
-    // 建立到原始目的地的 TCP 連線。
+    // Establish a TCP connection to the original destination.
     const serverSocket = net.connect(port, hostname, () => {
       clientSocket.write('HTTP/1.1 200 Connection Established\r\n\r\n');
-      // 透過在用戶端和目的地伺服器之間管道化資料來建立隧道。
+      // Create a tunnel by piping data between the client and the destination server.
       serverSocket.write(head);
       serverSocket.pipe(clientSocket);
       clientSocket.pipe(serverSocket);
@@ -66,7 +66,7 @@ server.on('connect', (req, clientSocket, head) => {
   }
 
   clientSocket.on('error', (err) => {
-    // 如果用戶端掛斷，這可能會發生。
+    // This can happen if the client hangs up.
     console.error(`[PROXY] Client socket error: ${err.message}`);
   });
 });
