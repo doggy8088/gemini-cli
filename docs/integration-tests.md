@@ -51,12 +51,10 @@ npm run test:integration:all
 npm run test:integration:sandbox:none
 ```
 
-請提供原文、初始譯文、品質分析與改進建議，我才能根據品質分析意見改進翻譯。
 ```bash
 npm run test:integration:sandbox:docker
 ```
 
-請提供原文、初始譯文、品質分析與改進建議，我才能協助您改進翻譯。
 ```bash
 npm run test:integration:sandbox:podman
 ```

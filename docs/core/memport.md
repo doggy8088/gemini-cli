@@ -62,7 +62,6 @@ Welcome to my project!
 @./footer.md
 ```
 
-請提供原文、初始譯文、品質分析與改進建議內容，這樣我才能根據品質分析意見改進翻譯。
 ```markdown
 # header.md
 
