@@ -1,6 +1,6 @@
-# 範例 Proxy Script
+# 範例 Proxy 腳本
 
-以下是一個可搭配 `GEMINI_SANDBOX_PROXY_COMMAND` 環境變數使用的 proxy script 範例。此 script 僅允許 `HTTPS` 連線至 `example.com:443`，並拒絕所有其他請求。
+以下是一個可搭配 `GEMINI_SANDBOX_PROXY_COMMAND` 環境變數使用的 proxy 腳本（Proxy Script）範例。此腳本僅允許 `HTTPS` 連線到 `example.com:443`，並拒絕所有其他請求。
 
 ```javascript
 #!/usr/bin/env node
