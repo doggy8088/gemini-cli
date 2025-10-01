@@ -1,0 +1,17 @@
+{
+  "name": "gemini-cli-docs",
+  "version": "1.0.0",
+  "description": "Documentation for Gemini CLI",
+  "private": true,
+  "scripts": {
+    "docs:dev": "vuepress dev .",
+    "docs:build": "vuepress build ."
+  },
+  "devDependencies": {
+    "@vuepress/bundler-vite": "^2.0.0-rc.23",
+    "@vuepress/cli": "^2.0.0-rc.23",
+    "@vuepress/theme-default": "^2.0.0-rc.23",
+    "sass-embedded": "^1.83.0",
+    "vuepress": "^2.0.0-rc.23"
+  }
+}
