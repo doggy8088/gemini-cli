@@ -1,4 +1,4 @@
-# Gemini CLI：服務條款與隱私權公告
+# 服務條款與隱私權公告
 
 Gemini CLI 是一款開源工具，可讓你直接從命令列介面（Command Line Interface）與 Google 強大的大型語言模型（Large Language Model, LLM）互動。你在使用 Gemini CLI 時所適用的服務條款與隱私權公告，會依據你用來驗證 Google 身份的帳戶類型而有所不同。
 

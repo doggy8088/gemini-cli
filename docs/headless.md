@@ -266,7 +266,6 @@ echo "$result" | jq -r '.response' > openapi.json
 ```
 
 #### 批次程式碼分析
-</doc-translation>
 
 品質分析：
 - 「Batch code analysis」可指「批次程式碼分析」或「批次代碼分析」。
@@ -280,7 +279,6 @@ echo "$result" | jq -r '.response' > openapi.json
 
 請提供改進後的翻譯：
 
-<doc-translation>
 #### 批量程式碼分析
 
 ```bash

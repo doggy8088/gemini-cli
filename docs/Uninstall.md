@@ -1,4 +1,4 @@
-# 卸載命令列介面 (Command Line Interface, CLI)
+# 卸載命令列介面 (CLI)
 
 您的卸載方式取決於您執行 Gemini CLI 的方式。請依照 npx 或全域 npm 安裝的指示操作。
 
