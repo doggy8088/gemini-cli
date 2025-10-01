@@ -1,17 +1,17 @@
 # Headless 模式
 
-Headless 模式允許你以程式化方式，透過命令列腳本 (scripts) 和自動化工具執行 Gemini CLI，而無需任何互動式 UI。這非常適合腳本自動化、持續整合/持續部署 (CI/CD) 流程，以及打造 AI 驅動的工具。
+Headless 模式允許你以程式化方式，透過命令列腳本 (scripts) 與自動化工具執行 Gemini CLI，而無需任何互動式 UI。這非常適合用於腳本自動化、持續整合/持續部署 (CI/CD) 流程，以及建構 AI 驅動的工具。
 
 - [Headless 模式](#headless-模式)
-  - [總覽](#總覽)
+  - [概述](#概述)
   - [基本用法](#基本用法)
     - [直接提示](#直接提示)
-    - [Stdin 輸入](#標準輸入stdin-input)
+    - [Stdin 輸入](#標準輸入-stdin-input)
     - [結合檔案輸入](#結合檔案輸入)
   - [輸出格式](#輸出格式)
-    - [文字輸出（預設）](#文字輸出預設)
+    - [文字輸出（預設）](#文字輸出-預設)
     - [JSON 輸出](#json-輸出)
-      - [回應結構](#回應結構response-schema)
+      - [回應結構](#回應結構-response-schema)
       - [範例用法](#範例用法)
     - [檔案重新導向](#檔案重新導向)
   - [設定選項](#設定選項)
@@ -20,19 +20,19 @@ Headless 模式允許你以程式化方式，透過命令列腳本 (scripts) 和
     - [產生提交訊息](#產生提交訊息)
     - [API 文件](#api-文件)
     - [批次程式碼分析](#批次程式碼分析)
-    - [程式碼審查](#程式碼審查-1)
-    - [日誌分析](#日誌分析)
-    - [發行說明產生](#發佈說明產生器)
-    - [模型與工具使用追蹤](#模型與工具使用追蹤)
-  - [資源](#資源)
+    - [程式碼審查](#批量程式碼分析)
+    - [日誌分析](#程式碼審查-1)
+    - [發行說明產生](#日誌分析)
+    - [模型與工具使用追蹤](#版本發行說明產生)
+  - [資源](#模型與工具使用追蹤)
 
-## 總覽
+## 概述
 
-Headless 模式為 Gemini CLI 提供一個無頭介面，具備以下特性：
+Headless 模式為 Gemini CLI 提供了一個無頭介面，其特點包括：
 
-- 可透過命令列參數或 stdin 傳遞提示 (prompt)
+- 可透過命令列參數或 stdin 傳遞提示
 - 回傳結構化輸出（文字或 JSON）
-- 支援檔案重新導向與管線 (piping)
+- 支援檔案重新導向與管線操作
 - 啟用自動化與腳本化工作流程
 - 提供一致的結束碼以利錯誤處理
 
@@ -48,7 +48,7 @@ gemini --prompt "What is machine learning?"
 
 ### 標準輸入（Stdin Input）
 
-從你的終端機將輸入資料透過管道傳送給 Gemini CLI：
+從終端機將輸入資料導入 Gemini CLI：
 
 ```bash
 echo "Explain this code" | gemini
@@ -80,7 +80,7 @@ The capital of France is Paris.
 
 ### JSON 輸出
 
-回傳結構化資料，包括回應、統計資訊與中繼資料。這種格式非常適合程式化處理與自動化腳本（automation scripts）。
+回傳結構化資料，包括回應、統計資訊及中繼資料。此格式非常適合程式化處理與自動化腳本（automation scripts）。
 
 #### 回應結構（Response Schema）
 
@@ -210,7 +210,7 @@ Response:
 
 ### 檔案重新導向
 
-將輸出儲存到檔案或導入其他指令：
+將輸出儲存到檔案，或導管（pipe）到其他指令：
 
 ```bash
 # Save to file
@@ -228,20 +228,20 @@ gemini -p "List programming languages" | grep -i "python"
 
 ## 設定選項
 
-無頭（headless）模式下的主要命令列選項如下：
+無頭模式（headless）使用時的主要命令列選項：
 
-| 選項                    | 說明                                | 範例                                              |
-| ----------------------- | ----------------------------------- | ------------------------------------------------- |
-| `--prompt`, `-p`        | 以無頭（headless）模式執行              | `gemini -p "query"`                                |
-| `--output-format`       | 指定輸出格式（text、json）               | `gemini -p "query" --output-format json`           |
-| `--model`, `-m`         | 指定 Gemini 模型                      | `gemini -p "query" -m gemini-2.5-flash`            |
-| `--debug`, `-d`         | 啟用除錯模式（debug mode）             | `gemini -p "query" --debug`                        |
-| `--all-files`, `-a`     | 將所有檔案納入 context                | `gemini -p "query" --all-files`                    |
-| `--include-directories` | 納入額外目錄                             | `gemini -p "query" --include-directories src,docs` |
-| `--yolo`, `-y`          | 自動核准所有操作                       | `gemini -p "query" --yolo`                         |
-| `--approval-mode`       | 設定核准模式                            | `gemini -p "query" --approval-mode auto_edit`      |
+| 選項                  | 說明                        | 範例                                            |
+| --------------------- | --------------------------- | ----------------------------------------------- |
+| `--prompt`, `-p`        | 以無頭模式執行               | `gemini -p "query"`                                |
+| `--output-format`       | 指定輸出格式（text、json） | `gemini -p "query" --output-format json`           |
+| `--model`, `-m`         | 指定 Gemini 模型           | `gemini -p "query" -m gemini-2.5-flash`            |
+| `--debug`, `-d`         | 啟用除錯模式                  | `gemini -p "query" --debug`                        |
+| `--all-files`, `-a`     | 將所有檔案納入 context       | `gemini -p "query" --all-files`                    |
+| `--include-directories` | 納入其他目錄     | `gemini -p "query" --include-directories src,docs` |
+| `--yolo`, `-y`          | 自動核准所有動作           | `gemini -p "query" --yolo`                         |
+| `--approval-mode`       | 設定核准模式                  | `gemini -p "query" --approval-mode auto_edit`      |
 
-如需所有可用設定選項、設定檔案與環境變數的完整說明，請參閱[設定指南](./configuration.md)。
+如需所有可用設定選項、設定檔案與環境變數的完整說明，請參閱 [設定指南](./cli/configuration.md)。
 
 ## 範例
 
@@ -265,15 +265,23 @@ result=$(cat api/routes.js | gemini -p "Generate OpenAPI spec for these routes" 
 echo "$result" | jq -r '.response' > openapi.json
 ```
 
-品質分析：  
-「批次程式碼分析」雖然直譯了原文，但「batch code」在此應指「一批程式碼」或「批次處理的程式碼」的分析，而非「批次程式碼」這個詞組本身。中文語境下，「批次」常用於「批次處理」或「批量」，而非直接修飾「程式碼」。此外，標題語氣可更簡潔自然。
-
-改進建議：  
-可譯為「批次程式碼分析」或「批量程式碼分析」，但若語境指的是「批次處理的程式碼」的分析，則可譯為「批次處理程式碼分析」。若是指「一批程式碼」的分析，則可譯為「批量程式碼分析」。根據常見用法，「批次程式碼分析」較為通順，但可視語境微調。
-
-改進後的翻譯：
-
 #### 批次程式碼分析
+</doc-translation>
+
+品質分析：
+- 「Batch code analysis」可指「批次程式碼分析」或「批次代碼分析」。
+- 「程式碼」與「代碼」在台灣皆可用，但「程式碼」較常見。
+- 「批次」可指「批次處理」或「成批」，但原文語境未明確指出是「批次處理」還是「多份程式碼」。
+- 若是指「批次處理」中的程式碼分析，則「批次程式碼分析」合適；若是指「一批程式碼」的分析，則可譯為「批量程式碼分析」。
+
+改進建議：
+- 若原文語境指的是「一次分析多份程式碼」，建議譯為「批量程式碼分析」。
+- 若指的是「批次處理」相關的程式碼分析，則「批次程式碼分析」即可。
+
+請提供改進後的翻譯：
+
+<doc-translation>
+#### 批量程式碼分析
 
 ```bash
 for file in src/*.py; do
@@ -297,9 +305,7 @@ echo "$result" | jq -r '.response' > pr-review.json
 grep "ERROR" /var/log/app.log | tail -20 | gemini -p "Analyze these errors and suggest root cause and fixes" > error-analysis.txt
 ```
 
-改進後的翻譯：
-
-#### 發佈說明產生器
+#### 版本發行說明產生
 
 ```bash
 result=$(git log --oneline v1.0.0..HEAD | gemini -p "Generate release notes from these commits" --output-format json)
@@ -324,7 +330,7 @@ tail -5 usage.log
 
 ## 資源
 
-- [CLI Configuration](./configuration.md) - 完整設定指南
-- [Authentication](./authentication.md) - 設定驗證
-- [Commands](./commands.md) - 互動式指令參考
-- [Tutorials](./tutorials.md) - 步驟式自動化教學
+- [CLI 設定](./cli/configuration.md) - 完整設定指南
+- [驗證](./cli/authentication.md) - 設定驗證
+- [指令](./cli/commands.md) - 互動式指令參考
+- [教學](./cli/tutorials.md) - 步驟式自動化教學指南
